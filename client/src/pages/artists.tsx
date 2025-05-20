@@ -56,7 +56,8 @@ export default function ArtistsPage() {
             imageUrl:
               "artist/sujita_dangol.jpg",
             rating: 4.8,
-            price: 25000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
           {
             id: 2,
@@ -67,7 +68,8 @@ export default function ArtistsPage() {
             imageUrl:
               "artist/samikshya dahal.jpg",
             rating: 4.7,
-            price: 25000,
+            languages: "English, Nepali",
+            musicStyle: "Pop, Rock, Originals, Classical",
           },
           {
             id: 3,
@@ -78,7 +80,8 @@ export default function ArtistsPage() {
             imageUrl:
               "artist/ashim thapa.jpg",
             rating: 4.7,
-            price: 25000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
           {
             id: 4,
@@ -88,7 +91,8 @@ export default function ArtistsPage() {
               "Accomplished vocalist performing English, Nepali, and Hindi songs with emphasis on Pop and Classical styles. His smooth vocals create an elegant atmosphere for upscale events and gatherings.",
             imageUrl: "artist/prabhat maharjan.jpg",
             rating: 4.6,
-            price: 25000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Classical",
           },
           {
             id: 5,
@@ -98,7 +102,8 @@ export default function ArtistsPage() {
               "Energetic performer specializing in English, Nepali, and Hindi Pop and Rock music. His high-energy performances are perfect for creating an exciting atmosphere at parties and celebrations.",
             imageUrl: "sohel khadgi.jpg",
             rating: 4.6,
-            price: 25000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock",
           },
           {
             id: 6,
@@ -108,7 +113,8 @@ export default function ArtistsPage() {
               "Talented vocalist with expertise in English, Nepali, and Hindi music spanning Pop, Rock, and Classical genres. His versatile style and crowd engagement make him suitable for various event types.",
             imageUrl: "smit sunam.jpg",
             rating: 4.7,
-            price: 25000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
           {
             id: 7,
@@ -118,7 +124,8 @@ export default function ArtistsPage() {
               "Captivating female vocalist performing in English, Nepali, and Hindi with expertise in Pop, Rock, and Classical styles. Her soulful voice creates a sophisticated atmosphere for any occasion.",
             imageUrl: "neharika shahi.jpg",
             rating: 4.8,
-            price: 25000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
           {
             id: 8,
@@ -128,7 +135,8 @@ export default function ArtistsPage() {
               "Versatile performer with a wide repertoire of English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. His adaptable style makes him suitable for various event atmospheres.",
             imageUrl: "prachin rimal.jpg",
             rating: 4.7,
-            price: 25000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
           {
             id: 9,
@@ -138,7 +146,8 @@ export default function ArtistsPage() {
               "Dynamic vocalist performing English, Nepali, and Hindi music spanning Pop, Rock, and Classical styles. His engaging performances create memorable experiences for events of all sizes.",
             imageUrl: "utsav nepal.jpg",
             rating: 4.7,
-            price: 25000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
           {
             id: 10,
@@ -148,7 +157,8 @@ export default function ArtistsPage() {
               "This musical duo performs a diverse selection of English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. Their harmonized performances create a rich, immersive musical experience.",
             imageUrl: "roselyn shrestha.jpg",
             rating: 4.8,
-            price: 35000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
           {
             id: 11,
@@ -158,7 +168,8 @@ export default function ArtistsPage() {
               "Versatile band performing English, Nepali, and Hindi music spanning Pop, Rock, and Classical styles. Their full-band arrangement provides a dynamic sound perfect for larger events.",
             imageUrl: "the adapters.jpg",
             rating: 4.9,
-            price: 50000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
           {
             id: 12,
@@ -168,7 +179,8 @@ export default function ArtistsPage() {
               "Musical duo specializing in English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. Their complementary vocal styles create beautiful harmonies for a range of events.",
             imageUrl: "esther x subash.jpg",
             rating: 4.7,
-            price: 35000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
           {
             id: 13,
@@ -178,7 +190,8 @@ export default function ArtistsPage() {
               "This musical trio performs English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. Their three-part harmonies and instrumental arrangements create a full, rich sound.",
             imageUrl: "the ternions.jpg",
             rating: 4.8,
-            price: 45000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
           {
             id: 14,
@@ -188,7 +201,8 @@ export default function ArtistsPage() {
               "Full band performing a diverse range of English, Nepali, and Hindi music spanning Pop, Rock, and Classical styles. Their polished performances are ideal for weddings and large celebrations.",
             imageUrl: "cousins band.jpg",
             rating: 4.8,
-            price: 50000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
           {
             id: 15,
@@ -198,7 +212,8 @@ export default function ArtistsPage() {
               "Musical duo specializing in English and Nepali Pop, Rock, Jazz, and Blues. Their unique arrangements and improvisational skills create a sophisticated atmosphere for upscale events.",
             imageUrl: "two tone.jpg",
             rating: 4.7,
-            price: 35000,
+            languages: "English, Nepali",
+            musicStyle: "Pop, Rock, Jazz, Blues",
           },
           {
             id: 16,
@@ -208,7 +223,8 @@ export default function ArtistsPage() {
               "Versatile ensemble performing English, Nepali, and Hindi music across Pop, Rock, and Classical genres. They can perform as a trio or full band, adapting to different venue sizes and event requirements.",
             imageUrl: "mega boom.jpg",
             rating: 4.8,
-            price: 45000,
+            languages: "English, Nepali, Hindi",
+            musicStyle: "Pop, Rock, Classical",
           },
         ];
 
@@ -463,9 +479,26 @@ export default function ArtistsPage() {
                       <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-accent transition-colors duration-300">
                         {artist.name}
                       </h3>
-                      <p className="text-gray-300 text-base line-clamp-3 mb-6">
+                      <p className="text-gray-300 text-base line-clamp-3 mb-4">
                         {artist.description}
                       </p>
+                      
+                      {/* Languages and Music Style */}
+                      <div className="mb-6 space-y-2">
+                        {artist.languages && (
+                          <div className="flex items-center text-sm text-gray-300">
+                            <span className="inline-block bg-gray-800 rounded-full px-3 py-1 mr-2">Languages:</span>
+                            <span className="text-accent">{artist.languages}</span>
+                          </div>
+                        )}
+                        
+                        {artist.musicStyle && (
+                          <div className="flex items-center text-sm text-gray-300">
+                            <span className="inline-block bg-gray-800 rounded-full px-3 py-1 mr-2">Music:</span>
+                            <span className="text-accent">{artist.musicStyle}</span>
+                          </div>
+                        )}
+                      </div>
                       
                       <div className="flex justify-end">
                         <Link href={`/artists/${artist.id}`}>
