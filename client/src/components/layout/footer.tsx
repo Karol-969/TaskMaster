@@ -52,11 +52,10 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-bold mb-6">Services</h4>
             <ul className="space-y-3">
-              <li><Link href="/artists" className="text-gray-400 hover:text-white transition-all">Artist Booking</Link></li>
-              <li><Link href="/influencers" className="text-gray-400 hover:text-white transition-all">Influencer Booking</Link></li>
-              <li><Link href="/sound-systems" className="text-gray-400 hover:text-white transition-all">Sound System Rental</Link></li>
-              <li><Link href="/venues" className="text-gray-400 hover:text-white transition-all">Venue Booking</Link></li>
-              <li><Link href="/tickets" className="text-gray-400 hover:text-white transition-all">Event Tickets</Link></li>
+              <li><Link href="/services" className="text-gray-400 hover:text-white transition-all">Weekly Live Music</Link></li>
+              <li><Link href="/services" className="text-gray-400 hover:text-white transition-all">Monthly Artist Arrangements</Link></li>
+              <li><Link href="/services" className="text-gray-400 hover:text-white transition-all">Event Concepts</Link></li>
+              <li><Link href="/services" className="text-gray-400 hover:text-white transition-all">Promotion & Sponsorships</Link></li>
             </ul>
           </div>
           

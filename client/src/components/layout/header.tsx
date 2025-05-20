@@ -17,10 +17,7 @@ export function Header() {
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'Artists', href: '/artists' },
-    { label: 'Influencers', href: '/influencers' },
-    { label: 'Sound Systems', href: '/sound-systems' },
-    { label: 'Venues', href: '/venues' },
-    { label: 'Tickets', href: '/tickets' },
+    { label: 'Services', href: '/services' },
     { label: 'Contact', href: '/contact' },
   ];
 

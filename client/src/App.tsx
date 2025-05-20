@@ -11,10 +11,7 @@ import NotFound from "@/pages/not-found";
 import Home from '@/pages/home';
 import ArtistsPage from '@/pages/artists';
 import ArtistDetailPage from '@/pages/artist-details';
-import InfluencersPage from '@/pages/influencers';
-import SoundSystemsPage from '@/pages/sound-systems';
-import VenuesPage from '@/pages/venues';
-import TicketsPage from '@/pages/tickets';
+import ServicesPage from '@/pages/services';
 import ContactPage from '@/pages/contact';
 import LoginPage from '@/pages/login';
 import RegisterPage from '@/pages/register';
@@ -44,10 +41,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/artists" component={ArtistsPage} />
       <Route path="/artists/:id" component={ArtistDetailPage} />
-      <Route path="/influencers" component={InfluencersPage} />
-      <Route path="/sound-systems" component={SoundSystemsPage} />
-      <Route path="/venues" component={VenuesPage} />
-      <Route path="/tickets" component={TicketsPage} />
+      <Route path="/services" component={ServicesPage} />
       <Route path="/contact" component={ContactPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />
