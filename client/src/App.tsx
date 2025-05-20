@@ -10,6 +10,7 @@ import NotFound from "@/pages/not-found";
 // Pages
 import Home from '@/pages/home';
 import ArtistsPage from '@/pages/artists';
+import ArtistDetailPage from '@/pages/artist-details';
 import InfluencersPage from '@/pages/influencers';
 import SoundSystemsPage from '@/pages/sound-systems';
 import VenuesPage from '@/pages/venues';
@@ -42,6 +43,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/artists" component={ArtistsPage} />
+      <Route path="/artists/:id" component={ArtistDetailPage} />
       <Route path="/influencers" component={InfluencersPage} />
       <Route path="/sound-systems" component={SoundSystemsPage} />
       <Route path="/venues" component={VenuesPage} />
