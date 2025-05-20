@@ -50,5 +50,8 @@ CREATE TABLE IF NOT EXISTS testimonials (
   user_id INTEGER REFERENCES users(id),
   text TEXT NOT NULL,
   rating INTEGER DEFAULT 5,
+  name VARCHAR(255),
+  company VARCHAR(255),
+  email VARCHAR(255),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

@@ -640,12 +640,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  app.post('/api/testimonials', authMiddleware, async (req, res, next) => {
+  app.post('/api/testimonials', async (req, res, next) => {
     try {
-      const testimonialData = {
-        ...req.body,
-        userId: req.user.id
-      };
+      // Allow both authenticated and anonymous testimonials
+      let testimonialData = { ...req.body };
+      
+      // If user is authenticated, add their userId
+      if (req.session.userId) {
+        const user = await storage.getUser(req.session.userId);
+        if (user) {
+          testimonialData.user_id = user.id;
+        }
+      }
+      
+      // Use the name and company provided in the form
+      // These will be displayed for anonymous testimonials
       
       const validateResult = insertTestimonialSchema.safeParse(testimonialData);
       

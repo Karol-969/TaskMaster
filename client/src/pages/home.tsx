@@ -5,7 +5,7 @@ import { ServicesSection } from '@/components/home/services-section';
 import { AboutSection } from '@/components/home/about-section';
 import { JourneySection } from '@/components/home/journey-section';
 import { FeaturedArtistsShowcase } from '@/components/home/featured-artists-showcase';
-import { EnhancedTestimonials } from '@/components/home/enhanced-testimonials';
+import { ShareExperienceSection } from '@/components/home/share-experience-section';
 import { ContactSection } from '@/components/home/contact-section';
 import { NewsletterSection } from '@/components/home/newsletter-section';
 
@@ -25,7 +25,7 @@ export default function Home() {
       <AboutSection />
       <JourneySection />
       <FeaturedArtistsShowcase />
-      <EnhancedTestimonials />
+      <ShareExperienceSection />
       <ContactSection />
       <NewsletterSection />
     </Layout>
