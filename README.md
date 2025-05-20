@@ -1,103 +1,87 @@
-# Reart Events - Event Management & Booking Platform
+# ReArt Events - Event Management Platform
 
-A full-stack application for event management and booking services. This platform allows users to book artists, influencers, sound systems, venues, and event tickets.
-
-![Reart Events Platform](https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80)
+A dynamic event management platform that connects artists and event organizers through an innovative and interactive booking experience.
 
 ## Features
 
-- **User Authentication**: Register, login, and manage user profiles
-- **Booking Services**:
-  - Artist Booking
-  - Influencer Booking
-  - Sound System Rental
-  - Venue Booking
-  - Event Ticket Purchase
-- **Dashboard**:
-  - User dashboard for booking history and QR codes
-  - Admin dashboard with analytics and management tools
-- **QR Code Generation**: For ticket confirmation
-- **Responsive Design**: Optimized for both desktop and mobile
-- **Dark Mode Support**: Toggle between light and dark themes
+- Weekly Live Music Arrangement
+- Monthly Calendar Event Planning
+- Event Concepts and Management
+- Promotion and Sponsorships
 
-## Tech Stack
+## Docker Deployment
 
-### Frontend
-- React.js with TypeScript
-- Tailwind CSS for styling
-- Shadcn UI for component library
-- Wouter for routing
-- TanStack Query for data fetching
-- React Hook Form for form handling
+This project is configured to run easily with Docker and Docker Compose.
 
-### Backend
-- Node.js with Express
-- In-memory database (for prototyping)
-- JWT Authentication
-- RESTful API endpoints
+### Prerequisites
 
-## Getting Started
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-4. Access the application at http://localhost:5000
+### Running the Application
 
-## Default User Accounts
+1. Clone the repository:
 
-The application comes with pre-configured user accounts for testing:
+```bash
+git clone https://github.com/your-username/reart-events.git
+cd reart-events
+```
 
-### Admin User
-- Username: admin
-- Password: admin123
+2. Start the application with Docker Compose:
 
-### Regular User
-- Username: user
-- Password: user123
+```bash
+docker compose up
+```
 
-## Project Structure
+This will:
+- Build the Node.js application container
+- Start a PostgreSQL database on port 5499
+- Initialize the database with the necessary tables and sample data
+- Start the application on port 5000
 
-- `/client`: Frontend React application
-- `/server`: Backend Express API
-- `/shared`: Shared TypeScript types and schemas
+3. Access the application:
 
-## Available Pages
+Open your browser and navigate to:
+```
+http://localhost:5000
+```
 
-- **Home**: Landing page with services overview
-- **Artists**: Browse and book artists
-- **Influencers**: Browse and book influencers
-- **Sound Systems**: Browse and rent sound equipment
-- **Venues**: Browse and book event venues
-- **Tickets**: Browse and purchase event tickets
-- **Contact**: Contact information and form
-- **Dashboard**: User booking management (authenticated users only)
-- **Admin**: Administrative tools (admin users only)
+### Database Access
 
-## API Endpoints
+The PostgreSQL database is accessible at:
+- Host: localhost
+- Port: 5499
+- Username: postgres
+- Password: postgres
+- Database: reart_events
 
-### Authentication
-- `POST /api/auth/register`: Create a new user account
-- `POST /api/auth/login`: User login
-- `POST /api/auth/logout`: User logout
-- `GET /api/auth/me`: Get current user information
+## Development
 
-### Resources
-- Artists: `/api/artists`
-- Influencers: `/api/influencers`
-- Sound Systems: `/api/sound-systems`
-- Venues: `/api/venues`
-- Events: `/api/events`
-- Bookings: `/api/bookings`
-- Testimonials: `/api/testimonials`
+If you want to run the application in development mode without Docker:
 
-Each resource follows RESTful conventions with GET, POST, PUT, and DELETE methods.
+1. Install dependencies:
 
-## License
+```bash
+npm install
+```
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+2. Set up environment variables (create a .env file):
+
+```
+DATABASE_URL=postgresql://postgres:postgres@localhost:5499/reart_events
+```
+
+3. Run the development server:
+
+```bash
+npm run dev
+```
+
+## Production Deployment
+
+For production deployment, consider:
+
+1. Setting up proper environment variables for production
+2. Using a production-ready database setup with proper backups
+3. Implementing proper authentication and authorization
+4. Setting up HTTPS
