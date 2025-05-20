@@ -40,7 +40,7 @@ export default function ArtistsPage() {
       name: "SUJITA DANGOL",
       genre: "Solo Artist",
       description: "Versatile vocalist performing in English, Nepali, and Hindi languages. Her repertoire spans multiple genres including Pop, Rock, and Classical music, creating the perfect atmosphere for various events.",
-      imageUrl: "/artist/sujita_dangol.jpg",
+      imageUrl: "sujita_dangol.jpg",
       rating: 4.8,
       price: 25000
     },
@@ -49,7 +49,7 @@ export default function ArtistsPage() {
       name: "SAMIKSHYA DAHAL",
       genre: "Solo Artist",
       description: "Talented performer specializing in English and Nepali songs across Pop, Rock, Classical genres as well as original compositions. Her powerful vocals and stage presence make any event memorable.",
-      imageUrl: "/artist/samikshya dahal.jpg",
+      imageUrl: "samikshya dahal.jpg",
       rating: 4.7,
       price: 25000
     },
@@ -58,7 +58,7 @@ export default function ArtistsPage() {
       name: "ASHIM THAPA",
       genre: "Solo Artist",
       description: "Versatile vocalist with expertise in English, Nepali, and Hindi music across Pop, Rock, and Classical genres. His dynamic performance style adapts perfectly to the mood of any event.",
-      imageUrl: "/artist/ashim thapa.jpg",
+      imageUrl: "ashim thapa.jpg",
       rating: 4.7,
       price: 25000
     },
@@ -67,7 +67,7 @@ export default function ArtistsPage() {
       name: "PRABHAT MAHARJAN",
       genre: "Solo Artist",
       description: "Accomplished vocalist performing English, Nepali, and Hindi songs with emphasis on Pop and Classical styles. His smooth vocals create an elegant atmosphere for upscale events and gatherings.",
-      imageUrl: "/artist/prabhat maharjan.jpg",
+      imageUrl: "prabhat maharjan.jpg",
       rating: 4.6,
       price: 25000
     },
@@ -76,7 +76,7 @@ export default function ArtistsPage() {
       name: "SOHEL KHADGI",
       genre: "Solo Artist",
       description: "Energetic performer specializing in English, Nepali, and Hindi Pop and Rock music. His high-energy performances are perfect for creating an exciting atmosphere at parties and celebrations.",
-      imageUrl: "artist/sohel khadgi.jpg",
+      imageUrl: "sohel khadgi.jpg",
       rating: 4.6,
       price: 25000
     },
@@ -85,7 +85,7 @@ export default function ArtistsPage() {
       name: "SUMIT SUNAM",
       genre: "Solo Artist",
       description: "Talented vocalist with expertise in English, Nepali, and Hindi music spanning Pop, Rock, and Classical genres. His versatile style and crowd engagement make him suitable for various event types.",
-      imageUrl: "artist/smit sunam.jpg",
+      imageUrl: "smit sunam.jpg",
       rating: 4.7,
       price: 25000
     },
@@ -94,7 +94,7 @@ export default function ArtistsPage() {
       name: "NEHARIKA SHAHI",
       genre: "Solo Artist",
       description: "Captivating female vocalist performing in English, Nepali, and Hindi with expertise in Pop, Rock, and Classical styles. Her soulful voice creates a sophisticated atmosphere for any occasion.",
-      imageUrl: "artist/neharika shahi.jpg",
+      imageUrl: "neharika shahi.jpg",
       rating: 4.8,
       price: 25000
     },
@@ -103,7 +103,7 @@ export default function ArtistsPage() {
       name: "PRACHIN RIMAL",
       genre: "Solo Artist",
       description: "Versatile performer with a wide repertoire of English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. His adaptable style makes him suitable for various event atmospheres.",
-      imageUrl: "artist/prachin rimal.jpg",
+      imageUrl: "prachin rimal.jpg",
       rating: 4.7,
       price: 25000
     },
@@ -345,7 +345,7 @@ export default function ArtistsPage() {
                     {/* Artist image */}
                     <div className="relative h-64 overflow-hidden">
                       <img 
-                        src={artist.imageUrl}
+                        src={`/artist/${artist.imageUrl}`}
                         alt={`${artist.name} - ${artist.genre}`}
                         className="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700 ease-out"
                       />
