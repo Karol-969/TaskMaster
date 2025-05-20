@@ -14,7 +14,13 @@ import {
 } from "@shared/schema";
 import { z } from "zod";
 
-// Type augmentation for Express Request
+// Type definitions to make TypeScript happy
+declare module "express-session" {
+  interface SessionData {
+    userId?: number;
+  }
+}
+
 declare global {
   namespace Express {
     interface Request {
