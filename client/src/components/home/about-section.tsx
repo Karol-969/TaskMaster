@@ -8,10 +8,10 @@ export function AboutSection() {
           <div className="order-2 lg:order-1 animate-fade-in-up">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">About Reart Events</h2>
             <p className="text-lg text-muted-foreground mb-6">
-              Founded with a passion for creating unforgettable experiences, Reart Events has evolved into a premier event management company known for excellence and innovation.
+              ReArt Events is an event management company established in 2024. We specialize in providing live music solutions and managing various events.
             </p>
             <p className="text-muted-foreground mb-6">
-              Our team of dedicated professionals combines creativity with meticulous planning to ensure every event exceeds expectations. From intimate gatherings to grand celebrations, we handle every detail with precision and care.
+              Our approach involves understanding client's business, audience, and goals to create tailored strategies that combine creativity and functionality. From arranging live music performances to developing crowd-engaging event concepts, we handle every detail with precision and care.
             </p>
             <div className="flex flex-wrap gap-6 mt-8">
               <div className="flex items-center">
@@ -53,95 +53,69 @@ export function AboutSection() {
           </div>
         </div>
 
-        {/* Timeline */}
+        {/* Services Offered */}
         <div className="mt-24 animate-fade-in-up delay-200">
-          <h3 className="text-2xl font-bold mb-10 text-center">Our Journey</h3>
+          <h3 className="text-2xl font-bold mb-10 text-center">Services Offered</h3>
           
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-1 bg-accent transform md:translate-x-[-50%] hidden md:block"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-gray-900/30 backdrop-blur-sm p-6 rounded-xl border border-gray-800/50 hover:border-accent/50 transition-all duration-300">
+              <div className="p-3 bg-accent/20 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <CalendarCheck className="h-7 w-7 text-accent" />
+              </div>
+              <h4 className="text-xl font-bold mb-3">Artist/Event Management</h4>
+              <p className="text-muted-foreground">
+                We handle the overall management of artists and events, taking care of all the details to ensure a seamless experience.
+              </p>
+            </div>
             
-            {/* Timeline items */}
-            <div className="space-y-12 md:space-y-0">
-              {/* 2016 */}
-              <div className="flex flex-col md:flex-row items-start md:items-center">
-                <div className="flex-1 order-2 md:order-1 md:text-right md:pr-12 pt-2 md:pt-0">
-                  <h4 className="text-xl font-bold mb-2">Humble Beginnings</h4>
-                  <p className="text-muted-foreground">
-                    Reart Events was founded as a small booking agency for local artists and venues.
-                  </p>
-                </div>
-                <div className="mb-4 md:mb-0 order-1 md:order-2 bg-accent text-white rounded-full py-2 px-4 font-bold relative md:mx-4 z-10">
-                  2016
-                </div>
-                <div className="flex-1 order-3 pl-0 md:pl-12 pt-2 md:pt-0">
-                  <div className="hidden md:block">&nbsp;</div>
-                </div>
+            <div className="bg-gray-900/30 backdrop-blur-sm p-6 rounded-xl border border-gray-800/50 hover:border-accent/50 transition-all duration-300">
+              <div className="p-3 bg-accent/20 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <UserCheck className="h-7 w-7 text-accent" />
               </div>
-              
-              {/* 2018 */}
-              <div className="flex flex-col md:flex-row items-start md:items-center">
-                <div className="flex-1 order-2 md:order-1 md:text-right md:pr-12 pt-2 md:pt-0">
-                  <div className="hidden md:block">&nbsp;</div>
-                </div>
-                <div className="mb-4 md:mb-0 order-1 md:order-2 bg-accent text-white rounded-full py-2 px-4 font-bold relative md:mx-4 z-10">
-                  2018
-                </div>
-                <div className="flex-1 order-3 pl-0 md:pl-12 pt-2 md:pt-0">
-                  <h4 className="text-xl font-bold mb-2">Expanding Horizons</h4>
-                  <p className="text-muted-foreground">
-                    Added sound system rentals and influencer bookings to our growing service portfolio.
-                  </p>
-                </div>
+              <h4 className="text-xl font-bold mb-3">Live Music Arrangement</h4>
+              <p className="text-muted-foreground">
+                We arrange weekly live music performances, typically on Wednesdays, Fridays, and Saturdays, finding suitable performers for venues.
+              </p>
+            </div>
+            
+            <div className="bg-gray-900/30 backdrop-blur-sm p-6 rounded-xl border border-gray-800/50 hover:border-accent/50 transition-all duration-300">
+              <div className="p-3 bg-accent/20 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <Award className="h-7 w-7 text-accent" />
               </div>
-              
-              {/* 2020 */}
-              <div className="flex flex-col md:flex-row items-start md:items-center">
-                <div className="flex-1 order-2 md:order-1 md:text-right md:pr-12 pt-2 md:pt-0">
-                  <h4 className="text-xl font-bold mb-2">Digital Transformation</h4>
-                  <p className="text-muted-foreground">
-                    Launched our online booking platform and introduced virtual event management services.
-                  </p>
-                </div>
-                <div className="mb-4 md:mb-0 order-1 md:order-2 bg-accent text-white rounded-full py-2 px-4 font-bold relative md:mx-4 z-10">
-                  2020
-                </div>
-                <div className="flex-1 order-3 pl-0 md:pl-12 pt-2 md:pt-0">
-                  <div className="hidden md:block">&nbsp;</div>
-                </div>
+              <h4 className="text-xl font-bold mb-3">Monthly Artist Arrangements</h4>
+              <p className="text-muted-foreground">
+                This includes arranging dedicated artists on a calendar basis and conducting auditions to ensure high-quality performances.
+              </p>
+            </div>
+            
+            <div className="bg-gray-900/30 backdrop-blur-sm p-6 rounded-xl border border-gray-800/50 hover:border-accent/50 transition-all duration-300">
+              <div className="p-3 bg-accent/20 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <CalendarCheck className="h-7 w-7 text-accent" />
               </div>
-              
-              {/* 2022 */}
-              <div className="flex flex-col md:flex-row items-start md:items-center">
-                <div className="flex-1 order-2 md:order-1 md:text-right md:pr-12 pt-2 md:pt-0">
-                  <div className="hidden md:block">&nbsp;</div>
-                </div>
-                <div className="mb-4 md:mb-0 order-1 md:order-2 bg-accent text-white rounded-full py-2 px-4 font-bold relative md:mx-4 z-10">
-                  2022
-                </div>
-                <div className="flex-1 order-3 pl-0 md:pl-12 pt-2 md:pt-0">
-                  <h4 className="text-xl font-bold mb-2">National Recognition</h4>
-                  <p className="text-muted-foreground">
-                    Recognized as one of the top event management companies with a growing presence nationwide.
-                  </p>
-                </div>
+              <h4 className="text-xl font-bold mb-3">Monthly Event Concepts</h4>
+              <p className="text-muted-foreground">
+                We develop crowd-engaging event ideas and concepts based on specific themes to create memorable experiences.
+              </p>
+            </div>
+            
+            <div className="bg-gray-900/30 backdrop-blur-sm p-6 rounded-xl border border-gray-800/50 hover:border-accent/50 transition-all duration-300">
+              <div className="p-3 bg-accent/20 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <UserCheck className="h-7 w-7 text-accent" />
               </div>
-              
-              {/* 2023 */}
-              <div className="flex flex-col md:flex-row items-start md:items-center">
-                <div className="flex-1 order-2 md:order-1 md:text-right md:pr-12 pt-2 md:pt-0">
-                  <h4 className="text-xl font-bold mb-2">Present & Future</h4>
-                  <p className="text-muted-foreground">
-                    Continuing to innovate with enhanced digital experiences and exclusive event partnerships.
-                  </p>
-                </div>
-                <div className="mb-4 md:mb-0 order-1 md:order-2 bg-accent text-white rounded-full py-2 px-4 font-bold relative md:mx-4 z-10">
-                  2023
-                </div>
-                <div className="flex-1 order-3 pl-0 md:pl-12 pt-2 md:pt-0">
-                  <div className="hidden md:block">&nbsp;</div>
-                </div>
+              <h4 className="text-xl font-bold mb-3">Promotion</h4>
+              <p className="text-muted-foreground">
+                We assist in promoting businesses on both digital and physical platforms to maximize your event's reach and impact.
+              </p>
+            </div>
+            
+            <div className="bg-gray-900/30 backdrop-blur-sm p-6 rounded-xl border border-gray-800/50 hover:border-accent/50 transition-all duration-300">
+              <div className="p-3 bg-accent/20 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                <Award className="h-7 w-7 text-accent" />
               </div>
+              <h4 className="text-xl font-bold mb-3">Sponsorships</h4>
+              <p className="text-muted-foreground">
+                We handle sponsorship deals, connecting businesses with events that align with their brand and values.
+              </p>
             </div>
           </div>
         </div>

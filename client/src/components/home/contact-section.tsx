@@ -64,8 +64,8 @@ export function ContactSection() {
                 <div>
                   <h4 className="font-bold mb-1">Location</h4>
                   <p className="text-muted-foreground">
-                    123 Event Plaza, Suite 456<br />
-                    Metropolis City, MP 10001
+                    Chagal, Kathmandu<br />
+                    Nepal
                   </p>
                 </div>
               </div>
@@ -77,8 +77,8 @@ export function ContactSection() {
                 <div>
                   <h4 className="font-bold mb-1">Phone</h4>
                   <p className="text-muted-foreground">
-                    +1 (555) 123-4567<br />
-                    +1 (555) 987-6543
+                    +977-9860673425<br />
+                    +977-9865139809
                   </p>
                 </div>
               </div>
@@ -90,8 +90,8 @@ export function ContactSection() {
                 <div>
                   <h4 className="font-bold mb-1">Email</h4>
                   <p className="text-muted-foreground">
-                    info@reartevents.com<br />
-                    bookings@reartevents.com
+                    reart.nepal@gmail.com<br />
+                    business@reartevents.com.np
                   </p>
                 </div>
               </div>
