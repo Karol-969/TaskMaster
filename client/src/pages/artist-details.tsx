@@ -51,48 +51,48 @@ export default function ArtistDetailPage() {
   // Fallback artist data if API fails - using authentic data from Reart Events
   const demoArtist: Artist = {
     id: artistId || 1,
-    name: "DJ Ravi",
-    genre: "DJ",
-    description: "DJ Ravi is a well-known Nepali DJ who has been in the industry for over a decade. He specializes in Bollywood, EDM, Hip-hop, and commercial music, making him perfect for corporate events, weddings, and private parties. With his extensive experience performing at major venues throughout Nepal, DJ Ravi brings professional quality sound and lighting equipment to create the perfect atmosphere for any occasion. His ability to read the crowd and adapt his playlist ensures that your dance floor will be packed all night long.",
-    imageUrl: "https://reartevents.com.np/storage/artists/djravi.jpg",
+    name: "SUJITA DANGOL",
+    genre: "Solo Artist",
+    description: "Sujita Dangol is a versatile vocalist with an impressive repertoire spanning multiple languages and genres. She performs expertly in English, Nepali, and Hindi, covering Pop, Rock, and Classical styles. With her powerful and emotive voice, Sujita creates the perfect musical atmosphere for any event, from intimate gatherings to large celebrations. Her extensive experience and professional approach ensure a seamless performance that captivates audiences and elevates the experience of any occasion.",
+    imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
     rating: 4.8,
     price: 25000,
     location: "Kathmandu, Nepal",
-    duration: "4-5 hours per event",
+    duration: "2-3 hours per event",
     memberCount: 1,
-    experience: "10+ years",
+    experience: "8+ years",
     events: [
       "Corporate Events",
       "Weddings",
       "Private Parties",
-      "Club Nights",
-      "College Events",
+      "Hotel Performances",
+      "Restaurant Gigs",
       "Festival Celebrations"
     ],
     photos: [
-      "https://reartevents.com.np/storage/artists/djravi.jpg",
-      "https://reartevents.com.np/storage/artists/djarufu.jpg",
-      "https://reartevents.com.np/storage/artists/djrex.jpg",
-      "https://reartevents.com.np/storage/artists/djbidhan.jpg"
+      "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1461784180009-27c193d5cfc9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
     ],
     testimonials: [
       {
-        author: "Ajay Manandhar, Wedding Planner",
-        text: "DJ Ravi performed at our client's wedding reception and created an amazing atmosphere. His music selection was perfect for the crowd and kept everyone dancing all night. The lighting setup was professional and added greatly to the ambiance.",
+        author: "Anisha Thapa, Wedding Client",
+        text: "Sujita performed at our wedding reception and created a magical atmosphere. Her voice is absolutely stunning, and she was able to perform songs in multiple languages that satisfied all our guests. Her English and Hindi songs were perfect, and her Nepali selections created a special connection with our local guests.",
         rating: 5,
         event: "Wedding Reception"
       },
       {
-        author: "Nepal Telecom, Corporate Event Team",
-        text: "We've hired DJ Ravi for multiple corporate events and he always delivers a professional experience. His music selection, sound quality, and overall performance consistently exceed our expectations. Highly recommended!",
+        author: "Himalaya Hotel, Events Manager",
+        text: "We've had Sujita perform regularly at our hotel for special events, and she consistently impresses our guests with her versatile repertoire and professional performance. Her ability to transition between classical and contemporary styles makes her perfect for our diverse clientele.",
         rating: 5,
-        event: "Annual Corporate Party"
+        event: "Hotel Performance Series"
       },
       {
-        author: "Club Platinum Management",
-        text: "DJ Ravi has been a regular performer at our venue and always draws a great crowd. His mixing skills and ability to keep the dance floor packed make him one of the most reliable DJs in Kathmandu.",
-        rating: 4.5,
-        event: "Club Night Residency"
+        author: "Nepal Corporate Association",
+        text: "Sujita performed at our annual gala dinner, and her selection of English, Nepali, and Hindi songs across various genres was perfect for our multinational attendees. Her classical pieces during dinner and pop/rock selections afterward created the perfect progression for our event.",
+        rating: 4.8,
+        event: "Corporate Gala"
       }
     ]
   };

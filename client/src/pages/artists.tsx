@@ -37,111 +37,147 @@ export default function ArtistsPage() {
   const allArtists = artists.length > 0 ? artists : [
     {
       id: 1,
-      name: "DJ Ravi",
-      genre: "DJ",
-      description: "DJ Ravi is a well-known Nepali DJ who has been in the industry for over a decade. He specializes in Bollywood, EDM, Hip-hop, and commercial music, making him perfect for corporate events, weddings, and private parties.",
-      imageUrl: "https://reartevents.com.np/storage/artists/djravi.jpg",
+      name: "SUJITA DANGOL",
+      genre: "Solo Artist",
+      description: "Versatile vocalist performing in English, Nepali, and Hindi languages. Her repertoire spans multiple genres including Pop, Rock, and Classical music, creating the perfect atmosphere for various events.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
       rating: 4.8,
       price: 25000
     },
     {
       id: 2,
-      name: "DJ A-Rufu",
-      genre: "DJ",
-      description: "DJ A-Rufu is one of the most celebrated DJs in Nepal with expertise in multiple genres including Hip-hop, EDM, House, and Top 40 hits. His energetic sets create an unforgettable atmosphere for any event.",
-      imageUrl: "https://reartevents.com.np/storage/artists/djarufu.jpg",
-      rating: 4.9,
-      price: 30000
+      name: "SAMIKSHYA DAHAL",
+      genre: "Solo Artist",
+      description: "Talented performer specializing in English and Nepali songs across Pop, Rock, Classical genres as well as original compositions. Her powerful vocals and stage presence make any event memorable.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      rating: 4.7,
+      price: 25000
     },
     {
       id: 3,
-      name: "DJ Rex",
-      genre: "DJ",
-      description: "DJ Rex is renowned for his versatile style and seamless mixing abilities. With experience performing at major clubs and events across Nepal, he brings professional sound and lighting setups to elevate any occasion.",
-      imageUrl: "https://reartevents.com.np/storage/artists/djrex.jpg",
+      name: "ASHIM THAPA",
+      genre: "Solo Artist",
+      description: "Versatile vocalist with expertise in English, Nepali, and Hindi music across Pop, Rock, and Classical genres. His dynamic performance style adapts perfectly to the mood of any event.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
       rating: 4.7,
-      price: 28000
+      price: 25000
     },
     {
       id: 4,
-      name: "DJ Bidhan",
-      genre: "DJ",
-      description: "DJ Bidhan is known for his ability to read the crowd and create the perfect musical atmosphere. With expertise in multiple genres, he's perfect for weddings, corporate events, and private celebrations.",
-      imageUrl: "https://reartevents.com.np/storage/artists/djbidhan.jpg",
-      rating: 4.8,
+      name: "PRABHAT MAHARJAN",
+      genre: "Solo Artist",
+      description: "Accomplished vocalist performing English, Nepali, and Hindi songs with emphasis on Pop and Classical styles. His smooth vocals create an elegant atmosphere for upscale events and gatherings.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      rating: 4.6,
       price: 25000
     },
     {
       id: 5,
-      name: "Fireball Band",
-      genre: "Band",
-      description: "Fireball is a dynamic musical group that brings energy and excitement to any event. Their diverse repertoire covers everything from classic rock to contemporary hits, making them ideal for weddings and corporate functions.",
-      imageUrl: "https://reartevents.com.np/storage/artists/fireballband.jpg",
-      rating: 4.9,
-      price: 45000
+      name: "SOHEL KHADGI",
+      genre: "Solo Artist",
+      description: "Energetic performer specializing in English, Nepali, and Hindi Pop and Rock music. His high-energy performances are perfect for creating an exciting atmosphere at parties and celebrations.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      rating: 4.6,
+      price: 25000
     },
     {
       id: 6,
-      name: "Urja Band",
-      genre: "Band",
-      description: "Urja Band is known for their powerful performances and wide musical range. From Nepali folk to international hits, they create memorable musical experiences for weddings, corporate events, and private parties.",
-      imageUrl: "https://reartevents.com.np/storage/artists/urjaband.jpg",
-      rating: 4.8,
-      price: 40000
+      name: "SUMIT SUNAM",
+      genre: "Solo Artist",
+      description: "Talented vocalist with expertise in English, Nepali, and Hindi music spanning Pop, Rock, and Classical genres. His versatile style and crowd engagement make him suitable for various event types.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      rating: 4.7,
+      price: 25000
     },
     {
       id: 7,
-      name: "Jyovan Bhuju",
-      genre: "Singer",
-      description: "Jyovan Bhuju is a versatile vocalist with a soulful voice that captivates audiences. His repertoire spans Nepali classics, Bollywood favorites, and international hits, perfect for creating a sophisticated atmosphere at any event.",
-      imageUrl: "https://reartevents.com.np/storage/artists/jyovanbhuju.jpg",
-      rating: 4.7,
-      price: 20000
+      name: "NEHARIKA SHAHI",
+      genre: "Solo Artist",
+      description: "Captivating female vocalist performing in English, Nepali, and Hindi with expertise in Pop, Rock, and Classical styles. Her soulful voice creates a sophisticated atmosphere for any occasion.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      rating: 4.8,
+      price: 25000
     },
     {
       id: 8,
-      name: "Shisir Yogi",
-      genre: "Singer",
-      description: "Shisir Yogi brings a unique vocal talent to events with his versatile singing style. Specializing in Nepali and Bollywood songs, his performances add a touch of class to weddings, corporate gatherings, and private celebrations.",
-      imageUrl: "https://reartevents.com.np/storage/artists/shisiryogi.jpg",
+      name: "PRACHIN RIMAL",
+      genre: "Solo Artist",
+      description: "Versatile performer with a wide repertoire of English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. His adaptable style makes him suitable for various event atmospheres.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
       rating: 4.7,
-      price: 22000
+      price: 25000
     },
     {
       id: 9,
-      name: "Albatross",
+      name: "UTSAV NEPAL",
+      genre: "Solo Artist",
+      description: "Dynamic vocalist performing English, Nepali, and Hindi music spanning Pop, Rock, and Classical styles. His engaging performances create memorable experiences for events of all sizes.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      rating: 4.7,
+      price: 25000
+    },
+    {
+      id: 10,
+      name: "ROSELYN SHRESTHA",
+      genre: "Duo",
+      description: "This musical duo performs a diverse selection of English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. Their harmonized performances create a rich, immersive musical experience.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      rating: 4.8,
+      price: 35000
+    },
+    {
+      id: 11,
+      name: "THE ADAPTERS",
       genre: "Band",
-      description: "Albatross is one of Nepal's pioneering heavy metal bands, known for their powerful original compositions and energetic stage presence. They bring a unique musical experience to festivals and special events.",
-      imageUrl: "https://reartevents.com.np/storage/artists/albatross.jpg",
+      description: "Versatile band performing English, Nepali, and Hindi music spanning Pop, Rock, and Classical styles. Their full-band arrangement provides a dynamic sound perfect for larger events.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
       rating: 4.9,
       price: 50000
     },
     {
-      id: 10,
-      name: "Bar BQ Tonight",
-      genre: "Band",
-      description: "Bar BQ Tonight delivers spectacular performances with their fusion of rock, pop, and folk music. Their dynamic stage presence and musical versatility make them perfect for large-scale events and private parties.",
-      imageUrl: "https://reartevents.com.np/storage/artists/barbqtonight.jpg",
+      id: 12,
+      name: "ESTHER X SUBASH",
+      genre: "Duo",
+      description: "Musical duo specializing in English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. Their complementary vocal styles create beautiful harmonies for a range of events.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      rating: 4.7,
+      price: 35000
+    },
+    {
+      id: 13,
+      name: "THE TERNIONS",
+      genre: "Trio",
+      description: "This musical trio performs English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. Their three-part harmonies and instrumental arrangements create a full, rich sound.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
       rating: 4.8,
       price: 45000
     },
     {
-      id: 11,
-      name: "The Elements",
+      id: 14,
+      name: "COUSINS BAND",
       genre: "Band",
-      description: "The Elements is a popular Nepali band known for their engaging performances and versatile musical style. With expertise in multiple genres, they create the perfect musical atmosphere for corporate events and celebrations.",
-      imageUrl: "https://reartevents.com.np/storage/artists/theelements.jpg",
-      rating: 4.7,
-      price: 38000
+      description: "Full band performing a diverse range of English, Nepali, and Hindi music spanning Pop, Rock, and Classical styles. Their polished performances are ideal for weddings and large celebrations.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      rating: 4.8,
+      price: 50000
     },
     {
-      id: 12,
-      name: "Rock Guitar School",
-      genre: "Band",
-      description: "Rock Guitar School is known for their exceptional musicianship and diverse repertoire. Their performances feature classic rock hits and contemporary favorites, ideal for creating an energetic atmosphere at any event.",
-      imageUrl: "https://reartevents.com.np/storage/artists/rockguitarschool.jpg",
-      rating: 4.6,
+      id: 15,
+      name: "TWO-TONE",
+      genre: "Duo",
+      description: "Musical duo specializing in English and Nepali Pop, Rock, Jazz, and Blues. Their unique arrangements and improvisational skills create a sophisticated atmosphere for upscale events.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      rating: 4.7,
       price: 35000
+    },
+    {
+      id: 16,
+      name: "MEGA BOOM",
+      genre: "Trio/Band",
+      description: "Versatile ensemble performing English, Nepali, and Hindi music across Pop, Rock, and Classical genres. They can perform as a trio or full band, adapting to different venue sizes and event requirements.",
+      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      rating: 4.8,
+      price: 45000
     }
   ];
 
