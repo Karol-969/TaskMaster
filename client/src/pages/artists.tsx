@@ -409,7 +409,7 @@ export default function ArtistsPage() {
               </div>
             ) : filteredArtists.length > 0 ? (
               <motion.div
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                className="grid grid-cols-1 md:grid-cols-2 gap-10"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
@@ -419,13 +419,13 @@ export default function ArtistsPage() {
                     key={artist.id}
                     variants={itemVariants}
                     whileHover={{
-                      y: -8,
+                      y: -10,
                       transition: { duration: 0.3 },
                     }}
-                    className="group bg-gray-900/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-xl border border-gray-800/50 flex flex-col"
+                    className="group bg-gray-900/70 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border border-gray-800/50 flex flex-col hover:border-accent/50 transition-all duration-300"
                   >
                     {/* Artist image */}
-                    <div className="relative h-64 overflow-hidden">
+                    <div className="relative h-96 overflow-hidden">
                       <img
                         src={`/artist/${artist.imageUrl}`}
                         alt={`${artist.name} - ${artist.genre}`}
@@ -434,58 +434,49 @@ export default function ArtistsPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent" />
 
                       {/* Genre badge */}
-                      <div className="absolute top-4 left-4">
-                        <span className="text-xs font-medium px-3 py-1 bg-accent/90 text-white rounded-full flex items-center">
-                          <Music className="w-3 h-3 mr-1" />
+                      <div className="absolute top-6 left-6">
+                        <span className="text-sm font-medium px-4 py-2 bg-accent/90 text-white rounded-full flex items-center shadow-lg backdrop-blur-sm">
+                          <Music className="w-4 h-4 mr-2" />
                           {artist.genre}
                         </span>
                       </div>
 
                       {/* Rating */}
                       {artist.rating && (
-                        <div className="absolute top-4 right-4">
-                          <span className="text-xs font-medium px-3 py-1 bg-gray-800/80 text-white rounded-full flex items-center backdrop-blur-sm">
+                        <div className="absolute top-6 right-6">
+                          <span className="text-sm font-medium px-4 py-2 bg-gray-800/80 text-white rounded-full flex items-center backdrop-blur-sm shadow-lg">
                             {Array.from({ length: 5 }).map((_, i) => (
                               <Star
                                 key={i}
-                                className={`w-3 h-3 ${i < Math.floor(artist.rating || 0) ? "text-yellow-400 fill-yellow-400" : "text-gray-500"}`}
+                                className={`w-4 h-4 ${i < Math.floor(artist.rating || 0) ? "text-yellow-400 fill-yellow-400" : "text-gray-500"}`}
                               />
                             ))}
-                            <span className="ml-1">{artist.rating}</span>
+                            <span className="ml-2">{artist.rating}</span>
                           </span>
                         </div>
                       )}
 
-                      {/* Gradient overlay for text */}
-                      <div className="absolute bottom-0 left-0 right-0">
-                        <div className="p-6">
-                          <h3 className="text-xl font-bold text-white mb-1">
-                            {artist.name}
-                          </h3>
-                          <p className="text-gray-300 line-clamp-2 mb-2 text-sm">
-                            {artist.description}
-                          </p>
-                        </div>
-                      </div>
                     </div>
-
-                    {/* Price and booking */}
-                    <div className="p-6 mt-auto flex items-center justify-between">
-                      <div>
-                        <span className="text-accent font-bold text-lg">
-                          ${artist.price.toLocaleString()}
-                        </span>
-                        <span className="text-gray-400 text-sm">
-                          {" "}
-                          per event
-                        </span>
+                    
+                    {/* Artist details */}
+                    <div className="p-8">
+                      <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-accent transition-colors duration-300">
+                        {artist.name}
+                      </h3>
+                      <p className="text-gray-300 text-base line-clamp-3 mb-6">
+                        {artist.description}
+                      </p>
+                      
+                      <div className="flex justify-end">
+                        <Link href={`/artists/${artist.id}`}>
+                          <Button
+                            className="bg-accent hover:bg-accent/90 text-white px-6 py-6 rounded-full text-base shadow-lg"
+                            size="lg"
+                          >
+                            View Details
+                          </Button>
+                        </Link>
                       </div>
-
-                      <Link href={`/artists/${artist.id}`}>
-                        <Button className="bg-accent hover:bg-accent/80 text-white">
-                          View Details
-                        </Button>
-                      </Link>
                     </div>
                   </motion.div>
                 ))}
