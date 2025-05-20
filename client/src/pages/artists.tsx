@@ -112,7 +112,7 @@ export default function ArtistsPage() {
       name: "UTSAV NEPAL",
       genre: "Solo Artist",
       description: "Dynamic vocalist performing English, Nepali, and Hindi music spanning Pop, Rock, and Classical styles. His engaging performances create memorable experiences for events of all sizes.",
-      imageUrl: "artist/utsav nepal.jpg",
+      imageUrl: "utsav nepal.jpg",
       rating: 4.7,
       price: 25000
     },
@@ -121,7 +121,7 @@ export default function ArtistsPage() {
       name: "ROSELYN SHRESTHA",
       genre: "Duo",
       description: "This musical duo performs a diverse selection of English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. Their harmonized performances create a rich, immersive musical experience.",
-      imageUrl: "artist/roselyn shrestha.jpg",
+      imageUrl: "roselyn shrestha.jpg",
       rating: 4.8,
       price: 35000
     },
@@ -130,7 +130,7 @@ export default function ArtistsPage() {
       name: "THE ADAPTERS",
       genre: "Band",
       description: "Versatile band performing English, Nepali, and Hindi music spanning Pop, Rock, and Classical styles. Their full-band arrangement provides a dynamic sound perfect for larger events.",
-      imageUrl: "artist/the adapters.jpg",
+      imageUrl: "the adapters.jpg",
       rating: 4.9,
       price: 50000
     },
@@ -139,7 +139,7 @@ export default function ArtistsPage() {
       name: "ESTHER X SUBASH",
       genre: "Duo",
       description: "Musical duo specializing in English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. Their complementary vocal styles create beautiful harmonies for a range of events.",
-      imageUrl: "artist/esther x subash.jpg",
+      imageUrl: "esther x subash.jpg",
       rating: 4.7,
       price: 35000
     },
@@ -148,7 +148,7 @@ export default function ArtistsPage() {
       name: "THE TERNIONS",
       genre: "Trio",
       description: "This musical trio performs English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. Their three-part harmonies and instrumental arrangements create a full, rich sound.",
-      imageUrl: "artist/the ternions.jpg",
+      imageUrl: "the ternions.jpg",
       rating: 4.8,
       price: 45000
     },
@@ -157,7 +157,7 @@ export default function ArtistsPage() {
       name: "COUSINS BAND",
       genre: "Band",
       description: "Full band performing a diverse range of English, Nepali, and Hindi music spanning Pop, Rock, and Classical styles. Their polished performances are ideal for weddings and large celebrations.",
-      imageUrl: "artist/cousins band.jpg",
+      imageUrl: "cousins band.jpg",
       rating: 4.8,
       price: 50000
     },
@@ -166,7 +166,7 @@ export default function ArtistsPage() {
       name: "TWO-TONE",
       genre: "Duo",
       description: "Musical duo specializing in English and Nepali Pop, Rock, Jazz, and Blues. Their unique arrangements and improvisational skills create a sophisticated atmosphere for upscale events.",
-      imageUrl: "artist/two tone.jpg",
+      imageUrl: "two tone.jpg",
       rating: 4.7,
       price: 35000
     },
@@ -175,7 +175,7 @@ export default function ArtistsPage() {
       name: "MEGA BOOM",
       genre: "Trio/Band",
       description: "Versatile ensemble performing English, Nepali, and Hindi music across Pop, Rock, and Classical genres. They can perform as a trio or full band, adapting to different venue sizes and event requirements.",
-      imageUrl: "artist/mega boom.jpg",
+      imageUrl: "mega boom.jpg",
       rating: 4.8,
       price: 45000
     }
