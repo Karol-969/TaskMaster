@@ -40,7 +40,7 @@ export default function ArtistsPage() {
       name: "SUJITA DANGOL",
       genre: "Solo Artist",
       description: "Versatile vocalist performing in English, Nepali, and Hindi languages. Her repertoire spans multiple genres including Pop, Rock, and Classical music, creating the perfect atmosphere for various events.",
-      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      imageUrl: "https://replit.com/t/healthtrixss-llc/repls/TaskMaster/artist/SUJITA_DANGOL.jpg",
       rating: 4.8,
       price: 25000
     },
@@ -49,7 +49,7 @@ export default function ArtistsPage() {
       name: "SAMIKSHYA DAHAL",
       genre: "Solo Artist",
       description: "Talented performer specializing in English and Nepali songs across Pop, Rock, Classical genres as well as original compositions. Her powerful vocals and stage presence make any event memorable.",
-      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      imageUrl: "https://replit.com/t/healthtrixss-llc/repls/TaskMaster/artist/SAMIKSHYA_DAHAL.jpg",
       rating: 4.7,
       price: 25000
     },
@@ -58,7 +58,7 @@ export default function ArtistsPage() {
       name: "ASHIM THAPA",
       genre: "Solo Artist",
       description: "Versatile vocalist with expertise in English, Nepali, and Hindi music across Pop, Rock, and Classical genres. His dynamic performance style adapts perfectly to the mood of any event.",
-      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      imageUrl: "https://replit.com/t/healthtrixss-llc/repls/TaskMaster/artist/ASHIM_THAPA.jpg",
       rating: 4.7,
       price: 25000
     },
@@ -67,7 +67,7 @@ export default function ArtistsPage() {
       name: "PRABHAT MAHARJAN",
       genre: "Solo Artist",
       description: "Accomplished vocalist performing English, Nepali, and Hindi songs with emphasis on Pop and Classical styles. His smooth vocals create an elegant atmosphere for upscale events and gatherings.",
-      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      imageUrl: "https://replit.com/t/healthtrixss-llc/repls/TaskMaster/artist/PRABHAT_MAHARJAN.jpg",
       rating: 4.6,
       price: 25000
     },
@@ -76,7 +76,7 @@ export default function ArtistsPage() {
       name: "SOHEL KHADGI",
       genre: "Solo Artist",
       description: "Energetic performer specializing in English, Nepali, and Hindi Pop and Rock music. His high-energy performances are perfect for creating an exciting atmosphere at parties and celebrations.",
-      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      imageUrl: "https://replit.com/t/healthtrixss-llc/repls/TaskMaster/artist/SOHEL_KHADGI.jpg",
       rating: 4.6,
       price: 25000
     },
@@ -85,7 +85,7 @@ export default function ArtistsPage() {
       name: "SUMIT SUNAM",
       genre: "Solo Artist",
       description: "Talented vocalist with expertise in English, Nepali, and Hindi music spanning Pop, Rock, and Classical genres. His versatile style and crowd engagement make him suitable for various event types.",
-      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      imageUrl: "https://replit.com/t/healthtrixss-llc/repls/TaskMaster/artist/SUMIT_SUNAM.jpg",
       rating: 4.7,
       price: 25000
     },
@@ -94,7 +94,7 @@ export default function ArtistsPage() {
       name: "NEHARIKA SHAHI",
       genre: "Solo Artist",
       description: "Captivating female vocalist performing in English, Nepali, and Hindi with expertise in Pop, Rock, and Classical styles. Her soulful voice creates a sophisticated atmosphere for any occasion.",
-      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      imageUrl: "https://replit.com/t/healthtrixss-llc/repls/TaskMaster/artist/NEHARIKA_SHAHI.jpg",
       rating: 4.8,
       price: 25000
     },
@@ -103,7 +103,7 @@ export default function ArtistsPage() {
       name: "PRACHIN RIMAL",
       genre: "Solo Artist",
       description: "Versatile performer with a wide repertoire of English, Nepali, and Hindi songs across Pop, Rock, and Classical genres. His adaptable style makes him suitable for various event atmospheres.",
-      imageUrl: "https://reartevents.com.np/storage/artists/default-artist.jpg",
+      imageUrl: "https://replit.com/t/healthtrixss-llc/repls/TaskMaster/artist/PRACHIN_RIMAL.jpg",
       rating: 4.7,
       price: 25000
     },
