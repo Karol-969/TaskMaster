@@ -130,7 +130,7 @@ export function HeroSection() {
                         className={cn(
                           "w-full justify-start text-left font-normal bg-white/20 text-white border-white/30 h-12",
                           !date && "text-zinc-400"
-                        )}
+                        ) as string}
                         id="event-date"
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
@@ -141,9 +141,9 @@ export function HeroSection() {
                       <Calendar
                         mode="single"
                         selected={date}
-                        onSelect={setDate}
+                        onSelect={(day: Date | undefined) => setDate(day)}
                         initialFocus
-                        disabled={(date) => date < new Date()}
+                        disabled={(day: Date) => day < new Date()}
                       />
                     </PopoverContent>
                   </Popover>
