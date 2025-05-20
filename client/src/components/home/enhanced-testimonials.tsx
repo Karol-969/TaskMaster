@@ -218,29 +218,57 @@ export function EnhancedTestimonials() {
         />
       ))}
       
-      {/* Animated particles */}
+      {/* Animated particles - Quote marks with higher opacity */}
       <div className="absolute inset-0 overflow-hidden">
-        {Array.from({ length: 30 }).map((_, i) => (
+        {Array.from({ length: 40 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute text-accent/20"
+            className="absolute text-accent"
+            style={{ 
+              opacity: 0.2 + Math.random() * 0.4, // Higher opacity between 0.2 and 0.6
+              filter: `blur(${Math.random() * 2}px)`,
+              transform: `rotate(${Math.random() * 40 - 20}deg)`
+            }}
             initial={{ 
               y: "110vh", 
               x: `${Math.random() * 100}%`,
-              opacity: 0 
+              scale: 0.5 + Math.random() * 1.5
             }}
             animate={{ 
               y: "-10vh", 
-              opacity: [0, 0.5, 0]
+              opacity: [
+                0.2 + Math.random() * 0.4, 
+                0.4 + Math.random() * 0.4, 
+                0.2 + Math.random() * 0.3
+              ]
             }}
             transition={{
               duration: 15 + Math.random() * 20,
               repeat: Infinity,
-              delay: Math.random() * 40,
+              delay: Math.random() * 30,
               ease: "linear"
             }}
           >
-            <Quote size={10 + Math.random() * 30} />
+            {Math.random() > 0.5 ? (
+              <Quote size={15 + Math.random() * 40} strokeWidth={1.5} />
+            ) : (
+              <svg width={15 + Math.random() * 40} height={15 + Math.random() * 40} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path 
+                  d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" 
+                  stroke="currentColor" 
+                  strokeWidth="1.5" 
+                  fill="none"
+                  opacity="0.7"
+                />
+                <path 
+                  d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.004c1 0 .996 0 .996 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" 
+                  stroke="currentColor" 
+                  strokeWidth="1.5" 
+                  fill="none" 
+                  opacity="0.7"
+                />
+              </svg>
+            )}
           </motion.div>
         ))}
       </div>
