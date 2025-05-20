@@ -3,6 +3,7 @@ import { Layout } from '@/components/layout/layout';
 import { motion } from 'framer-motion';
 import { ChevronRight, Music, Calendar, Users, BarChart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'wouter';
 
 export default function ServicesPage() {
   // Animation variants
@@ -35,29 +36,37 @@ export default function ServicesPage() {
       id: 1,
       title: "Weekly Live Music Arrangement",
       description: "Arrangement of various artists for three days a week i.e. Wednesday, Friday and Saturday.",
+      longDescription: "Our weekly live music arrangement service provides high-quality performers for your venue on a consistent schedule. We handle artist selection, scheduling, and all logistics to ensure smooth performances on Wednesdays, Fridays, and Saturdays. Each artist is carefully vetted to match your venue's atmosphere and audience preferences.",
       icon: <Music className="h-10 w-10 text-accent" />,
-      image: "https://images.unsplash.com/photo-1511735111819-9a3f7709049c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+      image: "https://images.unsplash.com/photo-1511735111819-9a3f7709049c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
+      link: "/services/weekly-music"
     },
     {
       id: 2,
       title: "Working on Monthly Calendar Basis",
       description: "Arranging dedicated artists for every month on a calendar basis, which will be auditioned and fixed.",
+      longDescription: "Our monthly calendar service provides a structured approach to your venue's entertainment needs. We create a comprehensive monthly plan with dedicated artists who are auditioned and confirmed in advance. This service includes performance schedules, artist profiles, and promotional materials to help you market upcoming performances.",
       icon: <Calendar className="h-10 w-10 text-accent" />,
-      image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+      image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
+      link: "/services/monthly-calendar"
     },
     {
       id: 3,
       title: "Monthly Event Concepts/Management",
       description: "Quality focus will be on crowd-engaging event ideas/concepts every month on basis of proper theme.",
+      longDescription: "Our event concept and management service takes your events to the next level. We develop unique, crowd-engaging themes and experiences tailored to your audience and venue. From concept development to execution, our team handles all aspects of event planning, including themed decor, special performances, and interactive elements to ensure a memorable experience for your guests.",
       icon: <Users className="h-10 w-10 text-accent" />,
-      image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+      image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
+      link: "/services/event-concepts"
     },
     {
       id: 4,
       title: "Promotion and Sponsorships",
       description: "Promoting the business on both digital and physical platform along-side handling sponsorship deals.",
+      longDescription: "Our promotion and sponsorship service helps maximize your event's reach and financial success. We develop comprehensive marketing strategies across digital and physical platforms, creating engaging content that drives attendance. Additionally, our team identifies and secures relevant sponsorship opportunities, negotiating deals that benefit both your event and the sponsor while maintaining the integrity of your brand.",
       icon: <BarChart className="h-10 w-10 text-accent" />,
-      image: "https://images.unsplash.com/photo-1540317580384-e5d43867caa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+      image: "https://images.unsplash.com/photo-1540317580384-e5d43867caa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
+      link: "/services/promotion-sponsorships"
     }
   ];
 
@@ -113,39 +122,48 @@ export default function ServicesPage() {
             {services.map((service) => (
               <motion.div 
                 key={service.id}
-                className="service-card group relative overflow-hidden rounded-2xl shadow-2xl border border-gray-800/50 hover:border-accent/50 transition-all duration-300 bg-gray-900/50 backdrop-blur-sm"
+                className="service-card group relative overflow-hidden rounded-2xl shadow-2xl border border-gray-800/50 hover:border-accent/30 transition-all duration-500 bg-black/60 backdrop-blur-sm hover:shadow-accent/20 hover:shadow-xl"
                 variants={itemVariants}
+                whileHover={{ y: -10, transition: { duration: 0.3 } }}
               >
-                <div className="aspect-video w-full overflow-hidden">
+                <div className="relative aspect-video w-full overflow-hidden">
                   <img 
                     src={service.image} 
                     alt={service.title} 
                     className="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent opacity-90" />
+                  {/* Overlay with better gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
                   
-                  <div className="absolute top-6 left-6 bg-accent/90 text-white p-4 rounded-full shadow-xl backdrop-blur-sm">
+                  {/* Glowing icon */}
+                  <div className="absolute top-6 left-6 bg-accent/90 text-white p-4 rounded-full shadow-[0_0_15px_rgba(120,120,255,0.5)] backdrop-blur-sm group-hover:shadow-[0_0_25px_rgba(120,120,255,0.7)] transition-all duration-500">
                     {service.icon}
+                  </div>
+                  
+                  {/* Title overlaid on image with gradient background */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h3 className="text-2xl font-bold text-white group-hover:text-accent transition-colors duration-300">
+                      {service.title}
+                    </h3>
                   </div>
                 </div>
                 
                 <div className="p-8">
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-300 mb-6">
-                    {service.description}
-                  </p>
-                  
-                  <div className="flex justify-end">
-                    <Button 
-                      variant="outline" 
-                      className="flex items-center gap-2 border-accent text-accent hover:bg-accent hover:text-white transition-all"
-                    >
-                      Explore
-                      <ChevronRight className="w-4 h-4" />
-                    </Button>
+                  <div className="mb-6">
+                    <p className="text-gray-300 leading-relaxed">
+                      {service.description}
+                    </p>
                   </div>
+                  
+                  <Link href={service.link}>
+                    <Button 
+                      variant="default" 
+                      className="w-full flex items-center justify-center gap-2 bg-accent hover:bg-accent/90 text-white py-6 text-base transition-all rounded-xl shadow-lg hover:shadow-accent/30 hover:shadow-md"
+                    >
+                      Explore Service
+                      <ChevronRight className="w-5 h-5" />
+                    </Button>
+                  </Link>
                 </div>
               </motion.div>
             ))}
