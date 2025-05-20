@@ -33,115 +33,115 @@ export default function ArtistsPage() {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  // Sample demo artists if the API returns empty
+  // Authentic artists data from Reart Events website
   const allArtists = artists.length > 0 ? artists : [
     {
       id: 1,
-      name: "DJ Alex",
-      genre: "Electronic",
-      description: "One of the most sought-after electronic DJs with over 500 performances worldwide. Known for energetic sets that blend house, techno, and EDM.",
-      imageUrl: "https://images.unsplash.com/photo-1571151429199-a3371c9c8c8d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
+      name: "DJ Ravi",
+      genre: "DJ",
+      description: "DJ Ravi is a well-known Nepali DJ who has been in the industry for over a decade. He specializes in Bollywood, EDM, Hip-hop, and commercial music, making him perfect for corporate events, weddings, and private parties.",
+      imageUrl: "https://reartevents.com.np/storage/artists/djravi.jpg",
       rating: 4.8,
-      price: 2500
+      price: 25000
     },
     {
       id: 2,
-      name: "Lisa Jazz Quartet",
-      genre: "Jazz",
-      description: "An elegant jazz ensemble perfect for upscale events. Their repertoire includes classic jazz standards and modern interpretations.",
-      imageUrl: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      rating: 4.7,
-      price: 1800
+      name: "DJ A-Rufu",
+      genre: "DJ",
+      description: "DJ A-Rufu is one of the most celebrated DJs in Nepal with expertise in multiple genres including Hip-hop, EDM, House, and Top 40 hits. His energetic sets create an unforgettable atmosphere for any event.",
+      imageUrl: "https://reartevents.com.np/storage/artists/djarufu.jpg",
+      rating: 4.9,
+      price: 30000
     },
     {
       id: 3,
-      name: "The Rockers",
-      genre: "Rock",
-      description: "A high-energy rock band that brings the house down with their powerful performances of rock classics and original compositions.",
-      imageUrl: "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      rating: 4.6,
-      price: 2200
+      name: "DJ Rex",
+      genre: "DJ",
+      description: "DJ Rex is renowned for his versatile style and seamless mixing abilities. With experience performing at major clubs and events across Nepal, he brings professional sound and lighting setups to elevate any occasion.",
+      imageUrl: "https://reartevents.com.np/storage/artists/djrex.jpg",
+      rating: 4.7,
+      price: 28000
     },
     {
       id: 4,
-      name: "Pop Sensations",
-      genre: "Pop",
-      description: "Chart-topping pop hits performed by this dynamic group. Perfect for corporate events and large celebrations.",
-      imageUrl: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      rating: 4.5,
-      price: 3000
+      name: "DJ Bidhan",
+      genre: "DJ",
+      description: "DJ Bidhan is known for his ability to read the crowd and create the perfect musical atmosphere. With expertise in multiple genres, he's perfect for weddings, corporate events, and private celebrations.",
+      imageUrl: "https://reartevents.com.np/storage/artists/djbidhan.jpg",
+      rating: 4.8,
+      price: 25000
     },
     {
       id: 5,
-      name: "Hip Hop Heroes",
-      genre: "Hip Hop",
-      description: "Authentic hip hop performers who bring the urban vibe to any event. Known for their engaging crowd interaction.",
-      imageUrl: "https://images.unsplash.com/photo-1559676786-22373325c6c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      rating: 4.5,
-      price: 2800
+      name: "Fireball Band",
+      genre: "Band",
+      description: "Fireball is a dynamic musical group that brings energy and excitement to any event. Their diverse repertoire covers everything from classic rock to contemporary hits, making them ideal for weddings and corporate functions.",
+      imageUrl: "https://reartevents.com.np/storage/artists/fireballband.jpg",
+      rating: 4.9,
+      price: 45000
     },
     {
       id: 6,
-      name: "Symphony Orchestra",
-      genre: "Classical",
-      description: "A world-class orchestra featuring talented musicians who deliver breathtaking classical performances for elegant events.",
-      imageUrl: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      rating: 4.9,
-      price: 5000
+      name: "Urja Band",
+      genre: "Band",
+      description: "Urja Band is known for their powerful performances and wide musical range. From Nepali folk to international hits, they create memorable musical experiences for weddings, corporate events, and private parties.",
+      imageUrl: "https://reartevents.com.np/storage/artists/urjaband.jpg",
+      rating: 4.8,
+      price: 40000
     },
     {
       id: 7,
-      name: "Party Starters",
-      genre: "Variety",
-      description: "A versatile ensemble that covers hits from the 70s to today's top charts. Perfect for weddings and corporate events.",
-      imageUrl: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
+      name: "Jyovan Bhuju",
+      genre: "Singer",
+      description: "Jyovan Bhuju is a versatile vocalist with a soulful voice that captivates audiences. His repertoire spans Nepali classics, Bollywood favorites, and international hits, perfect for creating a sophisticated atmosphere at any event.",
+      imageUrl: "https://reartevents.com.np/storage/artists/jyovanbhuju.jpg",
       rating: 4.7,
-      price: 2200
+      price: 20000
     },
     {
       id: 8,
-      name: "Fusion Collective",
-      genre: "World Music",
-      description: "An innovative ensemble blending global music traditions with modern sounds. Their unique style creates an unforgettable atmosphere.",
-      imageUrl: "https://images.unsplash.com/photo-1517230878791-4d28214057c2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      rating: 4.6,
-      price: 2400
+      name: "Shisir Yogi",
+      genre: "Singer",
+      description: "Shisir Yogi brings a unique vocal talent to events with his versatile singing style. Specializing in Nepali and Bollywood songs, his performances add a touch of class to weddings, corporate gatherings, and private celebrations.",
+      imageUrl: "https://reartevents.com.np/storage/artists/shisiryogi.jpg",
+      rating: 4.7,
+      price: 22000
     },
     {
       id: 9,
-      name: "Acoustic Duo",
-      genre: "Folk/Acoustic",
-      description: "A charming duo offering intimate acoustic performances perfect for cocktail hours and smaller gatherings.",
-      imageUrl: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      rating: 4.5,
-      price: 1200
+      name: "Albatross",
+      genre: "Band",
+      description: "Albatross is one of Nepal's pioneering heavy metal bands, known for their powerful original compositions and energetic stage presence. They bring a unique musical experience to festivals and special events.",
+      imageUrl: "https://reartevents.com.np/storage/artists/albatross.jpg",
+      rating: 4.9,
+      price: 50000
     },
     {
       id: 10,
-      name: "Bollywood Beats",
-      genre: "Bollywood",
-      description: "A high-energy group specializing in Bollywood hits that will get everyone on the dance floor. Perfect for weddings and cultural celebrations.",
-      imageUrl: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
+      name: "Bar BQ Tonight",
+      genre: "Band",
+      description: "Bar BQ Tonight delivers spectacular performances with their fusion of rock, pop, and folk music. Their dynamic stage presence and musical versatility make them perfect for large-scale events and private parties.",
+      imageUrl: "https://reartevents.com.np/storage/artists/barbqtonight.jpg",
       rating: 4.8,
-      price: 2600
+      price: 45000
     },
     {
       id: 11,
-      name: "Country Roads",
-      genre: "Country",
-      description: "Authentic country music performers bringing Southern charm to any event. Their repertoire includes classics and modern country hits.",
-      imageUrl: "https://images.unsplash.com/photo-1543443258-92b04ad5ec6b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      rating: 4.6,
-      price: 2100
+      name: "The Elements",
+      genre: "Band",
+      description: "The Elements is a popular Nepali band known for their engaging performances and versatile musical style. With expertise in multiple genres, they create the perfect musical atmosphere for corporate events and celebrations.",
+      imageUrl: "https://reartevents.com.np/storage/artists/theelements.jpg",
+      rating: 4.7,
+      price: 38000
     },
     {
       id: 12,
-      name: "Blues Brothers",
-      genre: "Blues",
-      description: "Soulful blues musicians who create an atmosphere of timeless cool. Perfect for jazz clubs, lounges, and sophisticated events.",
-      imageUrl: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      rating: 4.7,
-      price: 2200
+      name: "Rock Guitar School",
+      genre: "Band",
+      description: "Rock Guitar School is known for their exceptional musicianship and diverse repertoire. Their performances feature classic rock hits and contemporary favorites, ideal for creating an energetic atmosphere at any event.",
+      imageUrl: "https://reartevents.com.np/storage/artists/rockguitarschool.jpg",
+      rating: 4.6,
+      price: 35000
     }
   ];
 

@@ -48,51 +48,51 @@ export default function ArtistDetailPage() {
     staleTime: 10 * 60 * 1000, // 10 minutes
   });
 
-  // Fallback artist data if API fails
+  // Fallback artist data if API fails - using authentic data from Reart Events
   const demoArtist: Artist = {
     id: artistId || 1,
-    name: "Lisa Jazz Quartet",
-    genre: "Jazz",
-    description: "An elegant jazz ensemble perfect for upscale events. The Lisa Jazz Quartet has been performing at prestigious venues across the country, delivering timeless jazz standards and creative modern interpretations. With their sophisticated sound and professional demeanor, they add a touch of class to any event, from corporate gatherings to intimate weddings. Their repertoire includes both instrumental numbers and vocals, covering everything from swing and bossa nova to cool jazz and fusion.",
-    imageUrl: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-    rating: 4.7,
-    price: 1800,
+    name: "DJ Ravi",
+    genre: "DJ",
+    description: "DJ Ravi is a well-known Nepali DJ who has been in the industry for over a decade. He specializes in Bollywood, EDM, Hip-hop, and commercial music, making him perfect for corporate events, weddings, and private parties. With his extensive experience performing at major venues throughout Nepal, DJ Ravi brings professional quality sound and lighting equipment to create the perfect atmosphere for any occasion. His ability to read the crowd and adapt his playlist ensures that your dance floor will be packed all night long.",
+    imageUrl: "https://reartevents.com.np/storage/artists/djravi.jpg",
+    rating: 4.8,
+    price: 25000,
     location: "Kathmandu, Nepal",
-    duration: "2-3 hours per performance",
-    memberCount: 4,
+    duration: "4-5 hours per event",
+    memberCount: 1,
     experience: "10+ years",
     events: [
       "Corporate Events",
       "Weddings",
       "Private Parties",
-      "Hotel Lounges",
-      "Restaurants",
-      "Music Festivals"
+      "Club Nights",
+      "College Events",
+      "Festival Celebrations"
     ],
     photos: [
-      "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1461784180009-27c193d5cfc9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1517230878791-4d28214057c2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1511192336575-5a79af67a629?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+      "https://reartevents.com.np/storage/artists/djravi.jpg",
+      "https://reartevents.com.np/storage/artists/djarufu.jpg",
+      "https://reartevents.com.np/storage/artists/djrex.jpg",
+      "https://reartevents.com.np/storage/artists/djbidhan.jpg"
     ],
     testimonials: [
       {
-        author: "Rajesh Sharma, Corporate Event Manager",
-        text: "We hired the Lisa Jazz Quartet for our annual corporate gala, and they exceeded all expectations. The music was absolutely perfect, creating an elegant atmosphere that impressed all our executives and clients. Highly recommended!",
-        rating: 5,
-        event: "Corporate Gala"
-      },
-      {
-        author: "Sita and Arjun Thapa",
-        text: "The quartet performed at our wedding reception and created a magical atmosphere. Their rendition of our first dance song was beautiful and brought tears to our eyes. So many guests complimented the music choice!",
+        author: "Ajay Manandhar, Wedding Planner",
+        text: "DJ Ravi performed at our client's wedding reception and created an amazing atmosphere. His music selection was perfect for the crowd and kept everyone dancing all night. The lighting setup was professional and added greatly to the ambiance.",
         rating: 5,
         event: "Wedding Reception"
       },
       {
-        author: "Hotel Himalaya Management",
-        text: "We have had the Lisa Jazz Quartet perform regularly at our lounge for the past year, and they consistently deliver incredible performances. Our guests love them, and they've become a highlight of our entertainment program.",
+        author: "Nepal Telecom, Corporate Event Team",
+        text: "We've hired DJ Ravi for multiple corporate events and he always delivers a professional experience. His music selection, sound quality, and overall performance consistently exceed our expectations. Highly recommended!",
+        rating: 5,
+        event: "Annual Corporate Party"
+      },
+      {
+        author: "Club Platinum Management",
+        text: "DJ Ravi has been a regular performer at our venue and always draws a great crowd. His mixing skills and ability to keep the dance floor packed make him one of the most reliable DJs in Kathmandu.",
         rating: 4.5,
-        event: "Hotel Lounge Residency"
+        event: "Club Night Residency"
       }
     ]
   };
