@@ -186,38 +186,42 @@ export function FeaturedArtistsShowcase() {
         }}
       />
       
-      {/* Animated overlay with music instruments and notes */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent">
-        {Array.from({ length: 45 }).map((_, i) => {
+      {/* Fixed, separate animated music elements layer */}
+      <div className="fixed-music-elements">
+        {Array.from({ length: 60 }).map((_, i) => {
           // Randomly select different musical elements
           const musicElement = Math.floor(Math.random() * 10); // 0-9: variety of instruments and notes
-          const opacityValue = 0.55 + Math.random() * 0.35; // Higher opacity between 0.55 and 0.9
-          const size = 20 + Math.random() * 45; // Larger varied sizes
+          const opacityValue = 0.7 + Math.random() * 0.3; // Very high opacity between 0.7 and 1.0
+          const size = 25 + Math.random() * 50; // Even larger sizes for better visibility
           
           return (
             <motion.div
               key={i}
-              className="absolute text-accent z-10"
+              className="music-element"
               style={{
+                position: 'absolute',
+                zIndex: 30,
                 opacity: opacityValue,
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                filter: `blur(${Math.random() * 0.5}px)`,
+                color: 'var(--accent)',
+                pointerEvents: 'none'
               }}
               initial={{ 
                 opacity: 0, 
-                y: Math.random() * 50 - 25
+                y: Math.random() * 50,
+                scale: 0.5
               }}
               animate={{
-                y: [-20, -140, -260],
+                y: [-50, -200, -350],
                 opacity: [0, opacityValue, 0],
-                scale: [0.6, 1.2, 0.6],
+                scale: [0.8, 1.4, 0.8],
                 rotate: [Math.random() * 20 - 10, Math.random() * 40 - 20, Math.random() * 20 - 10]
               }}
               transition={{
                 repeat: Infinity,
-                duration: 15 + Math.random() * 15,
-                delay: Math.random() * 8,
+                duration: 10 + Math.random() * 10,
+                delay: Math.random() * 5,
                 ease: "easeInOut"
               }}
             >

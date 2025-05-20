@@ -5,6 +5,28 @@
 @tailwind utilities;
 
 :root {
+  --accent-rgb: 240, 180, 40;
+  --accent: rgb(var(--accent-rgb));
+}
+
+/* Custom animations for music elements */
+.fixed-music-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.music-element {
+  will-change: transform, opacity;
+  filter: drop-shadow(0 0 5px rgba(var(--accent-rgb), 0.5));
+}
+
+:root {
   --background: 0 0% 100%;
   --foreground: 20 14.3% 4.1%;
   --muted: 60 4.8% 95.9%;
