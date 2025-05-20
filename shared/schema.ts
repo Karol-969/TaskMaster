@@ -27,7 +27,8 @@ export const artists = pgTable("artists", {
   description: text("description").notNull(),
   imageUrl: text("image_url").notNull(),
   rating: integer("rating").default(5),
-  price: integer("price").notNull(),
+  languages: text("languages"),
+  musicStyle: text("music_style"),
 });
 
 export const insertArtistSchema = createInsertSchema(artists).omit({

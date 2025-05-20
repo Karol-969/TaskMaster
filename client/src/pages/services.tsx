@@ -36,28 +36,28 @@ export default function ServicesPage() {
       title: "Weekly Live Music Arrangement",
       description: "Arrangement of various artists for three days a week i.e. Wednesday, Friday and Saturday.",
       icon: <Music className="h-10 w-10 text-accent" />,
-      image: "/service/weekly-live-music.jpg"
+      image: "https://images.unsplash.com/photo-1511735111819-9a3f7709049c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
       id: 2,
       title: "Working on Monthly Calendar Basis",
       description: "Arranging dedicated artists for every month on a calendar basis, which will be auditioned and fixed.",
       icon: <Calendar className="h-10 w-10 text-accent" />,
-      image: "/service/monthly-calendar.jpg"
+      image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
       id: 3,
       title: "Monthly Event Concepts/Management",
       description: "Quality focus will be on crowd-engaging event ideas/concepts every month on basis of proper theme.",
       icon: <Users className="h-10 w-10 text-accent" />,
-      image: "/service/event-concepts.jpg"
+      image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     },
     {
       id: 4,
       title: "Promotion and Sponsorships",
       description: "Promoting the business on both digital and physical platform along-side handling sponsorship deals.",
       icon: <BarChart className="h-10 w-10 text-accent" />,
-      image: "/service/promotion.jpg"
+      image: "https://images.unsplash.com/photo-1540317580384-e5d43867caa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
     }
   ];
 
