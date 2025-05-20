@@ -175,6 +175,7 @@ export function FeaturedArtistsShowcase() {
     <section 
       ref={containerRef}
       className="py-32 relative overflow-hidden bg-gradient-to-b from-black to-gray-900"
+      style={{ position: 'relative' }}
     >
       {/* Parallax background effect */}
       <motion.div 
@@ -190,29 +191,33 @@ export function FeaturedArtistsShowcase() {
         {Array.from({ length: 45 }).map((_, i) => {
           // Randomly select different musical elements
           const musicElement = Math.floor(Math.random() * 10); // 0-9: variety of instruments and notes
-          const opacityValue = 0.4 + Math.random() * 0.5; // Higher opacity between 0.4 and 0.9
-          const size = 18 + Math.random() * 40; // Varied sizes
+          const opacityValue = 0.55 + Math.random() * 0.35; // Higher opacity between 0.55 and 0.9
+          const size = 20 + Math.random() * 45; // Larger varied sizes
           
           return (
             <motion.div
               key={i}
-              className="absolute text-accent"
+              className="absolute text-accent z-10"
               style={{
                 opacity: opacityValue,
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                filter: `blur(${Math.random() * 1}px)`,
+                filter: `blur(${Math.random() * 0.5}px)`,
+              }}
+              initial={{ 
+                opacity: 0, 
+                y: Math.random() * 50 - 25
               }}
               animate={{
-                y: [-20, -120, -220],
+                y: [-20, -140, -260],
                 opacity: [0, opacityValue, 0],
-                scale: [0.5, 1.2, 0.5],
+                scale: [0.6, 1.2, 0.6],
                 rotate: [Math.random() * 20 - 10, Math.random() * 40 - 20, Math.random() * 20 - 10]
               }}
               transition={{
                 repeat: Infinity,
-                duration: 15 + Math.random() * 25,
-                delay: Math.random() * 10,
+                duration: 15 + Math.random() * 15,
+                delay: Math.random() * 8,
                 ease: "easeInOut"
               }}
             >
