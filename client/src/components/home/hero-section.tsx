@@ -1,34 +1,70 @@
-import { useState } from 'react';
-import { Link } from 'wouter';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
+import { 
+  Popover, 
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 export function HeroSection() {
+  const [, setLocation] = useLocation();
   const [serviceType, setServiceType] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [formattedDate, setFormattedDate] = useState('');
   const [email, setEmail] = useState('');
+  const [formattedDateLabel, setFormattedDateLabel] = useState('');
+  
+  useEffect(() => {
+    if (date) {
+      setFormattedDate(format(date, 'yyyy-MM-dd'));
+      setFormattedDateLabel(format(date, 'MMMM d, yyyy'));
+    } else {
+      setFormattedDate('');
+      setFormattedDateLabel('');
+    }
+  }, [date]);
 
   const handleCheckAvailability = () => {
-    // In a real app, this would navigate to the appropriate booking page
-    // or show a more detailed form based on the selected service
+    // Form validation
     if (!serviceType) {
       alert('Please select a service type');
       return;
     }
     
-    if (serviceType === 'artist') {
-      window.location.href = '/artists';
-    } else if (serviceType === 'influencer') {
-      window.location.href = '/influencers';
-    } else if (serviceType === 'sound') {
-      window.location.href = '/sound-systems';
-    } else if (serviceType === 'venue') {
-      window.location.href = '/venues';
-    } else if (serviceType === 'ticket') {
-      window.location.href = '/tickets';
+    if (!date) {
+      alert('Please select an event date');
+      return;
     }
+    
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      alert('Please enter a valid email address');
+      return;
+    }
+    
+    // Map service type to corresponding page
+    const servicePageMap: Record<string, string> = {
+      'weekly-music': '/services/weekly-music',
+      'monthly-calendar': '/services/monthly-calendar',
+      'event-concepts': '/services/event-concepts',
+      'promotion-sponsorships': '/services/promotion-sponsorships',
+    };
+    
+    // Navigate to the appropriate service page with query parameters
+    const targetPage = servicePageMap[serviceType] || '/services';
+    const queryParams = new URLSearchParams({
+      date: formattedDate,
+      email
+    }).toString();
+    
+    setLocation(`${targetPage}?${queryParams}`);
   };
 
   return (
@@ -69,49 +105,65 @@ export function HeroSection() {
           <div className="hidden lg:block animate-fade-in-up delay-300">
             <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
               <h3 className="text-white text-2xl font-semibold mb-6">Quick Booking</h3>
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div>
-                  <Label htmlFor="service-type" className="text-white mb-2">What are you looking for?</Label>
+                  <Label htmlFor="service-type" className="text-white mb-2 block">What are you looking for?</Label>
                   <Select value={serviceType} onValueChange={setServiceType}>
-                    <SelectTrigger id="service-type" className="w-full bg-white/20 text-white border-white/30 focus:ring-accent">
+                    <SelectTrigger id="service-type" className="w-full bg-white/20 text-white border-white/30 focus:ring-accent h-12">
                       <SelectValue placeholder="Select a service" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="artist">Book an Artist</SelectItem>
-                      <SelectItem value="influencer">Book an Influencer</SelectItem>
-                      <SelectItem value="sound">Book Sound System</SelectItem>
-                      <SelectItem value="venue">Book a Venue</SelectItem>
-                      <SelectItem value="ticket">Buy Event Tickets</SelectItem>
+                      <SelectItem value="weekly-music">Weekly Live Music</SelectItem>
+                      <SelectItem value="monthly-calendar">Monthly Calendar</SelectItem>
+                      <SelectItem value="event-concepts">Event Concepts</SelectItem>
+                      <SelectItem value="promotion-sponsorships">Promotion & Sponsorships</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 
                 <div>
-                  <Label htmlFor="event-date" className="text-white mb-2">Event Date</Label>
-                  <Input
-                    id="event-date"
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className="w-full bg-white/20 text-white border-white/30 focus:ring-accent"
-                  />
+                  <Label htmlFor="event-date" className="text-white mb-2 block">Event Date</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal bg-white/20 text-white border-white/30 h-12",
+                          !date && "text-zinc-400"
+                        )}
+                        id="event-date"
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {date ? formattedDateLabel : "Select event date"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        initialFocus
+                        disabled={(date) => date < new Date()}
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 
                 <div>
-                  <Label htmlFor="email" className="text-white mb-2">Your Email</Label>
+                  <Label htmlFor="email" className="text-white mb-2 block">Your Email</Label>
                   <Input
                     id="email"
                     type="email"
                     placeholder="email@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-white/20 text-white border-white/30 focus:ring-accent"
+                    className="w-full bg-white/20 text-white border-white/30 focus:ring-accent h-12"
                   />
                 </div>
                 
                 <Button 
                   type="button" 
-                  className="w-full bg-accent hover:bg-accent/90 text-white"
+                  className="w-full bg-accent hover:bg-accent/90 text-white h-12 text-base transition-all transform hover:scale-[1.02] font-medium"
                   onClick={handleCheckAvailability}
                 >
                   Check Availability
