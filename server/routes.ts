@@ -64,8 +64,8 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Add express session
-  const session = require('express-session');
-  const MemoryStore = require('memorystore')(session);
+  import memorystore from "memorystore";
+  const MemoryStore = memorystore(session);
   
   app.use(session({
     cookie: { maxAge: 86400000 }, // 1 day

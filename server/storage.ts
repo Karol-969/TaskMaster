@@ -282,7 +282,13 @@ export class MemStorage implements IStorage {
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentUserId++;
     const createdAt = new Date();
-    const user: User = { ...insertUser, id, createdAt };
+    const user: User = { 
+      ...insertUser, 
+      id, 
+      createdAt,
+      role: insertUser.role || "user",
+      phone: insertUser.phone || null
+    };
     this.users.set(id, user);
     return user;
   }
@@ -302,7 +308,11 @@ export class MemStorage implements IStorage {
 
   async createArtist(artist: InsertArtist): Promise<Artist> {
     const id = this.currentArtistId++;
-    const newArtist: Artist = { ...artist, id };
+    const newArtist: Artist = { 
+      ...artist, 
+      id,
+      rating: artist.rating || null
+    };
     this.artists.set(id, newArtist);
     return newArtist;
   }
@@ -331,7 +341,11 @@ export class MemStorage implements IStorage {
 
   async createInfluencer(influencer: InsertInfluencer): Promise<Influencer> {
     const id = this.currentInfluencerId++;
-    const newInfluencer: Influencer = { ...influencer, id };
+    const newInfluencer: Influencer = { 
+      ...influencer, 
+      id,
+      rating: influencer.rating || null
+    };
     this.influencers.set(id, newInfluencer);
     return newInfluencer;
   }
@@ -454,7 +468,16 @@ export class MemStorage implements IStorage {
   async createBooking(booking: InsertBooking): Promise<Booking> {
     const id = this.currentBookingId++;
     const createdAt = new Date();
-    const newBooking: Booking = { ...booking, id, createdAt, qrCode: null };
+    const newBooking: Booking = { 
+      ...booking, 
+      id, 
+      createdAt, 
+      status: booking.status || "pending",
+      paymentStatus: booking.paymentStatus || "pending",
+      quantity: booking.quantity || null,
+      qrCode: null,
+      additionalInfo: booking.additionalInfo || null
+    };
     this.bookings.set(id, newBooking);
     return newBooking;
   }
