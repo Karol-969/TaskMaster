@@ -40,7 +40,7 @@ export default function ArtistsPage() {
       name: "SUJITA DANGOL",
       genre: "Solo Artist",
       description: "Versatile vocalist performing in English, Nepali, and Hindi languages. Her repertoire spans multiple genres including Pop, Rock, and Classical music, creating the perfect atmosphere for various events.",
-      imageUrl: "artist/sujita_dangol.jpg",
+      imageUrl: "/artist/sujita_dangol.jpg",
       rating: 4.8,
       price: 25000
     },
@@ -49,7 +49,7 @@ export default function ArtistsPage() {
       name: "SAMIKSHYA DAHAL",
       genre: "Solo Artist",
       description: "Talented performer specializing in English and Nepali songs across Pop, Rock, Classical genres as well as original compositions. Her powerful vocals and stage presence make any event memorable.",
-      imageUrl: "artist/samikshya dahal.jpg",
+      imageUrl: "/artist/samikshya dahal.jpg",
       rating: 4.7,
       price: 25000
     },
@@ -58,7 +58,7 @@ export default function ArtistsPage() {
       name: "ASHIM THAPA",
       genre: "Solo Artist",
       description: "Versatile vocalist with expertise in English, Nepali, and Hindi music across Pop, Rock, and Classical genres. His dynamic performance style adapts perfectly to the mood of any event.",
-      imageUrl: "artist/ashim thapa.jpg",
+      imageUrl: "/artist/ashim thapa.jpg",
       rating: 4.7,
       price: 25000
     },
@@ -67,7 +67,7 @@ export default function ArtistsPage() {
       name: "PRABHAT MAHARJAN",
       genre: "Solo Artist",
       description: "Accomplished vocalist performing English, Nepali, and Hindi songs with emphasis on Pop and Classical styles. His smooth vocals create an elegant atmosphere for upscale events and gatherings.",
-      imageUrl: "artist/prabhat maharjan.jpg",
+      imageUrl: "/artist/prabhat maharjan.jpg",
       rating: 4.6,
       price: 25000
     },
@@ -344,9 +344,10 @@ export default function ArtistsPage() {
                   >
                     {/* Artist image */}
                     <div className="relative h-64 overflow-hidden">
-                      <div 
-                        className="absolute inset-0 bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700 ease-out"
-                        style={{ backgroundImage: `url(${artist.imageUrl})` }}
+                      <img 
+                        src={artist.imageUrl}
+                        alt={`${artist.name} - ${artist.genre}`}
+                        className="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700 ease-out"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent" />
                       
