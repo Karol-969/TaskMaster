@@ -146,7 +146,12 @@ export default function ArtistsPage() {
   ];
 
   // Extract all genres for filtering
-  const genres = [...new Set(allArtists.map(artist => artist.genre))];
+  // Use a simple object to track unique genres then convert to array
+  const genreMap: Record<string, boolean> = {};
+  allArtists.forEach(artist => {
+    if (artist.genre) genreMap[artist.genre] = true;
+  });
+  const genres = Object.keys(genreMap);
 
   // Filter artists based on search term and selected genre
   const filteredArtists = allArtists.filter(artist => {
@@ -395,8 +400,8 @@ export default function ArtistsPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
                 { icon: <Music className="h-8 w-8" />, name: "Musicians & Bands", count: 120 },
-                { icon: <Mic className="h-8 w-8" />, name: "Vocalists", count: 75 },
-                { icon: <Headphones className="h-8 w-8" />, name: "DJs", count: 50 },
+                { icon: <Music className="h-8 w-8" />, name: "Vocalists", count: 75 },
+                { icon: <Music className="h-8 w-8" />, name: "DJs", count: 50 },
                 { icon: <Users className="h-8 w-8" />, name: "Performers", count: 40 },
               ].map((category, i) => (
                 <motion.div
