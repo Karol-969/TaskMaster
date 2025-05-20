@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/reart_events
+      - PGHOST=db
+      - PGUSER=postgres
+      - PGPASSWORD=postgres
+      - PGDATABASE=reart_events
+      - PGPORT=5432
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15-alpine
+    ports:
+      - "5499:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=reart_events
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
