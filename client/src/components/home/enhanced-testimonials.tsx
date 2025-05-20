@@ -218,59 +218,116 @@ export function EnhancedTestimonials() {
         />
       ))}
       
-      {/* Animated particles - Quote marks with higher opacity */}
+      {/* Animated background elements - various testimonial-related icons with higher opacity */}
       <div className="absolute inset-0 overflow-hidden">
-        {Array.from({ length: 40 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-accent"
-            style={{ 
-              opacity: 0.2 + Math.random() * 0.4, // Higher opacity between 0.2 and 0.6
-              filter: `blur(${Math.random() * 2}px)`,
-              transform: `rotate(${Math.random() * 40 - 20}deg)`
-            }}
-            initial={{ 
-              y: "110vh", 
-              x: `${Math.random() * 100}%`,
-              scale: 0.5 + Math.random() * 1.5
-            }}
-            animate={{ 
-              y: "-10vh", 
-              opacity: [
-                0.2 + Math.random() * 0.4, 
-                0.4 + Math.random() * 0.4, 
-                0.2 + Math.random() * 0.3
-              ]
-            }}
-            transition={{
-              duration: 15 + Math.random() * 20,
-              repeat: Infinity,
-              delay: Math.random() * 30,
-              ease: "linear"
-            }}
-          >
-            {Math.random() > 0.5 ? (
-              <Quote size={15 + Math.random() * 40} strokeWidth={1.5} />
-            ) : (
-              <svg width={15 + Math.random() * 40} height={15 + Math.random() * 40} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path 
-                  d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" 
-                  stroke="currentColor" 
-                  strokeWidth="1.5" 
-                  fill="none"
-                  opacity="0.7"
+        {Array.from({ length: 60 }).map((_, i) => {
+          // Randomly select icon type
+          const iconType = Math.floor(Math.random() * 5); // 0-4: quote, star, message, heart, thumbs up
+          const opacityValue = 0.3 + Math.random() * 0.5; // Higher opacity between 0.3 and 0.8
+          const size = 15 + Math.random() * 45; // Varied sizes
+          const rotateAngle = Math.random() * 360; // Random rotation
+          const xPos = Math.random() * 100; // Position across entire width
+          const startY = 110 + Math.random() * 40; // Slight variance in starting position
+          
+          return (
+            <motion.div
+              key={i}
+              className="absolute text-accent"
+              style={{ 
+                opacity: opacityValue,
+                filter: `blur(${Math.random() * 1.5}px)`,
+                transform: `rotate(${rotateAngle}deg)`,
+                left: `${xPos}%`
+              }}
+              initial={{ 
+                y: `${startY}vh`, 
+                scale: 0.5 + Math.random() * 1.5
+              }}
+              animate={{ 
+                y: "-20vh", 
+                opacity: [
+                  opacityValue,
+                  Math.min(opacityValue + 0.2, 0.9),
+                  opacityValue * 0.8
+                ]
+              }}
+              transition={{
+                duration: 20 + Math.random() * 30,
+                repeat: Infinity,
+                delay: Math.random() * 40,
+                ease: "linear"
+              }}
+            >
+              {iconType === 0 && (
+                // Quote icon
+                <Quote 
+                  size={size} 
+                  strokeWidth={1.5} 
+                  fill={Math.random() > 0.7 ? "rgba(var(--accent-rgb), 0.1)" : "none"} 
                 />
-                <path 
-                  d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.004c1 0 .996 0 .996 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" 
-                  stroke="currentColor" 
-                  strokeWidth="1.5" 
-                  fill="none" 
-                  opacity="0.7"
+              )}
+              
+              {iconType === 1 && (
+                // Star icon with fill
+                <Star 
+                  size={size} 
+                  strokeWidth={1.5} 
+                  fill={Math.random() > 0.3 ? "rgba(var(--accent-rgb), 0.2)" : "none"}
                 />
-              </svg>
-            )}
-          </motion.div>
-        ))}
+              )}
+              
+              {iconType === 2 && (
+                // Message/comment icon
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path 
+                    d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z" 
+                    stroke="currentColor" 
+                    strokeWidth="1.5" 
+                    fill={Math.random() > 0.7 ? "rgba(var(--accent-rgb), 0.1)" : "none"}
+                  />
+                  <path 
+                    d="M8 9h.01M12 9h.01M16 9h.01M19 12c0 2.08-.5 3.71-1.38 4.93a8.98 8.98 0 0 1-11.24 0C5.5 15.71 5 14.08 5 12" 
+                    stroke="currentColor" 
+                    strokeWidth="1.5" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+              
+              {iconType === 3 && (
+                // Heart icon
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path 
+                    d="M2 8.5C2 5.5 4.5 3 7.5 3c1.35 0 2.597.5 3.5 1.38C11.903 3.5 13.15 3 14.5 3c3 0 5.5 2.5 5.5 5.5 0 2.315-.716 4.175-1.887 5.682-1.68 2.165-4.175 3.97-6.471 5.47a1.04 1.04 0 0 1-1.284 0c-2.297-1.5-4.79-3.305-6.471-5.47C2.716 12.675 2 10.815 2 8.5Z" 
+                    stroke="currentColor" 
+                    strokeWidth="1.5" 
+                    fill={Math.random() > 0.3 ? "rgba(var(--accent-rgb), 0.15)" : "none"}
+                  />
+                </svg>
+              )}
+              
+              {iconType === 4 && (
+                // Thumbs up icon
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path 
+                    d="M7 10v12M21 10c0-2.5-2-3-3-3h-6l1-5c0-1.5-1-2-2.5-1-1 1-3 6-3 6s-1 1-1 2" 
+                    stroke="currentColor" 
+                    strokeWidth="1.5" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  />
+                  <path 
+                    d="M3 10h4v12H3a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1Z" 
+                    stroke="currentColor" 
+                    strokeWidth="1.5" 
+                    fill={Math.random() > 0.6 ? "rgba(var(--accent-rgb), 0.15)" : "none"}
+                  />
+                </svg>
+              )}
+            </motion.div>
+          );
+        })}
       </div>
       
       {/* Main content */}
