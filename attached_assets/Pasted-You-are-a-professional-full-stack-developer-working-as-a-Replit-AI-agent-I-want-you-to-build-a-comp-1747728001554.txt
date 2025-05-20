@@ -1,0 +1,137 @@
+You are a professional full-stack developer working as a Replit AI agent. I want you to build a complete, fully functional, responsive website for a company named **Reart Events Pvt. Ltd.** in a single shot.
+
+---
+
+🧠 CONTEXT:
+
+Reart Events is an event management and booking platform that lets users book:
+- Artists
+- Influencers
+- Sound systems
+- Venues
+- Event tickets
+
+It also includes a dashboard for both users and admins, enabling tracking of bookings and analytics.
+
+---
+
+🎯 GOALS:
+
+- Elegant, minimalistic UI (colors: Black primary, White secondary, Dark Brown or Navy Blue accent)
+- Premium, smooth UX similar to Apple.com or Samsung.com
+- Fully responsive (desktop + mobile)
+- Easy to extend in future (for app version or additional booking types)
+
+---
+
+📦 TECH STACK REQUIREMENTS:
+
+- **Frontend:** React.js (or HTML/CSS/JavaScript if React not available)
+- **Backend:** Node.js + Express
+- **Database:** MongoDB (or SQLite if local setup)
+- **QR Code Generator:** For ticket confirmation
+- **Payment Mock API Integration:** (Can be simulated with a placeholder function)
+- **Authentication:** JWT or session-based login system
+- **Admin/User Roles**
+
+---
+
+🗂️ PAGES TO CREATE:
+
+1. **Homepage**
+   - Hero section with CTA
+   - About section with horizontal timeline
+   - Core Services (5 cards: Artist, Influencer, Sound, Ticket, Venue)
+   - Featured Artist Carousel
+   - Testimonials
+   - Footer with social links and newsletter
+
+2. **Book Artist Page**
+   - Artist list with filters (genre, location, etc.)
+   - Modal with performance videos, bio, and booking form
+   - Booking form: name, event date, budget, etc.
+   - Payment mock + email confirmation
+
+3. **Book Influencer Page**
+   - Same as Artist Page
+   - Include social media stats, campaign samples
+
+4. **Book Sound Page**
+   - Gallery of sound equipment
+   - Book bundle packages or custom requests
+   - File upload option
+
+5. **Book Tickets Page**
+   - Event listing with filter (date, type, price)
+   - Ticket booking form
+   - Payment and QR code generation
+   - Confirmation email with QR
+
+6. **Book Venue Page**
+   - Venue gallery with filters (capacity, type, amenities)
+   - Booking form with optional site visit
+   - Google Map integration
+
+7. **Contact Us Page**
+   - Contact form
+   - Google Map
+   - Optional FAQ or live chat toggle
+
+8. **User Dashboard (Post-login)**
+   - View booking history
+   - Download receipts
+   - QR code for ticket access
+   - Cancel/reschedule options
+
+9. **Admin Dashboard**
+   - View sales and analytics
+   - Add/update/delete listings
+   - Export data (CSV/PDF)
+   - QR scanner simulation for ticket validation
+
+---
+
+⚙️ GENERAL FUNCTIONAL REQUIREMENTS:
+
+- Responsive design
+- Clean sans-serif fonts (Poppins, Lato, or Montserrat)
+- Animation/scroll effect for services (like aristo-group.co.il)
+- Dark Mode Toggle
+- Search and filter on booking pages
+- Google Analytics integration (optional)
+- SEO-ready (meta tags, etc.)
+- CMS-ready backend (e.g., admin can update listings)
+- Email/QR confirmation for all bookings
+- Secure login/register flow
+
+---
+
+📌 OPTIONAL/FUTURE FEATURES (prepare structure if possible):
+
+- User Reviews & Ratings for services
+- Multi-language support (English, Nepali)
+- Push notifications
+- Blog section (for SEO)
+- Calendar sync (Google/Apple)
+
+---
+
+🎨 DESIGN REFERENCES:
+
+- Booking Flow: https://www.kgarira.com/
+- Tickets/Artists: https://ticketsanjal.com/
+- UI/UX Feel: https://www.apple.com/ & https://www.aristo-group.co.il/
+
+---
+
+✅ OUTPUT EXPECTATION:
+
+- Generate all code files in a single output (frontend + backend + DB schema)
+- Use dummy data and placeholder images
+- Provide basic seed data for services
+- Include README with local setup instructions
+- Make it runnable on Replit with a single "Run" button
+
+---
+
+Now go ahead and build this full working prototype from scratch in a single Replit project.
