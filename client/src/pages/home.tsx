@@ -12,6 +12,8 @@ import { UserProfileSection } from '@/components/home/user-profile-section';
 import { useAuth } from '@/providers/auth-provider';
 
 export default function Home() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <Layout>
       <Helmet>
@@ -22,14 +24,37 @@ export default function Home() {
         <meta property="og:type" content="website" />
       </Helmet>
       
-      <HeroSection />
-      <ServicesSection />
-      <AboutSection />
-      <JourneySection />
-      <FeaturedArtistsShowcase />
-      <ShareExperienceSection />
-      <ContactSection />
-      <NewsletterSection />
+      {isAuthenticated ? (
+        // Logged-in user layout with profile section
+        <div className="flex">
+          {/* Main content area */}
+          <div className="flex-1">
+            <HeroSection />
+            <ServicesSection />
+            <AboutSection />
+            <JourneySection />
+            <FeaturedArtistsShowcase />
+            <ShareExperienceSection />
+          </div>
+          
+          {/* Profile sidebar */}
+          <div className="w-80 min-h-screen bg-slate-900/50 p-6 sticky top-0">
+            <UserProfileSection />
+          </div>
+        </div>
+      ) : (
+        // Default layout for non-logged-in users
+        <>
+          <HeroSection />
+          <ServicesSection />
+          <AboutSection />
+          <JourneySection />
+          <FeaturedArtistsShowcase />
+          <ShareExperienceSection />
+          <ContactSection />
+          <NewsletterSection />
+        </>
+      )}
     </Layout>
   );
 }

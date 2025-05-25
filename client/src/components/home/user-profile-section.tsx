@@ -101,12 +101,12 @@ export function UserProfileSection() {
               </div>
             </div>
             
-            {user.phone && (
+            {(user as any).phone && (
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-gray-400" />
                 <div>
                   <p className="text-gray-400 text-xs uppercase tracking-wide">Phone</p>
-                  <p className="text-white font-medium">{user.phone}</p>
+                  <p className="text-white font-medium">{(user as any).phone}</p>
                 </div>
               </div>
             )}
