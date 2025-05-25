@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { Helmet } from 'react-helmet';
 import { Layout } from '@/components/layout/layout';
-import { AdminDashboard } from '@/components/dashboard/admin-dashboard';
+import { AdminDashboard } from '@/components/admin/admin-dashboard';
 import { useAuth } from '@/providers/auth-provider';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
