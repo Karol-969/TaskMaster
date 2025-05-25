@@ -86,16 +86,16 @@ export function Header() {
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
                 <div className="text-sm flex gap-1.5">
-                  <a href="/dashboard" className="text-sm font-medium hover:text-accent transition-colors cursor-pointer">
+                  <Link href="/dashboard" className="text-sm font-medium hover:text-accent transition-colors">
                     Dashboard
-                  </a>
+                  </Link>
                   
                   {user?.role === 'admin' && (
                     <>
                       <span className="text-muted-foreground">|</span>
-                      <a href="/admin" className="text-sm font-medium hover:text-accent transition-colors cursor-pointer">
-                        Admin Panel
-                      </a>
+                      <Link href="/admin" className="text-sm font-medium hover:text-accent transition-colors">
+                        Admin
+                      </Link>
                     </>
                   )}
                 </div>

@@ -21,21 +21,11 @@ import EventsPage from '@/pages/events-public';
 import LoginPage from '@/pages/login';
 import RegisterPage from '@/pages/register';
 import DashboardPage from '@/pages/dashboard';
-import AdminPage from '@/pages/admin-complete';
+import AdminPage from '@/pages/admin';
 
 function ProtectedRoute({ children, adminRequired = false }: { children: React.ReactNode, adminRequired?: boolean }) {
   const isAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
-  const userStr = sessionStorage.getItem('user');
-  let isAdmin = false;
-  
-  if (userStr) {
-    try {
-      const user = JSON.parse(userStr);
-      isAdmin = user.role === 'admin';
-    } catch (e) {
-      console.error('Error parsing user data:', e);
-    }
-  }
+  const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
   
   if (!isAuthenticated) {
     window.location.href = '/login';
