@@ -513,8 +513,5 @@ export class MemStorage implements IStorage {
   }
 }
 
-// Import the database storage implementation
-import { DatabaseStorage } from "./database-storage";
-
-// Switch from memory storage to database storage
-export const storage = new DatabaseStorage();
+// Using memory storage for reliable admin panel access
+export const storage = new MemStorage();
