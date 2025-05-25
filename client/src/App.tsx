@@ -21,7 +21,7 @@ import EventsPage from '@/pages/events-public';
 import LoginPage from '@/pages/login';
 import RegisterPage from '@/pages/register';
 import DashboardPage from '@/pages/dashboard';
-import AdminPage from '@/pages/admin-simple';
+import AdminPage from '@/pages/admin-complete';
 
 function ProtectedRoute({ children, adminRequired = false }: { children: React.ReactNode, adminRequired?: boolean }) {
   const isAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
