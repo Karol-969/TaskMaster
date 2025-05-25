@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Plus, Edit, Trash2, Search, User, Mail, Shield, UserCheck } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, User as UserIcon, Mail, Shield, UserCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import type { User } from '@shared/schema';
