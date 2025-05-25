@@ -13,7 +13,7 @@ export default function LoginPage() {
   // Redirect if already logged in
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard');
+      navigate('/');
     }
   }, [isAuthenticated, navigate]);
   

@@ -8,6 +8,8 @@ import { FeaturedArtistsShowcase } from '@/components/home/featured-artists-show
 import { ShareExperienceSection } from '@/components/home/share-experience-section';
 import { ContactSection } from '@/components/home/contact-section';
 import { NewsletterSection } from '@/components/home/newsletter-section';
+import { UserProfileSection } from '@/components/home/user-profile-section';
+import { useAuth } from '@/providers/auth-provider';
 
 export default function Home() {
   return (

@@ -70,7 +70,7 @@ export function AuthForm({ type }: AuthFormProps) {
         description: "You have successfully logged in.",
       });
       
-      navigate('/dashboard');
+      navigate('/');
     } catch (error) {
       toast({
         title: "Login failed",
@@ -87,12 +87,15 @@ export function AuthForm({ type }: AuthFormProps) {
       setIsSubmitting(true);
       await register(values);
       
+      // Auto-login after successful registration
+      await login({ username: values.username, password: values.password });
+      
       toast({
-        title: "Registration successful!",
-        description: "Please log in with your new account.",
+        title: "Welcome to Reart Events!",
+        description: "Your account has been created successfully.",
       });
       
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       toast({
         title: "Registration failed",
