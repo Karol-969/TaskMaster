@@ -25,7 +25,17 @@ import AdminPage from '@/pages/admin-complete';
 
 function ProtectedRoute({ children, adminRequired = false }: { children: React.ReactNode, adminRequired?: boolean }) {
   const isAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
-  const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+  const userStr = sessionStorage.getItem('user');
+  let isAdmin = false;
+  
+  if (userStr) {
+    try {
+      const user = JSON.parse(userStr);
+      isAdmin = user.role === 'admin';
+    } catch (e) {
+      console.error('Error parsing user data:', e);
+    }
+  }
   
   if (!isAuthenticated) {
     window.location.href = '/login';
