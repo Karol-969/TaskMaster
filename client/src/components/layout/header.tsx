@@ -18,6 +18,7 @@ export function Header() {
     { label: 'Home', href: '/' },
     { label: 'Artists', href: '/artists' },
     { label: 'Services', href: '/services' },
+    { label: 'Events', href: '/events' },
     { label: 'Contact', href: '/contact' },
   ];
 

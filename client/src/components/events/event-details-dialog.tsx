@@ -19,7 +19,7 @@ interface EventDetailsDialogProps {
 export function EventDetailsDialog({ open, onOpenChange, event }: EventDetailsDialogProps) {
   if (!event) return null;
 
-  const formatDate = (dateString: string) => {
+  const formatEventDate = (dateString: string) => {
     return format(new Date(dateString), 'EEEE, MMMM d, yyyy \'at\' h:mm a');
   };
 
@@ -53,7 +53,7 @@ export function EventDetailsDialog({ open, onOpenChange, event }: EventDetailsDi
                 <Calendar className="h-5 w-5 text-blue-400 mt-1" />
                 <div>
                   <p className="text-white font-medium">Event Date</p>
-                  <p className="text-gray-300">{formatDate(event.date)}</p>
+                  <p className="text-gray-300">{formatEventDate(event.date)}</p>
                 </div>
               </div>
 

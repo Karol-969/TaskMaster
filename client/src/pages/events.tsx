@@ -133,7 +133,7 @@ export default function EventsPage() {
             </motion.div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {events.map((event, index) => (
+              {events.map((event: Event, index: number) => (
                 <motion.div
                   key={event.id}
                   initial={{ opacity: 0, y: 20 }}
