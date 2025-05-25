@@ -5,13 +5,8 @@
 @tailwind utilities;
 
 :root {
-  --accent-rgb: 234, 179, 8;  /* Golden yellow accent */
+  --accent-rgb: 240, 180, 40;
   --accent: rgb(var(--accent-rgb));
-  --purple-primary: 139, 69, 195;  /* Deep purple */
-  --purple-secondary: 168, 85, 247;  /* Medium purple */
-  --purple-light: 196, 181, 253;  /* Light purple */
-  --gold-primary: 234, 179, 8;  /* Gold yellow */
-  --gold-secondary: 245, 158, 11;  /* Amber */
 }
 
 /* Custom animations for music elements */
@@ -42,72 +37,72 @@
   --card-foreground: 20 14.3% 4.1%;
   --border: 20 5.9% 90%;
   --input: 20 5.9% 90%;
-  --primary: 270 50% 52%; /* Deep purple primary */
+  --primary: 0 0% 0%; /* Black primary color */
   --primary-foreground: 0 0% 100%;
   --secondary: 0 0% 100%; /* White secondary color */
   --secondary-foreground: 0 0% 0%;
-  --accent: 45 93% 47%; /* Golden yellow accent */
-  --accent-foreground: 0 0% 0%;
+  --accent: 220 70% 20%; /* Dark navy blue accent */
+  --accent-foreground: 0 0% 100%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 60 9.1% 97.8%;
-  --ring: 270 50% 52%;
+  --ring: 20 14.3% 4.1%;
   --radius: 0.5rem;
   
   /* Chart colors */
-  --chart-1: 270 50% 52%;
-  --chart-2: 280 60% 58%;
-  --chart-3: 290 55% 62%;
-  --chart-4: 45 93% 47%;
-  --chart-5: 38 92% 50%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 180 70% 50%;
+  --chart-3: 120 70% 50%;
+  --chart-4: 60 70% 50%;
+  --chart-5: 30 70% 50%;
   
   /* Sidebar colors */
-  --sidebar-background: 270 50% 8%;
+  --sidebar-background: 0 0% 0%;
   --sidebar-foreground: 0 0% 100%;
-  --sidebar-primary: 270 50% 52%;
+  --sidebar-primary: 220 70% 20%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 45 93% 47%;
-  --sidebar-accent-foreground: 0 0% 0%;
-  --sidebar-border: 270 30% 20%;
-  --sidebar-ring: 270 40% 40%;
+  --sidebar-accent: 220 70% 40%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 0 0% 20%;
+  --sidebar-ring: 0 0% 40%;
 }
 
 .dark {
-  --background: 270 30% 5%;
+  --background: 240 10% 3.9%;
   --foreground: 0 0% 98%;
-  --muted: 270 20% 15%;
-  --muted-foreground: 270 10% 65%;
-  --popover: 270 30% 8%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
   --popover-foreground: 0 0% 98%;
-  --card: 270 25% 8%;
+  --card: 240 10% 3.9%;
   --card-foreground: 0 0% 98%;
-  --border: 270 15% 20%;
-  --input: 270 15% 20%;
-  --primary: 270 50% 62%; /* Brighter purple for dark mode */
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --primary: 0 0% 0%; /* Black primary remains the same */
   --primary-foreground: 0 0% 100%;
   --secondary: 0 0% 100%; /* White secondary remains the same */
   --secondary-foreground: 0 0% 0%;
-  --accent: 45 93% 57%; /* Brighter golden yellow for dark mode */
-  --accent-foreground: 0 0% 0%;
+  --accent: 220 70% 40%; /* Brighter navy blue accent for dark mode */
+  --accent-foreground: 0 0% 100%;
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 270 50% 70%;
+  --ring: 240 4.9% 83.9%;
   
-  /* Chart colors for dark mode */
-  --chart-1: 270 50% 62%;
-  --chart-2: 280 60% 68%;
-  --chart-3: 290 55% 72%;
-  --chart-4: 45 93% 57%;
-  --chart-5: 38 92% 60%;
+  /* Chart colors */
+  --chart-1: 220 80% 60%;
+  --chart-2: 180 80% 60%;
+  --chart-3: 120 80% 60%;
+  --chart-4: 60 80% 60%;
+  --chart-5: 30 80% 60%;
   
-  /* Sidebar colors for dark mode */
-  --sidebar-background: 270 40% 3%;
+  /* Sidebar colors remain the same in dark mode */
+  --sidebar-background: 0 0% 0%;
   --sidebar-foreground: 0 0% 100%;
-  --sidebar-primary: 270 50% 62%;
+  --sidebar-primary: 220 70% 20%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 45 93% 57%;
-  --sidebar-accent-foreground: 0 0% 0%;
-  --sidebar-border: 270 30% 15%;
-  --sidebar-ring: 270 40% 50%;
+  --sidebar-accent: 220 70% 40%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 0 0% 20%;
+  --sidebar-ring: 0 0% 40%;
 }
 
 @layer base {

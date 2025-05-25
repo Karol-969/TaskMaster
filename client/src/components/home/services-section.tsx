@@ -30,7 +30,7 @@ function ServiceCard({ title, description, icon, image, linkTo, index }: Service
     >
       {/* Gradient overlay with animated pulse */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent z-10 
-                    group-hover:via-purple-900/30 transition-all duration-700"></div>
+                    group-hover:via-blue-900/30 transition-all duration-700"></div>
       
       {/* Animated particles effect on hover */}
       {isHovered && (
@@ -40,10 +40,10 @@ function ServiceCard({ title, description, icon, image, linkTo, index }: Service
           animate={{ opacity: 0.3 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-          <div className="absolute top-1/3 left-1/2 w-3 h-3 bg-purple-300 rounded-full animate-ping"></div>
-          <div className="absolute top-2/3 left-1/3 w-2 h-2 bg-purple-500 rounded-full animate-ping"></div>
-          <div className="absolute top-1/2 left-3/4 w-2 h-2 bg-purple-200 rounded-full animate-pulse"></div>
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+          <div className="absolute top-1/3 left-1/2 w-3 h-3 bg-blue-300 rounded-full animate-ping"></div>
+          <div className="absolute top-2/3 left-1/3 w-2 h-2 bg-blue-500 rounded-full animate-ping"></div>
+          <div className="absolute top-1/2 left-3/4 w-2 h-2 bg-blue-200 rounded-full animate-pulse"></div>
         </motion.div>
       )}
       
@@ -57,11 +57,11 @@ function ServiceCard({ title, description, icon, image, linkTo, index }: Service
       
       {/* Glowing icon with animation */}
       <motion.div 
-        className="absolute top-6 right-6 z-20 rounded-full p-3 bg-purple-900/50 backdrop-blur-sm shadow-lg"
+        className="absolute top-6 right-6 z-20 rounded-full p-3 bg-blue-900/50 backdrop-blur-sm shadow-lg"
         animate={{ 
           boxShadow: isHovered 
-            ? '0 0 25px 5px rgba(234, 179, 8, 0.6), 0 0 10px 2px rgba(234, 179, 8, 0.4) inset' 
-            : '0 0 0px 0px rgba(234, 179, 8, 0)'
+            ? '0 0 25px 5px rgba(59, 130, 246, 0.6), 0 0 10px 2px rgba(59, 130, 246, 0.4) inset' 
+            : '0 0 0px 0px rgba(59, 130, 246, 0)'
         }}
         transition={{ duration: 0.5 }}
       >
@@ -77,7 +77,7 @@ function ServiceCard({ title, description, icon, image, linkTo, index }: Service
             repeatDelay: 3
           }}
         >
-          <div className="text-yellow-300">{icon}</div>
+          <div className="text-blue-300">{icon}</div>
         </motion.div>
       </motion.div>
       
@@ -112,8 +112,8 @@ function ServiceCard({ title, description, icon, image, linkTo, index }: Service
           <Link href={linkTo}>
             <div className="block w-full">
               <motion.button 
-                className="w-full py-3 bg-gradient-to-r from-yellow-500 to-amber-400 text-black rounded-lg font-medium
-                          shadow-lg shadow-yellow-500/20 hover:shadow-yellow-500/40 transition-all"
+                className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-lg font-medium
+                          shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -160,7 +160,7 @@ export function ServicesSection() {
   ];
 
   return (
-    <section id="services" className="py-24 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-600">
+    <section id="services" className="py-24 bg-gradient-to-b from-black to-slate-900">
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-16"
@@ -168,10 +168,10 @@ export function ServicesSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-amber-500">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
             Our Premium Services
           </h2>
-          <p className="text-lg text-purple-100 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Elevate your events with our comprehensive suite of services designed to create unforgettable experiences.
           </p>
         </motion.div>
@@ -188,8 +188,8 @@ export function ServicesSection() {
       </div>
       
       {/* Animated background elements */}
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-yellow-400/15 rounded-full blur-3xl opacity-30 animate-pulse"></div>
-      <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-purple-500/15 rounded-full blur-3xl opacity-30 animate-pulse" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
     </section>
   );
 }
