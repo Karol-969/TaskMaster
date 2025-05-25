@@ -133,5 +133,31 @@ export async function deleteArtist(id: number) {
   queryClient.invalidateQueries({ queryKey: ["/api/artists"] });
 }
 
-// Similar CRUD functions for other entities (influencers, sound systems, venues, events)
-// Omitting them for brevity, as they follow the same pattern
+// Event API functions
+export async function createEvent(eventData: any) {
+  const res = await apiRequest("POST", "/api/events", eventData);
+  const event = await res.json();
+  
+  // Invalidate events query to refresh the list
+  queryClient.invalidateQueries({ queryKey: ["/api/events"] });
+  
+  return event;
+}
+
+export async function updateEvent(id: number, eventData: any) {
+  const res = await apiRequest("PUT", `/api/events/${id}`, eventData);
+  const event = await res.json();
+  
+  // Invalidate queries to refresh the data
+  queryClient.invalidateQueries({ queryKey: ["/api/events"] });
+  queryClient.invalidateQueries({ queryKey: [`/api/events/${id}`] });
+  
+  return event;
+}
+
+export async function deleteEvent(id: number) {
+  await apiRequest("DELETE", `/api/events/${id}`);
+  
+  // Invalidate events query to refresh the list
+  queryClient.invalidateQueries({ queryKey: ["/api/events"] });
+}

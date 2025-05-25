@@ -17,6 +17,7 @@ import MonthlyCalendarService from '@/pages/services/monthly-calendar';
 import EventConceptsService from '@/pages/services/event-concepts';
 import PromotionSponsorshipsService from '@/pages/services/promotion-sponsorships';
 import ContactPage from '@/pages/contact';
+import EventsPage from '@/pages/events';
 import LoginPage from '@/pages/login';
 import RegisterPage from '@/pages/register';
 import DashboardPage from '@/pages/dashboard';
@@ -51,6 +52,11 @@ function Router() {
       <Route path="/services/event-concepts" component={EventConceptsService} />
       <Route path="/services/promotion-sponsorships" component={PromotionSponsorshipsService} />
       <Route path="/contact" component={ContactPage} />
+      <Route path="/events">
+        <ProtectedRoute adminRequired>
+          <EventsPage />
+        </ProtectedRoute>
+      </Route>
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />
       <Route path="/dashboard">
