@@ -62,15 +62,13 @@ export default function AdminPage() {
   }
   
   return (
-    <Layout>
+    <div className="min-h-screen bg-black">
       <Helmet>
         <title>Admin Dashboard - Reart Events</title>
         <meta name="description" content="Admin dashboard for managing bookings, users, and listings on Reart Events platform." />
       </Helmet>
       
-      <div className="container mx-auto px-4 py-10">
-        <AdminDashboard />
-      </div>
-    </Layout>
+      <AdminDashboard />
+    </div>
   );
 }
