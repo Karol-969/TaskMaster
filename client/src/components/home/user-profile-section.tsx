@@ -141,14 +141,7 @@ export function UserProfileSection() {
             </Button>
           </Link>
           
-          {user.role === 'admin' && (
-            <Link href="/admin">
-              <Button variant="outline" className="w-full justify-start border-slate-600 hover:bg-slate-700">
-                <User className="h-4 w-4 mr-2" />
-                Admin Panel
-              </Button>
-            </Link>
-          )}
+
           
           <Button 
             variant="outline" 
