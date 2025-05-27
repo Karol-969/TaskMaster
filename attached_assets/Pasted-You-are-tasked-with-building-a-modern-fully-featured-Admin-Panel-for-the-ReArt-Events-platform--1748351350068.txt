@@ -1,0 +1,98 @@
+You are tasked with building a modern, fully-featured **Admin Panel** for the ReArt Events platform. This panel should be entirely **separate from the regular user-facing UI** and should serve as the control hub for administrators. You are enhancing the existing minimal admin functionality into a complete, scalable, and secure admin system.
+
+---
+
+🧠 Platform Stack:
+- Frontend: React 18 + TypeScript + Vite + Tailwind CSS + shadcn/ui
+- Backend: Express.js + TypeScript
+- Database: PostgreSQL using Drizzle ORM
+
+---
+
+🧩 Core Requirements:
+
+1. **Separate Admin Panel**:
+   - Separate login page for Admins (`/admin/login`)
+   - Authentication guarded admin routes (`/admin/*`)
+   - Role-based access (Admin, Artist, Venue Manager, User)
+
+2. **Admin Dashboard Features**:
+   - Real-time KPIs (Total Revenue, Active Users, Bookings)
+   - Recent activity feed
+   - Charts (Recharts or Chart.js): revenue trends, user growth, artist earnings
+   - Quick action cards for creating events, approving artists, etc.
+
+3. **User Management**:
+   - CRUD users
+   - Bulk user actions (delete, email, export)
+   - Filter by roles/status
+   - View login activity and sessions
+   - Verification flow (approve/reject)
+   - Import/export via CSV
+
+4. **Artist Management**:
+   - CRUD artists with image/video portfolio
+   - Verify & approve artists
+   - View bookings, earnings, ratings
+   - Calendar for artist availability
+   - Bulk operations (approve/reject, promote)
+
+5. **Event Management**:
+   - Create/edit/delete events with media upload
+   - View events calendar
+   - Ticket generator with QR code support
+   - Event promotion tools
+   - Notification triggers (email/SMS)
+
+6. **Booking Management**:
+   - Booking list with status filter (confirmed, pending, cancelled)
+   - Customer messages log
+   - Refund/partial refund system
+   - Calendar view for all bookings
+   - Conflict checker for double-bookings
+
+7. **Venue Management**:
+   - CRUD venues
+   - Upload floor plans and set capacity
+   - Link with event system
+   - Amenities, pricing, availability
+
+8. **Sound Systems & Equipment**:
+   - Equipment inventory with status
+   - Track rentals and returns
+   - Maintenance logs
+   - Pricing scheduler
+
+9. **Financial Management**:
+   - Total revenue, artist payout tracking
+   - Commission configuration
+   - Stripe/PayPal integration
+   - Tax documentation tools
+   - Automated invoicing and receipts
+
+10. **Content Management**:
+    - Moderation tools for testimonials
+    - Blog and news CRUD
+    - Media library (images/videos/files)
+    - SEO meta manager
+
+11. **Communication Center**:
+    - Mass email (SendGrid/Mailgun)
+    - SMS campaigns (Twilio)
+    - In-app chat and notifications
+    - Support ticket system
+    - Notification templates with analytics
+
+12. **Analytics & Reports**:
+    - Business Intelligence dashboard
+    - Custom report builder (PDF, Excel export)
+    - Predictive analytics (demand, revenue)
+    - A/B test tracking
+    - Google Analytics/Meta Pixel integration optional
+
+13. **System Management**:
+    - Site settings
+    - Role & permission editor
+    - Database backup trigger
+    - API monitoring & rate limit logs
+    - Error logs viewer (console + alert email)

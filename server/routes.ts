@@ -63,6 +63,101 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  
+  // Admin Authentication Routes
+  app.post('/api/admin/auth/login', async (req: Request, res: Response) => {
+    try {
+      const { username, password } = req.body;
+      
+      // Check credentials against database
+      const user = await storage.getUserByUsername(username);
+      
+      if (!user || user.password !== password || user.role !== 'admin') {
+        return res.status(401).json({ message: 'Invalid admin credentials' });
+      }
+      
+      // Create admin session
+      (req.session as any).adminId = user.id;
+      (req.session as any).isAdmin = true;
+      
+      res.json({ 
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role
+        }
+      });
+    } catch (error) {
+      console.error('Admin login error:', error);
+      res.status(500).json({ message: 'Server error during admin authentication' });
+    }
+  });
+
+  app.post('/api/admin/auth/logout', (req: Request, res: Response) => {
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Could not log out' });
+      }
+      res.json({ message: 'Admin logged out successfully' });
+    });
+  });
+
+  // Admin Dashboard Stats
+  app.get('/api/admin/dashboard/stats', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const totalUsers = await storage.getAllUsers();
+      const totalArtists = await storage.getAllArtists();
+      const totalEvents = await storage.getAllEvents();
+      const totalBookings = await storage.getAllBookings();
+      
+      // Calculate revenue from bookings (assuming bookings have a price field)
+      const totalRevenue = totalBookings.reduce((sum, booking) => sum + (booking.price || 0), 0);
+      
+      res.json({
+        totalRevenue: `$${totalRevenue.toLocaleString()}`,
+        activeUsers: totalUsers.length,
+        activeEvents: totalEvents.length,
+        verifiedArtists: totalArtists.filter(artist => artist.verified).length
+      });
+    } catch (error) {
+      console.error('Error fetching dashboard stats:', error);
+      res.status(500).json({ message: 'Error fetching dashboard statistics' });
+    }
+  });
+
+  // Admin Dashboard Activity
+  app.get('/api/admin/dashboard/activity', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      // Get recent bookings, events, and user activities
+      const recentBookings = await storage.getAllBookings();
+      const recentEvents = await storage.getAllEvents();
+      
+      const activities = [
+        ...recentBookings.slice(-5).map(booking => ({
+          id: `booking-${booking.id}`,
+          type: 'booking',
+          message: `New booking for event ID ${booking.eventId}`,
+          user: `User ${booking.userId}`,
+          timestamp: new Date(booking.createdAt || Date.now()).toLocaleTimeString(),
+          status: 'success'
+        })),
+        ...recentEvents.slice(-3).map(event => ({
+          id: `event-${event.id}`,
+          type: 'event',
+          message: `New event "${event.title}" created`,
+          user: 'Admin',
+          timestamp: new Date(event.createdAt || Date.now()).toLocaleTimeString(),
+          status: 'info'
+        }))
+      ].slice(-8); // Get last 8 activities
+      
+      res.json(activities);
+    } catch (error) {
+      console.error('Error fetching dashboard activity:', error);
+      res.status(500).json({ message: 'Error fetching dashboard activity' });
+    }
+  });
   // Add express session with simple configuration to start
   app.use(session({
     cookie: { maxAge: 86400000 }, // 1 day
