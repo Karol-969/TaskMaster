@@ -18,9 +18,8 @@ import EventConceptsService from '@/pages/services/event-concepts';
 import PromotionSponsorshipsService from '@/pages/services/promotion-sponsorships';
 import ContactPage from '@/pages/contact';
 import EventsPage from '@/pages/events-public';
-import AdminDashboard from "./pages/admin-dashboard";
-import AdminLogin from "./pages/admin-login";
-import AdminSimple from "./pages/admin-simple";
+import AdminLogin from '@/pages/admin/login';
+import AdminDashboard from '@/pages/admin/dashboard';
 
 
 
@@ -38,9 +37,8 @@ function Router() {
       <Route path="/services/promotion-sponsorships" component={PromotionSponsorshipsService} />
       <Route path="/contact" component={ContactPage} />
       <Route path="/events" component={EventsPage} />
-      <Route path="/admin-login" component={AdminLogin} />
-      <Route path="/admin-dashboard" component={AdminDashboard} />
-      <Route path="/admin-simple" component={AdminSimple} />
+      <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
   );

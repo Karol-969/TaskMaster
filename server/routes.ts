@@ -111,14 +111,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const totalEvents = await storage.getAllEvents();
       const totalBookings = await storage.getAllBookings();
       
-      // Calculate revenue from bookings (assuming bookings have a price field)
-      const totalRevenue = totalBookings.reduce((sum, booking) => sum + (booking.price || 0), 0);
+      // Calculate revenue from bookings using totalAmount field
+      const totalRevenue = totalBookings.reduce((sum, booking) => sum + (booking.totalAmount || 0), 0);
       
       res.json({
         totalRevenue: `$${totalRevenue.toLocaleString()}`,
         activeUsers: totalUsers.length,
         activeEvents: totalEvents.length,
-        verifiedArtists: totalArtists.filter(artist => artist.verified).length
+        verifiedArtists: totalArtists.length // Using total artists for now
       });
     } catch (error) {
       console.error('Error fetching dashboard stats:', error);
@@ -137,7 +137,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...recentBookings.slice(-5).map(booking => ({
           id: `booking-${booking.id}`,
           type: 'booking',
-          message: `New booking for event ID ${booking.eventId}`,
+          message: `New booking for item ID ${booking.itemId}`,
           user: `User ${booking.userId}`,
           timestamp: new Date(booking.createdAt || Date.now()).toLocaleTimeString(),
           status: 'success'
@@ -145,9 +145,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...recentEvents.slice(-3).map(event => ({
           id: `event-${event.id}`,
           type: 'event',
-          message: `New event "${event.title}" created`,
+          message: `New event "${event.name}" created`,
           user: 'Admin',
-          timestamp: new Date(event.createdAt || Date.now()).toLocaleTimeString(),
+          timestamp: new Date(event.date || Date.now()).toLocaleTimeString(),
           status: 'info'
         }))
       ].slice(-8); // Get last 8 activities
