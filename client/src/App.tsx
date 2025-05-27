@@ -18,7 +18,7 @@ import EventConceptsService from '@/pages/services/event-concepts';
 import PromotionSponsorshipsService from '@/pages/services/promotion-sponsorships';
 import ContactPage from '@/pages/contact';
 import EventsPage from '@/pages/events-public';
-import AdminDashboard from '@/pages/admin-simple';
+
 
 
 
@@ -35,7 +35,6 @@ function Router() {
       <Route path="/services/promotion-sponsorships" component={PromotionSponsorshipsService} />
       <Route path="/contact" component={ContactPage} />
       <Route path="/events" component={EventsPage} />
-      <Route path="/admin-dashboard" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
   );
