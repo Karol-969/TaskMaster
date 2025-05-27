@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { Helmet } from 'react-helmet';
-import { Layout } from '@/components/layout/layout';
 import { AdminDashboard } from '@/components/admin/admin-dashboard';
 import { useAuth } from '@/providers/auth-provider';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -18,54 +17,49 @@ export default function AdminPage() {
       if (!isAuthenticated) {
         navigate('/login');
       } else if (!isAdmin) {
-        navigate('/dashboard');
+        navigate('/');
       }
     }
   }, [isLoading, isAuthenticated, isAdmin, navigate]);
   
   if (isLoading) {
     return (
-      <Layout>
-        <div className="container mx-auto px-4 py-10">
-          <div className="space-y-8">
-            <div className="flex justify-between items-center">
-              <Skeleton className="h-10 w-48" />
-              <Skeleton className="h-10 w-32" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Skeleton className="h-40 w-full" />
-              <Skeleton className="h-40 w-full" />
-              <Skeleton className="h-40 w-full" />
-              <Skeleton className="h-40 w-full" />
-            </div>
-            <Skeleton className="h-96 w-full" />
+      <div className="min-h-screen bg-black p-6">
+        <div className="max-w-7xl mx-auto space-y-8">
+          <div className="flex justify-between items-center">
+            <Skeleton className="h-12 w-64 bg-slate-800" />
+            <Skeleton className="h-10 w-32 bg-slate-800" />
           </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[...Array(4)].map((_, i) => (
+              <Skeleton key={i} className="h-32 w-full bg-slate-800" />
+            ))}
+          </div>
+          <Skeleton className="h-96 w-full bg-slate-800" />
         </div>
-      </Layout>
+      </div>
     );
   }
   
   if (!isAdmin) {
     return (
-      <Layout>
-        <div className="container mx-auto px-4 py-10">
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Access Denied</AlertTitle>
-            <AlertDescription>
-              You don't have permission to access the admin dashboard.
-            </AlertDescription>
-          </Alert>
-        </div>
-      </Layout>
+      <div className="min-h-screen bg-black flex items-center justify-center p-6">
+        <Alert variant="destructive" className="max-w-md">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Access Denied</AlertTitle>
+          <AlertDescription>
+            You don't have permission to access the admin panel.
+          </AlertDescription>
+        </Alert>
+      </div>
     );
   }
   
   return (
     <div className="min-h-screen bg-black">
       <Helmet>
-        <title>Admin Dashboard - Reart Events</title>
-        <meta name="description" content="Admin dashboard for managing bookings, users, and listings on Reart Events platform." />
+        <title>ReArt Events - Admin Panel</title>
+        <meta name="description" content="Comprehensive admin panel for managing the ReArt Events platform." />
       </Helmet>
       
       <AdminDashboard />
