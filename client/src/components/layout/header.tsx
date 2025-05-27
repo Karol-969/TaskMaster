@@ -93,7 +93,7 @@ export function Header() {
                   {user?.role === 'admin' && (
                     <>
                       <span className="text-muted-foreground">|</span>
-                      <Link href="/admin" className="text-sm font-medium hover:text-accent transition-colors">
+                      <Link href="/admin-dashboard" className="text-sm font-medium hover:text-accent transition-colors">
                         Admin
                       </Link>
                     </>
