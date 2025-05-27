@@ -84,10 +84,25 @@ export default function AdminArtistsPage() {
   // Create artist mutation
   const createArtistMutation = useMutation({
     mutationFn: async (artistData: typeof artistForm) => {
+      // Transform the data to match database schema
+      const dbData = {
+        name: artistData.name,
+        genre: artistData.genre,
+        description: artistData.description,
+        imageUrl: artistData.imageUrl,
+        contactEmail: artistData.contactEmail,
+        phone: artistData.phone,
+        location: artistData.location,
+        bio: artistData.bio,
+        languages: artistData.languages,
+        musicStyle: artistData.musicStyle,
+        availability: artistData.availability
+      };
+      
       const response = await fetch('/api/admin/artists', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(artistData)
+        body: JSON.stringify(dbData)
       });
       if (!response.ok) throw new Error('Failed to create artist');
       return response.json();
@@ -465,8 +480,8 @@ export default function AdminArtistsPage() {
                 <Input
                   id="email"
                   type="email"
-                  value={artistForm.email}
-                  onChange={(e) => setArtistForm({ ...artistForm, email: e.target.value })}
+                  value={artistForm.contactEmail}
+                  onChange={(e) => setArtistForm({ ...artistForm, contactEmail: e.target.value })}
                   placeholder="artist@example.com"
                 />
               </div>
@@ -537,12 +552,12 @@ export default function AdminArtistsPage() {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="experience">Experience</Label>
+                <Label htmlFor="languages">Languages</Label>
                 <Input
-                  id="experience"
-                  value={artistForm.experience}
-                  onChange={(e) => setArtistForm({ ...artistForm, experience: e.target.value })}
-                  placeholder="5+ years"
+                  id="languages"
+                  value={artistForm.languages}
+                  onChange={(e) => setArtistForm({ ...artistForm, languages: e.target.value })}
+                  placeholder="English, Nepali, Hindi"
                 />
               </div>
               <div className="col-span-2">
@@ -555,13 +570,13 @@ export default function AdminArtistsPage() {
                   rows={3}
                 />
               </div>
-              <div className="col-span-2">
-                <Label htmlFor="specialties">Specialties</Label>
+              <div>
+                <Label htmlFor="musicStyle">Music Style</Label>
                 <Input
-                  id="specialties"
-                  value={artistForm.specialties}
-                  onChange={(e) => setArtistForm({ ...artistForm, specialties: e.target.value })}
-                  placeholder="Wedding music, Corporate events, Concerts"
+                  id="musicStyle"
+                  value={artistForm.musicStyle}
+                  onChange={(e) => setArtistForm({ ...artistForm, musicStyle: e.target.value })}
+                  placeholder="Classical, Folk, Rock, Jazz"
                 />
               </div>
             </div>
