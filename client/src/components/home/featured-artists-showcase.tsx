@@ -330,7 +330,7 @@ export function FeaturedArtistsShowcase() {
                       
                       <div className="flex items-center justify-between">
                         <span className="text-lg md:text-xl text-white font-semibold">
-                          ${featuredArtists[activeArtist]?.price.toLocaleString()}
+                          ${featuredArtists[activeArtist]?.price ? Number(featuredArtists[activeArtist].price).toLocaleString() : '0'}
                           <span className="text-gray-400 text-sm"> per event</span>
                         </span>
                         
