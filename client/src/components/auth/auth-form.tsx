@@ -70,9 +70,10 @@ export function AuthForm({ type }: AuthFormProps) {
         description: "You have successfully logged in.",
       });
       
-      // Check if user is admin and redirect accordingly
-      if (response && response.role === 'admin') {
-        navigate('/admin-dashboard');
+      // Always check the role and redirect appropriately
+      if (response?.role === 'admin') {
+        // Force redirect to admin dashboard for admin users
+        window.location.href = '/admin-dashboard';
       } else {
         navigate('/');
       }

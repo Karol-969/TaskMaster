@@ -26,6 +26,15 @@ interface User {
 export async function login(credentials: LoginCredentials): Promise<User> {
   const res = await apiRequest("POST", "/api/auth/login", credentials);
   const user = await res.json();
+  
+  // Store authentication status
+  sessionStorage.setItem('isAuthenticated', 'true');
+  if (user.role === 'admin') {
+    sessionStorage.setItem('isAdmin', 'true');
+  } else {
+    sessionStorage.removeItem('isAdmin');
+  }
+  
   queryClient.setQueryData(["/api/auth/me"], user);
   return user;
 }
@@ -37,6 +46,11 @@ export async function register(data: RegisterData): Promise<User> {
 
 export async function logout(): Promise<void> {
   await apiRequest("POST", "/api/auth/logout");
+  
+  // Clear authentication status
+  sessionStorage.removeItem('isAuthenticated');
+  sessionStorage.removeItem('isAdmin');
+  
   queryClient.setQueryData(["/api/auth/me"], null);
 }
 
