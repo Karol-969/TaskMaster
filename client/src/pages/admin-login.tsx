@@ -58,8 +58,8 @@ export default function AdminLoginPage() {
         description: "You have successfully logged into the admin panel.",
       });
       
-      // Redirect to admin dashboard
-      navigate('/admin/dashboard');
+      // Redirect to dedicated full-screen admin dashboard
+      window.location.href = '/admin/dashboard';
       
     } catch (error) {
       toast({

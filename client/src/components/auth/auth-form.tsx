@@ -70,9 +70,9 @@ export function AuthForm({ type }: AuthFormProps) {
         description: "You have successfully logged in.",
       });
       
-      // Redirect admin users to the dedicated admin panel
+      // Redirect admin users to the dedicated admin dashboard
       if (userData.role === 'admin') {
-        navigate('/admin');
+        navigate('/admin/dashboard');
       } else {
         navigate('/');
       }

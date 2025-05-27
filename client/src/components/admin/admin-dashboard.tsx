@@ -135,9 +135,9 @@ export function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950 overflow-hidden">
       {/* Admin Header */}
-      <header className="bg-black/50 backdrop-blur-md border-b border-slate-800 px-6 py-4">
+      <header className="bg-black/50 backdrop-blur-md border-b border-slate-800 px-6 py-4 fixed top-0 left-0 right-0 z-50">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
@@ -199,9 +199,9 @@ export function AdminDashboard() {
       </header>
 
       {/* Admin Content */}
-      <div className="flex">
+      <div className="flex pt-20">
         {/* Sidebar Navigation */}
-        <aside className="w-80 bg-black/30 backdrop-blur-sm border-r border-slate-800 h-[calc(100vh-80px)] overflow-y-auto">
+        <aside className="w-80 bg-black/30 backdrop-blur-sm border-r border-slate-800 h-[calc(100vh-80px)] overflow-y-auto fixed left-0 top-20">
           <div className="p-6">
             <h2 className="text-lg font-semibold text-white mb-4">Management</h2>
             <nav className="space-y-2">
@@ -232,7 +232,7 @@ export function AdminDashboard() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 h-[calc(100vh-80px)] overflow-y-auto">
+        <main className="flex-1 ml-80 p-6 h-[calc(100vh-80px)] overflow-y-auto">
           <div className="max-w-7xl mx-auto">
             {/* Active Tab Header */}
             <div className="mb-6">
