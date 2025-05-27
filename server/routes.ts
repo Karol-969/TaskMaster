@@ -49,11 +49,25 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
 
 // Admin middleware
 const adminMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.user || req.user.role !== "admin") {
-    return res.status(403).json({ message: "Admin access required" });
+  try {
+    const session = req.session as SessionData;
+    
+    if (!session.userId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+    
+    const user = await storage.getUser(session.userId);
+    
+    if (!user || user.role !== "admin") {
+      return res.status(403).json({ message: "Admin access required" });
+    }
+    
+    req.user = user;
+    next();
+  } catch (error) {
+    console.error('Admin middleware error:', error);
+    res.status(500).json({ message: "Authentication error" });
   }
-  
-  next();
 };
 
 // Error handling middleware
@@ -103,8 +117,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Create admin session
-      (req.session as any).adminId = user.id;
-      (req.session as any).isAdmin = true;
+      const session = req.session as SessionData;
+      session.userId = user.id;
       
       res.json({ 
         user: {
