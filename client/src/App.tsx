@@ -21,7 +21,8 @@ import EventsPage from '@/pages/events-public';
 import LoginPage from '@/pages/login';
 import RegisterPage from '@/pages/register';
 import DashboardPage from '@/pages/dashboard';
-import AdminPage from '@/pages/admin';
+import AdminLoginPage from '@/pages/admin-login';
+import AdminDashboardPage from '@/pages/admin-dashboard';
 
 
 
@@ -62,9 +63,10 @@ function Router() {
           <DashboardPage />
         </ProtectedRoute>
       </Route>
-      <Route path="/admin">
+      <Route path="/admin" component={AdminLoginPage} />
+      <Route path="/admin/dashboard">
         <ProtectedRoute adminRequired>
-          <AdminPage />
+          <AdminDashboardPage />
         </ProtectedRoute>
       </Route>
       <Route component={NotFound} />
