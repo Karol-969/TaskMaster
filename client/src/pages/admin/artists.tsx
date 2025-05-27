@@ -540,14 +540,16 @@ export default function AdminArtistsPage() {
               </div>
               <div>
                 <Label htmlFor="availability">Availability</Label>
-                <Select value={artistForm.availability} onValueChange={(value: any) => setArtistForm({ ...artistForm, availability: value })}>
+                <Select 
+                  value={artistForm.availability ? "true" : "false"} 
+                  onValueChange={(value) => setArtistForm({ ...artistForm, availability: value === "true" })}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select availability" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="available">Available</SelectItem>
-                    <SelectItem value="busy">Busy</SelectItem>
-                    <SelectItem value="unavailable">Unavailable</SelectItem>
+                    <SelectItem value="true">Available</SelectItem>
+                    <SelectItem value="false">Unavailable</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
