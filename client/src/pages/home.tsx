@@ -8,12 +8,7 @@ import { FeaturedArtistsShowcase } from '@/components/home/featured-artists-show
 import { ShareExperienceSection } from '@/components/home/share-experience-section';
 import { ContactSection } from '@/components/home/contact-section';
 import { NewsletterSection } from '@/components/home/newsletter-section';
-import { UserProfileSection } from '@/components/home/user-profile-section';
-import { useAuth } from '@/providers/auth-provider';
-
 export default function Home() {
-  const { isAuthenticated } = useAuth();
-
   return (
     <Layout>
       <Helmet>
@@ -24,37 +19,16 @@ export default function Home() {
         <meta property="og:type" content="website" />
       </Helmet>
       
-      {isAuthenticated ? (
-        // Logged-in user layout with profile section
-        <div className="flex">
-          {/* Main content area */}
-          <div className="flex-1">
-            <HeroSection />
-            <ServicesSection />
-            <AboutSection />
-            <JourneySection />
-            <FeaturedArtistsShowcase />
-            <ShareExperienceSection />
-          </div>
-          
-          {/* Profile sidebar */}
-          <div className="w-80 min-h-screen bg-slate-900/50 p-6 sticky top-0">
-            <UserProfileSection />
-          </div>
-        </div>
-      ) : (
-        // Default layout for non-logged-in users
-        <>
-          <HeroSection />
-          <ServicesSection />
-          <AboutSection />
-          <JourneySection />
-          <FeaturedArtistsShowcase />
-          <ShareExperienceSection />
-          <ContactSection />
-          <NewsletterSection />
-        </>
-      )}
+      <div>
+        <HeroSection />
+        <ServicesSection />
+        <AboutSection />
+        <JourneySection />
+        <FeaturedArtistsShowcase />
+        <ShareExperienceSection />
+        <ContactSection />
+        <NewsletterSection />
+      </div>
     </Layout>
   );
 }

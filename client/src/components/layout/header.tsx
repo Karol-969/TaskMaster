@@ -79,41 +79,9 @@ export function Header() {
             ))}
           </nav>
           
-          {/* Desktop Auth/Theme */}
+          {/* Desktop Theme Toggle Only */}
           <div className="hidden md:flex items-center space-x-4">
             <ThemeToggle />
-            
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                <div className="text-sm flex gap-1.5">
-                  <Link href="/dashboard" className="text-sm font-medium hover:text-accent transition-colors">
-                    Dashboard
-                  </Link>
-                  
-                  {user?.role === 'admin' && (
-                    <>
-                      <span className="text-muted-foreground">|</span>
-                      <Link href="/admin-dashboard" className="text-sm font-medium hover:text-accent transition-colors">
-                        Admin
-                      </Link>
-                    </>
-                  )}
-                </div>
-                
-                <Button variant="outline" size="sm" onClick={handleLogout}>
-                  Sign out
-                </Button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link href="/login">
-                  <Button variant="outline" size="sm">Sign in</Button>
-                </Link>
-                <Link href="/register">
-                  <Button size="sm">Register</Button>
-                </Link>
-              </div>
-            )}
           </div>
           
           {/* Mobile Menu */}

@@ -2,11 +2,8 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { MenuIcon, X } from 'lucide-react';
+import { MenuIcon } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
-import { useAuth } from '@/providers/auth-provider';
-import { useAuth as useAuthActions } from '@/lib/auth';
-import { useToast } from '@/hooks/use-toast';
 
 interface MobileMenuProps {
   items: { label: string; href: string }[];
@@ -14,26 +11,6 @@ interface MobileMenuProps {
 
 export function MobileMenu({ items }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
-  const { isAuthenticated, user } = useAuth();
-  const { logout } = useAuthActions();
-  const { toast } = useToast();
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      setOpen(false);
-      toast({
-        title: "Logged out successfully",
-        variant: "default",
-      });
-    } catch (error) {
-      toast({
-        title: "Failed to logout",
-        description: "Please try again",
-        variant: "destructive",
-      });
-    }
-  };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -62,51 +39,6 @@ export function MobileMenu({ items }: MobileMenuProps) {
               </Link>
             ))}
           </nav>
-          
-          <div className="mt-auto border-t py-4 flex flex-col gap-2">
-            {isAuthenticated ? (
-              <>
-                <div className="text-sm text-muted-foreground mb-2">
-                  Signed in as <span className="font-medium text-foreground">{user?.username}</span>
-                </div>
-                
-                <Link 
-                  href="/dashboard" 
-                  onClick={() => setOpen(false)}
-                  className="px-2 py-1 hover:bg-accent hover:text-accent-foreground rounded-md transition-colors"
-                >
-                  Dashboard
-                </Link>
-                
-                {user?.role === 'admin' && (
-                  <Link 
-                    href="/admin" 
-                    onClick={() => setOpen(false)}
-                    className="px-2 py-1 hover:bg-accent hover:text-accent-foreground rounded-md transition-colors"
-                  >
-                    Admin Panel
-                  </Link>
-                )}
-                
-                <Button 
-                  variant="outline" 
-                  onClick={handleLogout}
-                  className="mt-2"
-                >
-                  Sign out
-                </Button>
-              </>
-            ) : (
-              <div className="flex flex-col space-y-2">
-                <Link href="/login" onClick={() => setOpen(false)}>
-                  <Button variant="outline" className="w-full">Sign in</Button>
-                </Link>
-                <Link href="/register" onClick={() => setOpen(false)}>
-                  <Button className="w-full">Create account</Button>
-                </Link>
-              </div>
-            )}
-          </div>
         </div>
       </SheetContent>
     </Sheet>
