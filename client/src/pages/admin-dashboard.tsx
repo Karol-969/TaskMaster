@@ -24,9 +24,9 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-// Import admin components (we'll create simplified versions for now)
-import { AdminSidebar } from '@/components/admin/admin-sidebar';
-import { DashboardOverview } from '@/components/admin/dashboard-overview';
+// Import enhanced admin components
+import { EnhancedAdminSidebar } from '@/components/admin/enhanced-admin-sidebar';
+import { EnhancedDashboardOverview } from '@/components/admin/enhanced-dashboard-overview';
 import { UserManagement } from '@/components/admin/user-management';
 import { ArtistManagement } from '@/components/admin/artist-management';
 import { EventManagement } from '@/components/admin/event-management';
@@ -92,8 +92,8 @@ export default function AdminDashboard() {
       </Helmet>
 
       <div className="flex min-h-screen bg-slate-900">
-        {/* Sidebar */}
-        <AdminSidebar 
+        {/* Enhanced Sidebar */}
+        <EnhancedAdminSidebar 
           activeTab={activeTab} 
           setActiveTab={setActiveTab}
           tabConfig={tabConfig}
@@ -158,7 +158,7 @@ export default function AdminDashboard() {
             {/* Tab Content */}
             <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
               <TabsContent value="overview">
-                <DashboardOverview />
+                <EnhancedDashboardOverview />
               </TabsContent>
               
               <TabsContent value="users">
