@@ -50,7 +50,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
 // Admin middleware
 const adminMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const session = req.session as SessionData;
+    const session = req.session as any;
     
     if (!session.userId) {
       return res.status(401).json({ message: "Not authenticated" });
@@ -117,7 +117,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Create admin session
-      const session = req.session as SessionData;
+      const session = req.session as any;
       session.userId = user.id;
       
       res.json({ 
