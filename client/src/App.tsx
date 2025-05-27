@@ -18,38 +18,14 @@ import EventConceptsService from '@/pages/services/event-concepts';
 import PromotionSponsorshipsService from '@/pages/services/promotion-sponsorships';
 import ContactPage from '@/pages/contact';
 import EventsPage from '@/pages/events-public';
-import LoginPage from '@/pages/login';
-import RegisterPage from '@/pages/register';
-import DashboardPage from '@/pages/dashboard';
-import AdminPage from '@/pages/admin';
 import AdminDashboard from '@/pages/admin-simple';
-import { AdminRedirect } from '@/components/admin/admin-redirect';
 
-function ProtectedRoute({ children, adminRequired = false }: { children: React.ReactNode, adminRequired?: boolean }) {
-  const isAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
-  const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
-  
-  if (!isAuthenticated) {
-    window.location.href = '/login';
-    return null;
-  }
-  
-  if (adminRequired && !isAdmin) {
-    window.location.href = '/dashboard';
-    return null;
-  }
-  
-  return <>{children}</>;
-}
+
 
 function Router() {
   return (
     <Switch>
-      <Route path="/">
-        <AdminRedirect>
-          <Home />
-        </AdminRedirect>
-      </Route>
+      <Route path="/" component={Home} />
       <Route path="/artists" component={ArtistsPage} />
       <Route path="/artists/:id" component={ArtistDetailPage} />
       <Route path="/services" component={ServicesPage} />
@@ -59,23 +35,7 @@ function Router() {
       <Route path="/services/promotion-sponsorships" component={PromotionSponsorshipsService} />
       <Route path="/contact" component={ContactPage} />
       <Route path="/events" component={EventsPage} />
-      <Route path="/login" component={LoginPage} />
-      <Route path="/register" component={RegisterPage} />
-      <Route path="/dashboard">
-        <ProtectedRoute>
-          <DashboardPage />
-        </ProtectedRoute>
-      </Route>
-      <Route path="/admin">
-        <ProtectedRoute adminRequired>
-          <AdminPage />
-        </ProtectedRoute>
-      </Route>
-      <Route path="/admin-dashboard">
-        <ProtectedRoute adminRequired>
-          <AdminDashboard />
-        </ProtectedRoute>
-      </Route>
+      <Route path="/admin-dashboard" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
   );
