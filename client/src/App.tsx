@@ -20,6 +20,7 @@ import ContactPage from '@/pages/contact';
 import EventsPage from '@/pages/events-public';
 import AdminLogin from '@/pages/admin/login';
 import AdminDashboard from '@/pages/admin/dashboard';
+import AdminUsersPage from '@/pages/admin/users';
 
 
 
@@ -39,6 +40,7 @@ function Router() {
       <Route path="/events" component={EventsPage} />
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
+      <Route path="/admin/users" component={AdminUsersPage} />
       <Route component={NotFound} />
     </Switch>
   );

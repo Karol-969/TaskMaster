@@ -198,8 +198,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: 'Error fetching dashboard activity' });
     }
   });
-  
 
+  // ADMIN USER MANAGEMENT ROUTES
+  app.get('/api/admin/users', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const users = await storage.getAllUsers();
+      res.json(users);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ message: 'Error fetching users' });
+    }
+  });
+
+  app.post('/api/admin/users', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const userData = req.body;
+      const newUser = await storage.createUser(userData);
+      res.json(newUser);
+    } catch (error) {
+      console.error('Error creating user:', error);
+      res.status(500).json({ message: 'Error creating user' });
+    }
+  });
+
+  // ADMIN ARTIST MANAGEMENT ROUTES  
+  app.get('/api/admin/artists', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const artists = await storage.getAllArtists();
+      res.json(artists);
+    } catch (error) {
+      console.error('Error fetching artists:', error);
+      res.status(500).json({ message: 'Error fetching artists' });
+    }
+  });
+
+  app.post('/api/admin/artists', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const artistData = req.body;
+      const newArtist = await storage.createArtist(artistData);
+      res.json(newArtist);
+    } catch (error) {
+      console.error('Error creating artist:', error);
+      res.status(500).json({ message: 'Error creating artist' });
+    }
+  });
 
   // ADMIN AUTH ROUTES
   app.post('/api/auth/admin-login', async (req, res, next) => {
