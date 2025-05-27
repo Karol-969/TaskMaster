@@ -64,6 +64,14 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
+  // Setup session middleware FIRST
+  app.use(session({
+    cookie: { maxAge: 86400000 }, // 1 day
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.SESSION_SECRET || 'reart-events-secret'
+  }));
+  
   // Create admin user if not exists (for development)
   try {
     const existingAdmin = await storage.getUserByUsername('admin');
@@ -176,13 +184,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: 'Error fetching dashboard activity' });
     }
   });
-  // Add express session with simple configuration to start
-  app.use(session({
-    cookie: { maxAge: 86400000 }, // 1 day
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.SESSION_SECRET || 'reart-events-secret'
-  }));
   
 
 
