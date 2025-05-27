@@ -57,6 +57,26 @@ export default function AdminArtistsPage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
 
+  // Image compression function
+  const compressImage = (file: File, maxWidth = 800, quality = 0.8): Promise<string> => {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d')!;
+      const img = new Image();
+      
+      img.onload = () => {
+        const ratio = Math.min(maxWidth / img.width, maxWidth / img.height);
+        canvas.width = img.width * ratio;
+        canvas.height = img.height * ratio;
+        
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
   // Fetch all artists using bypass route
   const { data: artists = [], isLoading } = useQuery<Artist[]>({
     queryKey: ['/api/artists-admin-bypass'],
@@ -74,10 +94,12 @@ export default function AdminArtistsPage() {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/artists'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/artists-admin-bypass'] });
       queryClient.invalidateQueries({ queryKey: ['/api/artists'] }); // Also invalidate public artists
       setIsCreateDialogOpen(false);
       resetForm();
+      setImagePreview('');
+      setSelectedImage(null);
       toast({
         title: "Artist created successfully",
         description: "The new artist has been added to the platform.",
@@ -473,17 +495,26 @@ export default function AdminArtistsPage() {
                   id="image"
                   type="file"
                   accept="image/*"
-                  onChange={(e) => {
+                  onChange={async (e) => {
                     const file = e.target.files?.[0];
                     if (file) {
                       setSelectedImage(file);
-                      const reader = new FileReader();
-                      reader.onload = (e) => {
-                        const result = e.target?.result as string;
-                        setImagePreview(result);
-                        setArtistForm({ ...artistForm, imageUrl: result });
-                      };
-                      reader.readAsDataURL(file);
+                      try {
+                        // Compress the image to reduce size
+                        const compressedImage = await compressImage(file);
+                        setImagePreview(compressedImage);
+                        setArtistForm({ ...artistForm, imageUrl: compressedImage });
+                      } catch (error) {
+                        console.error('Error compressing image:', error);
+                        // Fallback to original file
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                          const result = e.target?.result as string;
+                          setImagePreview(result);
+                          setArtistForm({ ...artistForm, imageUrl: result });
+                        };
+                        reader.readAsDataURL(file);
+                      }
                     }
                   }}
                 />
