@@ -47,7 +47,7 @@ export default function AdminArtistsPage() {
     contact: '',
     email: '',
     phone: '',
-    rate: '',
+    price: '',
     experience: '',
     specialties: '',
     languages: '',
@@ -468,12 +468,22 @@ export default function AdminArtistsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="rate">Rate</Label>
+                <Label htmlFor="price">Price</Label>
                 <Input
-                  id="rate"
-                  value={artistForm.rate}
-                  onChange={(e) => setArtistForm({ ...artistForm, rate: e.target.value })}
-                  placeholder="$500/hour"
+                  id="price"
+                  type="number"
+                  value={artistForm.price}
+                  onChange={(e) => setArtistForm({ ...artistForm, price: e.target.value })}
+                  placeholder="5000"
+                />
+              </div>
+              <div>
+                <Label htmlFor="imageUrl">Artist Image URL</Label>
+                <Input
+                  id="imageUrl"
+                  value={artistForm.imageUrl}
+                  onChange={(e) => setArtistForm({ ...artistForm, imageUrl: e.target.value })}
+                  placeholder="https://example.com/artist-photo.jpg"
                 />
               </div>
               <div>
@@ -589,12 +599,13 @@ export default function AdminArtistsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="edit-rate">Rate</Label>
+                <Label htmlFor="edit-price">Price</Label>
                 <Input
-                  id="edit-rate"
-                  value={artistForm.rate}
-                  onChange={(e) => setArtistForm({ ...artistForm, rate: e.target.value })}
-                  placeholder="$500/hour"
+                  id="edit-price"
+                  type="number"
+                  value={artistForm.price}
+                  onChange={(e) => setArtistForm({ ...artistForm, price: e.target.value })}
+                  placeholder="5000"
                 />
               </div>
               <div>

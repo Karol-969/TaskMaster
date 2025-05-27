@@ -301,7 +301,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/admin/artists', adminMiddleware, async (req: Request, res: Response) => {
     try {
       const artistData = req.body;
-      const newArtist = await storage.createArtist(artistData);
+      
+      // Ensure required fields and convert price to number
+      const processedData = {
+        ...artistData,
+        price: parseInt(artistData.price) || 1000,
+        price_per_hour: parseInt(artistData.price) || 1000,
+        total_shows: 0,
+        rating: 5,
+        availability: artistData.availability === 'available' ? true : false,
+        bio: artistData.description || 'Professional artist',
+        contact_email: artistData.email || '',
+        image_url: artistData.imageUrl || 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400',
+        languages: artistData.languages || 'English',
+        music_style: artistData.musicStyle || artistData.genre
+      };
+      
+      console.log('Processing artist data:', processedData);
+      const newArtist = await storage.createArtist(processedData);
       res.json(newArtist);
     } catch (error) {
       console.error('Error creating artist:', error);
