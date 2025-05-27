@@ -70,7 +70,12 @@ export function AuthForm({ type }: AuthFormProps) {
         description: "You have successfully logged in.",
       });
       
-      navigate('/');
+      // Redirect admin users to the dedicated admin panel
+      if (userData.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       toast({
         title: "Login failed",
