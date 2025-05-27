@@ -96,8 +96,11 @@ export default function AdminArtistsPage() {
         bio: artistData.bio,
         languages: artistData.languages,
         musicStyle: artistData.musicStyle,
-        availability: artistData.availability
+        availability: artistData.availability === true || artistData.availability === "true"
       };
+      
+      console.log('Debug - Original form data:', artistData);
+      console.log('Debug - Transformed availability:', dbData.availability, typeof dbData.availability);
       
       const response = await fetch('/api/admin/artists', {
         method: 'POST',
