@@ -22,7 +22,7 @@ interface DashboardOverviewProps {
   recentActivity?: any;
 }
 
-export function DashboardOverview({ stats, recentActivity }: DashboardOverviewProps) {
+export function DashboardOverview({ stats = {}, recentActivity = [] }: DashboardOverviewProps = {}) {
   // Real-time metrics with trend indicators
   const metrics = [
     {
