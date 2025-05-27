@@ -81,11 +81,13 @@ export default function AdminDashboardPage() {
   // Redirect if not authenticated or not admin
   useEffect(() => {
     if (!isLoading) {
-      if (!isAuthenticated || !isAdmin) {
-        navigate('/admin');
+      if (!isAuthenticated) {
+        window.location.href = '/admin';
+      } else if (!isAdmin) {
+        window.location.href = '/';
       }
     }
-  }, [isLoading, isAuthenticated, isAdmin, navigate]);
+  }, [isLoading, isAuthenticated, isAdmin]);
 
   const handleLogout = async () => {
     await logout();
