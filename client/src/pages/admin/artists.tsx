@@ -44,13 +44,12 @@ export default function AdminArtistsPage() {
     description: '',
     imageUrl: '',
     location: '',
-    email: '',
+    contactEmail: '',
     phone: '',
-    experience: '',
-    specialties: '',
+    bio: '',
     languages: '',
     musicStyle: '',
-    availability: 'available' as 'available' | 'busy' | 'unavailable'
+    availability: true
   });
 
   // Image upload state

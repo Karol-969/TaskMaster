@@ -29,12 +29,12 @@ export const artists = pgTable("artists", {
   rating: integer("rating").default(5),
   languages: text("languages"),
   musicStyle: text("music_style"),
-  email: text("email"),
+  bio: text("bio"),
+  totalShows: integer("total_shows").default(0),
+  contactEmail: text("contact_email"),
   phone: text("phone"),
   location: text("location"),
-  experience: text("experience"),
-  specialties: text("specialties"),
-  availability: text("availability").default("available"),
+  availability: boolean("availability").default(true),
 });
 
 export const insertArtistSchema = createInsertSchema(artists).omit({
