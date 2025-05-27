@@ -88,44 +88,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // IMMEDIATE FIX: Create bypass route with different path to avoid admin middleware
   app.get('/api/artists-admin-bypass', async (req: Request, res: Response) => {
-    console.log('🚀 BYPASS ROUTE - Direct access to admin artists');
+    console.log('🚀 BYPASS ROUTE HIT - Direct access to admin artists');
+    console.log('📍 Request URL:', req.url);
+    console.log('📍 Request path:', req.path);
     
     try {
-      // Get artists from database storage
-      let artists = await storage.getAllArtists();
-      console.log('📊 Database storage artists found:', artists.length);
+      console.log('🔍 Checking current storage type...');
+      console.log('🔍 Storage instance:', typeof storage);
       
-      // If no artists in database, migrate from memory storage
+      // Get artists from current storage
+      let artists = await storage.getAllArtists();
+      console.log('📊 Current storage artists found:', artists.length);
+      
+      // If no artists, force migration from memory storage
       if (artists.length === 0) {
-        console.log('🔄 Starting migration from memory storage...');
+        console.log('🔄 NO ARTISTS FOUND - Starting migration from memory storage...');
         
         // Import and create memory storage with seed data
         const { MemStorage } = await import('./storage');
+        console.log('📦 MemStorage imported successfully');
+        
         const memStorage = new MemStorage();
+        console.log('💾 Memory storage instance created');
+        
         const memArtists = await memStorage.getAllArtists();
         console.log('💾 Memory storage contains:', memArtists.length, 'artists');
         
-        // Migrate each artist to database
-        for (const artist of memArtists) {
-          try {
-            const { id, ...artistData } = artist;
-            const migratedArtist = await storage.createArtist(artistData);
-            console.log('✅ Migrated artist:', migratedArtist.name);
-          } catch (migrateError) {
-            console.error('❌ Failed to migrate:', artist.name, migrateError);
+        if (memArtists.length > 0) {
+          console.log('🔄 Starting migration of', memArtists.length, 'artists...');
+          
+          // Migrate each artist to database
+          for (let i = 0; i < memArtists.length; i++) {
+            const artist = memArtists[i];
+            try {
+              const { id, ...artistData } = artist;
+              console.log(`⏳ Migrating artist ${i+1}/${memArtists.length}:`, artist.name);
+              const migratedArtist = await storage.createArtist(artistData);
+              console.log('✅ Successfully migrated:', migratedArtist.name);
+            } catch (migrateError) {
+              console.error('❌ Failed to migrate artist:', artist.name, migrateError);
+            }
           }
+          
+          // Fetch updated artists list
+          artists = await storage.getAllArtists();
+          console.log('🎯 After migration - Total artists in database:', artists.length);
+        } else {
+          console.log('⚠️  Memory storage is also empty!');
         }
-        
-        // Fetch updated artists list
-        artists = await storage.getAllArtists();
-        console.log('🎯 After migration - Total artists in database:', artists.length);
       }
       
-      console.log('📤 Sending artists to admin panel:', artists.length, 'artists');
+      console.log('📤 Final response - Sending', artists.length, 'artists to admin panel');
+      console.log('📋 Artists data preview:', artists.map(a => ({ id: a.id, name: a.name })));
+      
       res.json(artists);
       
     } catch (error) {
-      console.error('💥 CRITICAL ERROR in admin artists:', error);
+      console.error('💥 CRITICAL ERROR in bypass route:', error);
+      console.error('💥 Error stack:', error instanceof Error ? error.stack : 'No stack');
       res.status(500).json({ 
         message: 'Failed to fetch artists', 
         error: error instanceof Error ? error.message : 'Unknown error' 
