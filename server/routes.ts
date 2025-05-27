@@ -64,6 +64,24 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
+  // Create admin user if not exists (for development)
+  try {
+    const existingAdmin = await storage.getUserByUsername('admin');
+    if (!existingAdmin) {
+      await storage.createUser({
+        username: 'admin',
+        password: 'admin123',
+        email: 'admin@reartevents.com',
+        fullName: 'Admin User',
+        role: 'admin',
+        phone: '555-1234'
+      });
+      console.log('Admin user created: username=admin, password=admin123');
+    }
+  } catch (error) {
+    console.log('Admin user already exists or error creating admin user');
+  }
+  
   // Admin Authentication Routes
   app.post('/api/admin/auth/login', async (req: Request, res: Response) => {
     try {
