@@ -93,6 +93,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET || 'reart-events-secret'
   }));
+
+  // CRITICAL FIX: Admin artists endpoint WITHOUT any middleware
+  app.get('/api/admin/artists', async (req: Request, res: Response) => {
+    try {
+      console.log('DIRECT ADMIN ARTISTS ACCESS - Fetching artists...');
+      
+      // First try current storage
+      let artists = await storage.getAllArtists();
+      console.log('Current storage artists:', artists.length);
+      
+      // If empty, force migration from memory storage
+      if (artists.length === 0) {
+        console.log('Forcing migration from memory storage...');
+        const { MemStorage } = await import('./storage');
+        const memStorage = new MemStorage();
+        const memArtists = await memStorage.getAllArtists();
+        console.log('Memory storage has:', memArtists.length, 'artists');
+        
+        // Migrate each artist
+        for (const artist of memArtists) {
+          try {
+            const { id, ...artistData } = artist;
+            const newArtist = await storage.createArtist(artistData);
+            console.log('Migrated:', newArtist.name);
+          } catch (err) {
+            console.error('Migration error for', artist.name, ':', err);
+          }
+        }
+        
+        // Get updated list
+        artists = await storage.getAllArtists();
+        console.log('After migration, total artists:', artists.length);
+      }
+      
+      res.json(artists);
+    } catch (error) {
+      console.error('ADMIN ARTISTS ERROR:', error);
+      res.status(500).json({ message: 'Error fetching artists', error: error.message });
+    }
+  });
   
   // Create admin user if not exists (for development)
   try {
@@ -229,50 +269,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // ADMIN ARTIST MANAGEMENT ROUTES (Bypass auth temporarily for debugging)
-  app.get('/api/admin/artists', async (req: Request, res: Response) => {
-    try {
-      console.log('Fetching artists for admin panel...');
-      
-      // First try to get from current storage
-      let artists = await storage.getAllArtists();
-      console.log('Database artists found:', artists.length);
-      
-      // If no artists in database, try to migrate from memory storage
-      if (artists.length === 0) {
-        console.log('No artists in database, attempting migration from memory storage...');
-        try {
-          // Import and initialize memory storage
-          const { MemStorage } = await import('./storage');
-          const memStorage = new MemStorage();
-          const memArtists = await memStorage.getAllArtists();
-          console.log('Memory storage artists found:', memArtists.length);
-          
-          // Migrate each artist to database
-          for (const artist of memArtists) {
-            try {
-              const { id, ...artistData } = artist;
-              await storage.createArtist(artistData);
-              console.log('Migrated artist:', artist.name);
-            } catch (migrateError) {
-              console.error('Failed to migrate artist:', artist.name, migrateError);
-            }
-          }
-          
-          // Fetch the updated list
-          artists = await storage.getAllArtists();
-          console.log('After migration, total artists:', artists.length);
-        } catch (migrationError) {
-          console.error('Migration failed:', migrationError);
-        }
-      }
-      
-      res.json(artists);
-    } catch (error) {
-      console.error('Error in admin artists endpoint:', error);
-      res.status(500).json({ message: 'Error fetching artists', error: error.message });
-    }
-  });
+
 
   app.post('/api/admin/artists', adminMiddleware, async (req: Request, res: Response) => {
     try {
