@@ -23,6 +23,7 @@ import RegisterPage from '@/pages/register';
 import DashboardPage from '@/pages/dashboard';
 import AdminPage from '@/pages/admin';
 import AdminDashboard from '@/pages/admin-simple';
+import { AdminRedirect } from '@/components/admin/admin-redirect';
 
 function ProtectedRoute({ children, adminRequired = false }: { children: React.ReactNode, adminRequired?: boolean }) {
   const isAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
@@ -44,7 +45,11 @@ function ProtectedRoute({ children, adminRequired = false }: { children: React.R
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/">
+        <AdminRedirect>
+          <Home />
+        </AdminRedirect>
+      </Route>
       <Route path="/artists" component={ArtistsPage} />
       <Route path="/artists/:id" component={ArtistDetailPage} />
       <Route path="/services" component={ServicesPage} />

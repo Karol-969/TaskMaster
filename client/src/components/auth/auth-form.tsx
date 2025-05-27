@@ -63,14 +63,19 @@ export function AuthForm({ type }: AuthFormProps) {
   const handleLogin = async (values: z.infer<typeof loginSchema>) => {
     try {
       setIsSubmitting(true);
-      await login(values);
+      const response = await login(values);
       
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in.",
       });
       
-      navigate('/');
+      // Check if user is admin and redirect accordingly
+      if (response && response.role === 'admin') {
+        navigate('/admin-dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       toast({
         title: "Login failed",
