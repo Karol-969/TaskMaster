@@ -44,18 +44,18 @@ export default function AdminArtistsPage() {
     description: '',
     imageUrl: '',
     location: '',
-    contact: '',
     email: '',
     phone: '',
-    price: '',
     experience: '',
     specialties: '',
     languages: '',
     musicStyle: '',
-    socialMedia: '',
-    website: '',
     availability: 'available' as 'available' | 'busy' | 'unavailable'
   });
+
+  // Image upload state
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
 
   // Fetch all artists using bypass route
   const { data: artists = [], isLoading } = useQuery<Artist[]>({
@@ -468,23 +468,30 @@ export default function AdminArtistsPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="price">Price</Label>
+                <Label htmlFor="image">Artist Image</Label>
                 <Input
-                  id="price"
-                  type="number"
-                  value={artistForm.price}
-                  onChange={(e) => setArtistForm({ ...artistForm, price: e.target.value })}
-                  placeholder="5000"
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setSelectedImage(file);
+                      const reader = new FileReader();
+                      reader.onload = (e) => {
+                        const result = e.target?.result as string;
+                        setImagePreview(result);
+                        setArtistForm({ ...artistForm, imageUrl: result });
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
                 />
-              </div>
-              <div>
-                <Label htmlFor="imageUrl">Artist Image URL</Label>
-                <Input
-                  id="imageUrl"
-                  value={artistForm.imageUrl}
-                  onChange={(e) => setArtistForm({ ...artistForm, imageUrl: e.target.value })}
-                  placeholder="https://example.com/artist-photo.jpg"
-                />
+                {imagePreview && (
+                  <div className="mt-2">
+                    <img src={imagePreview} alt="Preview" className="w-20 h-20 object-cover rounded" />
+                  </div>
+                )}
               </div>
               <div>
                 <Label htmlFor="availability">Availability</Label>

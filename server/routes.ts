@@ -302,19 +302,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const artistData = req.body;
       
-      // Ensure required fields and convert price to number
+      // Process artist data without price field
       const processedData = {
-        ...artistData,
-        price: parseInt(artistData.price) || 1000,
-        price_per_hour: parseInt(artistData.price) || 1000,
-        total_shows: 0,
+        name: artistData.name || 'Unnamed Artist',
+        genre: artistData.genre || 'Music',
+        description: artistData.description || 'Professional artist',
+        imageUrl: artistData.imageUrl || 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400',
         rating: 5,
-        availability: artistData.availability === 'available' ? true : false,
-        bio: artistData.description || 'Professional artist',
-        contact_email: artistData.email || '',
-        image_url: artistData.imageUrl || 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400',
         languages: artistData.languages || 'English',
-        music_style: artistData.musicStyle || artistData.genre
+        musicStyle: artistData.musicStyle || artistData.genre,
+        email: artistData.email || '',
+        phone: artistData.phone || '',
+        location: artistData.location || '',
+        experience: artistData.experience || '',
+        specialties: artistData.specialties || '',
+        availability: artistData.availability || 'available'
       };
       
       console.log('Processing artist data:', processedData);
