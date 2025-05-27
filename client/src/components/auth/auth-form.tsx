@@ -72,7 +72,7 @@ export function AuthForm({ type }: AuthFormProps) {
       
       // Redirect admin users to the dedicated admin dashboard
       if (userData.role === 'admin') {
-        navigate('/admin/dashboard');
+        window.location.href = '/admin/dashboard';
       } else {
         navigate('/');
       }
