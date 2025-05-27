@@ -1,0 +1,114 @@
+I need you to create a sophisticated and comprehensive admin panel that allows administrators to manage every aspect of the ReArt Events platform. The current admin panel exists but needs significant enhancement to handle all platform operations efficiently.
+
+Current Platform Overview:
+ReArt Events is a full-stack event management platform with:
+
+Frontend: React 18 + TypeScript + Vite + Tailwind CSS + shadcn/ui
+Backend: Express.js + TypeScript + PostgreSQL + Drizzle ORM
+Features: Artist management, event booking, user management, testimonials, venues, sound systems
+Required Admin Panel Enhancements:
+1. Dashboard Overview
+Real-time analytics and KPI cards
+Revenue tracking and financial metrics
+User growth and engagement statistics
+Recent activity feed
+Quick action shortcuts
+Interactive charts and graphs using Chart.js or Recharts
+2. User Management System
+Complete CRUD operations for users
+Role-based access control (Admin, User, Artist, Venue Manager)
+User activity monitoring and session management
+Bulk user operations (import/export, mass email)
+User verification and approval workflows
+Advanced filtering and search capabilities
+3. Artist Management
+Enhanced artist profiles with portfolio management
+Artist verification and approval system
+Performance history and ratings management
+Artist availability calendar integration
+Commission and payment tracking
+Artist analytics (bookings, earnings, reviews)
+Bulk operations for artist management
+4. Event Management
+Advanced event creation with rich media support
+Event scheduling and calendar management
+Ticket management with QR code generation
+Event promotion tools and social media integration
+Real-time event monitoring and analytics
+Automated notifications and reminders
+Event templates for quick creation
+5. Booking Management
+Comprehensive booking dashboard with status tracking
+Automated booking confirmation and payment processing
+Booking analytics and reporting
+Refund and cancellation management
+Customer communication tools
+Booking calendar with conflict detection
+6. Venue Management (Currently in development)
+Venue registration and verification
+Capacity management and floor plans
+Availability calendar with booking integration
+Venue rating and review system
+Equipment and amenities tracking
+Location-based search and filtering
+7. Sound Systems & Equipment
+Equipment inventory management
+Rental tracking and scheduling
+Maintenance and service history
+Equipment specifications and compatibility
+Pricing and availability management
+Quality assurance workflows
+8. Financial Management
+Revenue tracking and reporting
+Commission management for artists and venues
+Payment processing and refund handling
+Financial analytics and forecasting
+Tax reporting and documentation
+Automated invoicing and receipts
+9. Content Management
+Testimonials moderation and management
+Blog/news management system
+Image and media library management
+SEO optimization tools
+Website content editing capabilities
+10. Communication Center
+Mass email campaigns and newsletters
+SMS notification system
+In-app messaging between users
+Customer support ticket system
+Automated notification templates
+Communication analytics
+11. Analytics & Reporting
+Comprehensive business intelligence dashboard
+Custom report generation
+Data export capabilities (CSV, PDF, Excel)
+Performance metrics and KPIs
+Predictive analytics for demand forecasting
+A/B testing for platform features
+12. System Management
+Platform settings and configuration
+Security monitoring and alerts
+Database backup and maintenance tools
+API rate limiting and monitoring
+Error logging and debugging tools
+Performance optimization recommendations
+Technical Requirements:
+UI/UX Design:
+Modern, responsive design matching the current platform aesthetic
+Dark theme with purple/blue accent colors
+Intuitive navigation with collapsible sidebar
+Data tables with sorting, filtering, and pagination
+Interactive charts and visualizations
+Mobile-responsive design for tablet and phone access
+Performance & Scalability:
+Optimized database queries with proper indexing
+Lazy loading for large datasets
+Real-time updates using WebSocket connections
+Caching mechanisms for frequently accessed data
+Infinite scrolling for large lists
+Security Features:
+Multi-factor authentication for admin access
+Role-based permissions with granular controls
+Activity logging and audit trails
+Data encryption for sensitive information
+Session management and timeout controls
