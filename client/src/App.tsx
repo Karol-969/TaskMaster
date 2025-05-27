@@ -21,10 +21,7 @@ import EventsPage from '@/pages/events-public';
 import LoginPage from '@/pages/login';
 import RegisterPage from '@/pages/register';
 import DashboardPage from '@/pages/dashboard';
-import AdminLoginPage from '@/pages/admin-login';
-import AdminDashboardPage from '@/pages/admin-dashboard';
-
-
+import AdminPage from '@/pages/admin';
 
 function ProtectedRoute({ children, adminRequired = false }: { children: React.ReactNode, adminRequired?: boolean }) {
   const isAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
@@ -63,10 +60,9 @@ function Router() {
           <DashboardPage />
         </ProtectedRoute>
       </Route>
-      <Route path="/admin" component={AdminLoginPage} />
-      <Route path="/admin/dashboard">
+      <Route path="/admin">
         <ProtectedRoute adminRequired>
-          <AdminDashboardPage />
+          <AdminPage />
         </ProtectedRoute>
       </Route>
       <Route component={NotFound} />

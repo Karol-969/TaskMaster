@@ -73,22 +73,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
 
 
-  // Debug route to check users (temporary)
-  app.get('/api/debug/users', async (req, res) => {
-    try {
-      const users = await storage.getAllUsers();
-      res.json(users.map(u => ({ 
-        id: u.id, 
-        username: u.username, 
-        role: u.role, 
-        email: u.email,
-        hasPassword: !!u.password 
-      })));
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  });
-
   // AUTH ROUTES
   app.post('/api/auth/register', async (req, res, next) => {
     try {
@@ -133,10 +117,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       const user = await storage.getUserByUsername(username);
-      
-      // Debug logging
-      console.log('Login attempt:', { username, password });
-      console.log('Found user:', user ? { id: user.id, username: user.username, role: user.role, password: user.password } : 'null');
       
       if (!user || user.password !== password) {
         return res.status(401).json({ message: "Invalid credentials" });

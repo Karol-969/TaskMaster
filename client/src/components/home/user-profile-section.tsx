@@ -15,12 +15,6 @@ export function UserProfileSection() {
   const { toast } = useToast();
 
   if (!user) return null;
-  
-  // Redirect admin users to dedicated admin dashboard
-  if (user.role === 'admin') {
-    window.location.href = '/admin/dashboard';
-    return null;
-  }
 
   const handleLogout = async () => {
     try {
@@ -147,7 +141,14 @@ export function UserProfileSection() {
             </Button>
           </Link>
           
-
+          {user.role === 'admin' && (
+            <Link href="/admin">
+              <Button variant="outline" className="w-full justify-start border-slate-600 hover:bg-slate-700">
+                <User className="h-4 w-4 mr-2" />
+                Admin Panel
+              </Button>
+            </Link>
+          )}
           
           <Button 
             variant="outline" 

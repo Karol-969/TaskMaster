@@ -104,44 +104,13 @@ export class MemStorage implements IStorage {
     this.currentBookingId = 1;
     this.currentTestimonialId = 1;
 
-    // Initialize with seed data synchronously
-    this.seedDataSync();
+    // Initialize with seed data
+    this.seedData();
   }
 
-  private seedDataSync() {
-    // Add admin user directly to the Map
-    console.log('Creating admin user...');
-    const adminUser = {
-      id: this.currentUserId++,
-      username: "admin",
-      password: "admin123",
-      email: "admin@reartevents.com",
-      fullName: "Admin User",
-      role: "admin" as const,
-      phone: "555-1234",
-      createdAt: new Date()
-    };
-    this.users.set(adminUser.id, adminUser);
-    console.log('Admin user created:', { id: adminUser.id, username: adminUser.username, role: adminUser.role });
-
-    // Add regular user
-    const regularUser = {
-      id: this.currentUserId++,
-      username: "user",
-      password: "user123",
-      email: "user@example.com",
-      fullName: "Sample User",
-      role: "user" as const,
-      phone: "555-5678",
-      createdAt: new Date()
-    };
-    this.users.set(regularUser.id, regularUser);
-  }
-
-  private async seedData() {
+  private seedData() {
     // Add admin user
-    console.log('Creating admin user...');
-    const adminUser = await this.createUser({
+    this.createUser({
       username: "admin",
       password: "admin123",
       email: "admin@reartevents.com",
@@ -149,10 +118,9 @@ export class MemStorage implements IStorage {
       role: "admin",
       phone: "555-1234"
     });
-    console.log('Admin user created:', { id: adminUser.id, username: adminUser.username, role: adminUser.role });
 
     // Add regular user
-    await this.createUser({
+    this.createUser({
       username: "user",
       password: "user123",
       email: "user@example.com",

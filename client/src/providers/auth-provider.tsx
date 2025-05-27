@@ -15,7 +15,6 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   isAdmin: boolean;
-  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,13 +30,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isAuthenticated = !!user;
   const isAdmin = isAuthenticated && user?.role === 'admin';
 
-  const logout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    window.location.href = '/';
-  };
-
   return (
-    <AuthContext.Provider value={{ user, isLoading, isAuthenticated, isAdmin, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, isAuthenticated, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );

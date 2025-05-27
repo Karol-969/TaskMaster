@@ -63,19 +63,14 @@ export function AuthForm({ type }: AuthFormProps) {
   const handleLogin = async (values: z.infer<typeof loginSchema>) => {
     try {
       setIsSubmitting(true);
-      const userData = await login(values);
+      await login(values);
       
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in.",
       });
       
-      // Redirect admin users to the dedicated admin dashboard
-      if (userData.role === 'admin') {
-        window.location.href = '/admin/dashboard';
-      } else {
-        navigate('/');
-      }
+      navigate('/');
     } catch (error) {
       toast({
         title: "Login failed",
