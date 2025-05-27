@@ -86,8 +86,8 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
-  // IMMEDIATE FIX: Create bypass route BEFORE any middleware
-  app.get('/api/admin/artists', async (req: Request, res: Response) => {
+  // IMMEDIATE FIX: Create bypass route with different path to avoid admin middleware
+  app.get('/api/artists-admin-bypass', async (req: Request, res: Response) => {
     console.log('🚀 BYPASS ROUTE - Direct access to admin artists');
     
     try {

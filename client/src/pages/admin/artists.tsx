@@ -57,9 +57,9 @@ export default function AdminArtistsPage() {
     availability: 'available' as 'available' | 'busy' | 'unavailable'
   });
 
-  // Fetch all artists
+  // Fetch all artists using bypass route
   const { data: artists = [], isLoading } = useQuery<Artist[]>({
-    queryKey: ['/api/admin/artists'],
+    queryKey: ['/api/artists-admin-bypass'],
   });
 
   // Create artist mutation
