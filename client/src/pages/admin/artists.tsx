@@ -41,7 +41,8 @@ export default function AdminArtistsPage() {
   const [artistForm, setArtistForm] = useState({
     name: '',
     genre: '',
-    bio: '',
+    description: '',
+    imageUrl: '',
     location: '',
     contact: '',
     email: '',
@@ -49,6 +50,10 @@ export default function AdminArtistsPage() {
     rate: '',
     experience: '',
     specialties: '',
+    languages: '',
+    musicStyle: '',
+    socialMedia: '',
+    website: '',
     availability: 'available' as 'available' | 'busy' | 'unavailable'
   });
 
@@ -148,7 +153,8 @@ export default function AdminArtistsPage() {
     setArtistForm({
       name: '',
       genre: '',
-      bio: '',
+      description: '',
+      imageUrl: '',
       location: '',
       contact: '',
       email: '',
@@ -156,6 +162,10 @@ export default function AdminArtistsPage() {
       rate: '',
       experience: '',
       specialties: '',
+      languages: '',
+      musicStyle: '',
+      socialMedia: '',
+      website: '',
       availability: 'available'
     });
   };

@@ -224,10 +224,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // ADMIN ARTIST MANAGEMENT ROUTES  
   app.get('/api/admin/artists', adminMiddleware, async (req: Request, res: Response) => {
     try {
+      // Use the same storage instance as the public artists endpoint
       const artists = await storage.getAllArtists();
-      res.json(artists);
+      console.log('Admin fetching artists:', artists.length, 'artists found');
+      
+      // If no artists in database storage, check memory storage
+      if (artists.length === 0) {
+        console.log('No artists found in database, checking memory storage...');
+        // Initialize memory storage temporarily to migrate data
+        const { MemStorage } = await import('./storage');
+        const memStorage = new MemStorage();
+        const memArtists = await memStorage.getAllArtists();
+        console.log('Found', memArtists.length, 'artists in memory storage');
+        
+        // Migrate artists from memory to database
+        for (const artist of memArtists) {
+          const { id, ...artistData } = artist;
+          await storage.createArtist(artistData);
+        }
+        
+        // Fetch updated list
+        const updatedArtists = await storage.getAllArtists();
+        console.log('After migration:', updatedArtists.length, 'artists in database');
+        res.json(updatedArtists);
+      } else {
+        res.json(artists);
+      }
     } catch (error) {
-      console.error('Error fetching artists:', error);
+      console.error('Error fetching artists for admin:', error);
       res.status(500).json({ message: 'Error fetching artists' });
     }
   });
