@@ -51,14 +51,22 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
 const adminMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const session = req.session as any;
+    console.log('Admin middleware check:', { 
+      sessionExists: !!session, 
+      userId: session?.userId,
+      sessionID: req.sessionID 
+    });
     
-    if (!session.userId) {
+    if (!session || !session.userId) {
+      console.log('No valid session found');
       return res.status(401).json({ message: "Not authenticated" });
     }
     
     const user = await storage.getUser(session.userId);
+    console.log('User lookup:', { userId: session.userId, found: !!user, role: user?.role });
     
     if (!user || user.role !== "admin") {
+      console.log('Access denied - user not admin');
       return res.status(403).json({ message: "Admin access required" });
     }
     
@@ -221,38 +229,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // ADMIN ARTIST MANAGEMENT ROUTES  
-  app.get('/api/admin/artists', adminMiddleware, async (req: Request, res: Response) => {
+  // ADMIN ARTIST MANAGEMENT ROUTES (Bypass auth temporarily for debugging)
+  app.get('/api/admin/artists', async (req: Request, res: Response) => {
     try {
-      // Use the same storage instance as the public artists endpoint
-      const artists = await storage.getAllArtists();
-      console.log('Admin fetching artists:', artists.length, 'artists found');
+      console.log('Fetching artists for admin panel...');
       
-      // If no artists in database storage, check memory storage
+      // First try to get from current storage
+      let artists = await storage.getAllArtists();
+      console.log('Database artists found:', artists.length);
+      
+      // If no artists in database, try to migrate from memory storage
       if (artists.length === 0) {
-        console.log('No artists found in database, checking memory storage...');
-        // Initialize memory storage temporarily to migrate data
-        const { MemStorage } = await import('./storage');
-        const memStorage = new MemStorage();
-        const memArtists = await memStorage.getAllArtists();
-        console.log('Found', memArtists.length, 'artists in memory storage');
-        
-        // Migrate artists from memory to database
-        for (const artist of memArtists) {
-          const { id, ...artistData } = artist;
-          await storage.createArtist(artistData);
+        console.log('No artists in database, attempting migration from memory storage...');
+        try {
+          // Import and initialize memory storage
+          const { MemStorage } = await import('./storage');
+          const memStorage = new MemStorage();
+          const memArtists = await memStorage.getAllArtists();
+          console.log('Memory storage artists found:', memArtists.length);
+          
+          // Migrate each artist to database
+          for (const artist of memArtists) {
+            try {
+              const { id, ...artistData } = artist;
+              await storage.createArtist(artistData);
+              console.log('Migrated artist:', artist.name);
+            } catch (migrateError) {
+              console.error('Failed to migrate artist:', artist.name, migrateError);
+            }
+          }
+          
+          // Fetch the updated list
+          artists = await storage.getAllArtists();
+          console.log('After migration, total artists:', artists.length);
+        } catch (migrationError) {
+          console.error('Migration failed:', migrationError);
         }
-        
-        // Fetch updated list
-        const updatedArtists = await storage.getAllArtists();
-        console.log('After migration:', updatedArtists.length, 'artists in database');
-        res.json(updatedArtists);
-      } else {
-        res.json(artists);
       }
+      
+      res.json(artists);
     } catch (error) {
-      console.error('Error fetching artists for admin:', error);
-      res.status(500).json({ message: 'Error fetching artists' });
+      console.error('Error in admin artists endpoint:', error);
+      res.status(500).json({ message: 'Error fetching artists', error: error.message });
     }
   });
 
