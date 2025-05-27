@@ -21,6 +21,8 @@ import EventsPage from '@/pages/events-public';
 import AdminLogin from '@/pages/admin/login';
 import AdminDashboard from '@/pages/admin/dashboard';
 import AdminUsersPage from '@/pages/admin/users';
+import AdminArtistsPage from '@/pages/admin/artists';
+import AdminEventsPage from '@/pages/admin/events';
 
 
 
@@ -41,6 +43,8 @@ function Router() {
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/admin/users" component={AdminUsersPage} />
+      <Route path="/admin/artists" component={AdminArtistsPage} />
+      <Route path="/admin/events" component={AdminEventsPage} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -243,6 +243,94 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.put('/api/admin/artists/:id', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const artistId = parseInt(req.params.id);
+      const artistData = req.body;
+      const updatedArtist = await storage.updateArtist(artistId, artistData);
+      
+      if (!updatedArtist) {
+        return res.status(404).json({ message: 'Artist not found' });
+      }
+
+      res.json(updatedArtist);
+    } catch (error) {
+      console.error('Error updating artist:', error);
+      res.status(500).json({ message: 'Error updating artist' });
+    }
+  });
+
+  app.delete('/api/admin/artists/:id', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const artistId = parseInt(req.params.id);
+      const deleted = await storage.deleteArtist(artistId);
+      
+      if (!deleted) {
+        return res.status(404).json({ message: 'Artist not found' });
+      }
+
+      res.json({ message: 'Artist deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting artist:', error);
+      res.status(500).json({ message: 'Error deleting artist' });
+    }
+  });
+
+  // ADMIN EVENT MANAGEMENT ROUTES
+  app.get('/api/admin/events', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const events = await storage.getAllEvents();
+      res.json(events);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      res.status(500).json({ message: 'Error fetching events' });
+    }
+  });
+
+  app.post('/api/admin/events', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const eventData = req.body;
+      const newEvent = await storage.createEvent(eventData);
+      res.json(newEvent);
+    } catch (error) {
+      console.error('Error creating event:', error);
+      res.status(500).json({ message: 'Error creating event' });
+    }
+  });
+
+  app.put('/api/admin/events/:id', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const eventId = parseInt(req.params.id);
+      const eventData = req.body;
+      const updatedEvent = await storage.updateEvent(eventId, eventData);
+      
+      if (!updatedEvent) {
+        return res.status(404).json({ message: 'Event not found' });
+      }
+
+      res.json(updatedEvent);
+    } catch (error) {
+      console.error('Error updating event:', error);
+      res.status(500).json({ message: 'Error updating event' });
+    }
+  });
+
+  app.delete('/api/admin/events/:id', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const eventId = parseInt(req.params.id);
+      const deleted = await storage.deleteEvent(eventId);
+      
+      if (!deleted) {
+        return res.status(404).json({ message: 'Event not found' });
+      }
+
+      res.json({ message: 'Event deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      res.status(500).json({ message: 'Error deleting event' });
+    }
+  });
+
   // ADMIN AUTH ROUTES
   app.post('/api/auth/admin-login', async (req, res, next) => {
     try {
