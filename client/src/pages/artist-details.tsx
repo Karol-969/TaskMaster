@@ -203,10 +203,10 @@ export default function ArtistDetailPage() {
                   
                   <div className="mt-4 md:mt-0 flex md:flex-col items-center md:items-end gap-4 md:gap-2">
                     <div className="text-white">
-                      <span className="text-accent font-bold text-2xl md:text-3xl">
-                        ${displayArtist.price.toLocaleString()}
+                      <span className="text-accent font-bold text-lg md:text-xl">
+                        Available for Booking
                       </span>
-                      <span className="text-gray-400 text-sm"> per event</span>
+                      <span className="text-gray-400 text-sm block"> Contact for pricing</span>
                     </div>
                     
                     <Button 
