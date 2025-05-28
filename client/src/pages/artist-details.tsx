@@ -124,6 +124,9 @@ export default function ArtistDetailPage() {
     );
   }
 
+  // Use the fetched artist data
+  const displayArtist = artist;
+
   return (
     <Layout>
       <Helmet>
