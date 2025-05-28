@@ -109,7 +109,7 @@ export default function ArtistDetailPage() {
     <Layout>
       <Helmet>
         <title>{displayArtist.name} | Book Now | Reart Events</title>
-        <meta name="description" content={`Book ${displayArtist.name} for your next event. ${displayArtist.description.substring(0, 120)}...`} />
+        <meta name="description" content={`Book ${displayArtist.name} for your next event. ${displayArtist.description ? displayArtist.description.substring(0, 120) : 'Professional artist available for bookings'}...`} />
       </Helmet>
       
       <div className="relative min-h-screen">
