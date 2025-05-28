@@ -97,19 +97,38 @@ export default function ArtistDetailPage() {
     ]
   };
 
-  // Determine which artist data to display
-  const displayArtist = artist || demoArtist;
-  
   // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-white text-xl">Loading artist details...</div>
+        </div>
+      </Layout>
+    );
+  }
+
+  // Show error or not found state
+  if (error || !artist) {
+    return (
+      <Layout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-white text-xl">Artist not found</div>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Helmet>
-        <title>{displayArtist?.name || 'Artist'} | Book Now | Reart Events</title>
-        <meta name="description" content={`Book ${displayArtist?.name || 'this artist'} for your next event. ${displayArtist?.description ? displayArtist.description.substring(0, 120) : 'Professional artist available for bookings'}...`} />
+        <title>{artist.name} | Book Now | Reart Events</title>
+        <meta name="description" content={`Book ${artist.name} for your next event. ${artist.description ? artist.description.substring(0, 120) : 'Professional artist available for bookings'}...`} />
       </Helmet>
       
       <div className="relative min-h-screen">
