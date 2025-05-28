@@ -416,16 +416,16 @@ export default function ArtistDetailPage() {
                   
                   <div className="bg-gray-800/70 rounded-lg p-4 mb-6">
                     <div className="flex justify-between mb-2 text-gray-300">
-                      <span>Base price</span>
-                      <span>${displayArtist.price.toLocaleString()}</span>
+                      <span>Booking type</span>
+                      <span>Professional Event</span>
                     </div>
                     <div className="flex justify-between mb-4 text-gray-300">
-                      <span>Service fee</span>
-                      <span>${Math.round(displayArtist.price * 0.05).toLocaleString()}</span>
+                      <span>Contact for</span>
+                      <span>Custom Pricing</span>
                     </div>
                     <div className="flex justify-between font-bold text-white text-lg">
-                      <span>Total</span>
-                      <span>${Math.round(displayArtist.price * 1.05).toLocaleString()}</span>
+                      <span>Status</span>
+                      <span className="text-accent">Available</span>
                     </div>
                   </div>
                   
