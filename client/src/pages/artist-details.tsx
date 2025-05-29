@@ -42,7 +42,7 @@ export default function ArtistDetailPage() {
   
   // Fetch artist from API
   const { data: artist, isLoading, error } = useQuery<Artist>({
-    queryKey: ['/api/artists', artistId],
+    queryKey: [`/api/artists/${artistId}`],
     enabled: !!artistId,
     throwOnError: false,
     staleTime: 10 * 60 * 1000, // 10 minutes
