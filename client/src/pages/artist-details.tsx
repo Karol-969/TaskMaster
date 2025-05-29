@@ -130,8 +130,8 @@ export default function ArtistDetailPage() {
   return (
     <Layout>
       <Helmet>
-        <title>{artist.name} | Book Now | Reart Events</title>
-        <meta name="description" content={`Book ${artist.name} for your next event. ${artist.description ? artist.description.substring(0, 120) : 'Professional artist available for bookings'}...`} />
+        <title>{artist?.name || 'Artist'} | Book Now | Reart Events</title>
+        <meta name="description" content={`Book ${artist?.name || 'this artist'} for your next event. ${artist?.description ? artist.description.substring(0, 120) : 'Professional artist available for bookings'}...`} />
       </Helmet>
       
       <div className="relative min-h-screen">

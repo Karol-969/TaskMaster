@@ -501,7 +501,7 @@ export default function ArtistsPage() {
                       </div>
                       
                       <div className="flex justify-end">
-                        <Link href={`/artists/${artist.id}`}>
+                        <Link to={`/artists/${artist.id}`}>
                           <Button
                             className="bg-accent hover:bg-accent/90 text-white px-6 py-6 rounded-full text-base shadow-lg"
                             size="lg"
