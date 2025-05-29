@@ -374,7 +374,7 @@ export default function ArtistDetailPage() {
               {/* Sidebar */}
               <div className="w-full lg:w-1/3">
                 {/* Booking form card */}
-                <div className="sticky top-8 bg-gray-900/70 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 mb-8">
+                <div className="bg-gray-900/70 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 mb-8">
                   <h3 className="text-xl font-bold text-white mb-4">
                     Book {displayArtist.name}
                   </h3>
