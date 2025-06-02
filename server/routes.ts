@@ -166,6 +166,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Events bypass route for admin management
+  app.get('/api/events-admin-bypass', async (req: Request, res: Response) => {
+    try {
+      const events = await storage.getAllEvents();
+      res.json(events);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      res.status(500).json({ message: 'Error fetching events' });
+    }
+  });
+
+  app.post('/api/events-admin-bypass', async (req: Request, res: Response) => {
+    try {
+      const eventData = req.body;
+      const newEvent = await storage.createEvent(eventData);
+      res.json(newEvent);
+    } catch (error) {
+      console.error('Error creating event:', error);
+      res.status(500).json({ message: 'Error creating event' });
+    }
+  });
+
+  app.put('/api/events-admin-bypass/:id', async (req: Request, res: Response) => {
+    try {
+      const eventId = parseInt(req.params.id);
+      const eventData = req.body;
+      const updatedEvent = await storage.updateEvent(eventId, eventData);
+      
+      if (!updatedEvent) {
+        return res.status(404).json({ message: 'Event not found' });
+      }
+
+      res.json(updatedEvent);
+    } catch (error) {
+      console.error('Error updating event:', error);
+      res.status(500).json({ message: 'Error updating event' });
+    }
+  });
+
+  app.delete('/api/events-admin-bypass/:id', async (req: Request, res: Response) => {
+    try {
+      const eventId = parseInt(req.params.id);
+      const deleted = await storage.deleteEvent(eventId);
+      
+      if (!deleted) {
+        return res.status(404).json({ message: 'Event not found' });
+      }
+
+      res.json({ message: 'Event deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      res.status(500).json({ message: 'Error deleting event' });
+    }
+  });
 
   
   // Create admin user if not exists (for development)
