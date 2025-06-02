@@ -59,11 +59,21 @@ export default function EventManagement() {
 
   // Create event mutation
   const createEventMutation = useMutation({
-    mutationFn: (eventData: InsertEvent) => 
-      apiRequest('/api/admin/events', {
+    mutationFn: async (eventData: InsertEvent) => {
+      const response = await fetch('/api/admin/events', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(eventData),
-      }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to create event: ${response.statusText}`);
+      }
+      
+      return response.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/events'] });
       setIsCreateModalOpen(false);
@@ -83,11 +93,21 @@ export default function EventManagement() {
 
   // Update event mutation
   const updateEventMutation = useMutation({
-    mutationFn: ({ id, eventData }: { id: number; eventData: Partial<InsertEvent> }) =>
-      apiRequest(`/api/admin/events/${id}`, {
+    mutationFn: async ({ id, eventData }: { id: number; eventData: Partial<InsertEvent> }) => {
+      const response = await fetch(`/api/admin/events/${id}`, {
         method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(eventData),
-      }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to update event: ${response.statusText}`);
+      }
+      
+      return response.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/events'] });
       setEditingEvent(null);
@@ -107,10 +127,17 @@ export default function EventManagement() {
 
   // Delete event mutation
   const deleteEventMutation = useMutation({
-    mutationFn: (id: number) =>
-      apiRequest(`/api/admin/events/${id}`, {
+    mutationFn: async (id: number) => {
+      const response = await fetch(`/api/admin/events/${id}`, {
         method: 'DELETE',
-      }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to delete event: ${response.statusText}`);
+      }
+      
+      return response.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/events'] });
       toast({

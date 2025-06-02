@@ -91,17 +91,25 @@ export const insertVenueSchema = createInsertSchema(venues).omit({
 export const events = pgTable("events", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  description: text("description"),
   date: timestamp("date").notNull(),
-  description: text("description").notNull(),
-  imageUrl: text("image_url").notNull(),
+  startTime: text("start_time").notNull(),
+  endTime: text("end_time").notNull(),
   venue: text("venue").notNull(),
-  ticketPrice: integer("ticket_price").notNull(),
-  totalTickets: integer("total_tickets").notNull(),
-  availableTickets: integer("available_tickets").notNull(),
+  capacity: integer("capacity").notNull(),
+  price: integer("price").notNull(),
+  status: text("status").notNull().default("draft"), // draft, published, cancelled
+  eventType: text("event_type").notNull(),
+  organizerId: integer("organizer_id").notNull(),
+  images: text("images").array(), // Array of base64 image strings
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const insertEventSchema = createInsertSchema(events).omit({
   id: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
 // Booking schema
