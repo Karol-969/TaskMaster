@@ -42,6 +42,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { Plus, Edit, Trash2, Calendar, MapPin, Clock, Users } from "lucide-react";
 import type { Event, InsertEvent } from "@shared/schema";
+import { AdminLayout } from "@/components/admin/admin-layout";
 
 export default function EventManagement() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -299,7 +300,8 @@ export default function EventManagement() {
   };
 
   return (
-    <div className="space-y-6">
+    <AdminLayout>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
@@ -847,6 +849,7 @@ export default function EventManagement() {
           <div className="text-gray-400">Cancelled</div>
         </div>
       </div>
-    </div>
+      </div>
+    </AdminLayout>
   );
 }

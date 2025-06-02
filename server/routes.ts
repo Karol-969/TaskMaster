@@ -180,6 +180,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/events-admin-bypass', async (req: Request, res: Response) => {
     try {
       const eventData = req.body;
+      
+      // Convert date string to Date object if needed
+      if (eventData.date && typeof eventData.date === 'string') {
+        eventData.date = new Date(eventData.date);
+      }
+      
+      console.log('Processed event data:', eventData);
       const newEvent = await storage.createEvent(eventData);
       res.json(newEvent);
     } catch (error) {
@@ -192,6 +199,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const eventId = parseInt(req.params.id);
       const eventData = req.body;
+      
+      // Convert date string to Date object if needed
+      if (eventData.date && typeof eventData.date === 'string') {
+        eventData.date = new Date(eventData.date);
+      }
+      
       const updatedEvent = await storage.updateEvent(eventId, eventData);
       
       if (!updatedEvent) {
