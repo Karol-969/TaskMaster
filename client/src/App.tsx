@@ -13,7 +13,7 @@ import ArtistsPage from '@/pages/artists';
 import ArtistDetailPage from '@/pages/artist-details';
 import ServicesPage from '@/pages/services';
 import WeeklyMusicService from '@/pages/services/weekly-music';
-import MonthlyCalendarService from '@/pages/services/monthly-calendar';
+import MonthlyArtistsService from '@/pages/services/monthly-artists';
 import EventConceptsService from '@/pages/services/event-concepts';
 import PromotionSponsorshipsService from '@/pages/services/promotion-sponsorships';
 import ContactPage from '@/pages/contact';
@@ -35,7 +35,7 @@ function Router() {
       <Route path="/artists/:id" component={ArtistDetailPage} />
       <Route path="/services" component={ServicesPage} />
       <Route path="/services/weekly-music" component={WeeklyMusicService} />
-      <Route path="/services/monthly-calendar" component={MonthlyCalendarService} />
+      <Route path="/services/monthly-artists" component={MonthlyArtistsService} />
       <Route path="/services/event-concepts" component={EventConceptsService} />
       <Route path="/services/promotion-sponsorships" component={PromotionSponsorshipsService} />
       <Route path="/contact" component={ContactPage} />

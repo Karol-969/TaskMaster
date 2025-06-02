@@ -48,7 +48,7 @@ export default function ServicesPage() {
       longDescription: "Our monthly calendar service provides a structured approach to your venue's entertainment needs. We create a comprehensive monthly plan with dedicated artists who are auditioned and confirmed in advance. This service includes performance schedules, artist profiles, and promotional materials to help you market upcoming performances.",
       icon: <Calendar className="h-10 w-10 text-accent" />,
       image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
-      link: "/services/monthly-calendar"
+      link: "/services/monthly-artists"
     },
     {
       id: 3,
