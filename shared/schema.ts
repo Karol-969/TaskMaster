@@ -63,12 +63,20 @@ export const soundSystems = pgTable("sound_systems", {
   name: text("name").notNull(),
   type: text("type").notNull(),
   description: text("description").notNull(),
-  imageUrl: text("image_url").notNull(),
-  price: integer("price").notNull(),
+  specifications: text("specifications").notNull(),
+  pricing: text("pricing").notNull(),
+  powerRating: text("power_rating").notNull(),
+  coverageArea: text("coverage_area").notNull(),
+  image: text("image"),
+  category: text("category").notNull(),
+  features: text("features").array(),
+  available: boolean("available").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const insertSoundSystemSchema = createInsertSchema(soundSystems).omit({
   id: true,
+  createdAt: true,
 });
 
 // Venue schema
