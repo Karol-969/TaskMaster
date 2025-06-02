@@ -85,6 +85,19 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup session middleware FIRST
+  app.use(session({
+    cookie: { 
+      maxAge: 86400000, // 1 day
+      secure: false, // Set to true in production with HTTPS
+      httpOnly: true,
+      sameSite: 'lax'
+    },
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.SESSION_SECRET || 'reart-events-secret',
+    name: 'admin.session'
+  }));
 
   // IMMEDIATE FIX: Create bypass route with different path to avoid admin middleware
   app.get('/api/artists-admin-bypass', async (req: Request, res: Response) => {
@@ -153,13 +166,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Setup session middleware AFTER the bypass route
-  app.use(session({
-    cookie: { maxAge: 86400000 }, // 1 day
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.SESSION_SECRET || 'reart-events-secret'
-  }));
+
   
   // Create admin user if not exists (for development)
   try {
