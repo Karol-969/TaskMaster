@@ -14,7 +14,8 @@ import {
   LogOut,
   Bell,
   Moon,
-  Sun
+  Sun,
+  Volume2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/hooks/use-theme';
@@ -27,6 +28,7 @@ const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: Home },
   { name: 'User Management', href: '/admin/users', icon: Users },
   { name: 'Artist Management', href: '/admin/artists', icon: Music },
+  { name: 'Sound Equipment', href: '/admin/sound-equipment', icon: Volume2 },
   { name: 'Event Management', href: '/admin/events', icon: Calendar },
   { name: 'Booking Management', href: '/admin/bookings', icon: Shield },
   { name: 'Venue Management', href: '/admin/venues', icon: MapPin },

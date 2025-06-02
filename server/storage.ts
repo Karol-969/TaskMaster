@@ -187,17 +187,92 @@ export class MemStorage implements IStorage {
       price: 2500
     });
 
-    // Add Sound Systems
+    // Add Sound Systems with enhanced data
     this.createSoundSystem({
       name: "Premium PA System",
       type: "Complete PA",
       description: "Professional-grade sound system suitable for indoor venues up to 500 people.",
-      imageUrl: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500&q=80",
-      price: 1000
+      specifications: "2x 15-inch main speakers, 1x 18-inch subwoofer, digital mixer, wireless microphones",
+      pricing: "NPR 8,000/day",
+      powerRating: "2000W RMS",
+      coverageArea: "500 people",
+      image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      category: "PA Systems",
+      features: ["Digital mixing console", "Wireless microphones", "Full range coverage", "Professional setup"],
+      available: true
     });
 
     this.createSoundSystem({
       name: "Concert Audio Package",
+      type: "Line Array System",
+      description: "High-power line array system for large outdoor events and concerts.",
+      specifications: "4x line array elements, 2x subwoofers, 32-channel digital console, monitoring system",
+      pricing: "NPR 25,000/day",
+      powerRating: "8000W RMS",
+      coverageArea: "2000+ people",
+      image: "https://images.unsplash.com/photo-1511735111819-9a3f7709049c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      category: "PA Systems",
+      features: ["Line array technology", "Long throw coverage", "Digital signal processing", "Professional engineer included"],
+      available: true
+    });
+
+    this.createSoundSystem({
+      name: "Digital Mixing Console",
+      type: "32-Channel Mixer",
+      description: "Professional digital mixing console with built-in effects and recording capabilities.",
+      specifications: "32 input channels, 16 mix buses, built-in effects, USB recording interface",
+      pricing: "NPR 3,500/day",
+      powerRating: "100W",
+      coverageArea: "Mixing control",
+      image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      category: "Mixers",
+      features: ["Digital processing", "Built-in effects", "Scene recall", "Remote control"],
+      available: true
+    });
+
+    this.createSoundSystem({
+      name: "Wireless Microphone Set",
+      type: "UHF Wireless System",
+      description: "Professional wireless microphone system with 4 channels and rechargeable transmitters.",
+      specifications: "4x wireless handheld mics, 4x bodypack transmitters, diversity receivers",
+      pricing: "NPR 2,500/day",
+      powerRating: "50mW",
+      coverageArea: "100m range",
+      image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      category: "Microphones",
+      features: ["UHF frequency", "Rechargeable batteries", "Diversity reception", "Low latency"],
+      available: true
+    });
+
+    this.createSoundSystem({
+      name: "Stage Monitor System",
+      type: "Active Monitors",
+      description: "Professional stage monitoring system for performers with individual mix control.",
+      specifications: "6x 12-inch active monitors, monitor mixing console, in-ear system options",
+      pricing: "NPR 4,000/day",
+      powerRating: "1200W total",
+      coverageArea: "Stage monitoring",
+      image: "https://images.unsplash.com/photo-1511735111819-9a3f7709049c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      category: "Monitors",
+      features: ["Individual control", "Low latency", "High SPL capability", "Feedback suppression"],
+      available: true
+    });
+
+    this.createSoundSystem({
+      name: "LED Stage Lighting Package",
+      type: "Complete Lighting System",
+      description: "Professional LED lighting system with DMX control for stage and event illumination.",
+      specifications: "12x LED par lights, 4x moving head lights, DMX controller, haze machine",
+      pricing: "NPR 6,000/day",
+      powerRating: "2400W",
+      coverageArea: "Full stage coverage",
+      image: "https://images.unsplash.com/photo-1540317580384-e5d43867caa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      category: "Lighting",
+      features: ["RGB color mixing", "DMX control", "Moving head effects", "Synchronized operation"],
+      available: true
+    });
+
+    this.createSoundSystem({
       type: "Large Venue",
       description: "Comprehensive sound setup for concerts and large events with up to 2000 attendees.",
       imageUrl: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500&q=80",

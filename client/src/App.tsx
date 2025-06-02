@@ -23,6 +23,7 @@ import AdminDashboard from '@/pages/admin/dashboard';
 import AdminUsersPage from '@/pages/admin/users';
 import AdminArtistsPage from '@/pages/admin/artists';
 import AdminEventsPage from '@/pages/admin/events';
+import AdminSoundEquipmentPage from '@/pages/admin/sound-equipment';
 import SoundPage from '@/pages/sound';
 
 
@@ -46,6 +47,7 @@ function Router() {
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/admin/users" component={AdminUsersPage} />
       <Route path="/admin/artists" component={AdminArtistsPage} />
+      <Route path="/admin/sound-equipment" component={AdminSoundEquipmentPage} />
       <Route path="/admin/events" component={AdminEventsPage} />
       <Route component={NotFound} />
     </Switch>
