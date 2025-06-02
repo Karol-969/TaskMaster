@@ -121,7 +121,6 @@ export default function EventManagement() {
         description: "Event created successfully",
       });
       setSelectedImages([]);
-      form.reset();
     },
     onError: (error: any) => {
       toast({
@@ -135,7 +134,7 @@ export default function EventManagement() {
   // Update event mutation
   const updateEventMutation = useMutation({
     mutationFn: async ({ id, eventData }: { id: number; eventData: Partial<InsertEvent> }) => {
-      const response = await fetch(`/api/admin/events/${id}`, {
+      const response = await fetch(`/api/events-admin-bypass/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -150,7 +149,7 @@ export default function EventManagement() {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/events'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/events-admin-bypass'] });
       setEditingEvent(null);
       toast({
         title: "Success",
@@ -169,7 +168,7 @@ export default function EventManagement() {
   // Delete event mutation
   const deleteEventMutation = useMutation({
     mutationFn: async (id: number) => {
-      const response = await fetch(`/api/admin/events/${id}`, {
+      const response = await fetch(`/api/events-admin-bypass/${id}`, {
         method: 'DELETE',
       });
       
@@ -180,7 +179,7 @@ export default function EventManagement() {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/events'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/events-admin-bypass'] });
       toast({
         title: "Success",
         description: "Event deleted successfully",
