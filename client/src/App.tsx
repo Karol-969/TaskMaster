@@ -23,6 +23,7 @@ import AdminDashboard from '@/pages/admin/dashboard';
 import AdminUsersPage from '@/pages/admin/users';
 import AdminArtistsPage from '@/pages/admin/artists';
 import AdminEventsPage from '@/pages/admin/events';
+import SoundPage from '@/pages/sound';
 
 
 
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/artists" component={ArtistsPage} />
       <Route path="/artists/:id" component={ArtistDetailPage} />
+      <Route path="/sound" component={SoundPage} />
       <Route path="/services" component={ServicesPage} />
       <Route path="/services/weekly-music" component={WeeklyMusicService} />
       <Route path="/services/monthly-artists" component={MonthlyArtistsService} />

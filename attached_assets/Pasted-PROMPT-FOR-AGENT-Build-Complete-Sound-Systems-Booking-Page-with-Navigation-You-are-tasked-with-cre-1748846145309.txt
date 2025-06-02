@@ -1,0 +1,174 @@
+PROMPT FOR AGENT: Build Complete Sound Systems Booking Page with Navigation
+
+You are tasked with creating a comprehensive sound systems booking page for the Reart Events platform. This should be a completely new page at /sound (similar to the existing /artists page) with full navigation integration.
+
+Current State Analysis:
+
+The existing /sound-systems page is basic and needs complete enhancement
+Need to create a new /sound route and add it to navigation
+Backend API endpoints exist at /api/sound-systems
+Follow the same design patterns as the successful /artists page
+Required Implementation:
+
+1. Navigation Integration:
+
+Add "Sound" to the main navigation in client/src/components/layout/header.tsx
+Update navigation items array to include { label: 'Sound', href: '/sound' }
+Ensure proper active state highlighting
+2. New Sound Systems Page Structure:
+Create client/src/pages/sound.tsx following the exact pattern of client/src/pages/artists.tsx:
+
+Hero Section:
+
+Stunning background with sound equipment imagery
+Title: "Professional Sound Systems for Every Event"
+Subtitle about creating perfect audio experiences
+Floating sound wave animations (similar to music elements)
+Smooth scroll CTA to equipment section
+Equipment Categories Section:
+
+Filter buttons for equipment types (PA Systems, Mixers, Microphones, Monitors, Lighting, All Equipment)
+Search functionality with real-time filtering
+Category counters showing available equipment per type
+Equipment Gallery:
+
+Grid layout showing sound equipment with high-quality images
+Each equipment card should display:
+Equipment image with hover effects
+Equipment name and type badge
+Technical specifications preview
+Pricing information
+Power rating and coverage area
+"View Details" button leading to detailed view
+3. Enhanced Equipment Categories:
+
+- PA Systems (Main speakers, subwoofers, line arrays)
+- Mixers & Consoles (Digital, analog, DJ mixers)
+- Microphones (Wireless, wired, instrument mics)
+- Monitors & Speakers (Stage monitors, in-ear systems)
+- Lighting Equipment (LED panels, moving heads, strobes)
+- Cables & Accessories (Audio cables, stands, power)
+4. Package Selection System:
+Create predefined packages:
+
+Basic Package: Small venue (50-100 people)
+2x Main speakers, 1x Mixer, 2x Microphones
+Basic lighting setup
+4-hour rental with setup/breakdown
+Standard Package: Medium venue (100-300 people)
+4x Main speakers, 1x Subwoofer, Professional mixer
+Wireless microphone system
+Enhanced lighting package
+6-hour rental with technical support
+Premium Package: Large venue (300+ people)
+Full PA system with line arrays
+Professional mixing console
+Complete wireless microphone system
+Professional lighting rig
+8-hour rental with dedicated sound engineer
+Custom Package: Build your own configuration
+5. Enhanced Booking System:
+Extend the existing booking form with sound-specific fields:
+
+Event type (Concert, Wedding, Corporate, Party, Festival)
+Venue details (indoor/outdoor, size, power availability)
+Expected attendance
+Sound engineer requirement (yes/no)
+Setup/breakdown assistance needed
+Special audio requirements
+Equipment delivery preferences
+Technical rider upload option
+6. Sound Engineer Booking:
+
+Toggle option to include professional sound engineer
+Engineer profiles with experience and specializations
+Pricing tiers for different engineer levels
+Availability calendar integration
+7. Enhanced Features:
+
+Equipment Compatibility Checker: Ensure selected equipment works together
+Venue Suitability Calculator: Recommend equipment based on venue size/type
+3D Setup Visualization: Show how equipment will be arranged
+Technical Specifications: Detailed specs for each equipment piece
+Customer Reviews: Reviews and ratings for equipment and engineers
+Setup Time Calculator: Estimate setup and breakdown time
+Power Requirement Calculator: Calculate total power needs
+8. Payment Integration:
+
+eSewa and Khalti payment gateway integration
+"Pay Now" vs "Pay Later" options with terms
+Deposit and full payment options
+Equipment damage insurance option
+Cancellation policy clearly displayed
+9. Confirmation & Communication:
+
+Email/SMS confirmation with booking details
+Equipment checklist and setup instructions
+Contact information for technical support
+QR code for easy access to booking details
+Calendar integration for event reminders
+Technical Implementation Requirements:
+
+File Structure:
+
+client/src/pages/sound.tsx (NEW - main sound page)
+client/src/components/booking/
+├── sound-equipment-gallery.tsx (NEW)
+├── sound-package-selector.tsx (NEW)
+├── enhanced-sound-booking-form.tsx (NEW)
+├── sound-engineer-selection.tsx (NEW)
+└── equipment-compatibility-checker.tsx (NEW)
+Design Requirements:
+
+Follow exact visual style of /artists page
+Use dark theme with accent color (#f0b428)
+Implement smooth animations with Framer Motion
+Responsive design for all screen sizes
+High-quality equipment photography
+Professional typography and spacing
+Navigation Update:
+Update client/src/components/layout/header.tsx navigation array:
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Artists', href: '/artists' },
+  { label: 'Sound', href: '/sound' }, // NEW
+  { label: 'Services', href: '/services' },
+  { label: 'Events', href: '/events' },
+  { label: 'Contact', href: '/contact' },
+];
+Routing Integration:
+Ensure the new /sound route is properly handled in the application routing system.
+
+Key Features to Implement:
+
+Advanced Filtering: By equipment type, power rating, venue size, price range
+Equipment Bundles: Pre-configured equipment packages for different event types
+Real-time Availability: Check equipment availability for specific dates
+Technical Support: Live chat or booking consultation option
+Equipment Comparison: Side-by-side comparison of similar equipment
+Venue Mapping: Integration with venue database for equipment recommendations
+Weather Considerations: Special equipment recommendations for outdoor events
+Load-in Information: Detailed logistics for equipment delivery and setup
+API Integration:
+
+Use existing /api/sound-systems endpoint
+Extend booking API to handle sound-specific data
+Implement engineer booking API integration
+Add equipment availability checking
+Performance Requirements:
+
+Fast image loading with lazy loading
+Smooth animations and transitions
+Mobile-optimized touch interactions
+SEO optimization with proper meta tags
+Quality Assurance:
+
+TypeScript type safety throughout
+Comprehensive error handling
+Loading states for all async operations
+Form validation with helpful error messages
+Cross-browser compatibility testing
+Build this as a complete, production-ready sound equipment booking system that rivals the quality of major equipment rental platforms while maintaining consistency with the existing Reart Events design system and user experience patterns.
+
+The final result should be a professional sound equipment rental page that seamlessly integrates with the existing navigation and provides users with an intuitive, comprehensive booking experience for sound systems and audio equipment.
