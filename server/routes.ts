@@ -1118,6 +1118,71 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Apply error handling middleware
   app.use(errorHandler);
 
+  // Chat API endpoint for service assistance
+  app.post('/api/chat', async (req: Request, res: Response) => {
+    try {
+      const { message, serviceName, serviceDescription, conversationHistory } = req.body;
+
+      if (!process.env.OPENAI_API_KEY) {
+        return res.status(503).json({ 
+          message: "Chat service is currently unavailable. Please contact us directly for assistance with our services.",
+          error: "API key not configured"
+        });
+      }
+
+      // Import OpenAI (only when needed)
+      const { OpenAI } = await import('openai');
+      const openai = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+
+      // Create context for the service
+      const systemPrompt = `You are a helpful customer service assistant for ReArt Events, a professional event management company. You are specifically helping with questions about the "${serviceName}" service.
+
+Service Description: ${serviceDescription}
+
+Company Background: ReArt Events is an event management company established in 2024. We specialize in live music arrangements, monthly artist booking, event concepts and management, and promotion/sponsorship services.
+
+Guidelines:
+- Be friendly, professional, and helpful
+- Focus on the specific service the user is asking about
+- Provide accurate information about ReArt Events services
+- If asked about pricing, suggest contacting the company for a custom quote
+- If asked about booking, guide them to contact the company
+- Keep responses concise but informative
+- Always maintain a professional tone
+- If you don't know specific details, be honest and suggest they contact ReArt Events directly`;
+
+      // Build conversation messages
+      const messages = [
+        { role: 'system', content: systemPrompt },
+        ...conversationHistory.map((msg: any) => ({
+          role: msg.isUser ? 'user' : 'assistant',
+          content: msg.text
+        })),
+        { role: 'user', content: message }
+      ];
+
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4o', // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        messages: messages as any,
+        max_tokens: 500,
+        temperature: 0.7,
+      });
+
+      const botResponse = completion.choices[0]?.message?.content || 
+        "I apologize, but I'm having trouble generating a response right now. Please try again or contact us directly.";
+
+      res.json({ message: botResponse });
+    } catch (error) {
+      console.error('Chat API error:', error);
+      res.status(500).json({ 
+        message: "I'm sorry, I'm experiencing technical difficulties. Please try again later or contact us directly for assistance.",
+        error: "Internal server error"
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

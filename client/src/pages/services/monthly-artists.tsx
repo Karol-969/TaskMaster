@@ -2,53 +2,53 @@ import { Helmet } from 'react-helmet';
 import { Layout } from '@/components/layout/layout';
 import { ServiceChat } from '@/components/chat/service-chat';
 import { motion } from 'framer-motion';
-import { Music, Calendar, Clock, Users, Star, CheckCircle } from 'lucide-react';
+import { Star, Calendar, Globe, Trophy, CheckCircle, Users } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
-export default function WeeklyMusicPage() {
+export default function MonthlyArtistsPage() {
   const features = [
-    "Professional artist selection and vetting",
-    "Consistent schedule: Wednesday, Friday, Saturday",
-    "All logistics and coordination handled",
-    "Venue-matched performer selection",
-    "Audience preference consideration",
-    "Backup artist arrangements"
+    "Curated selection of renowned artists",
+    "Monthly featured performances",
+    "International and local talent",
+    "Complete event production",
+    "VIP meet-and-greet arrangements",
+    "Custom staging and sound setup"
   ];
 
-  const benefits = [
+  const artistTypes = [
     {
-      icon: <Music className="h-6 w-6 text-blue-600" />,
-      title: "High-Quality Performances",
-      description: "Carefully vetted artists who match your venue's atmosphere"
+      icon: <Star className="h-6 w-6 text-blue-600" />,
+      title: "Headliner Artists",
+      description: "Internationally recognized performers and chart-topping musicians"
     },
     {
-      icon: <Calendar className="h-6 w-6 text-blue-600" />,
-      title: "Reliable Schedule",
-      description: "Consistent entertainment three days a week"
+      icon: <Globe className="h-6 w-6 text-blue-600" />,
+      title: "Cultural Performers",
+      description: "Traditional and contemporary artists representing diverse cultures"
+    },
+    {
+      icon: <Trophy className="h-6 w-6 text-blue-600" />,
+      title: "Award Winners",
+      description: "Grammy nominees, festival winners, and critically acclaimed artists"
     },
     {
       icon: <Users className="h-6 w-6 text-blue-600" />,
-      title: "Audience Engagement",
-      description: "Artists selected to connect with your specific audience"
-    },
-    {
-      icon: <Clock className="h-6 w-6 text-blue-600" />,
-      title: "Hassle-Free Management",
-      description: "Complete logistics handling from start to finish"
+      title: "Emerging Talent",
+      description: "Rising stars and breakthrough artists making waves in the industry"
     }
   ];
 
   return (
     <Layout>
       <Helmet>
-        <title>Weekly Live Music Arrangement | ReArt Events</title>
-        <meta name="description" content="Professional weekly live music arrangements for venues. High-quality performers every Wednesday, Friday, and Saturday with complete logistics management." />
+        <title>Monthly Artist Arrangement | ReArt Events</title>
+        <meta name="description" content="Book renowned artists monthly for exclusive performances. From international headliners to emerging talent, we arrange memorable musical experiences." />
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+      <section className="relative py-20 bg-gradient-to-br from-purple-900 via-blue-900 to-slate-800">
         <div className="absolute inset-0 bg-black/20" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
@@ -57,20 +57,20 @@ export default function WeeklyMusicPage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <Badge className="mb-4 bg-blue-600 text-white">Live Music Service</Badge>
+            <Badge className="mb-4 bg-purple-600 text-white">Premium Artist Service</Badge>
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-              Weekly Live Music <span className="text-blue-400">Arrangement</span>
+              Monthly <span className="text-purple-400">Artist Arrangement</span>
             </h1>
             <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-              Transform your venue with consistent, high-quality live music performances. 
-              Professional artists every Wednesday, Friday, and Saturday.
+              Bring world-class artists to your venue with our exclusive monthly booking service. 
+              From international headliners to breakthrough performers.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
-                Get Started Today
+              <Button size="lg" className="bg-purple-600 hover:bg-purple-700">
+                Book Featured Artist
               </Button>
               <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-slate-900">
-                View Sample Schedule
+                View Artist Roster
               </Button>
             </div>
           </motion.div>
@@ -88,13 +88,12 @@ export default function WeeklyMusicPage() {
               viewport={{ once: true }}
             >
               <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">
-                Consistent Quality Entertainment
+                Exclusive Monthly Performances
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                Our weekly live music arrangement service provides your venue with reliable, 
-                high-quality entertainment three days a week. We handle every aspect of the 
-                process, from artist selection to performance coordination, ensuring your 
-                guests always have an exceptional musical experience.
+                Our monthly artist arrangement service connects you with exceptional performers 
+                who can transform your venue into a premier entertainment destination. We handle 
+                negotiations, logistics, and production to ensure each performance exceeds expectations.
               </p>
               <div className="space-y-3">
                 {features.map((feature, index) => (
@@ -121,20 +120,20 @@ export default function WeeklyMusicPage() {
               className="relative"
             >
               <img
-                src="https://images.unsplash.com/photo-1511735111819-9a3f7709049c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
-                alt="Live music performance"
+                src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"
+                alt="Concert performance"
                 className="rounded-lg shadow-2xl"
               />
-              <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white p-4 rounded-lg shadow-lg">
-                <div className="text-2xl font-bold">3 Days</div>
-                <div className="text-sm">Per Week</div>
+              <div className="absolute -bottom-6 -right-6 bg-purple-600 text-white p-4 rounded-lg shadow-lg">
+                <div className="text-2xl font-bold">Monthly</div>
+                <div className="text-sm">Exclusives</div>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Benefits Grid */}
+      {/* Artist Types Grid */}
       <section className="py-16 bg-gray-50 dark:bg-slate-800">
         <div className="container mx-auto px-4">
           <motion.div
@@ -145,15 +144,15 @@ export default function WeeklyMusicPage() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
-              Why Choose Our Weekly Music Service?
+              Artist Categories We Represent
             </h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Experience the benefits of consistent, professional entertainment for your venue
+              From chart-toppers to cultural icons, we bring diverse talent to your stage
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {benefits.map((benefit, index) => (
+            {artistTypes.map((type, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -163,11 +162,11 @@ export default function WeeklyMusicPage() {
               >
                 <Card className="h-full hover:shadow-lg transition-shadow duration-300">
                   <CardHeader>
-                    <div className="mb-2">{benefit.icon}</div>
-                    <CardTitle className="text-lg">{benefit.title}</CardTitle>
+                    <div className="mb-2">{type.icon}</div>
+                    <CardTitle className="text-lg">{type.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-600 dark:text-gray-300">{benefit.description}</p>
+                    <p className="text-gray-600 dark:text-gray-300">{type.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -176,7 +175,7 @@ export default function WeeklyMusicPage() {
         </div>
       </section>
 
-      {/* Schedule Section */}
+      {/* Process Section */}
       <section className="py-16 bg-white dark:bg-slate-900">
         <div className="container mx-auto px-4">
           <motion.div
@@ -187,38 +186,33 @@ export default function WeeklyMusicPage() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
-              Performance Schedule
+              Our Booking Process
             </h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Consistent entertainment throughout the week to keep your venue lively
+              From consultation to show night, we handle every detail
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {[
-              { day: "Wednesday", time: "7:00 PM - 10:00 PM", type: "Acoustic Sets" },
-              { day: "Friday", time: "8:00 PM - 11:00 PM", type: "Full Band" },
-              { day: "Saturday", time: "8:00 PM - 12:00 AM", type: "Feature Artists" }
-            ].map((schedule, index) => (
+              { step: "01", title: "Consultation", desc: "Understand your vision and audience" },
+              { step: "02", title: "Artist Selection", desc: "Curate perfect performers for your event" },
+              { step: "03", title: "Production", desc: "Handle all technical and logistical needs" },
+              { step: "04", title: "Performance", desc: "Deliver an unforgettable experience" }
+            ].map((process, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                className="text-center"
               >
-                <Card className="text-center bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border-blue-200 dark:border-blue-700">
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-blue-900 dark:text-blue-300">{schedule.day}</CardTitle>
-                    <Badge variant="secondary" className="bg-blue-600 text-white">{schedule.type}</Badge>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-center space-x-2 text-gray-700 dark:text-gray-300">
-                      <Clock className="h-4 w-4" />
-                      <span>{schedule.time}</span>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
+                  {process.step}
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">{process.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{process.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -226,7 +220,7 @@ export default function WeeklyMusicPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-blue-800">
+      <section className="py-16 bg-gradient-to-r from-purple-600 to-blue-800">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -235,17 +229,17 @@ export default function WeeklyMusicPage() {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl font-bold text-white mb-4">
-              Ready to Transform Your Venue?
+              Ready to Book Your Next Headliner?
             </h2>
-            <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-              Join venues across the region who trust us for consistent, quality entertainment
+            <p className="text-purple-100 mb-8 max-w-2xl mx-auto">
+              Let us connect you with world-class artists who will elevate your venue's reputation
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-                Book Consultation
+              <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
+                Start Booking Process
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
-                View Pricing
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-purple-600">
+                View Available Artists
               </Button>
             </div>
           </motion.div>
@@ -254,8 +248,8 @@ export default function WeeklyMusicPage() {
 
       {/* Service Chat Component */}
       <ServiceChat
-        serviceName="Weekly Live Music Arrangement"
-        serviceDescription="Arrangement of various artists for three days a week i.e. Wednesday, Friday and Saturday. Our weekly live music arrangement service provides high-quality performers for your venue on a consistent schedule. We handle artist selection, scheduling, and all logistics to ensure smooth performances on Wednesdays, Fridays, and Saturdays. Each artist is carefully vetted to match your venue's atmosphere and audience preferences."
+        serviceName="Monthly Artist Arrangement"
+        serviceDescription="Arrangement of various renowned artists on monthly basis. Our monthly artist arrangement service connects you with exceptional performers including international headliners, cultural artists, award winners, and emerging talent. We handle all aspects from artist selection and negotiations to production and logistics, ensuring world-class performances that elevate your venue's reputation and provide unforgettable experiences for your audience."
       />
     </Layout>
   );
