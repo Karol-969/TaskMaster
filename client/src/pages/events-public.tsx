@@ -132,13 +132,18 @@ export default function EventsPublicPage() {
                   >
                     <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700 hover:border-blue-500/50 transition-all duration-300 overflow-hidden group">
                       <div className="relative">
-                        {event.imageUrl && (
-                          <div className="h-48 bg-gradient-to-r from-blue-600 to-purple-600 relative overflow-hidden">
+                        {event.images && event.images.length > 0 ? (
+                          <div className="h-48 relative overflow-hidden">
                             <img
-                              src={event.imageUrl}
+                              src={event.images[0]}
                               alt={event.name}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
+                            <div className="absolute inset-0 bg-black/20"></div>
+                          </div>
+                        ) : (
+                          <div className="h-48 bg-gradient-to-r from-blue-600 to-purple-600 relative overflow-hidden flex items-center justify-center">
+                            <Calendar className="h-16 w-16 text-white/70" />
                             <div className="absolute inset-0 bg-black/20"></div>
                           </div>
                         )}
@@ -175,17 +180,26 @@ export default function EventsPublicPage() {
                           
                           <div className="flex items-center space-x-3 text-gray-300">
                             <Users className="h-4 w-4 text-blue-400" />
-                            <span className="text-sm">{event.totalTickets} total tickets</span>
+                            <span className="text-sm">Capacity: {event.capacity} people</span>
                           </div>
                           
                           <div className="flex items-center space-x-3 text-gray-300">
                             <Clock className="h-4 w-4 text-blue-400" />
                             <span className="text-sm">
-                              {new Date(event.date).toLocaleTimeString('en-US', {
-                                hour: '2-digit',
-                                minute: '2-digit'
-                              })}
+                              {event.startTime} - {event.endTime}
                             </span>
+                          </div>
+                          
+                          <div className="flex items-center justify-between pt-3 border-t border-slate-600">
+                            <div className="text-xl font-bold text-blue-400">
+                              NPR {event.price}
+                            </div>
+                            <Badge 
+                              variant={event.status === 'published' ? 'default' : event.status === 'draft' ? 'secondary' : 'destructive'}
+                              className="capitalize"
+                            >
+                              {event.status}
+                            </Badge>
                           </div>
                         </div>
                       </CardContent>

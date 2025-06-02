@@ -142,15 +142,21 @@ export default function EventsPage() {
                 >
                   <Card className="bg-slate-800/50 border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 overflow-hidden group">
                     <div className="relative h-48 overflow-hidden">
-                      <img
-                        src={event.imageUrl}
-                        alt={event.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
+                      {event.images && event.images.length > 0 ? (
+                        <img
+                          src={event.images[0]}
+                          alt={event.name}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
+                          <Calendar className="h-16 w-16 text-slate-500" />
+                        </div>
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                       <div className="absolute top-4 right-4">
                         <Badge variant="secondary" className="bg-blue-600 text-white">
-                          ${event.ticketPrice}
+                          NPR {event.price}
                         </Badge>
                       </div>
                     </div>
@@ -165,7 +171,15 @@ export default function EventsPage() {
                       <div className="space-y-2">
                         <div className="flex items-center text-gray-400 text-sm">
                           <Calendar className="h-4 w-4 mr-2" />
-                          {formatDate(event.date)}
+                          {event.date instanceof Date ? event.date.toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric' 
+                          }) : new Date(event.date).toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric' 
+                          })}
                         </div>
                         <div className="flex items-center text-gray-400 text-sm">
                           <MapPin className="h-4 w-4 mr-2" />
@@ -173,7 +187,18 @@ export default function EventsPage() {
                         </div>
                         <div className="flex items-center text-gray-400 text-sm">
                           <Users className="h-4 w-4 mr-2" />
-                          {event.availableTickets}/{event.totalTickets} tickets available
+                          Capacity: {event.capacity} people
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-400">
+                            {event.startTime} - {event.endTime}
+                          </span>
+                          <Badge 
+                            variant={event.status === 'published' ? 'default' : event.status === 'draft' ? 'secondary' : 'destructive'}
+                            className="text-xs"
+                          >
+                            {event.status}
+                          </Badge>
                         </div>
                       </div>
                       
