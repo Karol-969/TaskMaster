@@ -207,12 +207,48 @@ export default function EventManagement() {
   });
 
   const handleCreateEvent = (formData: FormData) => {
+    const dateStr = formData.get('date') as string;
+    const startTimeStr = formData.get('startTime') as string;
+    const endTimeStr = formData.get('endTime') as string;
+    
+    // Create a proper Date object from the date string
+    let eventDate: Date;
+    try {
+      // Handle different date formats that might come from the input
+      if (dateStr.includes('/')) {
+        // Format: MM/DD/YYYY or DD/MM/YYYY
+        const parts = dateStr.split('/');
+        if (parts.length === 3) {
+          // Assume MM/DD/YYYY format from date input
+          eventDate = new Date(parseInt(parts[2]), parseInt(parts[0]) - 1, parseInt(parts[1]));
+        } else {
+          eventDate = new Date(dateStr);
+        }
+      } else {
+        // ISO format or other standard format
+        eventDate = new Date(dateStr);
+      }
+      
+      // Validate the date
+      if (isNaN(eventDate.getTime())) {
+        throw new Error('Invalid date');
+      }
+    } catch (error) {
+      console.error('Date parsing error:', error);
+      toast({
+        title: "Error",
+        description: "Invalid date format. Please select a valid date.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const eventData: InsertEvent = {
       name: formData.get('name') as string,
       description: formData.get('description') as string,
-      date: new Date(formData.get('date') as string),
-      startTime: formData.get('startTime') as string,
-      endTime: formData.get('endTime') as string,
+      date: eventDate,
+      startTime: startTimeStr,
+      endTime: endTimeStr,
       venue: formData.get('venue') as string,
       capacity: parseInt(formData.get('capacity') as string),
       price: parseInt(formData.get('price') as string),
@@ -222,6 +258,7 @@ export default function EventManagement() {
       images: selectedImages.length > 0 ? selectedImages : undefined,
     };
 
+    console.log('Creating event with data:', eventData);
     createEventMutation.mutate(eventData);
   };
 
