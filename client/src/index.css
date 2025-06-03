@@ -5,9 +5,9 @@
 @tailwind utilities;
 
 :root {
-  --accent-rgb: 240, 180, 40;
+  --accent-rgb: 139, 92, 246;
   --accent: rgb(var(--accent-rgb));
-  --golden-yellow: #f0b428;
+  --purple-violet: #8b5cf6;
 }
 
 /* Custom animations for music elements */
@@ -42,11 +42,11 @@
   --primary-foreground: 0 0% 100%;
   --secondary: 0 0% 96%;
   --secondary-foreground: 0 0% 9%;
-  --accent: 42 100% 59%; /* Golden yellow accent */
-  --accent-foreground: 0 0% 0%;
+  --accent: 252 88% 70%; /* Purple/violet accent */
+  --accent-foreground: 0 0% 100%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 42 100% 59%;
+  --ring: 252 88% 70%;
   --radius: 0.75rem;
   
   /* Chart colors */
@@ -78,15 +78,15 @@
   --card-foreground: 0 0% 100%;
   --border: 240 4% 16%; /* Dark gray borders */
   --input: 240 4% 16%; /* Dark gray inputs */
-  --primary: 42 100% 59%; /* Golden yellow primary */
-  --primary-foreground: 0 0% 0%; /* Black text on golden */
+  --primary: 252 88% 70%; /* Purple/violet primary */
+  --primary-foreground: 0 0% 100%; /* White text on purple */
   --secondary: 240 4% 16%; /* Dark gray secondary */
   --secondary-foreground: 0 0% 100%;
-  --accent: 42 100% 59%; /* Golden yellow accent */
-  --accent-foreground: 0 0% 0%; /* Black text on golden */
+  --accent: 252 88% 70%; /* Purple/violet accent */
+  --accent-foreground: 0 0% 100%; /* White text on purple */
   --destructive: 0 63% 31%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 42 100% 59%; /* Golden yellow ring */
+  --ring: 252 88% 70%; /* Purple/violet ring */
   
   /* Chart colors */
   --chart-1: 220 80% 60%;
@@ -161,20 +161,20 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     background: rgba(17, 24, 39, 0.5);
-    border: 1px solid rgba(240, 180, 40, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.2);
   }
   
-  /* Golden glow effects */
-  .golden-glow {
-    box-shadow: 0 0 20px rgba(240, 180, 40, 0.3);
+  /* Purple glow effects */
+  .purple-glow {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
   }
   
-  .golden-text-glow {
-    text-shadow: 0 0 10px rgba(240, 180, 40, 0.5);
+  .purple-text-glow {
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
   }
   
-  .golden-border {
-    border-color: #f0b428;
+  .purple-border {
+    border-color: #8b5cf6;
   }
   
   /* Premium gradient backgrounds */
@@ -182,7 +182,7 @@
     background: linear-gradient(135deg, #000000 0%, #111827 50%, #1f2937 100%);
   }
   
-  .gradient-golden {
-    background: linear-gradient(135deg, #f0b428 0%, #fbbf24 50%, #f59e0b 100%);
+  .gradient-purple {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
   }
 }
