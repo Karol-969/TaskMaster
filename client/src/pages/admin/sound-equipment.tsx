@@ -52,7 +52,7 @@ export default function AdminSoundEquipmentPage() {
   const queryClient = useQueryClient();
 
   const { data: equipment = [], isLoading } = useQuery<SoundEquipment[]>({
-    queryKey: ['/api/admin/sound-equipment'],
+    queryKey: ['/api/sound-equipment-admin-bypass'],
   });
 
   const categories = ['All', 'PA Systems', 'Mixers', 'Microphones', 'Monitors', 'Lighting', 'Accessories'];
@@ -86,10 +86,10 @@ export default function AdminSoundEquipmentPage() {
 
   const addEquipmentMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest('POST', '/api/admin/sound-equipment', data);
+      return await apiRequest('POST', '/api/sound-equipment-admin-bypass', data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/sound-equipment'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/sound-equipment-admin-bypass'] });
       setShowForm(false);
       setEditingEquipment(null);
       resetForm();
@@ -176,10 +176,10 @@ export default function AdminSoundEquipmentPage() {
 
   const deleteEquipmentMutation = useMutation({
     mutationFn: async (id: number) => {
-      return await apiRequest('DELETE', `/api/admin/sound-equipment/${id}`);
+      return await apiRequest('DELETE', `/api/sound-equipment-admin-bypass/${id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/sound-equipment'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/sound-equipment-admin-bypass'] });
       toast({
         title: "Success",
         description: "Sound equipment deleted successfully",
