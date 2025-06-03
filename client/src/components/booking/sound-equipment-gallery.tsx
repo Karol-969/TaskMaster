@@ -13,7 +13,7 @@ interface SoundSystem {
   pricing: string;
   powerRating: string;
   coverageArea: string;
-  image: string;
+  imageUrl: string;
   category: string;
   features: string[];
   available: boolean;
@@ -35,7 +35,7 @@ export function SoundEquipmentGallery({ equipment, onBookEquipment }: SoundEquip
       'Lighting': 'https://images.unsplash.com/photo-1540317580384-e5d43867caa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80'
     };
     
-    return system.image || imageMap[system.category] || imageMap['PA Systems'];
+    return system.imageUrl || imageMap[system.category] || imageMap['PA Systems'];
   };
 
   const getCategoryIcon = (category: string) => {

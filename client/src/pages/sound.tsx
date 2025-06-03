@@ -21,7 +21,7 @@ interface SoundSystem {
   pricing: string;
   powerRating: string;
   coverageArea: string;
-  image: string;
+  imageUrl: string;
   category: string;
   features: string[];
   available: boolean;
@@ -34,7 +34,7 @@ export default function SoundPage() {
   const equipmentRef = useRef<HTMLDivElement>(null);
 
   const { data: soundSystems = [], isLoading } = useQuery<SoundSystem[]>({
-    queryKey: ['/api/sound-systems'],
+    queryKey: ['/api/sound-equipment-admin-bypass'],
   });
 
   const categories = [
