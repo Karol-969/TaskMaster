@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
-import { Plus, Edit, Trash2, Volume2, Search, Filter } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Edit, Trash2, Volume2, Search, Filter, X, Save } from 'lucide-react';
 import { AdminLayout } from '@/components/admin/admin-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-// import { SoundEquipmentModal } from '@/components/admin/sound-equipment-modal';
 import { apiRequest } from '@/lib/queryClient';
 
 interface SoundEquipment {
@@ -20,7 +21,6 @@ interface SoundEquipment {
   pricing: string;
   powerRating: string;
   coverageArea: string;
-  image: string;
   imageUrl: string;
   category: string;
   features: string[];
@@ -31,8 +31,21 @@ interface SoundEquipment {
 export default function AdminSoundEquipmentPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [showModal, setShowModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [editingEquipment, setEditingEquipment] = useState<SoundEquipment | null>(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    type: '',
+    description: '',
+    specifications: '',
+    pricing: '',
+    powerRating: '',
+    coverageArea: '',
+    image: '',
+    category: 'PA Systems',
+    features: [] as string[],
+    available: true
+  });
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -94,7 +107,7 @@ export default function AdminSoundEquipmentPage() {
             <p className="text-gray-600 dark:text-gray-400">Manage your sound equipment inventory</p>
           </div>
           <Button 
-            onClick={() => setShowModal(true)} 
+            onClick={() => setShowForm(true)} 
             className="bg-accent hover:bg-accent/90 text-black"
           >
             <Plus className="h-4 w-4 mr-2" />
@@ -195,7 +208,7 @@ export default function AdminSoundEquipmentPage() {
                     <Card className="group hover:shadow-lg transition-shadow duration-300">
                       <div className="relative h-48 overflow-hidden rounded-t-lg">
                         <img
-                          src={item.image || 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80'}
+                          src={item.image || item.imageUrl || 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80'}
                           alt={item.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />

@@ -67,7 +67,7 @@ export const soundSystems = pgTable("sound_systems", {
   pricing: text("pricing").notNull(),
   powerRating: text("power_rating").notNull(),
   coverageArea: text("coverage_area").notNull(),
-  image: text("image"),
+  imageUrl: text("image_url"),
   category: text("category").notNull(),
   features: text("features").array(),
   available: boolean("available").default(true),
