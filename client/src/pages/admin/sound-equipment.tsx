@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { SoundEquipmentModal } from '@/components/admin/sound-equipment-modal';
+// import { SoundEquipmentModal } from '@/components/admin/sound-equipment-modal';
 import { apiRequest } from '@/lib/queryClient';
 
 interface SoundEquipment {
@@ -21,6 +21,7 @@ interface SoundEquipment {
   powerRating: string;
   coverageArea: string;
   image: string;
+  imageUrl: string;
   category: string;
   features: string[];
   available: boolean;
