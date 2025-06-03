@@ -1,8 +1,9 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Volume2, Zap, Users, Star } from 'lucide-react';
+import { Volume2, Zap, Users, Star, X } from 'lucide-react';
 
 interface SoundSystem {
   id: number;
@@ -25,6 +26,8 @@ interface SoundEquipmentGalleryProps {
 }
 
 export function SoundEquipmentGallery({ equipment, onBookEquipment }: SoundEquipmentGalleryProps) {
+  const [selectedEquipment, setSelectedEquipment] = useState<SoundSystem | null>(null);
+
   const getEquipmentImage = (system: SoundSystem) => {
     // Use appropriate images based on equipment category
     const imageMap: Record<string, string> = {
@@ -143,6 +146,7 @@ export function SoundEquipmentGallery({ equipment, onBookEquipment }: SoundEquip
                   variant="outline" 
                   size="sm" 
                   className="flex-1"
+                  onClick={() => setSelectedEquipment(system)}
                   disabled={!system.available}
                 >
                   View Details
@@ -160,6 +164,137 @@ export function SoundEquipmentGallery({ equipment, onBookEquipment }: SoundEquip
           </Card>
         </motion.div>
       ))}
+
+      {/* Equipment Details Modal */}
+      <AnimatePresence>
+        {selectedEquipment && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            onClick={() => setSelectedEquipment(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative">
+                <img
+                  src={getEquipmentImage(selectedEquipment)}
+                  alt={selectedEquipment.name}
+                  className="w-full h-64 object-cover rounded-t-lg"
+                />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="absolute top-4 right-4 bg-white/90 hover:bg-white"
+                  onClick={() => setSelectedEquipment(null)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+                <div className="absolute top-4 left-4">
+                  <Badge 
+                    variant={selectedEquipment.available ? "default" : "destructive"}
+                    className="bg-white/90 text-black"
+                  >
+                    {selectedEquipment.available ? 'Available' : 'Unavailable'}
+                  </Badge>
+                </div>
+              </div>
+              
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {selectedEquipment.name}
+                    </h2>
+                    <div className="flex items-center gap-2 mt-2">
+                      {getCategoryIcon(selectedEquipment.category)}
+                      <Badge variant="secondary">{selectedEquipment.category}</Badge>
+                    </div>
+                  </div>
+                  <Badge className="bg-accent text-black font-semibold text-lg px-3 py-1">
+                    {selectedEquipment.pricing}
+                  </Badge>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Description</h3>
+                    <p className="text-gray-600 dark:text-gray-300">{selectedEquipment.description}</p>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Specifications</h3>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-500">Power Rating:</span>
+                          <span className="font-medium">{selectedEquipment.powerRating}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500">Coverage Area:</span>
+                          <span className="font-medium">{selectedEquipment.coverageArea}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500">Type:</span>
+                          <span className="font-medium">{selectedEquipment.type}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {selectedEquipment.features && selectedEquipment.features.length > 0 && (
+                      <div>
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Features</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedEquipment.features.map((feature, idx) => (
+                            <Badge key={idx} variant="outline" className="text-xs">
+                              {feature}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Technical Details</h3>
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                      <p className="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-wrap">
+                        {selectedEquipment.specifications}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 pt-4">
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => setSelectedEquipment(null)}
+                    >
+                      Close
+                    </Button>
+                    <Button
+                      className="flex-1 bg-accent hover:bg-accent/90 text-black"
+                      onClick={() => {
+                        onBookEquipment(selectedEquipment);
+                        setSelectedEquipment(null);
+                      }}
+                      disabled={!selectedEquipment.available}
+                    >
+                      Book Now
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
