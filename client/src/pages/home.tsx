@@ -3,6 +3,7 @@ import { Layout } from '@/components/layout/layout';
 import { HeroSection } from '@/components/home/hero-section';
 import { ServicesSection } from '@/components/home/services-section';
 import { AboutSection } from '@/components/home/about-section';
+import { TrustedBySection } from '@/components/home/trusted-by-section';
 import { JourneySection } from '@/components/home/journey-section';
 import { FeaturedArtistsShowcase } from '@/components/home/featured-artists-showcase';
 import { ShareExperienceSection } from '@/components/home/share-experience-section';
@@ -23,6 +24,7 @@ export default function Home() {
         <HeroSection />
         <ServicesSection />
         <AboutSection />
+        <TrustedBySection />
         <JourneySection />
         <FeaturedArtistsShowcase />
         <ShareExperienceSection />
