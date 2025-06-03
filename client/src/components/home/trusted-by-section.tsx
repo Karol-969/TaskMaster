@@ -11,84 +11,90 @@ export function TrustedBySection() {
     },
     { 
       name: "The Malla Hotel", 
-      logo: "/logos/malla.png", 
+      logo: "/logos/themallahotel.jpg", 
       hasLogo: true,
       category: "hotel"
     },
     { 
       name: "The Soaltee Kathmandu", 
-      logo: "/logos/soaltee.png",
+      logo: "/logos/the_soaltee.png",
       hasLogo: true,
       category: "hotel"
     },
     { 
       name: "Holiday Inn Express", 
-      logo: "/logos/holiday-inn.png",
+      logo: "/logos/holiday_inn_express.jpeg",
       hasLogo: true,
       category: "hotel"
     },
     { 
       name: "Hotel Himalaya", 
-      logo: "/logos/himalaya.png",
+      logo: "/logos/hotel_himalaya.png",
       hasLogo: true,
       category: "hotel"
     },
     { 
       name: "The Everest Hotel", 
-      logo: "/logos/everest.png",
-      hasLogo: true,
+      displayName: "The Everest Hotel",
+      hasLogo: false,
       category: "hotel"
     },
     
     // Second Row
     { 
       name: "Dusit Thani", 
-      logo: "/logos/dusit.png",
-      hasLogo: true,
+      displayName: "Dusit Thani",
+      hasLogo: false,
       category: "hotel"
     },
     { 
       name: "SkyPark", 
-      logo: "/logos/skypark.png",
-      hasLogo: true,
+      displayName: "SkyPark",
+      subtitle: "ADVENTURE VENUE",
+      hasLogo: false,
       category: "venue"
     },
     { 
       name: "Aloft Kathmandu", 
-      logo: "/logos/aloft.png",
-      hasLogo: true,
+      displayName: "aloft",
+      subtitle: "KATHMANDU THAMEL",
+      hasLogo: false,
       category: "hotel"
     },
     { 
       name: "Marriott Kathmandu", 
-      logo: "/logos/marriott.png",
-      hasLogo: true,
+      displayName: "Marriott",
+      subtitle: "KATHMANDU",
+      hasLogo: false,
       category: "hotel"
     },
     { 
       name: "Fairfield by Marriott", 
-      logo: "/logos/fairfield.png",
-      hasLogo: true,
+      displayName: "Fairfield",
+      subtitle: "BY MARRIOTT",
+      hasLogo: false,
       category: "hotel"
     },
     { 
       name: "Privé Nepal", 
-      logo: "/logos/prive.png",
-      hasLogo: true,
+      displayName: "privé",
+      subtitle: "NEPAL",
+      hasLogo: false,
       category: "venue"
     },
     { 
       name: "Shangri-La", 
-      logo: "/logos/shangri-la.png",
-      hasLogo: true,
+      displayName: "Shangri-La",
+      hasLogo: false,
       category: "hotel"
     },
     
     // Third Row
     { 
       name: "Hyatt Centric", 
-      logo: "/logos/hyatt.png",
-      hasLogo: true,
+      displayName: "HYATT",
+      subtitle: "CENTRIC",
+      hasLogo: false,
       category: "hotel"
     },
     { 
@@ -99,8 +105,9 @@ export function TrustedBySection() {
     },
     { 
       name: "Dhokaima Cafe", 
-      logo: "/logos/dhokaima.png",
-      hasLogo: true,
+      displayName: "DHOKAIMA",
+      subtitle: "Cafe",
+      hasLogo: false,
       category: "restaurant"
     },
     { 
@@ -118,20 +125,20 @@ export function TrustedBySection() {
     },
     { 
       name: "The Weavers", 
-      logo: "/logos/weavers.png",
-      hasLogo: true,
+      displayName: "THE WEAVERS",
+      hasLogo: false,
       category: "restaurant"
     },
     { 
       name: "Vin D'Oliva", 
-      logo: "/logos/vin-doliva.png",
-      hasLogo: true,
+      displayName: "VIN D'OLIVA",
+      hasLogo: false,
       category: "restaurant"
     },
     { 
       name: "JRB", 
-      logo: "/logos/jrb.png",
-      hasLogo: true,
+      displayName: "JRB",
+      hasLogo: false,
       category: "brand"
     }
   ];
