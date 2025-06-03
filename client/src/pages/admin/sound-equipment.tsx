@@ -267,11 +267,7 @@ export default function AdminSoundEquipmentPage() {
         </div>
       </div>
 
-      <SoundEquipmentModal
-        isOpen={showModal}
-        onClose={handleModalClose}
-        equipment={editingEquipment}
-      />
+      {/* Sound Equipment Modal will be implemented */}
     </AdminLayout>
   );
 }
