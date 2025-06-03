@@ -290,7 +290,7 @@ export default function AdminSoundEquipmentPage() {
                       : 'Get started by adding your first piece of sound equipment'}
                   </p>
                   <Button 
-                    onClick={() => setShowModal(true)}
+                    onClick={() => setShowForm(true)}
                     className="bg-accent hover:bg-accent/90 text-black"
                   >
                     <Plus className="h-4 w-4 mr-2" />
