@@ -7,6 +7,7 @@
 :root {
   --accent-rgb: 240, 180, 40;
   --accent: rgb(var(--accent-rgb));
+  --golden-yellow: #f0b428;
 }
 
 /* Custom animations for music elements */
@@ -28,25 +29,25 @@
 
 :root {
   --background: 0 0% 100%;
-  --foreground: 20 14.3% 4.1%;
-  --muted: 60 4.8% 95.9%;
-  --muted-foreground: 25 5.3% 44.7%;
+  --foreground: 0 0% 0%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 40%;
   --popover: 0 0% 100%;
-  --popover-foreground: 20 14.3% 4.1%;
+  --popover-foreground: 0 0% 0%;
   --card: 0 0% 100%;
-  --card-foreground: 20 14.3% 4.1%;
-  --border: 20 5.9% 90%;
-  --input: 20 5.9% 90%;
-  --primary: 0 0% 0%; /* Black primary color */
+  --card-foreground: 0 0% 0%;
+  --border: 0 0% 90%;
+  --input: 0 0% 90%;
+  --primary: 0 0% 0%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 100%; /* White secondary color */
-  --secondary-foreground: 0 0% 0%;
-  --accent: 220 70% 20%; /* Dark navy blue accent */
-  --accent-foreground: 0 0% 100%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 60 9.1% 97.8%;
-  --ring: 20 14.3% 4.1%;
-  --radius: 0.5rem;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 9%;
+  --accent: 42 100% 59%; /* Golden yellow accent */
+  --accent-foreground: 0 0% 0%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 42 100% 59%;
+  --radius: 0.75rem;
   
   /* Chart colors */
   --chart-1: 220 70% 50%;
@@ -67,25 +68,25 @@
 }
 
 .dark {
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --primary: 0 0% 0%; /* Black primary remains the same */
-  --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 100%; /* White secondary remains the same */
-  --secondary-foreground: 0 0% 0%;
-  --accent: 220 70% 40%; /* Brighter navy blue accent for dark mode */
-  --accent-foreground: 0 0% 100%;
-  --destructive: 0 62.8% 30.6%;
+  --background: 0 0% 0%; /* Deep black background */
+  --foreground: 0 0% 100%; /* White text */
+  --muted: 240 4% 16%; /* Dark gray */
+  --muted-foreground: 240 5% 65%; /* Gray-300 equivalent */
+  --popover: 240 10% 4%; /* Near black */
+  --popover-foreground: 0 0% 100%;
+  --card: 240 10% 4%; /* Near black cards */
+  --card-foreground: 0 0% 100%;
+  --border: 240 4% 16%; /* Dark gray borders */
+  --input: 240 4% 16%; /* Dark gray inputs */
+  --primary: 42 100% 59%; /* Golden yellow primary */
+  --primary-foreground: 0 0% 0%; /* Black text on golden */
+  --secondary: 240 4% 16%; /* Dark gray secondary */
+  --secondary-foreground: 0 0% 100%;
+  --accent: 42 100% 59%; /* Golden yellow accent */
+  --accent-foreground: 0 0% 0%; /* Black text on golden */
+  --destructive: 0 63% 31%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 240 4.9% 83.9%;
+  --ring: 42 100% 59%; /* Golden yellow ring */
   
   /* Chart colors */
   --chart-1: 220 80% 60%;
@@ -145,6 +146,43 @@
   
   /* Hero section gradient */
   .hero-gradient {
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+    background: linear-gradient(to bottom, #000000, #111827);
+  }
+  
+  /* Glass morphism effects */
+  .glass-morphism {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(17, 24, 39, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: rgba(17, 24, 39, 0.5);
+    border: 1px solid rgba(240, 180, 40, 0.2);
+  }
+  
+  /* Golden glow effects */
+  .golden-glow {
+    box-shadow: 0 0 20px rgba(240, 180, 40, 0.3);
+  }
+  
+  .golden-text-glow {
+    text-shadow: 0 0 10px rgba(240, 180, 40, 0.5);
+  }
+  
+  .golden-border {
+    border-color: #f0b428;
+  }
+  
+  /* Premium gradient backgrounds */
+  .gradient-dark {
+    background: linear-gradient(135deg, #000000 0%, #111827 50%, #1f2937 100%);
+  }
+  
+  .gradient-golden {
+    background: linear-gradient(135deg, #f0b428 0%, #fbbf24 50%, #f59e0b 100%);
   }
 }
