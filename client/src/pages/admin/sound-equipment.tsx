@@ -41,7 +41,7 @@ export default function AdminSoundEquipmentPage() {
     pricing: '',
     powerRating: '',
     coverageArea: '',
-    image: '',
+    imageUrl: '',
     category: 'PA Systems',
     features: [] as string[],
     available: true
@@ -82,20 +82,92 @@ export default function AdminSoundEquipmentPage() {
     },
   });
 
+  const addEquipmentMutation = useMutation({
+    mutationFn: async (data: any) => {
+      return await apiRequest('/api/admin/sound-equipment', 'POST', data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/sound-equipment'] });
+      setShowForm(false);
+      setEditingEquipment(null);
+      resetForm();
+      toast({
+        title: "Success",
+        description: "Sound equipment added successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to add sound equipment",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      type: '',
+      description: '',
+      specifications: '',
+      pricing: '',
+      powerRating: '',
+      coverageArea: '',
+      imageUrl: '',
+      category: 'PA Systems',
+      features: [],
+      available: true
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    addEquipmentMutation.mutate(formData);
+  };
+
   const handleEdit = (equipment: SoundEquipment) => {
     setEditingEquipment(equipment);
-    setShowModal(true);
+    setFormData({
+      name: equipment.name,
+      type: equipment.type,
+      description: equipment.description,
+      specifications: equipment.specifications,
+      pricing: equipment.pricing,
+      powerRating: equipment.powerRating,
+      coverageArea: equipment.coverageArea,
+      imageUrl: equipment.imageUrl || '',
+      category: equipment.category,
+      features: equipment.features || [],
+      available: equipment.available
+    });
+    setShowForm(true);
   };
+
+  const deleteEquipmentMutation = useMutation({
+    mutationFn: async (id: number) => {
+      return await apiRequest(`/api/admin/sound-equipment/${id}`, 'DELETE');
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/sound-equipment'] });
+      toast({
+        title: "Success",
+        description: "Sound equipment deleted successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to delete sound equipment",
+        variant: "destructive",
+      });
+    },
+  });
 
   const handleDelete = (id: number) => {
     if (confirm('Are you sure you want to delete this equipment?')) {
-      deleteMutation.mutate(id);
+      deleteEquipmentMutation.mutate(id);
     }
-  };
-
-  const handleModalClose = () => {
-    setShowModal(false);
-    setEditingEquipment(null);
   };
 
   return (
@@ -208,7 +280,7 @@ export default function AdminSoundEquipmentPage() {
                     <Card className="group hover:shadow-lg transition-shadow duration-300">
                       <div className="relative h-48 overflow-hidden rounded-t-lg">
                         <img
-                          src={item.image || item.imageUrl || 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80'}
+                          src={item.imageUrl || 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80'}
                           alt={item.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
@@ -280,7 +352,194 @@ export default function AdminSoundEquipmentPage() {
         </div>
       </div>
 
-      {/* Sound Equipment Modal will be implemented */}
+      {/* Add Equipment Form */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            >
+              <div className="p-6">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {editingEquipment ? 'Edit Equipment' : 'Add New Equipment'}
+                  </h2>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setShowForm(false);
+                      setEditingEquipment(null);
+                      resetForm();
+                    }}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Equipment Name
+                      </label>
+                      <Input
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="Enter equipment name"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Type
+                      </label>
+                      <Input
+                        value={formData.type}
+                        onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                        placeholder="e.g., Wireless Microphone"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Category
+                      </label>
+                      <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="PA Systems">PA Systems</SelectItem>
+                          <SelectItem value="Mixers">Mixers</SelectItem>
+                          <SelectItem value="Microphones">Microphones</SelectItem>
+                          <SelectItem value="Monitors">Monitors</SelectItem>
+                          <SelectItem value="Lighting">Lighting</SelectItem>
+                          <SelectItem value="Accessories">Accessories</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Pricing
+                      </label>
+                      <Input
+                        value={formData.pricing}
+                        onChange={(e) => setFormData({ ...formData, pricing: e.target.value })}
+                        placeholder="e.g., $200/day"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Power Rating
+                      </label>
+                      <Input
+                        value={formData.powerRating}
+                        onChange={(e) => setFormData({ ...formData, powerRating: e.target.value })}
+                        placeholder="e.g., 1000W"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Coverage Area
+                      </label>
+                      <Input
+                        value={formData.coverageArea}
+                        onChange={(e) => setFormData({ ...formData, coverageArea: e.target.value })}
+                        placeholder="e.g., 500 sq ft"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2 md:col-span-2">
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Image URL
+                      </label>
+                      <Input
+                        value={formData.imageUrl}
+                        onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                        placeholder="https://example.com/image.jpg"
+                      />
+                    </div>
+
+                    <div className="space-y-2 md:col-span-2">
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Description
+                      </label>
+                      <Textarea
+                        value={formData.description}
+                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                        placeholder="Enter equipment description"
+                        rows={3}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2 md:col-span-2">
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Specifications
+                      </label>
+                      <Textarea
+                        value={formData.specifications}
+                        onChange={(e) => setFormData({ ...formData, specifications: e.target.value })}
+                        placeholder="Enter technical specifications"
+                        rows={3}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end gap-3 pt-4">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        setShowForm(false);
+                        setEditingEquipment(null);
+                        resetForm();
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={addEquipmentMutation.isPending}
+                      className="bg-accent hover:bg-accent/90 text-black"
+                    >
+                      {addEquipmentMutation.isPending ? (
+                        <>
+                          <span className="animate-spin mr-2">⚡</span>
+                          {editingEquipment ? 'Updating...' : 'Adding...'}
+                        </>
+                      ) : (
+                        <>
+                          <Save className="h-4 w-4 mr-2" />
+                          {editingEquipment ? 'Update Equipment' : 'Add Equipment'}
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AdminLayout>
   );
 }
