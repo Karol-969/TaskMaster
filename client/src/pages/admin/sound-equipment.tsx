@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Edit, Trash2, Volume2, Search, Filter, X, Save } from 'lucide-react';
+import { Plus, Edit, Trash2, Volume2, Search, Filter, X, Save, Upload } from 'lucide-react';
 import { AdminLayout } from '@/components/admin/admin-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -46,6 +46,8 @@ export default function AdminSoundEquipmentPage() {
     features: [] as string[],
     available: true
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -84,7 +86,7 @@ export default function AdminSoundEquipmentPage() {
 
   const addEquipmentMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest('/api/admin/sound-equipment', 'POST', data);
+      return await apiRequest('POST', '/api/admin/sound-equipment', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/sound-equipment'] });
@@ -105,6 +107,18 @@ export default function AdminSoundEquipmentPage() {
     },
   });
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       name: '',
@@ -119,11 +133,27 @@ export default function AdminSoundEquipmentPage() {
       features: [],
       available: true
     });
+    setImageFile(null);
+    setImagePreview('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addEquipmentMutation.mutate(formData);
+    
+    let submitData = { ...formData };
+    
+    // If image file is selected, convert to base64 for now
+    // In production, you'd upload to a file storage service
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        submitData.imageUrl = reader.result as string;
+        addEquipmentMutation.mutate(submitData);
+      };
+      reader.readAsDataURL(imageFile);
+    } else {
+      addEquipmentMutation.mutate(submitData);
+    }
   };
 
   const handleEdit = (equipment: SoundEquipment) => {
@@ -146,7 +176,7 @@ export default function AdminSoundEquipmentPage() {
 
   const deleteEquipmentMutation = useMutation({
     mutationFn: async (id: number) => {
-      return await apiRequest(`/api/admin/sound-equipment/${id}`, 'DELETE');
+      return await apiRequest('DELETE', `/api/admin/sound-equipment/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/sound-equipment'] });
@@ -468,13 +498,27 @@ export default function AdminSoundEquipmentPage() {
 
                     <div className="space-y-2 md:col-span-2">
                       <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Image URL
+                        Equipment Image
                       </label>
-                      <Input
-                        value={formData.imageUrl}
-                        onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                        placeholder="https://example.com/image.jpg"
-                      />
+                      <div className="flex items-center gap-4">
+                        <div className="flex-1">
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                          />
+                        </div>
+                        {imagePreview && (
+                          <div className="w-20 h-20 rounded-lg overflow-hidden border">
+                            <img
+                              src={imagePreview}
+                              alt="Preview"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <div className="space-y-2 md:col-span-2">
