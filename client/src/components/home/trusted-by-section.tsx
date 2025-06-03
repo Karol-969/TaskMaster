@@ -2,135 +2,136 @@ import { motion } from 'framer-motion';
 
 export function TrustedBySection() {
   const partners = [
-    // Top Row
+    // Top Row - Hotels with Logos
     { 
       name: "Radisson Hotel Kathmandu", 
-      displayName: "Radisson",
-      subtitle: "HOTEL KATHMANDU",
+      logo: "/logos/radisson.png",
+      hasLogo: true,
       category: "hotel"
     },
     { 
       name: "The Malla Hotel", 
-      displayName: "The Malla Hotel",
-      subtitle: "",
+      logo: "/logos/malla.png", 
+      hasLogo: true,
       category: "hotel"
     },
     { 
       name: "The Soaltee Kathmandu", 
-      displayName: "The Soaltee",
-      subtitle: "KATHMANDU",
+      logo: "/logos/soaltee.png",
+      hasLogo: true,
       category: "hotel"
     },
     { 
       name: "Holiday Inn Express", 
-      displayName: "Holiday Inn Express",
-      subtitle: "AN IHG HOTEL",
+      logo: "/logos/holiday-inn.png",
+      hasLogo: true,
       category: "hotel"
     },
     { 
       name: "Hotel Himalaya", 
-      displayName: "Hotel Himalaya",
-      subtitle: "",
+      logo: "/logos/himalaya.png",
+      hasLogo: true,
       category: "hotel"
     },
     { 
       name: "The Everest Hotel", 
-      displayName: "The Everest Hotel",
-      subtitle: "KATHMANDU",
+      logo: "/logos/everest.png",
+      hasLogo: true,
       category: "hotel"
     },
     
     // Second Row
     { 
       name: "Dusit Thani", 
-      displayName: "Dusit Thani",
-      subtitle: "",
+      logo: "/logos/dusit.png",
+      hasLogo: true,
       category: "hotel"
     },
     { 
       name: "SkyPark", 
-      displayName: "SkyPark",
-      subtitle: "ADVENTURE VENUE",
+      logo: "/logos/skypark.png",
+      hasLogo: true,
       category: "venue"
     },
     { 
       name: "Aloft Kathmandu", 
-      displayName: "aloft",
-      subtitle: "KATHMANDU THAMEL",
+      logo: "/logos/aloft.png",
+      hasLogo: true,
       category: "hotel"
     },
     { 
       name: "Marriott Kathmandu", 
-      displayName: "Marriott",
-      subtitle: "KATHMANDU",
+      logo: "/logos/marriott.png",
+      hasLogo: true,
       category: "hotel"
     },
     { 
       name: "Fairfield by Marriott", 
-      displayName: "Fairfield",
-      subtitle: "BY MARRIOTT",
+      logo: "/logos/fairfield.png",
+      hasLogo: true,
       category: "hotel"
     },
     { 
       name: "Privé Nepal", 
-      displayName: "privé",
-      subtitle: "NEPAL",
+      logo: "/logos/prive.png",
+      hasLogo: true,
       category: "venue"
     },
     { 
       name: "Shangri-La", 
-      displayName: "Shangri-La",
-      subtitle: "",
+      logo: "/logos/shangri-la.png",
+      hasLogo: true,
       category: "hotel"
     },
     
     // Third Row
     { 
       name: "Hyatt Centric", 
-      displayName: "HYATT",
-      subtitle: "CENTRIC",
+      logo: "/logos/hyatt.png",
+      hasLogo: true,
       category: "hotel"
     },
     { 
       name: "Agricus", 
       displayName: "agricus",
-      subtitle: "",
+      hasLogo: false,
       category: "restaurant"
     },
     { 
       name: "Dhokaima Cafe", 
-      displayName: "DHOKAIMA",
-      subtitle: "Cafe",
+      logo: "/logos/dhokaima.png",
+      hasLogo: true,
       category: "restaurant"
     },
     { 
       name: "मसिंग", 
       displayName: "मसिंग",
       subtitle: "२५९०",
+      hasLogo: false,
       category: "restaurant"
     },
     { 
       name: "Dust Princess", 
       displayName: "DUST PRINCESS",
-      subtitle: "",
+      hasLogo: false,
       category: "venue"
     },
     { 
       name: "The Weavers", 
-      displayName: "THE WEAVERS",
-      subtitle: "",
+      logo: "/logos/weavers.png",
+      hasLogo: true,
       category: "restaurant"
     },
     { 
       name: "Vin D'Oliva", 
-      displayName: "VIN D'OLIVA",
-      subtitle: "",
+      logo: "/logos/vin-doliva.png",
+      hasLogo: true,
       category: "restaurant"
     },
     { 
       name: "JRB", 
-      displayName: "JRB",
-      subtitle: "",
+      logo: "/logos/jrb.png",
+      hasLogo: true,
       category: "brand"
     }
   ];
@@ -188,16 +189,41 @@ export function TrustedBySection() {
               variants={itemVariants}
               className="group flex items-center justify-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 border border-gray-100 dark:border-gray-700 min-h-[80px]"
             >
-              <div className="text-center">
-                <div className="font-semibold text-gray-700 dark:text-gray-300 text-sm leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                  {partner.displayName}
+              {partner.hasLogo ? (
+                <div className="w-full h-16 flex items-center justify-center">
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="max-w-full max-h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100"
+                    loading="lazy"
+                    onError={(e) => {
+                      // Fallback to text if image fails to load
+                      const target = e.target as HTMLImageElement;
+                      const container = target.parentElement;
+                      if (container) {
+                        container.innerHTML = `
+                          <div class="text-center">
+                            <div class="font-semibold text-gray-700 dark:text-gray-300 text-sm leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                              ${partner.name}
+                            </div>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
                 </div>
-                {partner.subtitle && (
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">
-                    {partner.subtitle}
+              ) : (
+                <div className="text-center">
+                  <div className="font-semibold text-gray-700 dark:text-gray-300 text-sm leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                    {partner.displayName || partner.name}
                   </div>
-                )}
-              </div>
+                  {partner.subtitle && (
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">
+                      {partner.subtitle}
+                    </div>
+                  )}
+                </div>
+              )}
             </motion.div>
           ))}
         </motion.div>
