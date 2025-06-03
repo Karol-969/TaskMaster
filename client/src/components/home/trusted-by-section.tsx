@@ -5,111 +5,132 @@ export function TrustedBySection() {
     // Top Row
     { 
       name: "Radisson Hotel Kathmandu", 
-      logo: "https://logos-world.net/wp-content/uploads/2020/06/Radisson-Logo.png",
+      displayName: "Radisson",
+      subtitle: "HOTEL KATHMANDU",
       category: "hotel"
     },
     { 
       name: "The Malla Hotel", 
-      logo: "https://www.themalla.com/assets/images/logo.png",
+      displayName: "The Malla Hotel",
+      subtitle: "",
       category: "hotel"
     },
     { 
       name: "The Soaltee Kathmandu", 
-      logo: "https://soalteehotels.com/wp-content/uploads/2021/09/soaltee-logo-1.png",
+      displayName: "The Soaltee",
+      subtitle: "KATHMANDU",
       category: "hotel"
     },
     { 
       name: "Holiday Inn Express", 
-      logo: "https://logos-world.net/wp-content/uploads/2021/02/Holiday-Inn-Logo.png",
+      displayName: "Holiday Inn Express",
+      subtitle: "AN IHG HOTEL",
       category: "hotel"
     },
     { 
       name: "Hotel Himalaya", 
-      logo: "https://hotelhimalaya.com/images/logo.png",
+      displayName: "Hotel Himalaya",
+      subtitle: "",
       category: "hotel"
     },
     { 
       name: "The Everest Hotel", 
-      logo: "https://www.everesthotel.com.np/assets/images/logo.png",
+      displayName: "The Everest Hotel",
+      subtitle: "KATHMANDU",
       category: "hotel"
     },
     
     // Second Row
     { 
       name: "Dusit Thani", 
-      logo: "https://logos-world.net/wp-content/uploads/2022/01/Dusit-Logo.png",
+      displayName: "Dusit Thani",
+      subtitle: "",
       category: "hotel"
     },
     { 
       name: "SkyPark", 
-      logo: "https://via.placeholder.com/120x60/4338ca/ffffff?text=SkyPark",
+      displayName: "SkyPark",
+      subtitle: "ADVENTURE VENUE",
       category: "venue"
     },
     { 
       name: "Aloft Kathmandu", 
-      logo: "https://logos-world.net/wp-content/uploads/2021/02/Aloft-Logo.png",
+      displayName: "aloft",
+      subtitle: "KATHMANDU THAMEL",
       category: "hotel"
     },
     { 
       name: "Marriott Kathmandu", 
-      logo: "https://logos-world.net/wp-content/uploads/2020/06/Marriott-Logo.png",
+      displayName: "Marriott",
+      subtitle: "KATHMANDU",
       category: "hotel"
     },
     { 
       name: "Fairfield by Marriott", 
-      logo: "https://logos-world.net/wp-content/uploads/2021/11/Fairfield-by-Marriott-Logo.png",
+      displayName: "Fairfield",
+      subtitle: "BY MARRIOTT",
       category: "hotel"
     },
     { 
       name: "Privé Nepal", 
-      logo: "https://via.placeholder.com/120x60/8b5cf6/ffffff?text=PRIVÉ",
+      displayName: "privé",
+      subtitle: "NEPAL",
       category: "venue"
     },
     { 
       name: "Shangri-La", 
-      logo: "https://logos-world.net/wp-content/uploads/2020/12/Shangri-La-Logo.png",
+      displayName: "Shangri-La",
+      subtitle: "",
       category: "hotel"
     },
     
     // Third Row
     { 
       name: "Hyatt Centric", 
-      logo: "https://logos-world.net/wp-content/uploads/2020/06/Hyatt-Logo.png",
+      displayName: "HYATT",
+      subtitle: "CENTRIC",
       category: "hotel"
     },
     { 
       name: "Agricus", 
-      logo: "https://via.placeholder.com/120x60/22c55e/ffffff?text=agricus",
+      displayName: "agricus",
+      subtitle: "",
       category: "restaurant"
     },
     { 
       name: "Dhokaima Cafe", 
-      logo: "https://via.placeholder.com/120x60/a16207/ffffff?text=DHOKAIMA",
+      displayName: "DHOKAIMA",
+      subtitle: "Cafe",
       category: "restaurant"
     },
     { 
-      name: "मसिंग (Masing)", 
-      logo: "https://via.placeholder.com/120x60/dc2626/ffffff?text=मसिंग",
+      name: "मसिंग", 
+      displayName: "मसिंग",
+      subtitle: "२५९०",
       category: "restaurant"
     },
     { 
       name: "Dust Princess", 
-      logo: "https://via.placeholder.com/120x60/84cc16/ffffff?text=DUST+PRINCESS",
+      displayName: "DUST PRINCESS",
+      subtitle: "",
       category: "venue"
     },
     { 
       name: "The Weavers", 
-      logo: "https://via.placeholder.com/120x60/b45309/ffffff?text=THE+WEAVERS",
+      displayName: "THE WEAVERS",
+      subtitle: "",
       category: "restaurant"
     },
     { 
       name: "Vin D'Oliva", 
-      logo: "https://via.placeholder.com/120x60/7c2d12/ffffff?text=VIN+D'OLIVA",
+      displayName: "VIN D'OLIVA",
+      subtitle: "",
       category: "restaurant"
     },
     { 
       name: "JRB", 
-      logo: "https://via.placeholder.com/120x60/ea580c/ffffff?text=JRB",
+      displayName: "JRB",
+      subtitle: "",
       category: "brand"
     }
   ];
@@ -159,36 +180,23 @@ export function TrustedBySection() {
           whileInView="visible"
           viewport={{ once: true }}
           variants={containerVariants}
-          className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-6 items-center"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 items-center"
         >
           {partners.map((partner, index) => (
             <motion.div
               key={partner.name}
               variants={itemVariants}
-              className="group flex items-center justify-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 border border-gray-100 dark:border-gray-700"
+              className="group flex items-center justify-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 border border-gray-100 dark:border-gray-700 min-h-[80px]"
             >
-              <div className="w-full h-16 flex items-center justify-center">
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="max-w-full max-h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100"
-                  loading="lazy"
-                  onError={(e) => {
-                    // Fallback to text logo if image fails
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                    const parent = target.parentElement;
-                    if (parent) {
-                      parent.innerHTML = `
-                        <div class="text-center">
-                          <div class="text-xs font-semibold text-gray-600 dark:text-gray-300 leading-tight">
-                            ${partner.name}
-                          </div>
-                        </div>
-                      `;
-                    }
-                  }}
-                />
+              <div className="text-center">
+                <div className="font-semibold text-gray-700 dark:text-gray-300 text-sm leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                  {partner.displayName}
+                </div>
+                {partner.subtitle && (
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">
+                    {partner.subtitle}
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
