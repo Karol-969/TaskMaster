@@ -1136,6 +1136,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         type: req.body.type || 'Audio Equipment',
         description: req.body.description || 'Professional sound equipment',
         specifications: req.body.specifications || 'Standard specifications',
+        price: req.body.pricing || '$0/day',
         pricing: req.body.pricing || '$0/day',
         powerRating: req.body.powerRating || '0W',
         coverageArea: req.body.coverageArea || '0 sq ft',
