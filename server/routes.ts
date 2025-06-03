@@ -1128,7 +1128,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/admin/sound-equipment', adminMiddleware, async (req: Request, res: Response) => {
     try {
-      const equipment = await storage.createSoundSystem(req.body);
+      console.log('Creating sound equipment with data:', req.body);
+      
+      const validateResult = insertSoundSystemSchema.safeParse(req.body);
+      
+      if (!validateResult.success) {
+        console.log('Validation failed:', validateResult.error.format());
+        return res.status(400).json({ 
+          message: "Invalid sound equipment data", 
+          errors: validateResult.error.format() 
+        });
+      }
+      
+      const equipment = await storage.createSoundSystem(validateResult.data);
       res.status(201).json(equipment);
     } catch (error) {
       console.error('Error creating sound equipment:', error);
