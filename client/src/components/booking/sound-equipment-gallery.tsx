@@ -153,7 +153,7 @@ export function SoundEquipmentGallery({ equipment, onBookEquipment }: SoundEquip
                 </Button>
                 <Button 
                   size="sm" 
-                  className="flex-1 bg-accent hover:bg-accent/90 text-black"
+                  className="flex-1 bg-purple-500 hover:bg-purple-600 text-white purple-glow"
                   onClick={() => onBookEquipment(system)}
                   disabled={!system.available}
                 >
@@ -279,7 +279,7 @@ export function SoundEquipmentGallery({ equipment, onBookEquipment }: SoundEquip
                       Close
                     </Button>
                     <Button
-                      className="flex-1 bg-accent hover:bg-accent/90 text-black"
+                      className="flex-1 bg-purple-500 hover:bg-purple-600 text-white purple-glow"
                       onClick={() => {
                         onBookEquipment(selectedEquipment);
                         setSelectedEquipment(null);

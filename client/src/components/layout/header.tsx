@@ -54,14 +54,14 @@ export function Header() {
 
   return (
     <header className={`sticky top-0 z-50 w-full transition-all duration-200 ${
-      isScrolled ? 'bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm' : 'bg-background'
+      isScrolled ? 'bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm border-b border-purple-500/20' : 'bg-background'
     }`}>
       <div className="container mx-auto px-4 h-16">
         <div className="flex h-full items-center justify-between">
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-bold text-accent">Reart</span>
-              <span className="text-xl font-medium">Events</span>
+              <span className="text-2xl font-bold text-purple-500 purple-text-glow">Reart</span>
+              <span className="text-xl font-medium text-white">Events</span>
             </Link>
           </div>
           
@@ -71,8 +71,8 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-accent ${
-                  location === item.href ? 'text-accent' : 'text-foreground'
+                className={`text-sm font-medium transition-colors hover:text-purple-400 ${
+                  location === item.href ? 'text-purple-500' : 'text-white'
                 }`}
               >
                 {item.label}

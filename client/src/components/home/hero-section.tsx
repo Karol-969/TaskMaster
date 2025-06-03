@@ -83,19 +83,19 @@ export function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           <div className="text-white">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in-up">
-              Elite Event Experiences <span className="text-accent">Crafted</span> to Perfection
+              Elite Event Experiences <span className="text-purple-500 purple-text-glow">Crafted</span> to Perfection
             </h1>
             <p className="text-xl opacity-90 mb-8 max-w-xl animate-fade-in-up delay-100">
               From booking top artists to securing premium venues, we manage every detail of your event journey with precision and elegance.
             </p>
             <div className="flex flex-wrap gap-4 animate-fade-in-up delay-200">
               <Link href="#services">
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-white">
+                <Button size="lg" className="bg-purple-500 hover:bg-purple-600 text-white purple-glow">
                   Explore Services
                 </Button>
               </Link>
               <Link href="/contact">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-accent">
+                <Button size="lg" variant="outline" className="border-purple-500 text-white hover:bg-purple-500 hover:text-white">
                   Contact Us
                 </Button>
               </Link>
@@ -163,7 +163,7 @@ export function HeroSection() {
                 
                 <Button 
                   type="button" 
-                  className="w-full bg-accent hover:bg-accent/90 text-white h-12 text-base transition-all transform hover:scale-[1.02] font-medium"
+                  className="w-full bg-purple-500 hover:bg-purple-600 text-white h-12 text-base transition-all transform hover:scale-[1.02] font-medium purple-glow"
                   onClick={handleCheckAvailability}
                 >
                   Check Availability
