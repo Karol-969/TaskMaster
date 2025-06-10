@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet';
 import { AdminLayout } from '@/components/admin/admin-layout';
@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { Plus, Edit, Trash2, Eye, FileText, Save, X, Upload, Image } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, FileText, Save, X, Upload, Image, Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, List, ListOrdered, Quote, Link } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
@@ -29,6 +29,9 @@ interface BlogFormData {
 export default function AdminContent() {
   const [isCreating, setIsCreating] = useState(false);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [formData, setFormData] = useState<BlogFormData>({
     title: '',
     content: '',
@@ -43,6 +46,88 @@ export default function AdminContent() {
 
   const queryClient = useQueryClient();
   const { toast } = useToast();
+
+  // File upload handler
+  const handleFileUpload = async (file: File): Promise<string> => {
+    setUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) throw new Error('Upload failed');
+      
+      const result = await response.json();
+      return result.url;
+    } catch (error) {
+      toast({
+        title: "Upload failed",
+        description: "Failed to upload image. Please try again.",
+        variant: "destructive",
+      });
+      throw error;
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  // Rich text formatting functions
+  const insertFormatting = (format: string, value?: string) => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = textarea.value.substring(start, end);
+    let replacement = '';
+
+    switch (format) {
+      case 'bold':
+        replacement = `**${selectedText || 'bold text'}**`;
+        break;
+      case 'italic':
+        replacement = `*${selectedText || 'italic text'}*`;
+        break;
+      case 'underline':
+        replacement = `<u>${selectedText || 'underlined text'}</u>`;
+        break;
+      case 'link':
+        const url = value || prompt('Enter URL:') || '#';
+        replacement = `[${selectedText || 'link text'}](${url})`;
+        break;
+      case 'quote':
+        replacement = `> ${selectedText || 'quote text'}`;
+        break;
+      case 'list':
+        replacement = selectedText ? selectedText.split('\n').map(line => `- ${line}`).join('\n') : '- List item';
+        break;
+      case 'ordered-list':
+        replacement = selectedText ? selectedText.split('\n').map((line, i) => `${i + 1}. ${line}`).join('\n') : '1. List item';
+        break;
+      case 'heading1':
+        replacement = `# ${selectedText || 'Heading 1'}`;
+        break;
+      case 'heading2':
+        replacement = `## ${selectedText || 'Heading 2'}`;
+        break;
+      case 'heading3':
+        replacement = `### ${selectedText || 'Heading 3'}`;
+        break;
+    }
+
+    const newValue = textarea.value.substring(0, start) + replacement + textarea.value.substring(end);
+    setFormData(prev => ({ ...prev, content: newValue }));
+    
+    // Set cursor position after the inserted text
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(start + replacement.length, start + replacement.length);
+    }, 0);
+  };
 
   // Fetch blog posts
   const { data: posts = [], isLoading } = useQuery<BlogPost[]>({
@@ -340,6 +425,33 @@ export default function AdminContent() {
                     <Button type="button" onClick={addImage} size="sm">
                       <Image className="h-4 w-4" />
                     </Button>
+                    <Button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      size="sm"
+                      disabled={uploadingImage}
+                      className="bg-purple-600 hover:bg-purple-700"
+                    >
+                      <Upload className="h-4 w-4" />
+                      {uploadingImage ? 'Uploading...' : 'Upload'}
+                    </Button>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          try {
+                            const url = await handleFileUpload(file);
+                            setFormData(prev => ({ ...prev, images: [...prev.images, url] }));
+                          } catch (error) {
+                            // Error handled in handleFileUpload
+                          }
+                        }
+                      }}
+                      className="hidden"
+                    />
                   </div>
                   <div className="space-y-2">
                     {formData.images.map((image, index) => (
@@ -360,14 +472,150 @@ export default function AdminContent() {
 
             <div className="mt-6">
               <Label htmlFor="content">Content *</Label>
-              <Textarea
-                id="content"
-                value={formData.content}
-                onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                placeholder="Write your blog post content here..."
-                rows={12}
-                className="mt-2"
-              />
+              
+              {/* Rich Text Editor Toolbar */}
+              <div className="mt-2 border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
+                <div className="bg-gray-50 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600 p-2">
+                  <div className="flex flex-wrap gap-1">
+                    {/* Text Formatting */}
+                    <div className="flex gap-1 mr-4">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => insertFormatting('bold')}
+                        className="h-8 w-8 p-0"
+                        title="Bold"
+                      >
+                        <Bold className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => insertFormatting('italic')}
+                        className="h-8 w-8 p-0"
+                        title="Italic"
+                      >
+                        <Italic className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => insertFormatting('underline')}
+                        className="h-8 w-8 p-0"
+                        title="Underline"
+                      >
+                        <Underline className="h-4 w-4" />
+                      </Button>
+                    </div>
+
+                    {/* Headings */}
+                    <div className="flex gap-1 mr-4">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => insertFormatting('heading1')}
+                        className="h-8 px-2 text-xs font-bold"
+                        title="Heading 1"
+                      >
+                        H1
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => insertFormatting('heading2')}
+                        className="h-8 px-2 text-xs font-bold"
+                        title="Heading 2"
+                      >
+                        H2
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => insertFormatting('heading3')}
+                        className="h-8 px-2 text-xs font-bold"
+                        title="Heading 3"
+                      >
+                        H3
+                      </Button>
+                    </div>
+
+                    {/* Lists */}
+                    <div className="flex gap-1 mr-4">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => insertFormatting('list')}
+                        className="h-8 w-8 p-0"
+                        title="Bullet List"
+                      >
+                        <List className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => insertFormatting('ordered-list')}
+                        className="h-8 w-8 p-0"
+                        title="Numbered List"
+                      >
+                        <ListOrdered className="h-4 w-4" />
+                      </Button>
+                    </div>
+
+                    {/* Other Formatting */}
+                    <div className="flex gap-1">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => insertFormatting('quote')}
+                        className="h-8 w-8 p-0"
+                        title="Quote"
+                      >
+                        <Quote className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => insertFormatting('link')}
+                        className="h-8 w-8 p-0"
+                        title="Insert Link"
+                      >
+                        <Link className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                <Textarea
+                  ref={textareaRef}
+                  id="content"
+                  value={formData.content}
+                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+                  placeholder="Write your blog post content here...
+
+Use the toolbar above for formatting:
+- **Bold text**
+- *Italic text*
+- # Heading 1
+- ## Heading 2
+- ### Heading 3
+- > Quote
+- [Link text](url)
+- - Bullet list
+- 1. Numbered list"
+                  rows={15}
+                  className="border-0 focus:ring-0 resize-none rounded-none"
+                />
+              </div>
             </div>
 
             <div className="flex justify-end gap-3 mt-6">
