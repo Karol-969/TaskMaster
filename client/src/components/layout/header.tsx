@@ -21,7 +21,6 @@ export function Header() {
     { label: 'Services', href: '/services' },
     { label: 'Events', href: '/events' },
     { label: 'Blog', href: '/blog' },
-    { label: 'Chat', href: '/chat' },
     { label: 'Contact', href: '/contact' },
   ];
 
