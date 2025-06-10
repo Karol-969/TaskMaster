@@ -57,9 +57,10 @@ export default function AdminChatPage() {
   });
 
   // Get messages for selected conversation
-  const { data: messages = [], isLoading: messagesLoading } = useQuery({
-    queryKey: ['/api/admin/conversations', selectedConversation, 'messages'],
+  const { data: messages = [], isLoading: messagesLoading, error: messagesError } = useQuery({
+    queryKey: [`/api/admin/conversations/${selectedConversation}/messages`],
     enabled: !!selectedConversation,
+    retry: 1,
   });
 
   // WebSocket connection
@@ -300,6 +301,12 @@ export default function AdminChatPage() {
                     <CardContent className="flex-1 p-4 overflow-y-auto">
                       {messagesLoading ? (
                         <div className="text-center text-gray-400">Loading messages...</div>
+                      ) : messagesError ? (
+                        <div className="text-center text-red-400">
+                          Error loading messages: {messagesError.message}
+                        </div>
+                      ) : messages.length === 0 ? (
+                        <div className="text-center text-gray-400">No messages yet</div>
                       ) : (
                         <div className="space-y-4">
                           {messages.map((msg: ChatMessage) => (
