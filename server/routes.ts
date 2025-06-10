@@ -1,6 +1,10 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import session from "express-session";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import express from "express";
 import { storage } from "./storage";
 import { 
   insertUserSchema,
@@ -78,6 +82,35 @@ const adminMiddleware = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
+// Configure multer for file uploads
+const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, uploadsDir);
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+  }),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.'));
+    }
+  }
+});
+
 // Error handling middleware
 const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
@@ -98,6 +131,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     secret: process.env.SESSION_SECRET || 'reart-events-secret',
     name: 'admin.session'
   }));
+
+  // Serve uploaded files statically
+  app.use('/uploads', express.static(uploadsDir));
+
+  // File upload endpoint
+  app.post('/api/upload', upload.single('image'), (req: Request, res: Response) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+      }
+
+      const fileUrl = `/uploads/${req.file.filename}`;
+      res.json({ url: fileUrl });
+    } catch (error) {
+      console.error('Upload error:', error);
+      res.status(500).json({ error: 'File upload failed' });
+    }
+  });
 
   // IMMEDIATE FIX: Create bypass route with different path to avoid admin middleware
   app.get('/api/artists-admin-bypass', async (req: Request, res: Response) => {
