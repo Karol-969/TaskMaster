@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Calendar, Clock, Tag, Search, FileText, User } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'wouter';
 import type { BlogPost } from '@shared/schema';
 
 export default function Blog() {
@@ -226,12 +227,11 @@ export default function Blog() {
                             )}
                           </div>
                         )}
-                        <Button
-                          className="w-full bg-purple-600 hover:bg-purple-700 text-white"
-                          onClick={() => window.open(`/blog/${post.slug}`, '_blank')}
-                        >
-                          Read More
-                        </Button>
+                        <Link href={`/blog/${post.slug}`}>
+                          <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                            Read More
+                          </Button>
+                        </Link>
                       </CardContent>
                     </Card>
                   </motion.div>

@@ -27,6 +27,7 @@ import AdminSoundEquipmentPage from '@/pages/admin/sound-equipment';
 import AdminContentPage from '@/pages/admin/content';
 import SoundPage from '@/pages/sound';
 import BlogPage from '@/pages/blog';
+import BlogPostPage from '@/pages/blog-post';
 
 
 
@@ -53,6 +54,7 @@ function Router() {
       <Route path="/admin/events" component={AdminEventsPage} />
       <Route path="/admin/content" component={AdminContentPage} />
       <Route path="/blog" component={BlogPage} />
+      <Route path="/blog/:slug" component={BlogPostPage} />
       <Route component={NotFound} />
     </Switch>
   );
