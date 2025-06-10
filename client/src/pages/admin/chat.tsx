@@ -252,7 +252,7 @@ export default function AdminChatPage() {
                           </div>
                           <div className="flex items-center text-xs text-gray-400">
                             <User className="w-3 h-3 mr-1" />
-                            User ID: {conv.userId}
+                            {conv.userId === 0 ? conv.guestName || 'Anonymous' : `User ID: ${conv.userId}`}
                           </div>
                           <p className="text-xs text-gray-400 mt-1">
                             {formatDate(conv.createdAt)}
@@ -277,7 +277,7 @@ export default function AdminChatPage() {
                             #{selectedConv.id} - {selectedConv.subject}
                           </CardTitle>
                           <p className="text-sm text-gray-400">
-                            User ID: {selectedConv.userId} | Created: {formatDate(selectedConv.createdAt)}
+                            {selectedConv.userId === 0 ? selectedConv.guestName || 'Anonymous User' : `User ID: ${selectedConv.userId}`} | Created: {formatDate(selectedConv.createdAt)}
                           </p>
                         </div>
                         <Select 
