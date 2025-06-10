@@ -36,7 +36,7 @@ const navigation = [
   { name: 'Equipment', href: '/admin/equipment', icon: Settings },
   { name: 'Financial', href: '/admin/financial', icon: DollarSign },
   { name: 'Content Management', href: '/admin/content', icon: FileText },
-  { name: 'Communications', href: '/admin/communications', icon: MessageSquare },
+  { name: 'Chat Management', href: '/admin/chat', icon: MessageSquare },
   { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
   { name: 'System Settings', href: '/admin/settings', icon: Settings },
 ];
