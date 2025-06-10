@@ -651,20 +651,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Chat API Routes
   
-  // Create a new conversation
-  app.post('/api/conversations', authMiddleware, async (req, res, next) => {
+  // Create a new conversation (allows anonymous users)
+  app.post('/api/conversations', async (req, res, next) => {
     try {
-      const { subject, message } = req.body;
+      const { subject, message, guestName, guestEmail } = req.body;
       
       if (!subject || !message) {
         return res.status(400).json({ message: "Subject and message are required" });
       }
       
+      // For authenticated users, use their ID, for guests use 0
+      const userId = req.session?.userId || 0;
+      
       const conversationData = {
-        userId: req.user.id,
+        userId,
         subject,
         status: 'open',
-        adminId: null
+        adminId: null,
+        guestName: guestName || 'Anonymous',
+        guestEmail: guestEmail || null
       };
       
       const conversation = await storage.createConversation(conversationData);
@@ -672,15 +677,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create initial message
       const messageData = {
         conversationId: conversation.id,
-        senderId: req.user.id,
+        senderId: userId,
         senderType: 'user' as const,
         message,
         isRead: false
       };
       
-      await storage.createChatMessage(messageData);
+      const chatMessage = await storage.createChatMessage(messageData);
       
-      res.status(201).json(conversation);
+      // Return conversation with initial message
+      const conversationWithMessages = {
+        ...conversation,
+        messages: [chatMessage]
+      };
+      
+      res.status(201).json(conversationWithMessages);
     } catch (error) {
       next(error);
     }
@@ -728,8 +739,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Send a message
-  app.post('/api/conversations/:id/messages', authMiddleware, async (req, res, next) => {
+  // Send a message (allows anonymous users)
+  app.post('/api/conversations/:id/messages', async (req, res, next) => {
     try {
       const conversationId = parseInt(req.params.id);
       const { message } = req.body;
@@ -738,20 +749,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Message is required" });
       }
       
-      // Verify user has access to this conversation
+      // Verify conversation exists
       const conversation = await storage.getConversation(conversationId);
       if (!conversation) {
         return res.status(404).json({ message: "Conversation not found" });
       }
       
-      if (conversation.userId !== req.user.id && req.user.role !== 'admin') {
-        return res.status(403).json({ message: "Access denied" });
-      }
+      // For authenticated users, use their ID, for guests use 0
+      const userId = req.session?.userId || 0;
+      const isAdmin = req.session?.userId && req.user?.role === 'admin';
       
       const messageData = {
         conversationId,
-        senderId: req.user.id,
-        senderType: req.user.role === 'admin' ? 'admin' as const : 'user' as const,
+        senderId: userId,
+        senderType: isAdmin ? 'admin' as const : 'user' as const,
         message,
         isRead: false
       };

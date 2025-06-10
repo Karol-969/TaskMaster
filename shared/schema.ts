@@ -190,6 +190,8 @@ export const conversations = pgTable("conversations", {
   adminId: integer("admin_id"),
   status: text("status").notNull().default("active"), // active, closed
   subject: text("subject"),
+  guestName: varchar("guest_name", { length: 255 }),
+  guestEmail: varchar("guest_email", { length: 255 }),
   lastMessageAt: timestamp("last_message_at").defaultNow(),
   createdAt: timestamp("created_at").defaultNow(),
 });

@@ -81,7 +81,7 @@ export function ChatWidget() {
 
   const startConversation = async () => {
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch('/api/conversations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,8 +93,8 @@ export function ChatWidget() {
       });
 
       if (response.ok) {
-        const newConversation = await response.json();
-        setConversation(newConversation);
+        const conversationWithMessages = await response.json();
+        setConversation(conversationWithMessages);
         
         if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
           wsRef.current.send(JSON.stringify({
@@ -122,7 +122,7 @@ export function ChatWidget() {
     if (!message.trim() || !conversation) return;
 
     try {
-      const response = await fetch(`/api/chat/${conversation.id}/messages`, {
+      const response = await fetch(`/api/conversations/${conversation.id}/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
