@@ -9,12 +9,14 @@ interface AuthenticatedWebSocket extends WebSocket {
 }
 
 interface ChatMessage {
-  type: 'message' | 'user_joined' | 'user_left' | 'typing' | 'stop_typing';
+  type: 'message' | 'user_joined' | 'user_left' | 'typing' | 'stop_typing' | 'auth' | 'join_conversation';
   conversationId?: number;
   senderId?: number;
   senderType?: 'user' | 'admin';
   message?: string;
   timestamp?: Date;
+  userId?: number;
+  userRole?: string;
   user?: {
     id: number;
     username: string;
@@ -223,7 +225,7 @@ class ChatWebSocketServer {
         senderId: ws.userId,
         senderType: ws.userRole === 'admin' ? 'admin' : 'user',
         message: message.message,
-        timestamp: chatMessage.createdAt
+        timestamp: chatMessage.createdAt || new Date()
       });
 
     } catch (error) {

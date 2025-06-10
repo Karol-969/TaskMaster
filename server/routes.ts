@@ -5,7 +5,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import express from "express";
-import { storage } from "./storage";
+import { storage } from "./database-storage";
 import { 
   insertUserSchema,
   insertBookingSchema,
@@ -14,8 +14,11 @@ import {
   insertInfluencerSchema,
   insertSoundSystemSchema,
   insertVenueSchema,
-  insertEventSchema
+  insertEventSchema,
+  insertConversationSchema,
+  insertChatMessageSchema
 } from "@shared/schema";
+import { ChatWebSocketServer } from "./websocket";
 import { z } from "zod";
 
 // Type definitions to make TypeScript happy
@@ -644,6 +647,184 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/auth/me', authMiddleware, (req, res) => {
     const { password, ...userWithoutPassword } = req.user;
     res.json(userWithoutPassword);
+  });
+
+  // Chat API Routes
+  
+  // Create a new conversation
+  app.post('/api/conversations', authMiddleware, async (req, res, next) => {
+    try {
+      const { subject, message } = req.body;
+      
+      if (!subject || !message) {
+        return res.status(400).json({ message: "Subject and message are required" });
+      }
+      
+      const conversationData = {
+        userId: req.user.id,
+        subject,
+        status: 'open',
+        adminId: null
+      };
+      
+      const conversation = await storage.createConversation(conversationData);
+      
+      // Create initial message
+      const messageData = {
+        conversationId: conversation.id,
+        senderId: req.user.id,
+        senderType: 'user' as const,
+        message,
+        isRead: false
+      };
+      
+      await storage.createChatMessage(messageData);
+      
+      res.status(201).json(conversation);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  // Get user's conversations
+  app.get('/api/conversations', authMiddleware, async (req, res, next) => {
+    try {
+      const conversations = await storage.getUserConversations(req.user.id);
+      res.json(conversations);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  // Get all conversations (admin only)
+  app.get('/api/admin/conversations', adminMiddleware, async (req, res, next) => {
+    try {
+      const conversations = await storage.getAllConversations();
+      res.json(conversations);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  // Get conversation messages
+  app.get('/api/conversations/:id/messages', authMiddleware, async (req, res, next) => {
+    try {
+      const conversationId = parseInt(req.params.id);
+      
+      // Verify user has access to this conversation
+      const conversation = await storage.getConversation(conversationId);
+      if (!conversation) {
+        return res.status(404).json({ message: "Conversation not found" });
+      }
+      
+      if (conversation.userId !== req.user.id && req.user.role !== 'admin') {
+        return res.status(403).json({ message: "Access denied" });
+      }
+      
+      const messages = await storage.getConversationMessages(conversationId);
+      res.json(messages);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  // Send a message
+  app.post('/api/conversations/:id/messages', authMiddleware, async (req, res, next) => {
+    try {
+      const conversationId = parseInt(req.params.id);
+      const { message } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({ message: "Message is required" });
+      }
+      
+      // Verify user has access to this conversation
+      const conversation = await storage.getConversation(conversationId);
+      if (!conversation) {
+        return res.status(404).json({ message: "Conversation not found" });
+      }
+      
+      if (conversation.userId !== req.user.id && req.user.role !== 'admin') {
+        return res.status(403).json({ message: "Access denied" });
+      }
+      
+      const messageData = {
+        conversationId,
+        senderId: req.user.id,
+        senderType: req.user.role === 'admin' ? 'admin' as const : 'user' as const,
+        message,
+        isRead: false
+      };
+      
+      const chatMessage = await storage.createChatMessage(messageData);
+      res.status(201).json(chatMessage);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  // Update conversation status (admin only)
+  app.patch('/api/admin/conversations/:id/status', adminMiddleware, async (req, res, next) => {
+    try {
+      const conversationId = parseInt(req.params.id);
+      const { status } = req.body;
+      
+      if (!status) {
+        return res.status(400).json({ message: "Status is required" });
+      }
+      
+      const conversation = await storage.updateConversationStatus(conversationId, status);
+      if (!conversation) {
+        return res.status(404).json({ message: "Conversation not found" });
+      }
+      
+      res.json(conversation);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  // Assign admin to conversation
+  app.patch('/api/admin/conversations/:id/assign', adminMiddleware, async (req, res, next) => {
+    try {
+      const conversationId = parseInt(req.params.id);
+      const { adminId } = req.body;
+      
+      if (!adminId) {
+        return res.status(400).json({ message: "Admin ID is required" });
+      }
+      
+      const conversation = await storage.assignAdminToConversation(conversationId, adminId);
+      if (!conversation) {
+        return res.status(404).json({ message: "Conversation not found" });
+      }
+      
+      res.json(conversation);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  // Mark messages as read
+  app.post('/api/conversations/:id/read', authMiddleware, async (req, res, next) => {
+    try {
+      const conversationId = parseInt(req.params.id);
+      
+      // Verify user has access to this conversation
+      const conversation = await storage.getConversation(conversationId);
+      if (!conversation) {
+        return res.status(404).json({ message: "Conversation not found" });
+      }
+      
+      if (conversation.userId !== req.user.id && req.user.role !== 'admin') {
+        return res.status(403).json({ message: "Access denied" });
+      }
+      
+      await storage.markMessagesAsRead(conversationId, req.user.id);
+      res.json({ message: "Messages marked as read" });
+    } catch (error) {
+      next(error);
+    }
   });
 
   // ARTIST ROUTES
