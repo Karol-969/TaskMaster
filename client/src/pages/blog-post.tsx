@@ -27,7 +27,8 @@ export default function BlogPostPage() {
     });
   };
 
-  const formatContent = (content: string) => {
+  const formatContent = (content: string | undefined) => {
+    if (!content) return null;
     return content.split('\n').map((paragraph, index) => (
       <p key={index} className="mb-4 text-gray-300 leading-relaxed">
         {paragraph}
@@ -131,7 +132,7 @@ export default function BlogPostPage() {
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
-                <span>{Math.ceil(post.content.length / 1000)} min read</span>
+                <span>{Math.ceil((post.content?.length || 0) / 1000)} min read</span>
               </div>
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4" />
