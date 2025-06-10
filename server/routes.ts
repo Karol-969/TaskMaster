@@ -743,7 +743,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/conversations/:id/messages', async (req, res, next) => {
     try {
       const conversationId = parseInt(req.params.id);
-      const { message } = req.body;
+      const { message, senderType } = req.body;
       
       if (!message) {
         return res.status(400).json({ message: "Message is required" });
@@ -759,10 +759,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.session?.userId || 0;
       const isAdmin = req.session?.userId && req.user?.role === 'admin';
       
+      // Use explicit senderType if provided (for admin messages), otherwise infer
+      const finalSenderType = senderType || (isAdmin ? 'admin' : 'user');
+      
       const messageData = {
         conversationId,
         senderId: userId,
-        senderType: isAdmin ? 'admin' as const : 'user' as const,
+        senderType: finalSenderType as 'user' | 'admin',
         message,
         isRead: false
       };
