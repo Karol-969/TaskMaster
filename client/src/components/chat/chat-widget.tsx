@@ -99,7 +99,7 @@ export function ChatWidget() {
         if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
           wsRef.current.send(JSON.stringify({
             type: 'join_conversation',
-            conversationId: newConversation.id
+            conversationId: conversationWithMessages.id
           }));
         }
       } else {
