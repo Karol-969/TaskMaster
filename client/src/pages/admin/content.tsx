@@ -39,7 +39,7 @@ export default function AdminContent() {
     featuredImage: '',
     images: [],
     tags: [],
-    status: 'draft'
+    status: 'published'
   });
   const [newTag, setNewTag] = useState('');
   const [newImage, setNewImage] = useState('');
@@ -209,7 +209,7 @@ export default function AdminContent() {
       featuredImage: '',
       images: [],
       tags: [],
-      status: 'draft'
+      status: 'published'
     });
     setNewTag('');
     setNewImage('');
