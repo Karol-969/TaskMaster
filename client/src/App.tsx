@@ -28,6 +28,8 @@ import AdminContentPage from '@/pages/admin/content';
 import SoundPage from '@/pages/sound';
 import BlogPage from '@/pages/blog';
 import BlogPostPage from '@/pages/blog-post';
+import ChatPage from '@/pages/chat';
+import AdminChatPage from '@/pages/admin/chat';
 
 
 
@@ -55,6 +57,8 @@ function Router() {
       <Route path="/admin/content" component={AdminContentPage} />
       <Route path="/blog" component={BlogPage} />
       <Route path="/blog/:slug" component={BlogPostPage} />
+      <Route path="/chat" component={ChatPage} />
+      <Route path="/admin/chat" component={AdminChatPage} />
       <Route component={NotFound} />
     </Switch>
   );

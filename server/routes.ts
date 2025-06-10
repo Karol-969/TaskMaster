@@ -1624,5 +1624,9 @@ Guidelines:
   });
 
   const httpServer = createServer(app);
+  
+  // Initialize WebSocket server for real-time chat
+  const chatWSServer = new ChatWebSocketServer(httpServer);
+  
   return httpServer;
 }
