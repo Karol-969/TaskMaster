@@ -15,7 +15,8 @@ import {
   Bell,
   Moon,
   Sun,
-  Volume2
+  Volume2,
+  FileText
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/hooks/use-theme';
@@ -34,7 +35,7 @@ const navigation = [
   { name: 'Venue Management', href: '/admin/venues', icon: MapPin },
   { name: 'Equipment', href: '/admin/equipment', icon: Settings },
   { name: 'Financial', href: '/admin/financial', icon: DollarSign },
-  { name: 'Content Management', href: '/admin/content', icon: MessageSquare },
+  { name: 'Content Management', href: '/admin/content', icon: FileText },
   { name: 'Communications', href: '/admin/communications', icon: MessageSquare },
   { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
   { name: 'System Settings', href: '/admin/settings', icon: Settings },

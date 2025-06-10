@@ -20,6 +20,7 @@ export function Header() {
     { label: 'Sound', href: '/sound' },
     { label: 'Services', href: '/services' },
     { label: 'Events', href: '/events' },
+    { label: 'Blog', href: '/blog' },
     { label: 'Contact', href: '/contact' },
   ];
 
