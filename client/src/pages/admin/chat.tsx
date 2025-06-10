@@ -16,8 +16,10 @@ interface Conversation {
   subject: string;
   status: string;
   adminId: number | null;
+  guestName?: string;
+  guestEmail?: string | null;
+  lastMessageAt: string;
   createdAt: string;
-  updatedAt: string;
 }
 
 interface ChatMessage {
