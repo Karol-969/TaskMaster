@@ -52,10 +52,7 @@ export default function AdminContent() {
   // Create blog post mutation
   const createPostMutation = useMutation({
     mutationFn: async (data: BlogFormData) => {
-      return await apiRequest('/api/admin/blog-posts', {
-        method: 'POST',
-        body: JSON.stringify(data),
-      });
+      return await apiRequest('POST', '/api/admin/blog-posts', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/blog-posts'] });
@@ -81,6 +78,9 @@ export default function AdminContent() {
       return await apiRequest(`/api/admin/blog-posts/${id}`, {
         method: 'PUT',
         body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
     },
     onSuccess: () => {
