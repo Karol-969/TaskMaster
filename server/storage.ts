@@ -6,7 +6,8 @@ import {
   venues, type Venue, type InsertVenue,
   events, type Event, type InsertEvent,
   bookings, type Booking, type InsertBooking,
-  testimonials, type Testimonial, type InsertTestimonial
+  testimonials, type Testimonial, type InsertTestimonial,
+  type BlogPost, type InsertBlogPost
 } from "@shared/schema";
 
 export interface IStorage {
@@ -64,6 +65,15 @@ export interface IStorage {
   getTestimonial(id: number): Promise<Testimonial | undefined>;
   getAllTestimonials(): Promise<Testimonial[]>;
   createTestimonial(testimonial: InsertTestimonial): Promise<Testimonial>;
+
+  // Blog Post methods
+  getBlogPost(id: number): Promise<BlogPost | undefined>;
+  getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
+  getAllBlogPosts(): Promise<BlogPost[]>;
+  getPublishedBlogPosts(): Promise<BlogPost[]>;
+  createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
+  updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost | undefined>;
+  deleteBlogPost(id: number): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
