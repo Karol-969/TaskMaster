@@ -815,6 +815,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       next(error);
     }
   });
+
+  // Get conversation messages (admin access)
+  app.get('/api/admin/conversations/:id/messages', adminMiddleware, async (req, res, next) => {
+    try {
+      const conversationId = parseInt(req.params.id);
+      
+      const conversation = await storage.getConversation(conversationId);
+      if (!conversation) {
+        return res.status(404).json({ message: "Conversation not found" });
+      }
+      
+      const messages = await storage.getConversationMessages(conversationId);
+      res.json(messages);
+    } catch (error) {
+      next(error);
+    }
+  });
   
   // Mark messages as read
   app.post('/api/conversations/:id/read', authMiddleware, async (req, res, next) => {

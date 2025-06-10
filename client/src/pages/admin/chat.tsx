@@ -58,7 +58,7 @@ export default function AdminChatPage() {
 
   // Get messages for selected conversation
   const { data: messages = [], isLoading: messagesLoading } = useQuery({
-    queryKey: ['/api/conversations', selectedConversation, 'messages'],
+    queryKey: ['/api/admin/conversations', selectedConversation, 'messages'],
     enabled: !!selectedConversation,
   });
 
@@ -120,7 +120,7 @@ export default function AdminChatPage() {
     mutationFn: async (message: string) => {
       return apiRequest(`/api/conversations/${selectedConversation}/messages`, {
         method: 'POST',
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ message, senderType: 'admin' }),
         headers: {
           'Content-Type': 'application/json'
         }
@@ -128,7 +128,7 @@ export default function AdminChatPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['/api/conversations', selectedConversation, 'messages']
+        queryKey: ['/api/admin/conversations', selectedConversation, 'messages']
       });
       queryClient.invalidateQueries({
         queryKey: ['/api/admin/conversations']
