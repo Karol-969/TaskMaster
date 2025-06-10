@@ -28,7 +28,7 @@ export default function BlogPostPage() {
   };
 
   const formatContent = (content: string | undefined) => {
-    if (!content) return null;
+    if (!content) return <p className="text-gray-400">No content available</p>;
     return content.split('\n').map((paragraph, index) => (
       <p key={index} className="mb-4 text-gray-300 leading-relaxed">
         {paragraph}
@@ -165,8 +165,12 @@ export default function BlogPostPage() {
 
             {/* Content */}
             <div className="prose prose-lg prose-invert max-w-none">
-              <div className="text-lg leading-relaxed">
-                {formatContent(post.content)}
+              <div className="text-lg leading-relaxed text-white">
+                {post.content ? (
+                  <div className="whitespace-pre-wrap">{post.content}</div>
+                ) : (
+                  <p className="text-gray-400">No content available</p>
+                )}
               </div>
             </div>
 
