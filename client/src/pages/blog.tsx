@@ -192,7 +192,7 @@ export default function Blog() {
                       <CardHeader>
                         <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
                           <Calendar className="h-4 w-4" />
-                          <span>{formatDate(post.publishedAt || post.createdAt)}</span>
+                          <span>{formatDate(post.publishedAt || post.createdAt || new Date())}</span>
                           <Clock className="h-4 w-4 ml-2" />
                           <span>{Math.ceil(post.content.length / 1000)} min read</span>
                         </div>

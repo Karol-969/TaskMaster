@@ -45,7 +45,7 @@ export default function AdminContent() {
   const { toast } = useToast();
 
   // Fetch blog posts
-  const { data: posts = [], isLoading } = useQuery({
+  const { data: posts = [], isLoading } = useQuery<BlogPost[]>({
     queryKey: ['/api/admin/blog-posts'],
   });
 
@@ -75,13 +75,7 @@ export default function AdminContent() {
   // Update blog post mutation
   const updatePostMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: BlogFormData }) => {
-      return await apiRequest(`/api/admin/blog-posts/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      return await apiRequest('PUT', `/api/admin/blog-posts/${id}`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/blog-posts'] });
@@ -104,9 +98,7 @@ export default function AdminContent() {
   // Delete blog post mutation
   const deletePostMutation = useMutation({
     mutationFn: async (id: number) => {
-      return await apiRequest(`/api/admin/blog-posts/${id}`, {
-        method: 'DELETE',
-      });
+      return await apiRequest('DELETE', `/api/admin/blog-posts/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/blog-posts'] });
@@ -458,7 +450,7 @@ export default function AdminContent() {
                         {post.excerpt}
                       </p>
                       <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                        <span>Created: {new Date(post.createdAt).toLocaleDateString()}</span>
+                        <span>Created: {post.createdAt ? new Date(post.createdAt).toLocaleDateString() : 'N/A'}</span>
                         {post.publishedAt && (
                           <span>Published: {new Date(post.publishedAt).toLocaleDateString()}</span>
                         )}
