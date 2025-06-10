@@ -51,6 +51,16 @@ export default function AdminChatPage() {
   const [isConnected, setIsConnected] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
+  const [, setLocation] = useLocation();
+
+  // Check authentication
+  useEffect(() => {
+    const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
+    if (!isAuthenticated) {
+      setLocation('/admin/login');
+      return;
+    }
+  }, [setLocation]);
 
   // Get all conversations (admin view)
   const { data: conversations = [], isLoading: conversationsLoading } = useQuery({
