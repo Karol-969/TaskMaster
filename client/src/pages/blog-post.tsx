@@ -80,10 +80,10 @@ export default function BlogPostPage() {
   return (
     <Layout>
       <Helmet>
-        <title>{post.title} - ReArt Events Blog</title>
-        <meta name="description" content={post.excerpt} />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt} />
+        <title>{post.title || 'Blog Post'} - ReArt Events Blog</title>
+        <meta name="description" content={post.excerpt || 'Read the latest from ReArt Events'} />
+        <meta property="og:title" content={post.title || 'Blog Post'} />
+        <meta property="og:description" content={post.excerpt || 'Read the latest from ReArt Events'} />
         {post.featuredImage && <meta property="og:image" content={post.featuredImage} />}
       </Helmet>
 
@@ -113,7 +113,7 @@ export default function BlogPostPage() {
               <div className="aspect-video overflow-hidden rounded-lg mb-8">
                 <img
                   src={post.featuredImage}
-                  alt={post.title}
+                  alt={post.title || 'Blog post image'}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -121,7 +121,7 @@ export default function BlogPostPage() {
 
             {/* Title */}
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              {post.title}
+              {post.title || 'Blog Post'}
             </h1>
 
             {/* Meta Information */}
@@ -175,11 +175,11 @@ export default function BlogPostPage() {
               <div className="mt-12">
                 <h3 className="text-2xl font-semibold text-white mb-6">Gallery</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {post.images.map((image, index) => (
+                  {post.images?.map((image, index) => (
                     <div key={index} className="aspect-video overflow-hidden rounded-lg">
                       <img
                         src={image}
-                        alt={`${post.title} - Image ${index + 1}`}
+                        alt={`${post.title || 'Blog post'} - Image ${index + 1}`}
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                       />
                     </div>
