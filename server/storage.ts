@@ -7,7 +7,9 @@ import {
   events, type Event, type InsertEvent,
   bookings, type Booking, type InsertBooking,
   testimonials, type Testimonial, type InsertTestimonial,
-  type BlogPost, type InsertBlogPost
+  type BlogPost, type InsertBlogPost,
+  type Conversation, type InsertConversation,
+  type ChatMessage, type InsertChatMessage
 } from "@shared/schema";
 
 export interface IStorage {
@@ -74,6 +76,18 @@ export interface IStorage {
   createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
   updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost | undefined>;
   deleteBlogPost(id: number): Promise<boolean>;
+
+  // Chat methods
+  createConversation(conversation: InsertConversation): Promise<Conversation>;
+  getConversation(id: number): Promise<Conversation | undefined>;
+  getUserConversations(userId: number): Promise<Conversation[]>;
+  getAllConversations(): Promise<Conversation[]>;
+  updateConversationStatus(id: number, status: string): Promise<Conversation | undefined>;
+  assignAdminToConversation(conversationId: number, adminId: number): Promise<Conversation | undefined>;
+  createChatMessage(message: InsertChatMessage): Promise<ChatMessage>;
+  getConversationMessages(conversationId: number): Promise<ChatMessage[]>;
+  markMessagesAsRead(conversationId: number, userId: number): Promise<void>;
+  getUnreadMessageCount(conversationId: number): Promise<number>;
 }
 
 export class MemStorage implements IStorage {

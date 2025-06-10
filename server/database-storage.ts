@@ -9,7 +9,9 @@ import {
   events, type Event, type InsertEvent,
   bookings, type Booking, type InsertBooking,
   testimonials, type Testimonial, type InsertTestimonial,
-  blogPosts, type BlogPost, type InsertBlogPost
+  blogPosts, type BlogPost, type InsertBlogPost,
+  conversations, type Conversation, type InsertConversation,
+  chatMessages, type ChatMessage, type InsertChatMessage
 } from "@shared/schema";
 import { IStorage } from "./storage";
 
@@ -274,6 +276,84 @@ export class DatabaseStorage implements IStorage {
 
   async deleteBlogPost(id: number): Promise<boolean> {
     const result = await db.delete(blogPosts).where(eq(blogPosts.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  // Chat methods
+  async createConversation(conversation: InsertConversation): Promise<Conversation> {
+    const [newConversation] = await db
+      .insert(conversations)
+      .values(conversation)
+      .returning();
+    return newConversation;
+  }
+
+  async getConversation(id: number): Promise<Conversation | undefined> {
+    const [conversation] = await db.select().from(conversations).where(eq(conversations.id, id));
+    return conversation || undefined;
+  }
+
+  async getUserConversations(userId: number): Promise<Conversation[]> {
+    return await db.select().from(conversations).where(eq(conversations.userId, userId));
+  }
+
+  async getAllConversations(): Promise<Conversation[]> {
+    return await db.select().from(conversations);
+  }
+
+  async updateConversationStatus(id: number, status: string): Promise<Conversation | undefined> {
+    const [updated] = await db
+      .update(conversations)
+      .set({ status, lastMessageAt: new Date() })
+      .where(eq(conversations.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async assignAdminToConversation(conversationId: number, adminId: number): Promise<Conversation | undefined> {
+    const [updated] = await db
+      .update(conversations)
+      .set({ adminId })
+      .where(eq(conversations.id, conversationId))
+      .returning();
+    return updated || undefined;
+  }
+
+  async createChatMessage(message: InsertChatMessage): Promise<ChatMessage> {
+    const [newMessage] = await db
+      .insert(chatMessages)
+      .values(message)
+      .returning();
+
+    // Update conversation last message time
+    await db
+      .update(conversations)
+      .set({ lastMessageAt: new Date() })
+      .where(eq(conversations.id, message.conversationId));
+
+    return newMessage;
+  }
+
+  async getConversationMessages(conversationId: number): Promise<ChatMessage[]> {
+    return await db
+      .select()
+      .from(chatMessages)
+      .where(eq(chatMessages.conversationId, conversationId))
+      .orderBy(chatMessages.createdAt);
+  }
+
+  async markMessagesAsRead(conversationId: number, userId: number): Promise<void> {
+    await db
+      .update(chatMessages)
+      .set({ isRead: true })
+      .where(eq(chatMessages.conversationId, conversationId));
+  }
+
+  async getUnreadMessageCount(conversationId: number): Promise<number> {
+    const result = await db
+      .select({ count: chatMessages.id })
+      .from(chatMessages)
+      .where(eq(chatMessages.conversationId, conversationId));
+    return result.length;
   }
 }
