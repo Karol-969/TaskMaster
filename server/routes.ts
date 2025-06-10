@@ -121,7 +121,7 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Setup session middleware FIRST
+  // Setup session middleware FIRST - using default memory store for now
   app.use(session({
     cookie: { 
       maxAge: 86400000, // 1 day
@@ -129,9 +129,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       httpOnly: true,
       sameSite: 'lax'
     },
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.SESSION_SECRET || 'reart-events-secret',
+    resave: true, // Changed to true to force session save
+    saveUninitialized: true, // Changed to true to initialize sessions
+    secret: process.env.SESSION_SECRET || 'reart-events-secret-key-123456',
     name: 'admin.session'
   }));
 
