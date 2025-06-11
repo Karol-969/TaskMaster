@@ -28,6 +28,8 @@ export function ChatWidget() {
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [hasNewMessage, setHasNewMessage] = useState(false);
+  const [showChoiceMenu, setShowChoiceMenu] = useState(true);
+  const [selectedAssistantType, setSelectedAssistantType] = useState<'ai_assistant' | 'human_support' | null>(null);
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const wsRef = useRef<WebSocket | null>(null);
@@ -79,22 +81,31 @@ export function ChatWidget() {
     };
   }, []);
 
-  const startConversation = async () => {
+  const startConversation = async (assistantType: 'ai_assistant' | 'human_support') => {
     try {
+      const assistantNames = {
+        ai_assistant: 'AI Assistant',
+        human_support: 'Human Support'
+      };
+      
       const response = await fetch('/api/conversations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          subject: 'General Inquiry',
-          message: 'Hello, I need assistance.',
+          subject: assistantNames[assistantType],
+          message: `Hello, I need assistance from ${assistantNames[assistantType]}.`,
+          guestName: 'Anonymous',
+          conversationType: assistantType,
         }),
       });
 
       if (response.ok) {
         const conversationWithMessages = await response.json();
         setConversation(conversationWithMessages);
+        setSelectedAssistantType(assistantType);
+        setShowChoiceMenu(false);
         
         if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
           wsRef.current.send(JSON.stringify({

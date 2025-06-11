@@ -188,8 +188,9 @@ export const conversations = pgTable("conversations", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull(),
   adminId: integer("admin_id"),
-  status: text("status").notNull().default("active"), // active, closed
+  status: text("status").notNull().default("active"), // active, closed, pending_human
   subject: text("subject"),
+  conversationType: text("conversation_type").notNull().default("ai_assistant"), // ai_assistant, human_support
   guestName: text("guest_name"),
   guestEmail: text("guest_email"),
   lastMessageAt: timestamp("last_message_at").defaultNow(),
