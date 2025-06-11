@@ -62,7 +62,7 @@ export function Header() {
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center space-x-2">
               <span className="text-2xl font-bold text-purple-500 purple-text-glow">Reart</span>
-              <span className="text-xl font-medium text-white">Events</span>
+              <span className="text-xl font-medium text-foreground">Events</span>
             </Link>
           </div>
           
@@ -73,7 +73,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={`text-sm font-medium transition-colors hover:text-purple-400 ${
-                  location === item.href ? 'text-purple-500' : 'text-white'
+                  location === item.href ? 'text-purple-500' : 'text-foreground'
                 }`}
               >
                 {item.label}
