@@ -1,6 +1,19 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+let openai: OpenAI | null = null;
+
+// Initialize OpenAI client only if API key is available
+function getOpenAIClient(): OpenAI | null {
+  if (!openai && process.env.OPENAI_API_KEY) {
+    try {
+      openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    } catch (error) {
+      console.warn('Failed to initialize OpenAI client:', error);
+      return null;
+    }
+  }
+  return openai;
+}
 
 // Company information for the AI assistant
 const COMPANY_CONTEXT = `
@@ -59,6 +72,13 @@ Remember: You represent ReArt Events professionally. Be helpful, informative, an
 `;
 
 export async function generateAIResponse(userMessage: string, conversationHistory?: string): Promise<string> {
+  const client = getOpenAIClient();
+  
+  if (!client) {
+    console.warn('OpenAI API key not available, falling back to default response');
+    return "Thank you for your message! I'm currently experiencing technical difficulties with the AI assistant. Please contact our team directly at info@reartevents.com or use the Human Support option for immediate assistance with your event planning needs.";
+  }
+
   try {
     const messages: Array<{role: "system" | "user" | "assistant", content: string}> = [
       {
@@ -79,7 +99,7 @@ export async function generateAIResponse(userMessage: string, conversationHistor
       content: userMessage
     });
 
-    const response = await openai.chat.completions.create({
+    const response = await client.chat.completions.create({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages,
       max_tokens: 500,

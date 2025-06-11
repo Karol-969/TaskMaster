@@ -27,24 +27,42 @@ git clone https://github.com/your-username/reart-events.git
 cd reart-events
 ```
 
-2. Start the application with Docker Compose:
+2. (Optional) Set up OpenAI API key for AI chat features:
 
 ```bash
-docker compose up
+# Create a .env file or export the variable
+export OPENAI_API_KEY=your_openai_api_key_here
+```
+
+If you don't have an OpenAI API key, the application will still work - the chat feature will fall back to informational responses without AI assistance.
+
+3. Start the application with Docker Compose:
+
+```bash
+docker compose up --build
 ```
 
 This will:
 - Build the Node.js application container
 - Start a PostgreSQL database on port 5499
-- Initialize the database with the necessary tables and sample data
+- Run database migrations automatically
+- Initialize the database with the necessary tables
 - Start the application on port 5000
 
-3. Access the application:
+4. Access the application:
 
 Open your browser and navigate to:
 ```
 http://localhost:5000
 ```
+
+### Environment Variables
+
+The application supports the following environment variables:
+
+- `OPENAI_API_KEY` - Optional. Required for AI-powered chat features
+- `DATABASE_URL` - Database connection string (automatically configured in Docker)
+- `NODE_ENV` - Application environment (production/development)
 
 ### Database Access
 
@@ -54,6 +72,15 @@ The PostgreSQL database is accessible at:
 - Username: postgres
 - Password: postgres
 - Database: reart_events
+
+### Troubleshooting
+
+If you encounter issues:
+
+1. **Application won't start**: Ensure ports 5000 and 5499 are not in use
+2. **Database connection issues**: Wait a few seconds for the database to fully initialize
+3. **Build issues**: Try `docker compose down` then `docker compose up --build`
+4. **Chat features not working**: Ensure you have a valid OpenAI API key set
 
 ## Development
 

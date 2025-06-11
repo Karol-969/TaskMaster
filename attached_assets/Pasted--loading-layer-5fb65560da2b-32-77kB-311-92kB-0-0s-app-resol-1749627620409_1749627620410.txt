@@ -1,0 +1,445 @@
+> => loading layer 5fb65560da2b 32.77kB / 311.92kB                              0.0s
+ => [app] resolving provenance for metadata file                                  0.0s
+[+] Running 3/3
+ ✔ Network reartevents_app-network  Created                                       0.0s 
+ ✔ Container reartevents-db-1       Created                                       0.6s 
+ ✔ Container reartevents-app-1      Created                                       0.0s 
+Attaching to app-1, db-1
+db-1   | 
+db-1   | PostgreSQL Database directory appears to contain a database; Skipping initialization
+db-1   | 
+app-1  | Waiting for PostgreSQL to be ready...
+db-1   | 2025-06-11 07:37:28.920 UTC [1] LOG:  starting PostgreSQL 15.13 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 14.2.0) 14.2.0, 64-bit
+db-1   | 2025-06-11 07:37:28.920 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+db-1   | 2025-06-11 07:37:28.920 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+db-1   | 2025-06-11 07:37:28.921 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db-1   | 2025-06-11 07:37:28.925 UTC [29] LOG:  database system was interrupted; last known up at 2025-05-20 12:00:42 UTC
+db-1   | 2025-06-11 07:37:28.979 UTC [29] LOG:  database system was not properly shut down; automatic recovery in progress
+db-1   | 2025-06-11 07:37:28.983 UTC [29] LOG:  redo starts at 0/198B160
+db-1   | 2025-06-11 07:37:28.983 UTC [29] LOG:  invalid record length at 0/198B248: wanted 24, got 0
+db-1   | 2025-06-11 07:37:28.983 UTC [29] LOG:  redo done at 0/198B210 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+db-1   | 2025-06-11 07:37:28.986 UTC [27] LOG:  checkpoint starting: end-of-recovery immediate wait
+db-1   | 2025-06-11 07:37:28.993 UTC [27] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.002 s, sync=0.001 s, total=0.009 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB
+db-1   | 2025-06-11 07:37:28.998 UTC [1] LOG:  database system is ready to accept connections
+app-1  | Connection to db (172.20.0.2) 5432 port [tcp/postgresql] succeeded!
+app-1  | PostgreSQL is ready!
+app-1  | Running database migrations...
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+app-1  |   ~ updated_at › bio rename columnStarting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | file:///app/node_modules/openai/client.mjs:80
+app-1  |             throw new Errors.OpenAIError("The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).");
+app-1  |                   ^
+app-1  | 
+app-1  | OpenAIError: The OPENAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the OpenAI client with an apiKey option, like new OpenAI({ apiKey: 'My API Key' }).
+app-1  |     at new OpenAI (file:///app/node_modules/openai/client.mjs:80:19)
+app-1  |     at file:///app/dist/index.js:1214:14
+app-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+app-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+app-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+app-1  | 
+app-1  | Node.js v20.19.2
+app-1 exited with code 1
+app-1  | 
+app-1  | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | 
+app-1  | Is bio column in artists table created or renamed from another column?
+app-1  | ❯ + bio              create column
+app-1  |   ~ created_at › bio rename column
+
+
+v View in Docker Desktop   o View Config   w Enable Watch
