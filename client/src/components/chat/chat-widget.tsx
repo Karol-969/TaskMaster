@@ -284,20 +284,20 @@ export function ChatWidget() {
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
           >
-            <Card className="h-full bg-black/95 backdrop-blur-xl border-purple-500/30 shadow-2xl">
+            <Card className="h-full bg-white dark:bg-black/95 backdrop-blur-xl border-purple-500/30 shadow-2xl">
               <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-purple-500/20">
                 <div className="flex items-center gap-2">
                   {!showChoiceMenu && (
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-6 w-6 text-gray-400 hover:text-white"
+                      className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                       onClick={resetChat}
                     >
                       <ArrowLeft className="h-4 w-4" />
                     </Button>
                   )}
-                  <CardTitle className="text-sm font-semibold text-white">
+                  <CardTitle className="text-sm font-semibold text-gray-900 dark:text-white">
                     {showChoiceMenu 
                       ? 'Support Chat' 
                       : selectedAssistantType === 'ai_assistant' 
@@ -311,7 +311,7 @@ export function ChatWidget() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 text-gray-400 hover:text-white"
+                    className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                     onClick={handleMinimize}
                   >
                     <Minimize2 className="h-4 w-4" />
@@ -319,7 +319,7 @@ export function ChatWidget() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 text-gray-400 hover:text-white"
+                    className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                     onClick={() => setIsOpen(false)}
                   >
                     <X className="h-4 w-4" />
@@ -330,10 +330,10 @@ export function ChatWidget() {
               <CardContent className="flex flex-col h-full p-0 relative">
                 <ScrollArea className="flex-1 p-4" onScrollCapture={handleScroll} ref={scrollAreaRef}>
                   {showChoiceMenu ? (
-                    <div className="flex flex-col items-center justify-center h-full text-center text-gray-400 space-y-6">
+                    <div className="flex flex-col items-center justify-center h-full text-center text-gray-600 dark:text-gray-400 space-y-6">
                       <MessageCircle className="h-12 w-12 mb-2 opacity-50" />
                       <div>
-                        <p className="text-lg font-semibold text-white mb-2">Welcome to ReArt Events</p>
+                        <p className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Welcome to ReArt Events</p>
                         <p className="text-sm">How would you like to get assistance?</p>
                       </div>
                       
@@ -349,7 +349,7 @@ export function ChatWidget() {
                         <Button
                           onClick={() => startConversation('human_support')}
                           variant="outline"
-                          className="w-full bg-transparent border-purple-500/50 text-purple-300 hover:bg-purple-500/20 py-3"
+                          className="w-full bg-transparent border-purple-500/50 text-purple-600 dark:text-purple-300 hover:bg-purple-500/20 py-3"
                         >
                           <User className="h-4 w-4 mr-2" />
                           Human Support
@@ -357,7 +357,7 @@ export function ChatWidget() {
                       </div>
                     </div>
                   ) : conversation?.messages.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full text-center text-gray-400">
+                    <div className="flex flex-col items-center justify-center h-full text-center text-gray-600 dark:text-gray-400">
                       <MessageCircle className="h-8 w-8 mb-2 opacity-50" />
                       <p className="text-sm">
                         {selectedAssistantType === 'ai_assistant' ? 'AI Assistant Ready' : 'Connecting to Human Support'}
@@ -375,7 +375,7 @@ export function ChatWidget() {
                             className={`max-w-[80%] p-3 rounded-lg text-sm ${
                               msg.senderType === 'user'
                                 ? 'bg-gradient-to-r from-purple-600 to-violet-600 text-white'
-                                : 'bg-gray-800 text-gray-100 border border-gray-700'
+                                : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700'
                             }`}
                           >
                             <p>{msg.message}</p>
@@ -417,7 +417,7 @@ export function ChatWidget() {
                       onChange={(e) => setMessage(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder="Type your message..."
-                      className="flex-1 bg-gray-900 border-gray-700 text-white placeholder-gray-400"
+                      className="flex-1 bg-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-purple-500"
                       disabled={!conversation}
                     />
                     <Button
@@ -449,11 +449,11 @@ export function ChatWidget() {
               setIsOpen(true);
             }}
           >
-            <Card className="bg-black/95 backdrop-blur-xl border-purple-500/30 shadow-lg cursor-pointer hover:border-purple-500/50 transition-colors">
+            <Card className="bg-white dark:bg-black/95 backdrop-blur-xl border-purple-500/30 shadow-lg cursor-pointer hover:border-purple-500/50 transition-colors">
               <CardContent className="p-3">
                 <div className="flex items-center gap-2">
                   <div className={`h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
-                  <span className="text-sm text-white">Support Chat</span>
+                  <span className="text-sm text-gray-900 dark:text-white">Support Chat</span>
                   {hasNewMessage && (
                     <div className="h-2 w-2 bg-red-500 rounded-full" />
                   )}
