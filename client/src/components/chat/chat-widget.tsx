@@ -311,34 +311,53 @@ export function ChatWidget() {
               
               <CardContent className="flex flex-col h-full p-0">
                 <ScrollArea className="flex-1 p-4">
-                  {conversation?.messages.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full text-center text-gray-400">
-                      <MessageCircle className="h-8 w-8 mb-2 opacity-50" />
-                      <p className="text-sm">Welcome to ReArt Events support!</p>
-                      <p className="text-xs mt-1">How can we help you today?</p>
-                      <div className="mt-4 space-y-2">
+                  {showChoiceMenu ? (
+                    <div className="flex flex-col items-center justify-center h-full text-center text-gray-400 space-y-6">
+                      <MessageCircle className="h-12 w-12 mb-2 opacity-50" />
+                      <div>
+                        <p className="text-lg font-semibold text-white mb-2">Welcome to ReArt Events</p>
+                        <p className="text-sm">How would you like to get assistance?</p>
+                      </div>
+                      
+                      <div className="space-y-3 w-full max-w-xs">
                         <Button
-                          onClick={() => setMessage("I'd like to speak with a human representative")}
-                          variant="outline"
-                          size="sm"
-                          className="bg-transparent border-purple-500/50 text-purple-300 hover:bg-purple-500/20 text-xs"
+                          onClick={() => startConversation('ai_assistant')}
+                          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3"
                         >
-                          Speak to Human
+                          <Bot className="h-4 w-4 mr-2" />
+                          AI Assistant
+                        </Button>
+                        
+                        <Button
+                          onClick={() => startConversation('human_support')}
+                          variant="outline"
+                          className="w-full bg-transparent border-purple-500/50 text-purple-300 hover:bg-purple-500/20 py-3"
+                        >
+                          <User className="h-4 w-4 mr-2" />
+                          Human Support
                         </Button>
                       </div>
                     </div>
+                  ) : conversation?.messages.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full text-center text-gray-400">
+                      <MessageCircle className="h-8 w-8 mb-2 opacity-50" />
+                      <p className="text-sm">
+                        {selectedAssistantType === 'ai_assistant' ? 'AI Assistant Ready' : 'Connecting to Human Support'}
+                      </p>
+                      <p className="text-xs mt-1">How can we help you today?</p>
+                    </div>
                   ) : (
                     <div className="space-y-3">
-                      {conversation?.messages.map((msg) => (
+                      {conversation?.messages.map((msg, index) => (
                         <div
-                          key={msg.id}
+                          key={`${msg.id}-${index}`}
                           className={`flex ${msg.senderType === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                           <div
                             className={`max-w-[80%] p-3 rounded-lg text-sm ${
                               msg.senderType === 'user'
                                 ? 'bg-gradient-to-r from-purple-600 to-violet-600 text-white'
-                                : 'bg-gray-800 text-gray-100'
+                                : 'bg-gray-800 text-gray-100 border border-gray-700'
                             }`}
                           >
                             <p>{msg.message}</p>
