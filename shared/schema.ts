@@ -147,7 +147,7 @@ export const insertBookingSchema = createInsertSchema(bookings).omit({
 export const testimonials = pgTable("testimonials", {
   id: serial("id").primaryKey(),
   userId: integer("user_id"),  // Optional to allow anonymous testimonials
-  text: text("text").notNull(),
+  content: text("content").notNull(),
   rating: integer("rating").notNull(),
   name: text("name"),          // For anonymous testimonials
   company: text("company"),    // Organization/company name 
