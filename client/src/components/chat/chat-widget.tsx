@@ -154,10 +154,13 @@ export function ChatWidget() {
         } : null);
         setMessage('');
         
-        // Refresh messages after 2 seconds to get AI response
+        // Refresh messages after 1 second and again after 3 seconds to get AI response
         setTimeout(() => {
           refreshMessages();
-        }, 2000);
+        }, 1000);
+        setTimeout(() => {
+          refreshMessages();
+        }, 3000);
       } else {
         toast({
           title: "Error",
@@ -186,6 +189,17 @@ export function ChatWidget() {
       }
     }
   };
+
+  // Auto-refresh messages when chat is open
+  useEffect(() => {
+    if (!isOpen || !conversation) return;
+
+    const interval = setInterval(() => {
+      refreshMessages();
+    }, 2000); // Poll every 2 seconds
+
+    return () => clearInterval(interval);
+  }, [isOpen, conversation?.id]);
 
   const handleMinimize = () => {
     setIsMinimized(true);
