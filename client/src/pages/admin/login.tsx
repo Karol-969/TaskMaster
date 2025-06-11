@@ -28,7 +28,23 @@ export default function AdminLogin() {
     setError('');
 
     try {
-      const response = await apiRequest('POST', '/api/admin/auth/login', credentials);
+      // Clear any existing sessions
+      sessionStorage.clear();
+      
+      const response = await fetch('/api/admin/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+        credentials: 'include', // Include cookies for session management
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Login failed');
+      }
+
       const data = await response.json();
 
       if (data.user && data.user.role === 'admin') {
@@ -45,8 +61,9 @@ export default function AdminLogin() {
       } else {
         setError('Access denied. Admin privileges required.');
       }
-    } catch (error) {
-      setError('Invalid credentials or server error. Please try again.');
+    } catch (error: any) {
+      console.error('Login error:', error);
+      setError(error.message || 'Invalid credentials or server error. Please try again.');
     } finally {
       setIsLoading(false);
     }
