@@ -20,6 +20,7 @@ import {
 } from "@shared/schema";
 import { ChatWebSocketServer } from "./websocket";
 import { z } from "zod";
+import { generateAIResponse, detectHumanRequest } from "./openai";
 
 // Type definitions to make TypeScript happy
 declare module "express-session" {
@@ -796,7 +797,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
         isRead: false
       };
       
+      // Create the user message
       const chatMessage = await storage.createChatMessage(messageData);
+      
+      // Generate AI response for user messages (not admin messages)
+      if (finalSenderType === 'user' && process.env.OPENAI_API_KEY) {
+        try {
+          // Check if user wants to speak to a human
+          const wantsHuman = detectHumanRequest(message);
+          
+          if (wantsHuman) {
+            // Mark conversation as requiring human attention
+            await storage.updateConversationStatus(conversationId, 'pending_human');
+            
+            // Send message indicating human will be connected
+            const humanRequestResponse = {
+              conversationId,
+              senderId: 0, // System message
+              senderType: 'admin' as const,
+              message: "I understand you'd like to speak with a human representative. I'm connecting you with our support team now. They'll be with you shortly to assist with your inquiry.",
+              isRead: false
+            };
+            
+            await storage.createChatMessage(humanRequestResponse);
+          } else {
+            // Get conversation history for context
+            const messages = await storage.getConversationMessages(conversationId);
+            const conversationHistory = messages
+              .slice(-5) // Last 5 messages for context
+              .map(msg => `${msg.senderType}: ${msg.message}`)
+              .join('\n');
+            
+            // Generate AI response
+            const aiResponse = await generateAIResponse(message, conversationHistory);
+            
+            // Create AI response message
+            const aiMessageData = {
+              conversationId,
+              senderId: 0, // AI assistant
+              senderType: 'admin' as const,
+              message: aiResponse,
+              isRead: false
+            };
+            
+            await storage.createChatMessage(aiMessageData);
+          }
+        } catch (aiError) {
+          console.error('AI response error:', aiError);
+          // Continue without AI response if there's an error
+        }
+      }
+      
       res.status(201).json(chatMessage);
     } catch (error) {
       next(error);

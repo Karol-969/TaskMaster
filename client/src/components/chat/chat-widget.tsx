@@ -248,6 +248,16 @@ export function ChatWidget() {
                       <MessageCircle className="h-8 w-8 mb-2 opacity-50" />
                       <p className="text-sm">Welcome to ReArt Events support!</p>
                       <p className="text-xs mt-1">How can we help you today?</p>
+                      <div className="mt-4 space-y-2">
+                        <Button
+                          onClick={() => setMessage("I'd like to speak with a human representative")}
+                          variant="outline"
+                          size="sm"
+                          className="bg-transparent border-purple-500/50 text-purple-300 hover:bg-purple-500/20 text-xs"
+                        >
+                          Speak to Human
+                        </Button>
+                      </div>
                     </div>
                   ) : (
                     <div className="space-y-3">
