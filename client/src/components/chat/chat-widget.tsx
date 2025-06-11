@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, Send, X, Minimize2, Bot, User, ArrowLeft } from 'lucide-react';
+import { MessageCircle, Send, X, Minimize2, Bot, User, ArrowLeft, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 
@@ -30,19 +30,37 @@ export function ChatWidget() {
   const [hasNewMessage, setHasNewMessage] = useState(false);
   const [showChoiceMenu, setShowChoiceMenu] = useState(true);
   const [selectedAssistantType, setSelectedAssistantType] = useState<'ai_assistant' | 'human_support' | null>(null);
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const [messageCount, setMessageCount] = useState(0);
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const wsRef = useRef<WebSocket | null>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToBottom = (force = false) => {
+    if (!isUserScrolling || force) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      setIsUserScrolling(false);
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollAreaRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollAreaRef.current;
+      const isAtBottom = scrollHeight - scrollTop <= clientHeight + 50; // 50px threshold
+      setIsUserScrolling(!isAtBottom);
+    }
   };
 
   useEffect(() => {
-    if (conversation) {
-      scrollToBottom();
+    if (conversation && conversation.messages.length > messageCount) {
+      // Only auto-scroll if user is not manually scrolling
+      if (!isUserScrolling) {
+        scrollToBottom();
+      }
+      setMessageCount(conversation.messages.length);
     }
-  }, [conversation?.messages]);
+  }, [conversation?.messages, messageCount, isUserScrolling]);
 
   const connectWebSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -207,7 +225,7 @@ export function ChatWidget() {
 
     const interval = setInterval(() => {
       refreshMessages();
-    }, 2000); // Poll every 2 seconds
+    }, 5000); // Poll every 5 seconds (less intrusive)
 
     return () => clearInterval(interval);
   }, [isOpen, conversation?.id]);
@@ -309,8 +327,8 @@ export function ChatWidget() {
                 </div>
               </CardHeader>
               
-              <CardContent className="flex flex-col h-full p-0">
-                <ScrollArea className="flex-1 p-4">
+              <CardContent className="flex flex-col h-full p-0 relative">
+                <ScrollArea className="flex-1 p-4" onScrollCapture={handleScroll} ref={scrollAreaRef}>
                   {showChoiceMenu ? (
                     <div className="flex flex-col items-center justify-center h-full text-center text-gray-400 space-y-6">
                       <MessageCircle className="h-12 w-12 mb-2 opacity-50" />
@@ -371,6 +389,26 @@ export function ChatWidget() {
                     </div>
                   )}
                 </ScrollArea>
+
+                {/* Scroll to Bottom Button */}
+                <AnimatePresence>
+                  {isUserScrolling && !showChoiceMenu && (
+                    <motion.div
+                      className="absolute bottom-20 right-4 z-10"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                    >
+                      <Button
+                        onClick={() => scrollToBottom(true)}
+                        size="sm"
+                        className="h-8 w-8 rounded-full bg-purple-600 hover:bg-purple-700 shadow-lg"
+                      >
+                        <ChevronDown className="h-4 w-4" />
+                      </Button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
                 
                 <div className="p-4 border-t border-purple-500/20">
                   <div className="flex gap-2">
