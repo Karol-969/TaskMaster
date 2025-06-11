@@ -1,0 +1,638 @@
+ | > rest-express@1.0.0 db:push
+app-1  | > drizzle-kit push
+app-1  | 
+app-1  | No config path provided, using default 'drizzle.config.ts'
+app-1  | Reading config file '/app/drizzle.config.ts'
+app-1  | Using 'pg' driver for database querying
+app-1  | [⣷] Pulling schema from database...
+[✓] Pulling schema from database...
+app-1  | [✓] Changes applied
+app-1  | Checking database initialization...
+app-1  | Checking if sample data already exists...
+app-1  | No existing data found. Creating sample data programmatically...
+app-1  | Creating admin user...
+app-1  | INSERT 0 1
+app-1  | Creating sample artists...
+app-1  | INSERT 0 3
+app-1  | Creating sample sound equipment...
+db-1   | 2025-06-11 08:14:14.656 UTC [66] ERROR:  column "coverage" of relation "sound_systems" does not exist at character 61
+db-1   | 2025-06-11 08:14:14.656 UTC [66] STATEMENT:  INSERT INTO sound_systems (name, description, power_rating, coverage, price_per_day, image, features) VALUES 
+db-1   |          ('Premium PA System', 'High-quality professional PA system', '2000W', 'Up to 500 people', 299, 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400', ARRAY['Professional mixing console', 'Wireless microphones', 'Stage monitors']),
+app-1  | Sound systems creation skipped
+db-1   |          ('Compact Sound Setup', 'Portable sound system for small events', '500W', 'Up to 100 people', 149, 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400', ARRAY['Bluetooth connectivity', 'Easy setup']),
+app-1  | Creating sample venues...
+db-1   |          ('Festival Grade System', 'Large-scale sound system for major events', '5000W', 'Up to 2000+ people', 799, 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400', ARRAY['Line array speakers', 'Weather resistant']);
+app-1  | INSERT 0 3
+app-1  | Creating sample events...
+db-1   | 2025-06-11 08:14:14.671 UTC [68] ERROR:  column "location" of relation "events" does not exist at character 46
+db-1   | 2025-06-11 08:14:14.671 UTC [68] STATEMENT:  INSERT INTO events (name, description, date, location, ticket_price, image_url, max_attendees) VALUES 
+db-1   |          ('Traditional Music Festival', 'Celebrate traditional Nepali music', '2025-07-15 18:00:00', 'Patan Durbar Square', 25, 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400', 500),
+db-1   |          ('Modern Beats Concert', 'Contemporary music event', '2025-08-20 19:30:00', 'Kathmandu Event Center', 45, 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400', 800),
+app-1  | Events creation skipped
+db-1   |          ('Classical Evening', 'Evening of classical music performances', '2025-09-10 17:00:00', 'Heritage Hotel Ballroom', 35, 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400', 200);
+app-1  | Creating sample testimonials...
+app-1  | INSERT 0 4
+app-1  | Sample data creation completed!
+app-1  | Verifying data integrity...
+app-1  | Data verification complete:
+app-1  | - Artists: 3
+app-1  | - Events: 0
+app-1  | - Sound Systems: 0
+app-1  | - Venues: 3
+app-1  | - Users: 1
+app-1  | - Testimonials: 4
+app-1  | Starting the application...
+app-1  | 
+app-1  | > rest-express@1.0.0 start
+app-1  | > NODE_ENV=production node dist/index.js
+app-1  | 
+app-1  | Warning: connect.session() MemoryStore is not
+app-1  | designed for a production environment, as it will leak
+app-1  | memory, and will not scale past a single process.
+app-1  | ❌ Error with admin user setup: ErrorEvent {
+app-1  |   [Symbol(kTarget)]: WebSocket {
+app-1  |     _events: [Object: null prototype] {
+app-1  |       error: [Function],
+app-1  |       message: [Function],
+app-1  |       close: [Function],
+app-1  |       open: [Function]
+app-1  |     },
+app-1  |     _eventsCount: 4,
+app-1  |     _maxListeners: undefined,
+app-1  |     _binaryType: 'arraybuffer',
+app-1  |     _closeCode: 1006,
+app-1  |     _closeFrameReceived: false,
+app-1  |     _closeFrameSent: false,
+app-1  |     _closeMessage: <Buffer >,
+app-1  |     _closeTimer: null,
+app-1  |     _errorEmitted: true,
+app-1  |     _extensions: {},
+app-1  |     _paused: false,
+app-1  |     _protocol: '',
+app-1  |     _readyState: 3,
+app-1  |     _receiver: null,
+app-1  |     _sender: null,
+app-1  |     _socket: null,
+app-1  |     _bufferedAmount: 0,
+app-1  |     _isServer: false,
+app-1  |     _redirects: 0,
+app-1  |     _autoPong: true,
+app-1  |     _url: 'wss://db/v2',
+app-1  |     _req: null,
+app-1  |     [Symbol(shapeMode)]: false,
+app-1  |     [Symbol(kCapture)]: false
+app-1  |   },
+app-1  |   [Symbol(kType)]: 'error',
+app-1  |   [Symbol(kError)]: Error: connect ECONNREFUSED 172.18.0.2:443
+app-1  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+app-1  |     errno: -111,
+app-1  |     code: 'ECONNREFUSED',
+app-1  |     syscall: 'connect',
+app-1  |     address: '172.18.0.2',
+app-1  |     port: 443
+app-1  |   },
+app-1  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 172.18.0.2:443'
+app-1  | }
+app-1  | 8:14:14 AM [express] serving on port 5000
+app-1  | 8:14:39 AM [express] GET /api/auth/me 401 in 2ms :: {"message":"Unauthorized"}
+app-1  | ErrorEvent {
+app-1  |   [Symbol(kTarget)]: WebSocket {
+app-1  |     _events: [Object: null prototype] {
+app-1  |       error: [Function],
+app-1  |       message: [Function],
+app-1  |       close: [Function],
+app-1  |       open: [Function]
+app-1  |     },
+app-1  |     _eventsCount: 4,
+app-1  |     _maxListeners: undefined,
+app-1  |     _binaryType: 'arraybuffer',
+app-1  |     _closeCode: 1006,
+app-1  |     _closeFrameReceived: false,
+app-1  |     _closeFrameSent: false,
+app-1  |     _closeMessage: <Buffer >,
+app-1  |     _closeTimer: null,
+app-1  |     _errorEmitted: true,
+app-1  |     _extensions: {},
+app-1  |     _paused: false,
+app-1  |     _protocol: '',
+app-1  |     _readyState: 3,
+app-1  |     _receiver: null,
+app-1  |     _sender: null,
+app-1  |     _socket: null,
+app-1  |     _bufferedAmount: 0,
+app-1  |     _isServer: false,
+app-1  |     _redirects: 0,
+app-1  |     _autoPong: true,
+app-1  |     _url: 'wss://db/v2',
+app-1  |     _req: null,
+app-1  |     [Symbol(shapeMode)]: false,
+app-1  |     [Symbol(kCapture)]: false
+app-1  |   },
+app-1  |   [Symbol(kType)]: 'error',
+app-1  |   [Symbol(kError)]: Error: connect ECONNREFUSED 172.18.0.2:443
+app-1  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+app-1  |     errno: -111,
+app-1  |     code: 'ECONNREFUSED',
+app-1  |     syscall: 'connect',
+app-1  |     address: '172.18.0.2',
+app-1  |     port: 443
+app-1  |   },
+app-1  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 172.18.0.2:443'
+app-1  | }
+app-1  | 8:14:39 AM [express] GET /api/artists 500 in 11ms :: {"message":"connect ECONNREFUSED 172.18.0.2:443…
+app-1  | 📞 Starting conversation creation: {
+app-1  |   subject: 'AI Assistant',
+app-1  |   message: 'Hello, I need assistance from AI Assistant.',
+app-1  |   guestName: 'Anonymous',
+app-1  |   conversationType: 'ai_assistant'
+app-1  | }
+app-1  | 👤 User context: { userId: 0, sessionExists: true }
+app-1  | 💾 Creating conversation with data: {
+app-1  |   userId: 0,
+app-1  |   subject: 'AI Assistant',
+app-1  |   status: 'active',
+app-1  |   adminId: null,
+app-1  |   guestName: 'Anonymous',
+app-1  |   guestEmail: null,
+app-1  |   conversationType: 'ai_assistant'
+app-1  | }
+app-1  | 💥 Conversation creation failed: ErrorEvent {
+app-1  |   [Symbol(kTarget)]: WebSocket {
+app-1  |     _events: [Object: null prototype] {
+app-1  |       error: [Function],
+app-1  |       message: [Function],
+app-1  |       close: [Function],
+app-1  |       open: [Function]
+app-1  |     },
+app-1  |     _eventsCount: 4,
+app-1  |     _maxListeners: undefined,
+app-1  |     _binaryType: 'arraybuffer',
+app-1  |     _closeCode: 1006,
+app-1  |     _closeFrameReceived: false,
+app-1  |     _closeFrameSent: false,
+app-1  |     _closeMessage: <Buffer >,
+app-1  |     _closeTimer: null,
+app-1  |     _errorEmitted: true,
+app-1  |     _extensions: {},
+app-1  |     _paused: false,
+app-1  |     _protocol: '',
+app-1  |     _readyState: 3,
+app-1  |     _receiver: null,
+app-1  |     _sender: null,
+app-1  |     _socket: null,
+app-1  |     _bufferedAmount: 0,
+app-1  |     _isServer: false,
+app-1  |     _redirects: 0,
+app-1  |     _autoPong: true,
+app-1  |     _url: 'wss://db/v2',
+app-1  |     _req: null,
+app-1  |     [Symbol(shapeMode)]: false,
+app-1  |     [Symbol(kCapture)]: false
+app-1  |   },
+app-1  |   [Symbol(kType)]: 'error',
+app-1  |   [Symbol(kError)]: Error: connect ECONNREFUSED 172.18.0.2:443
+app-1  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+app-1  |     errno: -111,
+app-1  |     code: 'ECONNREFUSED',
+app-1  |     syscall: 'connect',
+app-1  |     address: '172.18.0.2',
+app-1  |     port: 443
+app-1  |   },
+app-1  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 172.18.0.2:443'
+app-1  | }
+app-1  | 💥 Error details: { message: 'Unknown error', stack: 'No stack' }
+app-1  | 8:14:43 AM [express] POST /api/conversations 500 in 7ms :: {"message":"Failed to create conversation…
+app-1  | 📞 Starting conversation creation: {
+app-1  |   subject: 'Human Support',
+app-1  |   message: 'Hello, I need assistance from Human Support.',
+app-1  |   guestName: 'Anonymous',
+app-1  |   conversationType: 'human_support'
+app-1  | }
+app-1  | 👤 User context: { userId: 0, sessionExists: true }
+app-1  | 💾 Creating conversation with data: {
+app-1  |   userId: 0,
+app-1  |   subject: 'Human Support',
+app-1  |   status: 'active',
+app-1  |   adminId: null,
+app-1  |   guestName: 'Anonymous',
+app-1  |   guestEmail: null,
+app-1  |   conversationType: 'human_support'
+app-1  | }
+app-1  | 💥 Conversation creation failed: ErrorEvent {
+app-1  |   [Symbol(kTarget)]: WebSocket {
+app-1  |     _events: [Object: null prototype] {
+app-1  |       error: [Function],
+app-1  |       message: [Function],
+app-1  |       close: [Function],
+app-1  |       open: [Function]
+app-1  |     },
+app-1  |     _eventsCount: 4,
+app-1  |     _maxListeners: undefined,
+app-1  |     _binaryType: 'arraybuffer',
+app-1  |     _closeCode: 1006,
+app-1  |     _closeFrameReceived: false,
+app-1  |     _closeFrameSent: false,
+app-1  |     _closeMessage: <Buffer >,
+app-1  |     _closeTimer: null,
+app-1  |     _errorEmitted: true,
+app-1  |     _extensions: {},
+app-1  |     _paused: false,
+app-1  |     _protocol: '',
+app-1  |     _readyState: 3,
+app-1  |     _receiver: null,
+app-1  |     _sender: null,
+app-1  |     _socket: null,
+app-1  |     _bufferedAmount: 0,
+app-1  |     _isServer: false,
+app-1  |     _redirects: 0,
+app-1  |     _autoPong: true,
+app-1  |     _url: 'wss://db/v2',
+app-1  |     _req: null,
+app-1  |     [Symbol(shapeMode)]: false,
+app-1  |     [Symbol(kCapture)]: false
+app-1  |   },
+app-1  |   [Symbol(kType)]: 'error',
+app-1  |   [Symbol(kError)]: Error: connect ECONNREFUSED 172.18.0.2:443
+app-1  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+app-1  |     errno: -111,
+app-1  |     code: 'ECONNREFUSED',
+app-1  |     syscall: 'connect',
+app-1  |     address: '172.18.0.2',
+app-1  |     port: 443
+app-1  |   },
+app-1  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 172.18.0.2:443'
+app-1  | }
+app-1  | 💥 Error details: { message: 'Unknown error', stack: 'No stack' }
+app-1  | 8:14:46 AM [express] POST /api/conversations 500 in 8ms :: {"message":"Failed to create conversation…
+app-1  | 📞 Starting conversation creation: {
+app-1  |   subject: 'Human Support',
+app-1  |   message: 'Hello, I need assistance from Human Support.',
+app-1  |   guestName: 'Anonymous',
+app-1  |   conversationType: 'human_support'
+app-1  | }
+app-1  | 👤 User context: { userId: 0, sessionExists: true }
+app-1  | 💾 Creating conversation with data: {
+app-1  |   userId: 0,
+app-1  |   subject: 'Human Support',
+app-1  |   status: 'active',
+app-1  |   adminId: null,
+app-1  |   guestName: 'Anonymous',
+app-1  |   guestEmail: null,
+app-1  |   conversationType: 'human_support'
+app-1  | }
+app-1  | 💥 Conversation creation failed: ErrorEvent {
+app-1  |   [Symbol(kTarget)]: WebSocket {
+app-1  |     _events: [Object: null prototype] {
+app-1  |       error: [Function],
+app-1  |       message: [Function],
+app-1  |       close: [Function],
+app-1  |       open: [Function]
+app-1  |     },
+app-1  |     _eventsCount: 4,
+app-1  |     _maxListeners: undefined,
+app-1  |     _binaryType: 'arraybuffer',
+app-1  |     _closeCode: 1006,
+app-1  |     _closeFrameReceived: false,
+app-1  |     _closeFrameSent: false,
+app-1  |     _closeMessage: <Buffer >,
+app-1  |     _closeTimer: null,
+app-1  |     _errorEmitted: true,
+app-1  |     _extensions: {},
+app-1  |     _paused: false,
+app-1  |     _protocol: '',
+app-1  |     _readyState: 3,
+app-1  |     _receiver: null,
+app-1  |     _sender: null,
+app-1  |     _socket: null,
+app-1  |     _bufferedAmount: 0,
+app-1  |     _isServer: false,
+app-1  |     _redirects: 0,
+app-1  |     _autoPong: true,
+app-1  |     _url: 'wss://db/v2',
+app-1  |     _req: null,
+app-1  |     [Symbol(shapeMode)]: false,
+app-1  |     [Symbol(kCapture)]: false
+app-1  |   },
+app-1  |   [Symbol(kType)]: 'error',
+app-1  |   [Symbol(kError)]: Error: connect ECONNREFUSED 172.18.0.2:443
+app-1  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+app-1  |     errno: -111,
+app-1  |     code: 'ECONNREFUSED',
+app-1  |     syscall: 'connect',
+app-1  |     address: '172.18.0.2',
+app-1  |     port: 443
+app-1  |   },
+app-1  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 172.18.0.2:443'
+app-1  | }
+app-1  | 💥 Error details: { message: 'Unknown error', stack: 'No stack' }
+app-1  | 8:14:48 AM [express] POST /api/conversations 500 in 8ms :: {"message":"Failed to create conversation…
+app-1  | 📞 Starting conversation creation: {
+app-1  |   subject: 'AI Assistant',
+app-1  |   message: 'Hello, I need assistance from AI Assistant.',
+app-1  |   guestName: 'Anonymous',
+app-1  |   conversationType: 'ai_assistant'
+app-1  | }
+app-1  | 👤 User context: { userId: 0, sessionExists: true }
+app-1  | 💾 Creating conversation with data: {
+app-1  |   userId: 0,
+app-1  |   subject: 'AI Assistant',
+app-1  |   status: 'active',
+app-1  |   adminId: null,
+app-1  |   guestName: 'Anonymous',
+app-1  |   guestEmail: null,
+app-1  |   conversationType: 'ai_assistant'
+app-1  | }
+app-1  | 💥 Conversation creation failed: ErrorEvent {
+app-1  |   [Symbol(kTarget)]: WebSocket {
+app-1  |     _events: [Object: null prototype] {
+app-1  |       error: [Function],
+app-1  |       message: [Function],
+app-1  |       close: [Function],
+app-1  |       open: [Function]
+app-1  |     },
+app-1  |     _eventsCount: 4,
+app-1  |     _maxListeners: undefined,
+app-1  |     _binaryType: 'arraybuffer',
+app-1  |     _closeCode: 1006,
+app-1  |     _closeFrameReceived: false,
+app-1  |     _closeFrameSent: false,
+app-1  |     _closeMessage: <Buffer >,
+app-1  |     _closeTimer: null,
+app-1  |     _errorEmitted: true,
+app-1  |     _extensions: {},
+app-1  |     _paused: false,
+app-1  |     _protocol: '',
+app-1  |     _readyState: 3,
+app-1  |     _receiver: null,
+app-1  |     _sender: null,
+app-1  |     _socket: null,
+app-1  |     _bufferedAmount: 0,
+app-1  |     _isServer: false,
+app-1  |     _redirects: 0,
+app-1  |     _autoPong: true,
+app-1  |     _url: 'wss://db/v2',
+app-1  |     _req: null,
+app-1  |     [Symbol(shapeMode)]: false,
+app-1  |     [Symbol(kCapture)]: false
+app-1  |   },
+app-1  |   [Symbol(kType)]: 'error',
+app-1  |   [Symbol(kError)]: Error: connect ECONNREFUSED 172.18.0.2:443
+app-1  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+app-1  |     errno: -111,
+app-1  |     code: 'ECONNREFUSED',
+app-1  |     syscall: 'connect',
+app-1  |     address: '172.18.0.2',
+app-1  |     port: 443
+app-1  |   },
+app-1  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 172.18.0.2:443'
+app-1  | }
+app-1  | 💥 Error details: { message: 'Unknown error', stack: 'No stack' }
+app-1  | 8:14:49 AM [express] POST /api/conversations 500 in 9ms :: {"message":"Failed to create conversation…
+app-1  | 8:14:55 AM [express] GET /api/auth/me 401 in 2ms :: {"message":"Unauthorized"}
+app-1  | Admin login error: ErrorEvent {
+app-1  |   [Symbol(kTarget)]: WebSocket {
+app-1  |     _events: [Object: null prototype] {
+app-1  |       error: [Function],
+app-1  |       message: [Function],
+app-1  |       close: [Function],
+app-1  |       open: [Function]
+app-1  |     },
+app-1  |     _eventsCount: 4,
+app-1  |     _maxListeners: undefined,
+app-1  |     _binaryType: 'arraybuffer',
+app-1  |     _closeCode: 1006,
+app-1  |     _closeFrameReceived: false,
+app-1  |     _closeFrameSent: false,
+app-1  |     _closeMessage: <Buffer >,
+app-1  |     _closeTimer: null,
+app-1  |     _errorEmitted: true,
+app-1  |     _extensions: {},
+app-1  |     _paused: false,
+app-1  |     _protocol: '',
+app-1  |     _readyState: 3,
+app-1  |     _receiver: null,
+app-1  |     _sender: null,
+app-1  |     _socket: null,
+app-1  |     _bufferedAmount: 0,
+app-1  |     _isServer: false,
+app-1  |     _redirects: 0,
+app-1  |     _autoPong: true,
+app-1  |     _url: 'wss://db/v2',
+app-1  |     _req: null,
+app-1  |     [Symbol(shapeMode)]: false,
+app-1  |     [Symbol(kCapture)]: false
+app-1  |   },
+app-1  |   [Symbol(kType)]: 'error',
+app-1  |   [Symbol(kError)]: Error: connect ECONNREFUSED 172.18.0.2:443
+app-1  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+app-1  |     errno: -111,
+app-1  |     code: 'ECONNREFUSED',
+app-1  |     syscall: 'connect',
+app-1  |     address: '172.18.0.2',
+app-1  |     port: 443
+app-1  |   },
+app-1  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 172.18.0.2:443'
+app-1  | }
+app-1  | 8:15:00 AM [express] POST /api/admin/auth/login 500 in 7ms :: {"message":"Server error during admin …
+app-1  | 8:15:08 AM [express] GET /api/auth/me 401 in 0ms :: {"message":"Unauthorized"}
+app-1  | ErrorEvent {
+app-1  |   [Symbol(kTarget)]: WebSocket {
+app-1  |     _events: [Object: null prototype] {
+app-1  |       error: [Function],
+app-1  |       message: [Function],
+app-1  |       close: [Function],
+app-1  |       open: [Function]
+app-1  |     },
+app-1  |     _eventsCount: 4,
+app-1  |     _maxListeners: undefined,
+app-1  |     _binaryType: 'arraybuffer',
+app-1  |     _closeCode: 1006,
+app-1  |     _closeFrameReceived: false,
+app-1  |     _closeFrameSent: false,
+app-1  |     _closeMessage: <Buffer >,
+app-1  |     _closeTimer: null,
+app-1  |     _errorEmitted: true,
+app-1  |     _extensions: {},
+app-1  |     _paused: false,
+app-1  |     _protocol: '',
+app-1  |     _readyState: 3,
+app-1  |     _receiver: null,
+app-1  |     _sender: null,
+app-1  |     _socket: null,
+app-1  |     _bufferedAmount: 0,
+app-1  |     _isServer: false,
+app-1  |     _redirects: 0,
+app-1  |     _autoPong: true,
+app-1  |     _url: 'wss://db/v2',
+app-1  |     _req: null,
+app-1  |     [Symbol(shapeMode)]: false,
+app-1  |     [Symbol(kCapture)]: false
+app-1  |   },
+app-1  |   [Symbol(kType)]: 'error',
+app-1  |   [Symbol(kError)]: Error: connect ECONNREFUSED 172.18.0.2:443
+app-1  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+app-1  |     errno: -111,
+app-1  |     code: 'ECONNREFUSED',
+app-1  |     syscall: 'connect',
+app-1  |     address: '172.18.0.2',
+app-1  |     port: 443
+app-1  |   },
+app-1  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 172.18.0.2:443'
+app-1  | }
+app-1  | 8:15:08 AM [express] GET /api/artists 500 in 4ms :: {"message":"connect ECONNREFUSED 172.18.0.2:443"}
+app-1  | 📞 Starting conversation creation: {
+app-1  |   subject: 'AI Assistant',
+app-1  |   message: 'Hello, I need assistance from AI Assistant.',
+app-1  |   guestName: 'Anonymous',
+app-1  |   conversationType: 'ai_assistant'
+app-1  | }
+app-1  | 👤 User context: { userId: 0, sessionExists: true }
+app-1  | 💾 Creating conversation with data: {
+app-1  |   userId: 0,
+app-1  |   subject: 'AI Assistant',
+app-1  |   status: 'active',
+app-1  |   adminId: null,
+app-1  |   guestName: 'Anonymous',
+app-1  |   guestEmail: null,
+app-1  |   conversationType: 'ai_assistant'
+app-1  | }
+app-1  | 💥 Conversation creation failed: ErrorEvent {
+app-1  |   [Symbol(kTarget)]: WebSocket {
+app-1  |     _events: [Object: null prototype] {
+app-1  |       error: [Function],
+app-1  |       message: [Function],
+app-1  |       close: [Function],
+app-1  |       open: [Function]
+app-1  |     },
+app-1  |     _eventsCount: 4,
+app-1  |     _maxListeners: undefined,
+app-1  |     _binaryType: 'arraybuffer',
+app-1  |     _closeCode: 1006,
+app-1  |     _closeFrameReceived: false,
+app-1  |     _closeFrameSent: false,
+app-1  |     _closeMessage: <Buffer >,
+app-1  |     _closeTimer: null,
+app-1  |     _errorEmitted: true,
+app-1  |     _extensions: {},
+app-1  |     _paused: false,
+app-1  |     _protocol: '',
+app-1  |     _readyState: 3,
+app-1  |     _receiver: null,
+app-1  |     _sender: null,
+app-1  |     _socket: null,
+app-1  |     _bufferedAmount: 0,
+app-1  |     _isServer: false,
+app-1  |     _redirects: 0,
+app-1  |     _autoPong: true,
+app-1  |     _url: 'wss://db/v2',
+app-1  |     _req: null,
+app-1  |     [Symbol(shapeMode)]: false,
+app-1  |     [Symbol(kCapture)]: false
+app-1  |   },
+app-1  |   [Symbol(kType)]: 'error',
+app-1  |   [Symbol(kError)]: Error: connect ECONNREFUSED 172.18.0.2:443
+app-1  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+app-1  |     errno: -111,
+app-1  |     code: 'ECONNREFUSED',
+app-1  |     syscall: 'connect',
+app-1  |     address: '172.18.0.2',
+app-1  |     port: 443
+app-1  |   },
+app-1  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 172.18.0.2:443'
+app-1  | }
+app-1  | 💥 Error details: { message: 'Unknown error', stack: 'No stack' }
+app-1  | 8:15:11 AM [express] POST /api/conversations 500 in 6ms :: {"message":"Failed to create conversation…
+app-1  | 8:15:16 AM [express] GET /api/auth/me 401 in 1ms :: {"message":"Unauthorized"}
+app-1  | Admin login error: ErrorEvent {
+app-1  |   [Symbol(kTarget)]: WebSocket {
+app-1  |     _events: [Object: null prototype] {
+app-1  |       error: [Function],
+app-1  |       message: [Function],
+app-1  |       close: [Function],
+app-1  |       open: [Function]
+app-1  |     },
+app-1  |     _eventsCount: 4,
+app-1  |     _maxListeners: undefined,
+app-1  |     _binaryType: 'arraybuffer',
+app-1  |     _closeCode: 1006,
+app-1  |     _closeFrameReceived: false,
+app-1  |     _closeFrameSent: false,
+app-1  |     _closeMessage: <Buffer >,
+app-1  |     _closeTimer: null,
+app-1  |     _errorEmitted: true,
+app-1  |     _extensions: {},
+app-1  |     _paused: false,
+app-1  |     _protocol: '',
+app-1  |     _readyState: 3,
+app-1  |     _receiver: null,
+app-1  |     _sender: null,
+app-1  |     _socket: null,
+app-1  |     _bufferedAmount: 0,
+app-1  |     _isServer: false,
+app-1  |     _redirects: 0,
+app-1  |     _autoPong: true,
+app-1  |     _url: 'wss://db/v2',
+app-1  |     _req: null,
+app-1  |     [Symbol(shapeMode)]: false,
+app-1  |     [Symbol(kCapture)]: false
+app-1  |   },
+app-1  |   [Symbol(kType)]: 'error',
+app-1  |   [Symbol(kError)]: Error: connect ECONNREFUSED 172.18.0.2:443
+app-1  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+app-1  |     errno: -111,
+app-1  |     code: 'ECONNREFUSED',
+app-1  |     syscall: 'connect',
+app-1  |     address: '172.18.0.2',
+app-1  |     port: 443
+app-1  |   },
+app-1  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 172.18.0.2:443'
+app-1  | }
+app-1  | 8:15:21 AM [express] POST /api/admin/auth/login 500 in 11ms :: {"message":"Server error during admin…
+app-1  | Admin login error: ErrorEvent {
+app-1  |   [Symbol(kTarget)]: WebSocket {
+app-1  |     _events: [Object: null prototype] {
+app-1  |       error: [Function],
+app-1  |       message: [Function],
+app-1  |       close: [Function],
+app-1  |       open: [Function]
+app-1  |     },
+app-1  |     _eventsCount: 4,
+app-1  |     _maxListeners: undefined,
+app-1  |     _binaryType: 'arraybuffer',
+app-1  |     _closeCode: 1006,
+app-1  |     _closeFrameReceived: false,
+app-1  |     _closeFrameSent: false,
+app-1  |     _closeMessage: <Buffer >,
+app-1  |     _closeTimer: null,
+app-1  |     _errorEmitted: true,
+app-1  |     _extensions: {},
+app-1  |     _paused: false,
+app-1  |     _protocol: '',
+app-1  |     _readyState: 3,
+app-1  |     _receiver: null,
+app-1  |     _sender: null,
+app-1  |     _socket: null,
+app-1  |     _bufferedAmount: 0,
+app-1  |     _isServer: false,
+app-1  |     _redirects: 0,
+app-1  |     _autoPong: true,
+app-1  |     _url: 'wss://db/v2',
+app-1  |     _req: null,
+app-1  |     [Symbol(shapeMode)]: false,
+app-1  |     [Symbol(kCapture)]: false
+app-1  |   },
+app-1  |   [Symbol(kType)]: 'error',
+app-1  |   [Symbol(kError)]: Error: connect ECONNREFUSED 172.18.0.2:443
+app-1  |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+app-1  |     errno: -111,
+app-1  |     code: 'ECONNREFUSED',
+app-1  |     syscall: 'connect',
+app-1  |     address: '172.18.0.2',
+app-1  |     port: 443
+app-1  |   },
+app-1  |   [Symbol(kMessage)]: 'connect ECONNREFUSED 172.18.0.2:443'
+app-1  | }
+app-1  | 8:15:27 AM [express] POST /api/admin/auth/login 500 in 8ms :: {"message":"Server error during admin …
+
+
+v View in Docker Desktop   o View Config   w Enable Watch
