@@ -2,8 +2,8 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install netcat for the database connection check
-RUN apk add --no-cache netcat-openbsd
+# Install netcat and postgresql-client for database operations
+RUN apk add --no-cache netcat-openbsd postgresql-client
 
 # Copy package files
 COPY package.json package-lock.json ./
