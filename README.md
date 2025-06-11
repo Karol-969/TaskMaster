@@ -46,9 +46,41 @@ This will:
 - Build the Node.js application container
 - Start a PostgreSQL database on port 5499
 - Run database migrations automatically
-- Initialize the database with sample data (artists, events, sound equipment)
+- Initialize the database with comprehensive sample data
 - Create admin user with default credentials
 - Start the application on port 5000
+
+### Sample Data Included
+
+The Docker deployment automatically loads comprehensive sample data:
+
+**Artists (4 entries):**
+- SUJITA DANGOL - Folk/Traditional singer
+- MAYA SHRESTHA - Pop/Contemporary artist
+- DJ KARMA - Electronic/Dance music producer
+- CLASSICAL ENSEMBLE - Traditional classical music group
+
+**Events (3 entries):**
+- Traditional Music Festival - July 15, 2025 at Patan Durbar Square
+- Modern Beats Concert - August 20, 2025 at Kathmandu Event Center  
+- Classical Evening - September 10, 2025 at Heritage Hotel Ballroom
+
+**Sound Equipment (3 systems):**
+- Premium PA System (2000W, up to 500 people) - $299/day
+- Compact Sound Setup (500W, up to 100 people) - $149/day
+- Festival Grade System (5000W, up to 2000+ people) - $799/day
+
+**Venues (3 locations):**
+- Grand Heritage Hall - Thamel, Kathmandu (300 capacity)
+- Modern Event Center - New Baneshwor, Kathmandu (800 capacity)
+- Outdoor Garden Venue - Bhaktapur (500 capacity)
+
+**Additional Data:**
+- Blog posts with event planning guides
+- Customer testimonials and reviews
+- User accounts for testing (admin, user1, user2)
+
+All data is accessible through public API endpoints without authentication.
 
 4. Access the application:
 
