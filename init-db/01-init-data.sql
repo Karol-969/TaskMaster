@@ -5,6 +5,12 @@ INSERT INTO users (username, password, email, "fullName", role, phone, "createdA
 VALUES ('admin', 'admin123', 'admin@reartevents.com', 'Admin User', 'admin', '555-1234', NOW())
 ON CONFLICT (username) DO NOTHING;
 
+-- Insert additional test users
+INSERT INTO users (username, password, email, "fullName", role, phone, "createdAt") VALUES
+('user1', 'password123', 'user1@example.com', 'Test User One', 'user', '555-0001', NOW()),
+('user2', 'password123', 'user2@example.com', 'Test User Two', 'user', '555-0002', NOW())
+ON CONFLICT (username) DO NOTHING;
+
 -- Insert sample artists
 INSERT INTO artists (name, genre, description, "imageUrl", languages, "musicStyle", bio, "contactEmail", phone, location, availability, "createdAt") VALUES
 ('SUJITA DANGOL', 'Folk/Traditional', 'Talented folk singer specializing in traditional Nepali music with modern interpretations', 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400', 'Nepali, English', 'Folk', 'Professional folk artist with 10+ years of experience', 'sujita@reartevents.com', '+977-1234567', 'Kathmandu, Nepal', true, NOW()),

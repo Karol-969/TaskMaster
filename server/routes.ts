@@ -1721,6 +1721,92 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Public Events Routes
+  app.get('/api/events', async (req: Request, res: Response) => {
+    try {
+      const events = await storage.getAllEvents();
+      res.json(events);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      res.status(500).json({ message: 'Error fetching events' });
+    }
+  });
+
+  app.get('/api/events/:id', async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      const event = await storage.getEvent(id);
+      if (!event) {
+        return res.status(404).json({ message: 'Event not found' });
+      }
+      res.json(event);
+    } catch (error) {
+      console.error('Error fetching event:', error);
+      res.status(500).json({ message: 'Error fetching event' });
+    }
+  });
+
+  // Public Sound Equipment Routes  
+  app.get('/api/sound-equipment', async (req: Request, res: Response) => {
+    try {
+      const equipment = await storage.getAllSoundSystems();
+      res.json(equipment);
+    } catch (error) {
+      console.error('Error fetching sound equipment:', error);
+      res.status(500).json({ message: 'Error fetching sound equipment' });
+    }
+  });
+
+  app.get('/api/sound-equipment/:id', async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      const equipment = await storage.getSoundSystem(id);
+      if (!equipment) {
+        return res.status(404).json({ message: 'Sound equipment not found' });
+      }
+      res.json(equipment);
+    } catch (error) {
+      console.error('Error fetching sound equipment:', error);
+      res.status(500).json({ message: 'Error fetching sound equipment' });
+    }
+  });
+
+  // Public Venues Routes
+  app.get('/api/venues', async (req: Request, res: Response) => {
+    try {
+      const venues = await storage.getAllVenues();
+      res.json(venues);
+    } catch (error) {
+      console.error('Error fetching venues:', error);
+      res.status(500).json({ message: 'Error fetching venues' });
+    }
+  });
+
+  app.get('/api/venues/:id', async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      const venue = await storage.getVenue(id);
+      if (!venue) {
+        return res.status(404).json({ message: 'Venue not found' });
+      }
+      res.json(venue);
+    } catch (error) {
+      console.error('Error fetching venue:', error);
+      res.status(500).json({ message: 'Error fetching venue' });
+    }
+  });
+
+  // Public Testimonials Route
+  app.get('/api/testimonials', async (req: Request, res: Response) => {
+    try {
+      const testimonials = await storage.getAllTestimonials();
+      res.json(testimonials);
+    } catch (error) {
+      console.error('Error fetching testimonials:', error);
+      res.status(500).json({ message: 'Error fetching testimonials' });
+    }
+  });
+
   // Apply error handling middleware
   app.use(errorHandler);
 
