@@ -1,0 +1,90 @@
+=> => loading layer d307ffc2014c 32.77kB / 74.99kB                                                      5.6s
+ => => loading layer 87f9f04da00c 86.90MB / 167.44MB                                                     5.6s
+ => => loading layer 206ecb83ecc1 557.06kB / 81.02MB                                                     0.8s
+ => => loading layer b143340c6c07 927B / 927B                                                            0.1s
+ => => loading layer 9ed7b6c3f3f6 923B / 923B                                                            0.1s
+ => => loading layer 99c1de83b9c5 32.77kB / 311.94kB                                                     0.1s
+ => [app] resolving provenance for metadata file                                                         0.0s
+[+] Running 4/3
+ ✔ Network rearteventsdemo_app-network     Created                                                       0.0s 
+ ✔ Volume "rearteventsdemo_postgres_data"  Created                                                       0.0s 
+ ✔ Container rearteventsdemo-db-1          Created                                                       0.6s 
+ ✔ Container rearteventsdemo-app-1         Created                                                       0.0s 
+Attaching to app-1, db-1
+db-1   | The files belonging to this database system will be owned by user "postgres".
+db-1   | This user must also own the server process.
+db-1   | 
+db-1   | The database cluster will be initialized with locale "en_US.utf8".
+db-1   | The default database encoding has accordingly been set to "UTF8".
+db-1   | The default text search configuration will be set to "english".
+db-1   | 
+db-1   | Data page checksums are disabled.
+db-1   | 
+db-1   | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+db-1   | creating subdirectories ... ok
+db-1   | selecting dynamic shared memory implementation ... posix
+db-1   | selecting default max_connections ... 100
+db-1   | selecting default shared_buffers ... 128MB
+db-1   | selecting default time zone ... UTC
+db-1   | creating configuration files ... ok
+app-1  | Waiting for PostgreSQL to be ready...
+db-1   | running bootstrap script ... ok
+db-1   | sh: locale: not found
+db-1   | 2025-06-11 08:09:09.316 UTC [35] WARNING:  no usable system locales were found
+db-1   | performing post-bootstrap initialization ... ok
+db-1   | syncing data to disk ... ok
+db-1   | 
+db-1   | initdb: warning: enabling "trust" authentication for local connections
+db-1   | initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+db-1   | 
+db-1   | Success. You can now start the database server using:
+db-1   | 
+db-1   |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+db-1   | 
+db-1   | waiting for server to start....2025-06-11 08:09:09.551 UTC [41] LOG:  starting PostgreSQL 15.13 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 14.2.0) 14.2.0, 64-bit
+db-1   | 2025-06-11 08:09:09.552 UTC [41] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db-1   | 2025-06-11 08:09:09.553 UTC [44] LOG:  database system was shut down at 2025-06-11 08:09:09 UTC
+db-1   | 2025-06-11 08:09:09.556 UTC [41] LOG:  database system is ready to accept connections
+db-1   |  done
+db-1   | server started
+db-1   | CREATE DATABASE
+db-1   | 
+db-1   | 
+db-1   | /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/01-init-data.sql
+db-1   | 2025-06-11 08:09:09.680 UTC [54] ERROR:  relation "users" does not exist at character 13
+db-1   | 2025-06-11 08:09:09.680 UTC [54] STATEMENT:  INSERT INTO users (username, password, email, "fullName", role, phone, "createdAt")
+db-1   |        VALUES ('admin', 'admin123', 'admin@reartevents.com', 'Admin User', 'admin', '555-1234', NOW())
+db-1   |        ON CONFLICT (username) DO NOTHING;
+db-1   | psql:/docker-entrypoint-initdb.d/01-init-data.sql:6: ERROR:  relation "users" does not exist
+db-1   | LINE 1: INSERT INTO users (username, password, email, "fullName", ro...
+db-1   |                     ^
+db-1 exited with code 3
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+app-1  | nc: getaddrinfo for host "db" port 5432: Name does not resolve
+
+
+v View in Docker Desktop   o View Config   w Enable Watch

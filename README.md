@@ -133,12 +133,17 @@ The application includes an AI-powered chat widget available on all pages:
 
 If you encounter issues:
 
-1. **Application won't start**: Ensure ports 5000 and 5499 are not in use
-2. **Database connection issues**: Wait a few seconds for the database to fully initialize  
-3. **Build issues**: Try `docker compose down` then `docker compose up --build`
-4. **Chat features not working**: Check browser console for errors, ensure proper network connectivity
-5. **Admin login fails**: Use credentials admin/admin123, check browser network tab for API errors
-6. **Data not loading**: Wait for database initialization to complete, check container logs with `docker compose logs app`
+1. **Database initialization errors**: 
+   - If you see "relation 'users' does not exist", stop containers and remove volumes: `docker compose down -v`
+   - Then rebuild: `docker compose up --build`
+   - The application now handles schema creation before data seeding
+
+2. **Application won't start**: Ensure ports 5000 and 5499 are not in use
+3. **Database connection issues**: Wait for the full initialization sequence (may take 30-60 seconds)
+4. **Build issues**: Clean rebuild with `docker compose down -v && docker compose up --build`
+5. **Chat features not working**: Check browser console for errors, ensure proper network connectivity
+6. **Admin login fails**: Use credentials admin/admin123, wait for database initialization to complete
+7. **Data not loading**: Check container logs for "Data verification complete" message
 
 ### Container Logs
 

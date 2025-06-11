@@ -32,7 +32,6 @@ services:
       - POSTGRES_DB=reart_events
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init-db:/docker-entrypoint-initdb.d
     networks:
       - app-network
 
