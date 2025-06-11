@@ -696,7 +696,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         status: 'open',
         adminId: null,
         guestName: guestName || 'Anonymous',
-        guestEmail: guestEmail || null
+        guestEmail: guestEmail || null,
+        conversationType: req.body.conversationType || 'ai_assistant'
       };
       
       const conversation = await storage.createConversation(conversationData);

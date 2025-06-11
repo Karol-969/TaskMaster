@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, Send, X, Minimize2 } from 'lucide-react';
+import { MessageCircle, Send, X, Minimize2, Bot, User, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 
@@ -196,7 +196,7 @@ export function ChatWidget() {
       setIsOpen(true);
       setHasNewMessage(false);
       if (!conversation) {
-        startConversation();
+        setShowChoiceMenu(true);
       }
     }
   };
@@ -222,6 +222,13 @@ export function ChatWidget() {
       e.preventDefault();
       sendMessage();
     }
+  };
+
+  const resetChat = () => {
+    setConversation(null);
+    setSelectedAssistantType(null);
+    setShowChoiceMenu(true);
+    setMessage('');
   };
 
   return (
@@ -261,9 +268,26 @@ export function ChatWidget() {
           >
             <Card className="h-full bg-black/95 backdrop-blur-xl border-purple-500/30 shadow-2xl">
               <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-purple-500/20">
-                <CardTitle className="text-sm font-semibold text-white">
-                  Support Chat
-                </CardTitle>
+                <div className="flex items-center gap-2">
+                  {!showChoiceMenu && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 text-gray-400 hover:text-white"
+                      onClick={resetChat}
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                    </Button>
+                  )}
+                  <CardTitle className="text-sm font-semibold text-white">
+                    {showChoiceMenu 
+                      ? 'Support Chat' 
+                      : selectedAssistantType === 'ai_assistant' 
+                        ? 'AI Assistant' 
+                        : 'Human Support'
+                    }
+                  </CardTitle>
+                </div>
                 <div className="flex items-center gap-2">
                   <div className={`h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
                   <Button
