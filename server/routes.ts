@@ -733,6 +733,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       next(error);
     }
   });
+
+  // Get specific conversation (allows anonymous access for chat widget)
+  app.get('/api/conversations/:id', async (req, res, next) => {
+    try {
+      const conversationId = parseInt(req.params.id);
+      const conversation = await storage.getConversation(conversationId);
+      
+      if (!conversation) {
+        return res.status(404).json({ message: "Conversation not found" });
+      }
+
+      // Get messages for the conversation
+      const messages = await storage.getConversationMessages(conversationId);
+      
+      res.json({
+        ...conversation,
+        messages
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
   
   // Get all conversations (admin only)
   app.get('/api/admin/conversations', adminMiddleware, async (req, res, next) => {

@@ -118,6 +118,20 @@ export function ChatWidget() {
     }
   };
 
+  const refreshMessages = async () => {
+    if (!conversation) return;
+
+    try {
+      const response = await fetch(`/api/conversations/${conversation.id}`);
+      if (response.ok) {
+        const updatedConversation = await response.json();
+        setConversation(updatedConversation);
+      }
+    } catch (error) {
+      console.error('Failed to refresh messages:', error);
+    }
+  };
+
   const sendMessage = async () => {
     if (!message.trim() || !conversation) return;
 
@@ -139,6 +153,11 @@ export function ChatWidget() {
           messages: [...prev.messages, newMessage]
         } : null);
         setMessage('');
+        
+        // Refresh messages after 2 seconds to get AI response
+        setTimeout(() => {
+          refreshMessages();
+        }, 2000);
       } else {
         toast({
           title: "Error",
