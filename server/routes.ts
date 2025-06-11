@@ -136,17 +136,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   });
 
-  // Setup session middleware
+  // Setup session middleware with proper Docker configuration
   app.use(session({
     cookie: { 
       maxAge: 86400000, // 1 day
-      secure: false, // Set to true in production with HTTPS
+      secure: false, // Set to false for Docker deployment
       httpOnly: false, // Allow frontend access
-      sameSite: 'lax'
+      sameSite: 'lax',
+      domain: undefined // Let Express handle domain automatically
     },
     resave: false,
-    saveUninitialized: false,
-    secret: process.env.SESSION_SECRET || 'reart-events-secret-key-123456',
+    saveUninitialized: true, // Save uninitialized sessions for Docker
+    secret: process.env.SESSION_SECRET || 'reart-events-secret-key-docker-123456',
     name: 'connect.sid'
   }));
 
@@ -304,11 +305,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   
-  // Create admin user if not exists (for development)
+  // Create admin user if not exists (for Docker deployment)
   try {
     const existingAdmin = await storage.getUserByUsername('admin');
     if (!existingAdmin) {
-      await storage.createUser({
+      const adminUser = await storage.createUser({
         username: 'admin',
         password: 'admin123',
         email: 'admin@reartevents.com',
@@ -316,10 +317,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         role: 'admin',
         phone: '555-1234'
       });
-      console.log('Admin user created: username=admin, password=admin123');
+      console.log('✅ Admin user created successfully:', {
+        id: adminUser.id,
+        username: adminUser.username,
+        role: adminUser.role
+      });
+      console.log('🔑 Login credentials: username=admin, password=admin123');
+    } else {
+      console.log('✅ Admin user already exists:', {
+        id: existingAdmin.id,
+        username: existingAdmin.username,
+        role: existingAdmin.role
+      });
     }
   } catch (error) {
-    console.log('Admin user already exists or error creating admin user');
+    console.error('❌ Error with admin user setup:', error);
   }
   
   // Admin Authentication Routes
@@ -681,26 +693,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create a new conversation (allows anonymous users)
   app.post('/api/conversations', async (req, res, next) => {
     try {
+      console.log('📞 Starting conversation creation:', req.body);
+      
       const { subject, message, guestName, guestEmail } = req.body;
       
       if (!subject || !message) {
+        console.log('❌ Missing required fields:', { subject: !!subject, message: !!message });
         return res.status(400).json({ message: "Subject and message are required" });
       }
       
       // For authenticated users, use their ID, for guests use 0
       const userId = req.session?.userId || 0;
+      console.log('👤 User context:', { userId, sessionExists: !!req.session });
       
       const conversationData = {
         userId,
         subject,
-        status: 'open',
+        status: 'active', // Use 'active' to match schema default
         adminId: null,
         guestName: guestName || 'Anonymous',
         guestEmail: guestEmail || null,
         conversationType: req.body.conversationType || 'ai_assistant'
       };
       
+      console.log('💾 Creating conversation with data:', conversationData);
       const conversation = await storage.createConversation(conversationData);
+      console.log('✅ Conversation created:', conversation.id);
       
       // Create initial message
       const messageData = {
@@ -711,7 +729,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         isRead: false
       };
       
+      console.log('📝 Creating initial message:', messageData);
       const chatMessage = await storage.createChatMessage(messageData);
+      console.log('✅ Message created:', chatMessage.id);
       
       // Return conversation with initial message
       const conversationWithMessages = {
@@ -719,9 +739,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         messages: [chatMessage]
       };
       
+      console.log('🎉 Conversation creation successful');
       res.status(201).json(conversationWithMessages);
     } catch (error) {
-      next(error);
+      console.error('💥 Conversation creation failed:', error);
+      console.error('💥 Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : 'No stack'
+      });
+      res.status(500).json({ 
+        message: "Failed to create conversation",
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
     }
   });
   

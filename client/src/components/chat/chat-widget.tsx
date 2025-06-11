@@ -106,11 +106,14 @@ export function ChatWidget() {
         human_support: 'Human Support'
       };
       
+      console.log('Starting conversation with:', assistantType);
+      
       const response = await fetch('/api/conversations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Include session cookies
         body: JSON.stringify({
           subject: assistantNames[assistantType],
           message: `Hello, I need assistance from ${assistantNames[assistantType]}.`,
@@ -121,6 +124,7 @@ export function ChatWidget() {
 
       if (response.ok) {
         const conversationWithMessages = await response.json();
+        console.log('Conversation created:', conversationWithMessages);
         setConversation(conversationWithMessages);
         setSelectedAssistantType(assistantType);
         setShowChoiceMenu(false);
@@ -132,13 +136,16 @@ export function ChatWidget() {
           }));
         }
       } else {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Failed to create conversation:', response.status, errorData);
         toast({
           title: "Error",
-          description: "Failed to start conversation. Please try again.",
+          description: errorData.message || "Failed to start conversation. Please try again.",
           variant: "destructive",
         });
       }
     } catch (error) {
+      console.error('Network error creating conversation:', error);
       toast({
         title: "Error",
         description: "Network error. Please check your connection.",
@@ -151,7 +158,9 @@ export function ChatWidget() {
     if (!conversation) return;
 
     try {
-      const response = await fetch(`/api/conversations/${conversation.id}`);
+      const response = await fetch(`/api/conversations/${conversation.id}`, {
+        credentials: 'include' // Include session cookies
+      });
       if (response.ok) {
         const updatedConversation = await response.json();
         setConversation(updatedConversation);
@@ -170,6 +179,7 @@ export function ChatWidget() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Include session cookies
         body: JSON.stringify({
           message: message.trim(),
         }),
@@ -191,9 +201,11 @@ export function ChatWidget() {
           refreshMessages();
         }, 3000);
       } else {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Failed to send message:', response.status, errorData);
         toast({
           title: "Error",
-          description: "Failed to send message. Please try again.",
+          description: errorData.message || "Failed to send message. Please try again.",
           variant: "destructive",
         });
       }
