@@ -149,9 +149,6 @@ export const testimonials = pgTable("testimonials", {
   userId: integer("user_id"),  // Optional to allow anonymous testimonials
   content: text("content").notNull(),
   rating: integer("rating").notNull(),
-  name: text("name"),          // For anonymous testimonials
-  company: text("company"),    // Organization/company name 
-  email: text("email"),        // Email for contact (not displayed publicly)
   createdAt: timestamp("created_at").defaultNow(),
 });
 
