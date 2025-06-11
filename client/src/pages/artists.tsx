@@ -620,7 +620,7 @@ export default function ArtistsPage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-white text-white hover:bg-white/10"
+                    className="border-white bg-white/10 backdrop-blur-sm text-white hover:bg-white/20"
                   >
                     <Check className="mr-2 h-4 w-4" />
                     Schedule Consultation

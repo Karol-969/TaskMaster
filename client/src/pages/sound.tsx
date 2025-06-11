@@ -432,7 +432,7 @@ export default function SoundPage() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-slate-900 px-8 py-6"
+                className="border-white bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-slate-900 px-8 py-6"
               >
                 Contact for Custom Quote
               </Button>

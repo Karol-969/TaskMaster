@@ -239,7 +239,7 @@ export default function ServicesPage() {
                 <Button className="bg-accent hover:bg-accent/90 text-white px-8 py-7" size="lg">
                   Get Started
                 </Button>
-                <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-7" size="lg">
+                <Button variant="outline" className="border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 px-8 py-7" size="lg">
                   Contact Us
                 </Button>
               </div>
