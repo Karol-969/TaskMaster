@@ -27,14 +27,30 @@ git clone https://github.com/your-username/reart-events.git
 cd reart-events
 ```
 
-2. (Optional) Set up OpenAI API key for AI chat features:
+2. Configure OpenAI API key for AI chat features:
 
+The chat widget requires an OpenAI API key to provide AI-powered responses. Without it, the chat will show fallback messages.
+
+**Option A: Using .env file (Recommended)**
 ```bash
-# Create a .env file or export the variable
-export OPENAI_API_KEY=your_openai_api_key_here
+# Create .env file in project root
+echo "OPENAI_API_KEY=sk-your_actual_openai_api_key_here" > .env
 ```
 
-If you don't have an OpenAI API key, the application will still work - the chat feature will fall back to informational responses without AI assistance.
+**Option B: Using environment variable**
+```bash
+export OPENAI_API_KEY=sk-your_actual_openai_api_key_here
+```
+
+**Getting an OpenAI API Key:**
+1. Visit https://platform.openai.com/api-keys
+2. Sign up or log in to your OpenAI account
+3. Create a new API key
+4. Copy the key (starts with 'sk-')
+5. Add it to your environment configuration
+
+**Without OpenAI API Key:**
+The application will still function fully, but the AI Assistant will show informative fallback messages. Human Support chat remains fully functional.
 
 3. Start the application with Docker Compose:
 

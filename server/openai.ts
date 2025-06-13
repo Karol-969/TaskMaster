@@ -76,7 +76,7 @@ export async function generateAIResponse(userMessage: string, conversationHistor
   
   if (!client) {
     console.warn('OpenAI API key not available, falling back to default response');
-    return "Thank you for your message! I'm currently experiencing technical difficulties with the AI assistant. Please contact our team directly at info@reartevents.com or use the Human Support option for immediate assistance with your event planning needs.";
+    return "Thank you for your message! I'm currently experiencing technical difficulties with the AI assistant. To enable AI responses, please configure your OpenAI API key in the environment variables. For immediate assistance, please use the Human Support option or contact our team directly at info@reartevents.com.";
   }
 
   try {
