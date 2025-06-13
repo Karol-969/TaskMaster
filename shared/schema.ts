@@ -41,20 +41,92 @@ export const insertArtistSchema = createInsertSchema(artists).omit({
   id: true,
 });
 
-// Influencer schema
+// Enhanced Influencer schema
 export const influencers = pgTable("influencers", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  category: text("category").notNull(),
+  category: text("category").notNull(), // Fashion, Tech, Lifestyle, Food, Travel, Gaming, etc.
   description: text("description").notNull(),
+  bio: text("bio"),
   imageUrl: text("image_url").notNull(),
-  socialStats: text("social_stats").notNull(),
+  portfolioImages: text("portfolio_images").array().default([]),
+  
+  // Social Media Data
+  instagramHandle: text("instagram_handle"),
+  instagramFollowers: integer("instagram_followers").default(0),
+  tiktokHandle: text("tiktok_handle"),
+  tiktokFollowers: integer("tiktok_followers").default(0),
+  youtubeHandle: text("youtube_handle"),
+  youtubeSubscribers: integer("youtube_subscribers").default(0),
+  twitterHandle: text("twitter_handle"),
+  twitterFollowers: integer("twitter_followers").default(0),
+  
+  // Analytics & Performance
+  engagementRate: integer("engagement_rate").default(0), // Stored as percentage * 100 (e.g., 3.5% = 350)
+  averageViews: integer("average_views").default(0),
+  totalReach: integer("total_reach").default(0),
+  
+  // Pricing Structure
+  postPrice: integer("post_price").notNull(), // Price per sponsored post
+  storyPrice: integer("story_price").default(0), // Price per story
+  videoPrice: integer("video_price").default(0), // Price per video content
+  packagePrice: integer("package_price").default(0), // Price for full campaign package
+  
+  // Professional Info
+  contactEmail: text("contact_email"),
+  phone: text("phone"),
+  location: text("location"),
+  languages: text("languages").array().default([]),
+  
+  // Status & Verification
+  isVerified: boolean("is_verified").default(false),
+  isActive: boolean("is_active").default(true),
   rating: integer("rating").default(5),
-  price: integer("price").notNull(),
+  totalCollaborations: integer("total_collaborations").default(0),
+  
+  // Availability & Preferences
+  availableDates: jsonb("available_dates"), // Calendar data
+  collaborationTypes: text("collaboration_types").array().default([]), // Sponsored posts, reviews, events, etc.
+  brandRestrictions: text("brand_restrictions").array().default([]),
+  targetAudience: jsonb("target_audience"), // Demographics data
+  
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Influencer Collaboration Bookings
+export const influencerBookings = pgTable("influencer_bookings", {
+  id: serial("id").primaryKey(),
+  influencerId: integer("influencer_id").notNull(),
+  userId: integer("user_id").notNull(),
+  campaignName: text("campaign_name").notNull(),
+  collaborationType: text("collaboration_type").notNull(), // post, story, video, package
+  brandName: text("brand_name").notNull(),
+  campaignObjectives: text("campaign_objectives"),
+  contentRequirements: text("content_requirements"),
+  timeline: text("timeline"),
+  budget: integer("budget").notNull(),
+  targetAudience: jsonb("target_audience"),
+  specialRequirements: text("special_requirements"),
+  status: text("status").default("pending"), // pending, approved, in_progress, completed, cancelled
+  deliverables: jsonb("deliverables"), // Expected deliverables
+  actualResults: jsonb("actual_results"), // Campaign results
+  clientRating: integer("client_rating"), // Rating from client
+  influencerRating: integer("influencer_rating"), // Rating from influencer
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const insertInfluencerSchema = createInsertSchema(influencers).omit({
   id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertInfluencerBookingSchema = createInsertSchema(influencerBookings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
 // Sound schema
@@ -226,6 +298,9 @@ export type InsertArtist = z.infer<typeof insertArtistSchema>;
 
 export type Influencer = typeof influencers.$inferSelect;
 export type InsertInfluencer = z.infer<typeof insertInfluencerSchema>;
+
+export type InfluencerBooking = typeof influencerBookings.$inferSelect;
+export type InsertInfluencerBooking = z.infer<typeof insertInfluencerBookingSchema>;
 
 export type SoundSystem = typeof soundSystems.$inferSelect;
 export type InsertSoundSystem = z.infer<typeof insertSoundSystemSchema>;
