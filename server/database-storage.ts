@@ -4,6 +4,7 @@ import {
   users, type User, type InsertUser,
   artists, type Artist, type InsertArtist,
   influencers, type Influencer, type InsertInfluencer,
+  influencerBookings, type InfluencerBooking, type InsertInfluencerBooking,
   soundSystems, type SoundSystem, type InsertSoundSystem,
   venues, type Venue, type InsertVenue,
   events, type Event, type InsertEvent,
@@ -96,6 +97,43 @@ export class DatabaseStorage implements IStorage {
 
   async deleteInfluencer(id: number): Promise<boolean> {
     await db.delete(influencers).where(eq(influencers.id, id));
+    return true;
+  }
+
+  // Influencer Booking methods
+  async getInfluencerBooking(id: number): Promise<InfluencerBooking | undefined> {
+    const [booking] = await db.select().from(influencerBookings).where(eq(influencerBookings.id, id));
+    return booking || undefined;
+  }
+
+  async getAllInfluencerBookings(): Promise<InfluencerBooking[]> {
+    return await db.select().from(influencerBookings);
+  }
+
+  async getInfluencerBookingsByUser(userId: number): Promise<InfluencerBooking[]> {
+    return await db.select().from(influencerBookings).where(eq(influencerBookings.userId, userId));
+  }
+
+  async getInfluencerBookingsByInfluencer(influencerId: number): Promise<InfluencerBooking[]> {
+    return await db.select().from(influencerBookings).where(eq(influencerBookings.influencerId, influencerId));
+  }
+
+  async createInfluencerBooking(booking: InsertInfluencerBooking): Promise<InfluencerBooking> {
+    const [newBooking] = await db.insert(influencerBookings).values(booking).returning();
+    return newBooking;
+  }
+
+  async updateInfluencerBooking(id: number, booking: Partial<InsertInfluencerBooking>): Promise<InfluencerBooking | undefined> {
+    const [updatedBooking] = await db
+      .update(influencerBookings)
+      .set(booking)
+      .where(eq(influencerBookings.id, id))
+      .returning();
+    return updatedBooking || undefined;
+  }
+
+  async deleteInfluencerBooking(id: number): Promise<boolean> {
+    await db.delete(influencerBookings).where(eq(influencerBookings.id, id));
     return true;
   }
 
