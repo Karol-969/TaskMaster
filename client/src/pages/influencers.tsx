@@ -21,12 +21,15 @@ interface FilterState {
   searchTerm: string;
 }
 
+import { Layout } from '@/components/layout/layout';
+import { Helmet } from 'react-helmet';
+
 function InfluencersPage() {
   const [filters, setFilters] = useState<FilterState>({
     category: 'all',
-    followerRange: [0, 500000],
-    engagementRate: [0, 10],
-    priceRange: [0, 5000],
+    followerRange: [0, 1000000],
+    engagementRate: [0, 20],
+    priceRange: [0, 1000000],
     searchTerm: ''
   });
   
@@ -71,8 +74,8 @@ function InfluencersPage() {
         return false;
       }
 
-      // Engagement rate filter
-      if (influencer.engagementRate) {
+      // Engagement rate filter - only apply if influencer has engagement rate
+      if (influencer.engagementRate !== null && influencer.engagementRate !== undefined) {
         if (influencer.engagementRate < filters.engagementRate[0] || influencer.engagementRate > filters.engagementRate[1]) {
           return false;
         }
@@ -146,7 +149,13 @@ function InfluencersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <Layout>
+      <Helmet>
+        <title>Connect with Top Influencers | ReArt Events</title>
+        <meta name="description" content="Discover and collaborate with verified influencers across all social media platforms. Find the perfect match for your brand and campaign goals with NRS pricing." />
+      </Helmet>
+      
+      <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-purple-900 to-black py-20">
         <div className="container mx-auto px-6">
@@ -396,22 +405,23 @@ function InfluencersPage() {
             <p className="text-gray-400">Try adjusting your filters to see more results.</p>
           </div>
         )}
+        </div>
+
+        {/* Booking Modal */}
+        {selectedInfluencer && (
+          <InfluencerBookingModal
+            isOpen={isBookingModalOpen}
+            onClose={() => {
+              setIsBookingModalOpen(false);
+              setSelectedInfluencer(null);
+            }}
+            influencer={selectedInfluencer}
+          />
+        )}
+
+        {/* Comparison Tool - Temporarily disabled for performance */}
       </div>
-
-      {/* Booking Modal */}
-      {selectedInfluencer && (
-        <InfluencerBookingModal
-          isOpen={isBookingModalOpen}
-          onClose={() => {
-            setIsBookingModalOpen(false);
-            setSelectedInfluencer(null);
-          }}
-          influencer={selectedInfluencer}
-        />
-      )}
-
-      {/* Comparison Tool - Temporarily disabled for performance */}
-    </div>
+    </Layout>
   );
 }
 
