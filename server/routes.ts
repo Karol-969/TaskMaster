@@ -1815,62 +1815,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { message, serviceName, serviceDescription, conversationHistory } = req.body;
 
-      if (!process.env.OPENAI_API_KEY) {
-        return res.status(503).json({ 
-          message: "Chat service is currently unavailable. Please contact us directly for assistance with our services.",
-          error: "API key not configured"
+      console.log('Chat API called with:', { 
+        messageLength: message?.length, 
+        serviceName, 
+        hasApiKey: !!process.env.OPENAI_API_KEY 
+      });
+
+      if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'sk-your_openai_api_key_here') {
+        console.log('OpenAI API key not configured or using placeholder');
+        return res.json({ 
+          message: "Thank you for your message! I'm currently experiencing technical difficulties with the AI assistant. To enable AI responses, please configure your OpenAI API key in the environment variables. For immediate assistance, please use the Human Support option or contact our team directly at info@reartevents.com."
         });
       }
 
-      // Import OpenAI (only when needed)
-      const { OpenAI } = await import('openai');
-      const openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
-      });
+      // Use the enhanced OpenAI service
+      const { generateAIResponse } = await import('./openai');
+      const conversationHistoryString = conversationHistory?.map((msg: any) => 
+        `${msg.isUser ? 'User' : 'Assistant'}: ${msg.text}`
+      ).join('\n') || '';
 
-      // Create context for the service
-      const systemPrompt = `You are a helpful customer service assistant for ReArt Events, a professional event management company. You are specifically helping with questions about the "${serviceName}" service.
-
-Service Description: ${serviceDescription}
-
-Company Background: ReArt Events is an event management company established in 2024. We specialize in live music arrangements, monthly artist booking, event concepts and management, and promotion/sponsorship services.
-
-Guidelines:
-- Be friendly, professional, and helpful
-- Focus on the specific service the user is asking about
-- Provide accurate information about ReArt Events services
-- If asked about pricing, suggest contacting the company for a custom quote
-- If asked about booking, guide them to contact the company
-- Keep responses concise but informative
-- Always maintain a professional tone
-- If you don't know specific details, be honest and suggest they contact ReArt Events directly`;
-
-      // Build conversation messages
-      const messages = [
-        { role: 'system', content: systemPrompt },
-        ...conversationHistory.map((msg: any) => ({
-          role: msg.isUser ? 'user' : 'assistant',
-          content: msg.text
-        })),
-        { role: 'user', content: message }
-      ];
-
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4o', // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-        messages: messages as any,
-        max_tokens: 500,
-        temperature: 0.7,
-      });
-
-      const botResponse = completion.choices[0]?.message?.content || 
-        "I apologize, but I'm having trouble generating a response right now. Please try again or contact us directly.";
-
+      const botResponse = await generateAIResponse(message, conversationHistoryString);
+      
+      console.log('AI response generated successfully');
       res.json({ message: botResponse });
     } catch (error) {
       console.error('Chat API error:', error);
-      res.status(500).json({ 
-        message: "I'm sorry, I'm experiencing technical difficulties. Please try again later or contact us directly for assistance.",
-        error: "Internal server error"
+      
+      // Provide specific error information for debugging
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      
+      res.json({ 
+        message: "I'm sorry, I'm experiencing technical difficulties. Please try again later or contact us directly at info@reartevents.com for assistance.",
+        debug: process.env.NODE_ENV === 'development' ? errorMessage : undefined
       });
     }
   });

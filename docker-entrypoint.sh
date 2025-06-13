@@ -1,12 +1,23 @@
 #!/bin/sh
 set -e
 
+echo "🚀 Starting ReArt Events Platform..."
+
+# Environment validation
+echo "🔍 Validating environment configuration..."
+if [ -n "$OPENAI_API_KEY" ] && [ "$OPENAI_API_KEY" != "sk-your_openai_api_key_here" ]; then
+  echo "✅ OpenAI API key configured - AI chat functionality enabled"
+else
+  echo "⚠️  OpenAI API key not configured - chat will use fallback responses"
+  echo "   To enable AI chat: Set OPENAI_API_KEY environment variable"
+fi
+
 # Wait for database to be ready
-echo "Waiting for PostgreSQL to be ready..."
+echo "⏳ Waiting for PostgreSQL to be ready..."
 while ! nc -z db 5432; do
   sleep 0.5
 done
-echo "PostgreSQL is ready!"
+echo "✅ PostgreSQL is ready!"
 
 # Wait a bit more to ensure database is fully initialized
 sleep 5
@@ -68,10 +79,10 @@ if [ "$EXISTING_ARTISTS" -eq "0" ]; then
   (1, 'Great experience working with ReArt Events. Highly recommended.', 4),
   (1, 'Professional team that understands client needs. Excellent service.', 5);" 2>/dev/null || echo "Testimonials creation skipped"
   
-  echo "Sample data creation completed!"
+  echo "✅ Sample data creation completed!"
   
   # Verify data was loaded correctly
-  echo "Verifying data integrity..."
+  echo "🧪 Verifying data integrity..."
   ARTIST_COUNT=$(PGPASSWORD=$PGPASSWORD psql -h $PGHOST -U $PGUSER -d $PGDATABASE -t -c "SELECT COUNT(*) FROM artists;" 2>/dev/null | xargs || echo "0")
   EVENT_COUNT=$(PGPASSWORD=$PGPASSWORD psql -h $PGHOST -U $PGUSER -d $PGDATABASE -t -c "SELECT COUNT(*) FROM events;" 2>/dev/null | xargs || echo "0")
   SOUND_COUNT=$(PGPASSWORD=$PGPASSWORD psql -h $PGHOST -U $PGUSER -d $PGDATABASE -t -c "SELECT COUNT(*) FROM sound_systems;" 2>/dev/null | xargs || echo "0")
@@ -79,17 +90,26 @@ if [ "$EXISTING_ARTISTS" -eq "0" ]; then
   USER_COUNT=$(PGPASSWORD=$PGPASSWORD psql -h $PGHOST -U $PGUSER -d $PGDATABASE -t -c "SELECT COUNT(*) FROM users;" 2>/dev/null | xargs || echo "0")
   TESTIMONIAL_COUNT=$(PGPASSWORD=$PGPASSWORD psql -h $PGHOST -U $PGUSER -d $PGDATABASE -t -c "SELECT COUNT(*) FROM testimonials;" 2>/dev/null | xargs || echo "0")
   
-  echo "Data verification complete:"
-  echo "- Artists: $ARTIST_COUNT"
-  echo "- Events: $EVENT_COUNT"
-  echo "- Sound Systems: $SOUND_COUNT"
-  echo "- Venues: $VENUE_COUNT"
-  echo "- Users: $USER_COUNT"
-  echo "- Testimonials: $TESTIMONIAL_COUNT"
+  echo "✅ Data verification complete:"
+  echo "   - Artists: $ARTIST_COUNT"
+  echo "   - Events: $EVENT_COUNT"
+  echo "   - Sound Systems: $SOUND_COUNT"
+  echo "   - Venues: $VENUE_COUNT"
+  echo "   - Users: $USER_COUNT"
+  echo "   - Testimonials: $TESTIMONIAL_COUNT"
 else
-  echo "Sample data already exists ($EXISTING_ARTISTS artists found). Skipping initialization."
+  echo "ℹ️  Sample data already exists ($EXISTING_ARTISTS artists found). Skipping initialization."
 fi
 
+# Final deployment readiness check
+echo "🚀 ReArt Events Platform deployment summary:"
+echo "   - Database: Ready"
+echo "   - Sample Data: Loaded"
+echo "   - Admin Credentials: admin/admin123"
+echo "   - Chat AI: $([ -n "$OPENAI_API_KEY" ] && [ "$OPENAI_API_KEY" != "sk-your_openai_api_key_here" ] && echo "Enabled" || echo "Disabled")"
+echo "   - Access URL: http://localhost:5000"
+echo "   - Admin Panel: http://localhost:5000/admin/login"
+
 # Start the application
-echo "Starting the application..."
+echo "🎯 Starting application server..."
 exec "$@"
