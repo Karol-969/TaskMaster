@@ -1,0 +1,124 @@
+You are tasked with creating a comprehensive Influencers page for the Reart Events platform, following the existing design patterns and architecture. This should include both public browsing functionality and complete admin CRUD management.
+
+Required Features & Components:
+1. Public Influencers Page (/influencers)
+Hero Section: Engaging banner showcasing top influencers and social media reach
+Influencer Gallery: Grid layout displaying available influencers with:
+High-quality profile images
+Social media statistics and reach
+Pricing information per collaboration
+Category badges (Fashion, Tech, Lifestyle, Food, Travel, etc.)
+Engagement rates and follower counts
+2. Influencer Catalog Features:
+Advanced Search & Filter System:
+
+Search by influencer name/description
+Filter by category (Fashion, Tech, Lifestyle, Food, Travel, Gaming, etc.)
+Filter by follower range (10K-100K, 100K-1M, 1M+)
+Filter by platform (Instagram, TikTok, YouTube, Twitter)
+Price range filtering
+Engagement rate filtering
+Influencer Cards displaying:
+
+Profile image with verified badge
+Name and category
+Social media statistics breakdown
+Follower counts across platforms
+Engagement rate percentage
+Collaboration pricing
+"Book Now" button
+3. Enhanced Booking Modal/Form:
+Collaboration Type Selection: Sponsored posts, product reviews, event coverage, brand partnerships
+Campaign Details Form:
+Brand/company information
+Campaign objectives and goals
+Content requirements and guidelines
+Timeline and deliverables
+Budget and pricing negotiation
+Target audience demographics
+Special requirements or restrictions
+4. Social Media Integration:
+Portfolio Showcase: Recent posts and content samples
+Analytics Display: Engagement metrics, audience demographics
+Platform Links: Direct links to social media profiles
+Content Calendar: Available dates for collaborations
+5. Admin CRUD Management (/admin/influencers)
+Influencer Management Dashboard:
+
+Add new influencers with comprehensive profiles
+Edit existing influencer details
+Delete influencers
+Bulk operations
+Status management (active/inactive)
+Verification badge management
+Enhanced Influencer Form Fields:
+
+Basic info (name, bio, category)
+Social media platform links and follower counts
+Engagement rates and analytics
+Pricing structure for different content types
+Profile images and portfolio uploads
+Verification status
+Availability calendar
+Collaboration history and ratings
+6. Advanced Features:
+Verification System: Verified influencer badges
+Rating & Review System: Client feedback and ratings
+Collaboration History: Past campaigns and results
+Analytics Dashboard: Performance metrics for each influencer
+Content Approval Workflow: Review and approve content before publishing
+7. Database Schema Enhancement:
+Based on existing influencers table, ensure support for:
+
+Extended social media platform data
+Engagement rate tracking
+Collaboration history
+Verification status
+Availability calendar
+Portfolio/content gallery
+8. API Endpoints Required:
+GET /api/influencers - Fetch all influencers with filtering
+GET /api/influencers/:id - Fetch single influencer with detailed stats
+POST /api/influencers/book - Create collaboration booking
+Admin CRUD endpoints for complete management
+9. Design & UX Requirements:
+Modern Social Media Aesthetic: Instagram-like grid layout
+Interactive Elements: Hover effects showing social stats
+Mobile-First Design: Optimized for mobile browsing
+Social Proof Elements: Follower counts, engagement rates prominently displayed
+Professional Portfolio View: Clean showcase of past work
+10. Technical Implementation:
+React with TypeScript: Following existing component patterns
+TanStack Query: For efficient data fetching and caching
+Framer Motion: Smooth animations and transitions
+Advanced Filtering: Real-time search and filter capabilities
+Image Optimization: Lazy loading for profile images and portfolios
+11. Enhanced User Experience:
+Influencer Comparison: Side-by-side comparison tool
+Campaign Builder: Step-by-step collaboration setup
+Budget Calculator: Dynamic pricing based on requirements
+Communication Portal: Direct messaging with influencers
+Contract Management: Digital agreements and terms
+12. Analytics & Reporting:
+Campaign Performance Tracking: ROI and engagement metrics
+Influencer Performance Dashboard: Success rates and client satisfaction
+Market Insights: Trending categories and pricing analysis
+Booking Analytics: Popular influencers and seasonal trends
+File Structure to Create/Update:
+Enhanced /client/src/pages/influencers.tsx - Complete redesign
+/client/src/components/booking/influencer-gallery.tsx - Advanced gallery component
+/client/src/components/booking/influencer-comparison.tsx - Comparison tool
+/client/src/components/booking/campaign-builder.tsx - Campaign setup wizard
+/client/src/pages/admin/influencers.tsx - Full admin management
+Enhanced API integration with social media platforms
+Advanced filtering and search components
+Success Criteria:
+Complete CRUD functionality for influencer management
+Advanced search and filtering capabilities
+Professional social media-style presentation
+Seamless booking and campaign management
+Mobile-responsive design optimized for social browsing
+Integration with existing payment and notification systems
+Admin panel for comprehensive influencer management
+Analytics and performance tracking
+Social media platform integration
