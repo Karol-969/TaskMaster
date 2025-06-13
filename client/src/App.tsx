@@ -57,6 +57,7 @@ function Router() {
       <Route path="/admin/artists" component={AdminArtistsPage} />
       <Route path="/admin/sound-equipment" component={AdminSoundEquipmentPage} />
       <Route path="/admin/events" component={AdminEventsPage} />
+      <Route path="/admin/influencers" component={AdminInfluencersPage} />
       <Route path="/admin/content" component={AdminContentPage} />
       <Route path="/admin/chat" component={AdminChatPage} />
       <Route path="/blog" component={BlogPage} />

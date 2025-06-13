@@ -16,7 +16,8 @@ import {
   FileText,
   TrendingUp,
   HeadphonesIcon,
-  Image
+  Image,
+  UserCheck
 } from 'lucide-react';
 
 interface AdminSidebarProps {
@@ -35,6 +36,7 @@ export function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarProps) {
     { id: 'overview', label: 'Dashboard Overview', icon: BarChart3, badge: null },
     { id: 'users', label: 'User Management', icon: Users, badge: '1,234' },
     { id: 'artists', label: 'Artist Management', icon: Music, badge: '89' },
+    { id: 'influencers', label: 'Influencer Management', icon: UserCheck, badge: '6' },
     { id: 'events', label: 'Event Management', icon: Calendar, badge: '45' },
     { id: 'bookings', label: 'Booking Management', icon: Activity, badge: '156' },
     { id: 'venues', label: 'Venue Management', icon: MapPin, badge: '23' },
