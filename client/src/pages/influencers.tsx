@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
-import { Search, Filter, Star, Users, TrendingUp, Instagram, Youtube, Twitter, MessageSquare } from 'lucide-react';
+import { Search, Filter, Star, Users, TrendingUp, Instagram, Youtube, Twitter, MessageSquare, Eye, Link } from 'lucide-react';
+import { Link as RouterLink } from 'wouter';
 import { LoadingPage, LoadingCard } from '@/components/ui/loading';
 import { InfluencerBookingModal } from '@/components/booking/influencer-booking-modal';
 import { InfluencerComparisonTool } from '@/components/booking/influencer-comparison-tool';
@@ -360,20 +361,19 @@ function InfluencersPage() {
                 <div className="border-t border-gray-700 pt-4">
                   <div className="text-center mb-4">
                     <div className="text-2xl font-bold text-purple-400">
-                      ${influencer.packagePrice || 0}
+                      NRS {(influencer.packagePrice || 0).toLocaleString()}
                     </div>
                     <div className="text-xs text-gray-400">Package Price</div>
                   </div>
 
                   {/* Action Buttons */}
                   <div className="flex gap-2">
-                    <Button
-                      onClick={() => handleBookInfluencer(influencer)}
-                      className="flex-1 bg-purple-600 hover:bg-purple-700"
-                    >
-                      <MessageSquare className="h-4 w-4 mr-2" />
-                      Book Now
-                    </Button>
+                    <RouterLink href={`/influencer/${influencer.id}`}>
+                      <Button className="flex-1 bg-purple-600 hover:bg-purple-700">
+                        <Eye className="h-4 w-4 mr-2" />
+                        View Profile
+                      </Button>
+                    </RouterLink>
                     <Button
                       onClick={() => addToComparison(influencer)}
                       variant="outline"

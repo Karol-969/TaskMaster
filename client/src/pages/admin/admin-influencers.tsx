@@ -74,10 +74,7 @@ function AdminInfluencersPage() {
 
   const createMutation = useMutation({
     mutationFn: async (data: InfluencerForm) => {
-      return await apiRequest('/api/admin/influencers', {
-        method: 'POST',
-        body: JSON.stringify(data)
-      });
+      return await apiRequest('/api/influencers', 'POST', data);
     },
     onSuccess: () => {
       toast({
@@ -98,10 +95,7 @@ function AdminInfluencersPage() {
 
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: InfluencerForm }) => {
-      return await apiRequest(`/api/admin/influencers/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(data)
-      });
+      return await apiRequest(`/api/influencers/${id}`, 'PUT', data);
     },
     onSuccess: () => {
       toast({
@@ -123,9 +117,7 @@ function AdminInfluencersPage() {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      return await apiRequest(`/api/admin/influencers/${id}`, {
-        method: 'DELETE'
-      });
+      return await apiRequest(`/api/influencers/${id}`, 'DELETE');
     },
     onSuccess: () => {
       toast({
