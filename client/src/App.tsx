@@ -27,6 +27,7 @@ import AdminEventsPage from '@/pages/admin/events';
 import AdminSoundEquipmentPage from '@/pages/admin/sound-equipment';
 import AdminContentPage from '@/pages/admin/content';
 import AdminChatPage from '@/pages/admin/chat';
+import AdminInfluencersPage from '@/pages/admin/admin-influencers';
 import SoundPage from '@/pages/sound';
 import BlogPage from '@/pages/blog';
 import BlogPostPage from '@/pages/blog-post';

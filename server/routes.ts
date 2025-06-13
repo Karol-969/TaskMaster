@@ -134,6 +134,7 @@ async function initializeSampleData() {
         username: 'admin',
         email: 'admin@reartevents.com',
         password: 'admin123',
+        fullName: 'System Administrator',
         role: 'admin'
       });
       console.log('✅ Admin user created successfully');
@@ -149,6 +150,7 @@ async function initializeSampleData() {
       const sampleInfluencers = [
         {
           name: 'Sarah Chen',
+          description: 'Fashion & Lifestyle influencer with a passion for sustainable living and mindful consumption.',
           bio: 'Fashion & Lifestyle influencer with a passion for sustainable living and mindful consumption.',
           category: 'Fashion & Beauty',
           location: 'Los Angeles, CA',
@@ -176,6 +178,7 @@ async function initializeSampleData() {
         },
         {
           name: 'Marcus Rodriguez',
+          description: 'Tech reviewer and gaming content creator. Specializing in cutting-edge technology and gaming reviews.',
           bio: 'Tech reviewer and gaming content creator. Specializing in cutting-edge technology and gaming reviews.',
           category: 'Technology',
           location: 'Austin, TX',
@@ -203,6 +206,7 @@ async function initializeSampleData() {
         },
         {
           name: 'Emma Thompson',
+          description: 'Fitness enthusiast and wellness coach helping people achieve their health goals through sustainable habits.',
           bio: 'Fitness enthusiast and wellness coach helping people achieve their health goals through sustainable habits.',
           category: 'Health & Fitness',
           location: 'Miami, FL',
@@ -230,6 +234,7 @@ async function initializeSampleData() {
         },
         {
           name: 'David Kim',
+          description: 'Food blogger and chef showcasing Asian fusion cuisine and restaurant experiences around the world.',
           bio: 'Food blogger and chef showcasing Asian fusion cuisine and restaurant experiences around the world.',
           category: 'Food & Travel',
           location: 'San Francisco, CA',
@@ -257,6 +262,7 @@ async function initializeSampleData() {
         },
         {
           name: 'Alex Rivera',
+          description: 'Music producer and artist sharing behind-the-scenes content from the music industry.',
           bio: 'Music producer and artist sharing behind-the-scenes content from the music industry.',
           category: 'Music & Entertainment',
           location: 'Nashville, TN',
@@ -284,6 +290,7 @@ async function initializeSampleData() {
         },
         {
           name: 'Luna Martinez',
+          description: 'Eco-conscious lifestyle blogger promoting sustainable living and environmental awareness.',
           bio: 'Eco-conscious lifestyle blogger promoting sustainable living and environmental awareness.',
           category: 'Lifestyle',
           location: 'Portland, OR',
