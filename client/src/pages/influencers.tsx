@@ -77,9 +77,11 @@ function InfluencersPage() {
         }
       }
 
-      // Price range filter
-      if (influencer.packagePrice) {
-        if (influencer.packagePrice < filters.priceRange[0] || influencer.packagePrice > filters.priceRange[1]) {
+      // Price range filter - only apply if influencer has pricing
+      const hasPrice = influencer.packagePrice || influencer.storyPrice || influencer.videoPrice;
+      if (hasPrice) {
+        const price = influencer.packagePrice || influencer.storyPrice || influencer.videoPrice || 0;
+        if (price < filters.priceRange[0] || price > filters.priceRange[1]) {
           return false;
         }
       }
@@ -220,13 +222,13 @@ function InfluencersPage() {
             {/* Price Range */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-300">
-                Budget: ${filters.priceRange[0]} - ${filters.priceRange[1]}
+                Budget: NRS {filters.priceRange[0].toLocaleString()} - NRS {filters.priceRange[1].toLocaleString()}
               </label>
               <Slider
                 value={filters.priceRange}
                 onValueChange={(value) => setFilters(prev => ({ ...prev, priceRange: value as [number, number] }))}
-                max={10000}
-                step={100}
+                max={1000000}
+                step={5000}
                 className="w-full"
               />
             </div>

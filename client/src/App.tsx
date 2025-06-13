@@ -32,6 +32,7 @@ import SoundPage from '@/pages/sound';
 import BlogPage from '@/pages/blog';
 import BlogPostPage from '@/pages/blog-post';
 import InfluencersPage from '@/pages/influencers';
+import InfluencerProfile from '@/pages/influencer-profile';
 
 
 
@@ -51,6 +52,7 @@ function Router() {
       <Route path="/contact" component={ContactPage} />
       <Route path="/events" component={EventsPage} />
       <Route path="/influencers" component={InfluencersPage} />
+      <Route path="/influencer/:id" component={InfluencerProfile} />
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/admin/users" component={AdminUsersPage} />
