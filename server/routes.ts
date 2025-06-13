@@ -121,6 +121,215 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
   res.status(500).json({ message: err.message || "Internal server error" });
 };
 
+// Initialize sample data function
+async function initializeSampleData() {
+  try {
+    console.log('🔧 Initializing sample data...');
+    
+    // Check if admin user exists first
+    const existingAdminUser = await storage.getUserByUsername('admin');
+    if (!existingAdminUser) {
+      console.log('📦 Creating admin user...');
+      await storage.createUser({
+        username: 'admin',
+        email: 'admin@reartevents.com',
+        password: 'admin123',
+        role: 'admin'
+      });
+      console.log('✅ Admin user created successfully');
+    } else {
+      console.log('✅ Admin user already exists:', { id: existingAdminUser.id, username: existingAdminUser.username, role: existingAdminUser.role });
+    }
+
+    // Check if influencers already exist
+    const existingInfluencers = await storage.getAllInfluencers();
+    if (existingInfluencers.length === 0) {
+      console.log('📦 Creating sample influencers...');
+      
+      const sampleInfluencers = [
+        {
+          name: 'Sarah Chen',
+          bio: 'Fashion & Lifestyle influencer with a passion for sustainable living and mindful consumption.',
+          category: 'Fashion & Beauty',
+          location: 'Los Angeles, CA',
+          imageUrl: '/uploads/sarah-chen.jpg',
+          instagramHandle: '@sarahchen_style',
+          instagramFollowers: 125000,
+          tiktokHandle: '@sarahchen_official',
+          tiktokFollowers: 89000,
+          youtubeHandle: 'Sarah Chen Lifestyle',
+          youtubeSubscribers: 45000,
+          twitterHandle: '@sarahchenstyle',
+          twitterFollowers: 23000,
+          engagementRate: 4.8,
+          averageViews: 85000,
+          storyPrice: 250,
+          postPrice: 800,
+          videoPrice: 1200,
+          packagePrice: 2000,
+          verified: true,
+          rating: 4.9,
+          completedCampaigns: 156,
+          responseTime: '2-4 hours',
+          languages: ['English', 'Mandarin'],
+          tags: ['sustainable fashion', 'lifestyle', 'wellness', 'beauty']
+        },
+        {
+          name: 'Marcus Rodriguez',
+          bio: 'Tech reviewer and gaming content creator. Specializing in cutting-edge technology and gaming reviews.',
+          category: 'Technology',
+          location: 'Austin, TX',
+          imageUrl: '/uploads/marcus-rodriguez.jpg',
+          instagramHandle: '@techbymarcus',
+          instagramFollowers: 89000,
+          tiktokHandle: '@marcustech',
+          tiktokFollowers: 156000,
+          youtubeHandle: 'Marcus Tech Reviews',
+          youtubeSubscribers: 234000,
+          twitterHandle: '@marcustechrev',
+          twitterFollowers: 67000,
+          engagementRate: 5.2,
+          averageViews: 125000,
+          storyPrice: 180,
+          postPrice: 650,
+          videoPrice: 1500,
+          packagePrice: 2200,
+          verified: true,
+          rating: 4.8,
+          completedCampaigns: 89,
+          responseTime: '1-3 hours',
+          languages: ['English', 'Spanish'],
+          tags: ['gaming', 'tech reviews', 'gadgets', 'electronics']
+        },
+        {
+          name: 'Emma Thompson',
+          bio: 'Fitness enthusiast and wellness coach helping people achieve their health goals through sustainable habits.',
+          category: 'Health & Fitness',
+          location: 'Miami, FL',
+          imageUrl: '/uploads/emma-thompson.jpg',
+          instagramHandle: '@emmafitness',
+          instagramFollowers: 203000,
+          tiktokHandle: '@emmafitwellness',
+          tiktokFollowers: 145000,
+          youtubeHandle: 'Emma Thompson Fitness',
+          youtubeSubscribers: 98000,
+          twitterHandle: '@emmafitness',
+          twitterFollowers: 34000,
+          engagementRate: 6.1,
+          averageViews: 95000,
+          storyPrice: 300,
+          postPrice: 950,
+          videoPrice: 1800,
+          packagePrice: 2800,
+          verified: true,
+          rating: 4.9,
+          completedCampaigns: 234,
+          responseTime: '1-2 hours',
+          languages: ['English'],
+          tags: ['fitness', 'wellness', 'nutrition', 'yoga']
+        },
+        {
+          name: 'David Kim',
+          bio: 'Food blogger and chef showcasing Asian fusion cuisine and restaurant experiences around the world.',
+          category: 'Food & Travel',
+          location: 'San Francisco, CA',
+          imageUrl: '/uploads/david-kim.jpg',
+          instagramHandle: '@davidkimfood',
+          instagramFollowers: 167000,
+          tiktokHandle: '@davidkimchef',
+          tiktokFollowers: 234000,
+          youtubeHandle: 'David Kim Eats',
+          youtubeSubscribers: 123000,
+          twitterHandle: '@davidkimeats',
+          twitterFollowers: 45000,
+          engagementRate: 5.7,
+          averageViews: 110000,
+          storyPrice: 275,
+          postPrice: 850,
+          videoPrice: 1600,
+          packagePrice: 2500,
+          verified: true,
+          rating: 4.7,
+          completedCampaigns: 178,
+          responseTime: '2-6 hours',
+          languages: ['English', 'Korean'],
+          tags: ['food', 'travel', 'restaurants', 'asian cuisine']
+        },
+        {
+          name: 'Alex Rivera',
+          bio: 'Music producer and artist sharing behind-the-scenes content from the music industry.',
+          category: 'Music & Entertainment',
+          location: 'Nashville, TN',
+          imageUrl: '/uploads/alex-rivera.jpg',
+          instagramHandle: '@alexrivera_music',
+          instagramFollowers: 78000,
+          tiktokHandle: '@alexrivera_beats',
+          tiktokFollowers: 189000,
+          youtubeHandle: 'Alex Rivera Music',
+          youtubeSubscribers: 156000,
+          twitterHandle: '@alexriverabeats',
+          twitterFollowers: 29000,
+          engagementRate: 4.9,
+          averageViews: 87000,
+          storyPrice: 200,
+          postPrice: 600,
+          videoPrice: 1300,
+          packagePrice: 1900,
+          verified: false,
+          rating: 4.6,
+          completedCampaigns: 67,
+          responseTime: '3-8 hours',
+          languages: ['English', 'Spanish'],
+          tags: ['music', 'production', 'entertainment', 'behind-the-scenes']
+        },
+        {
+          name: 'Luna Martinez',
+          bio: 'Eco-conscious lifestyle blogger promoting sustainable living and environmental awareness.',
+          category: 'Lifestyle',
+          location: 'Portland, OR',
+          imageUrl: '/uploads/luna-martinez.jpg',
+          instagramHandle: '@luna_eco',
+          instagramFollowers: 134000,
+          tiktokHandle: '@luna_sustainable',
+          tiktokFollowers: 98000,
+          youtubeHandle: 'Luna Eco Living',
+          youtubeSubscribers: 67000,
+          twitterHandle: '@luna_eco_life',
+          twitterFollowers: 41000,
+          engagementRate: 5.4,
+          averageViews: 76000,
+          storyPrice: 225,
+          postPrice: 700,
+          videoPrice: 1400,
+          packagePrice: 2100,
+          verified: true,
+          rating: 4.8,
+          completedCampaigns: 145,
+          responseTime: '1-4 hours',
+          languages: ['English', 'Spanish'],
+          tags: ['sustainability', 'eco-friendly', 'lifestyle', 'environment']
+        }
+      ];
+
+      for (const influencerData of sampleInfluencers) {
+        try {
+          await storage.createInfluencer(influencerData);
+          console.log(`✅ Created influencer: ${influencerData.name}`);
+        } catch (error) {
+          console.error(`❌ Failed to create influencer ${influencerData.name}:`, error);
+        }
+      }
+      
+      console.log('✅ Sample influencers created successfully');
+    } else {
+      console.log('✅ Sample influencers already exist, count:', existingInfluencers.length);
+    }
+    
+  } catch (error) {
+    console.error('❌ Error initializing sample data:', error);
+  }
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Add CORS middleware for session support
   app.use((req, res, next) => {
@@ -168,6 +377,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: 'File upload failed' });
     }
   });
+
+  // Initialize database with sample data
+  await initializeSampleData();
 
   // IMMEDIATE FIX: Create bypass route with different path to avoid admin middleware
   app.get('/api/artists-admin-bypass', async (req: Request, res: Response) => {
@@ -1804,6 +2016,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error fetching testimonials:', error);
       res.status(500).json({ message: 'Error fetching testimonials' });
+    }
+  });
+
+  // Public Influencers Routes
+  app.get('/api/influencers', async (req: Request, res: Response) => {
+    try {
+      const influencers = await storage.getAllInfluencers();
+      res.json(influencers);
+    } catch (error) {
+      console.error('Error fetching influencers:', error);
+      res.status(500).json({ message: 'Error fetching influencers' });
+    }
+  });
+
+  app.get('/api/influencers/:id', async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      const influencer = await storage.getInfluencer(id);
+      if (!influencer) {
+        return res.status(404).json({ message: 'Influencer not found' });
+      }
+      res.json(influencer);
+    } catch (error) {
+      console.error('Error fetching influencer:', error);
+      res.status(500).json({ message: 'Error fetching influencer' });
+    }
+  });
+
+  // Influencer Booking Routes
+  app.post('/api/influencer-bookings', async (req: Request, res: Response) => {
+    try {
+      const bookingData = req.body;
+      // In a real app, you'd get userId from session/auth
+      const userId = req.session?.userId || 1; // Default to user 1 for demo
+      
+      const booking = await storage.createInfluencerBooking({
+        ...bookingData,
+        userId
+      });
+      
+      res.status(201).json(booking);
+    } catch (error) {
+      console.error('Error creating influencer booking:', error);
+      res.status(500).json({ message: 'Error creating booking' });
+    }
+  });
+
+  app.get('/api/influencer-bookings', async (req: Request, res: Response) => {
+    try {
+      const userId = req.session?.userId;
+      let bookings;
+      
+      if (userId) {
+        bookings = await storage.getInfluencerBookingsByUser(userId);
+      } else {
+        bookings = await storage.getAllInfluencerBookings();
+      }
+      
+      res.json(bookings);
+    } catch (error) {
+      console.error('Error fetching influencer bookings:', error);
+      res.status(500).json({ message: 'Error fetching bookings' });
     }
   });
 
