@@ -1288,13 +1288,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // INFLUENCER ROUTES
+  // INFLUENCER ROUTES - Optimized for performance
   app.get('/api/influencers', async (req, res, next) => {
     try {
+      // Add cache headers for better performance
+      res.set('Cache-Control', 'public, max-age=300'); // 5 minutes cache
+      
       const influencers = await storage.getAllInfluencers();
       res.json(influencers);
     } catch (error) {
-      next(error);
+      console.error('Error fetching influencers:', error);
+      res.status(500).json({ message: 'Error fetching influencers' });
     }
   });
   
@@ -2026,30 +2030,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Public Influencers Routes
-  app.get('/api/influencers', async (req: Request, res: Response) => {
-    try {
-      const influencers = await storage.getAllInfluencers();
-      res.json(influencers);
-    } catch (error) {
-      console.error('Error fetching influencers:', error);
-      res.status(500).json({ message: 'Error fetching influencers' });
-    }
-  });
-
-  app.get('/api/influencers/:id', async (req: Request, res: Response) => {
-    try {
-      const id = parseInt(req.params.id);
-      const influencer = await storage.getInfluencer(id);
-      if (!influencer) {
-        return res.status(404).json({ message: 'Influencer not found' });
-      }
-      res.json(influencer);
-    } catch (error) {
-      console.error('Error fetching influencer:', error);
-      res.status(500).json({ message: 'Error fetching influencer' });
-    }
-  });
+  // Duplicate routes removed - using main influencer routes defined earlier
 
   // Influencer Booking Routes
   app.post('/api/influencer-bookings', async (req: Request, res: Response) => {
