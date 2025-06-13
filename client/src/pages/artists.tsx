@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import { Layout } from "@/components/layout/layout";
 import { Button } from "@/components/ui/button";
 import { FloatingMusicElements } from "@/components/home/floating-music-elements";
+import { LoadingPage, LoadingCard } from "@/components/ui/loading";
 import { motion } from "framer-motion";
 import {
   Search,
