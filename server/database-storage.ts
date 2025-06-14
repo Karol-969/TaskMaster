@@ -44,24 +44,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllArtists(): Promise<Artist[]> {
-    return await db.select({
-      id: artists.id,
-      name: artists.name,
-      genre: artists.genre,
-      description: artists.description,
-      imageUrl: artists.imageUrl,
-      rating: artists.rating,
-      languages: artists.languages,
-      musicStyle: artists.musicStyle,
-      bio: artists.bio,
-      totalShows: artists.totalShows,
-      contactEmail: artists.contactEmail,
-      phone: artists.phone,
-      location: artists.location,
-      availability: artists.availability,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }).from(artists);
+    return await db.select().from(artists);
   }
 
   async createArtist(artist: InsertArtist): Promise<Artist> {
@@ -90,42 +73,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllInfluencers(): Promise<Influencer[]> {
-    return await db.select({
-      id: influencers.id,
-      name: influencers.name,
-      category: influencers.category,
-      description: influencers.description,
-      imageUrl: influencers.imageUrl,
-      instagramHandle: influencers.instagramHandle,
-      instagramFollowers: influencers.instagramFollowers,
-      tiktokHandle: influencers.tiktokHandle,
-      tiktokFollowers: influencers.tiktokFollowers,
-      youtubeHandle: influencers.youtubeHandle,
-      youtubeSubscribers: influencers.youtubeSubscribers,
-      twitterHandle: influencers.twitterHandle,
-      twitterFollowers: influencers.twitterFollowers,
-      engagementRate: influencers.engagementRate,
-      averageViews: influencers.averageViews,
-      totalReach: influencers.totalReach,
-      postPrice: influencers.postPrice,
-      storyPrice: influencers.storyPrice,
-      videoPrice: influencers.videoPrice,
-      packagePrice: influencers.packagePrice,
-      contactEmail: influencers.contactEmail,
-      phone: influencers.phone,
-      location: influencers.location,
-      languages: influencers.languages,
-      isVerified: influencers.isVerified,
-      isActive: influencers.isActive,
-      rating: influencers.rating,
-      totalCollaborations: influencers.totalCollaborations,
-      availableDates: influencers.availableDates,
-      collaborationTypes: influencers.collaborationTypes,
-      brandRestrictions: influencers.brandRestrictions,
-      targetAudience: influencers.targetAudience,
-      createdAt: influencers.createdAt,
-      updatedAt: influencers.updatedAt
-    }).from(influencers);
+    return await db.select().from(influencers);
   }
 
   async createInfluencer(influencer: InsertInfluencer): Promise<Influencer> {

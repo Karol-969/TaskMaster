@@ -59,10 +59,10 @@ export default function HomeContentAdmin() {
   });
 
   // Transform array to object for easier access
-  const homeContentData = homeContentArray?.reduce((acc: any, item: any) => {
+  const homeContentData = (homeContentArray || []).reduce((acc: any, item: any) => {
     acc[item.section] = item.content;
     return acc;
-  }, {}) || {};
+  }, {});
 
   // Default content structure for fallback
   const defaultContentData = {
@@ -176,11 +176,7 @@ export default function HomeContentAdmin() {
   // Real API mutations
   const updateContentMutation = useMutation({
     mutationFn: async ({ section, content }: { section: string; content: any }) => {
-      return await apiRequest(`/api/admin/home-content/${section}`, {
-        method: 'PUT',
-        body: JSON.stringify({ content }),
-        headers: { 'Content-Type': 'application/json' }
-      });
+      return await apiRequest(`/api/admin/home-content/${section}`, 'PUT', { content });
     },
     onSuccess: () => {
       toast({
@@ -282,8 +278,8 @@ export default function HomeContentAdmin() {
           {/* Hero Section */}
           <TabsContent value="hero">
             <HeroSectionEditor 
-              content={mockContentData.hero}
-              onSave={(content) => handleContentSave('hero', content)}
+              content={contentData.hero}
+              onSave={(content: any) => handleContentSave('hero', content)}
               isLoading={updateContentMutation.isPending}
             />
           </TabsContent>
@@ -291,8 +287,8 @@ export default function HomeContentAdmin() {
           {/* About Section */}
           <TabsContent value="about">
             <AboutSectionEditor 
-              content={mockContentData.about}
-              onSave={(content) => handleContentSave('about', content)}
+              content={contentData.about}
+              onSave={(content: any) => handleContentSave('about', content)}
               isLoading={updateContentMutation.isPending}
             />
           </TabsContent>
@@ -300,8 +296,8 @@ export default function HomeContentAdmin() {
           {/* Services Section */}
           <TabsContent value="services">
             <ServicesSectionEditor 
-              content={mockContentData.services}
-              onSave={(content) => handleContentSave('services', content)}
+              content={contentData.services}
+              onSave={(content: any) => handleContentSave('services', content)}
               isLoading={updateContentMutation.isPending}
             />
           </TabsContent>
@@ -309,8 +305,8 @@ export default function HomeContentAdmin() {
           {/* Journey Section */}
           <TabsContent value="journey">
             <JourneySectionEditor 
-              content={mockContentData.journey}
-              onSave={(content) => handleContentSave('journey', content)}
+              content={contentData.journey}
+              onSave={(content: any) => handleContentSave('journey', content)}
               isLoading={updateContentMutation.isPending}
             />
           </TabsContent>
