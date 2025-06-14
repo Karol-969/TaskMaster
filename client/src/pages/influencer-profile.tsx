@@ -210,24 +210,33 @@ export default function InfluencerProfile() {
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
                       {influencer.storyPrice && (
-                        <div className="flex justify-between items-center p-3 bg-gray-800 rounded-lg">
+                        <button 
+                          onClick={() => setIsBookingModalOpen(true)}
+                          className="w-full flex justify-between items-center p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors cursor-pointer"
+                        >
                           <span className="text-gray-300">Story Post</span>
                           <span className="text-purple-400 font-semibold">{formatPrice(influencer.storyPrice)}</span>
-                        </div>
+                        </button>
                       )}
                       
                       {influencer.videoPrice && (
-                        <div className="flex justify-between items-center p-3 bg-gray-800 rounded-lg">
+                        <button 
+                          onClick={() => setIsBookingModalOpen(true)}
+                          className="w-full flex justify-between items-center p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors cursor-pointer"
+                        >
                           <span className="text-gray-300">Video Content</span>
                           <span className="text-purple-400 font-semibold">{formatPrice(influencer.videoPrice)}</span>
-                        </div>
+                        </button>
                       )}
                       
                       {influencer.packagePrice && (
-                        <div className="flex justify-between items-center p-3 bg-gray-800 rounded-lg border-2 border-purple-500">
+                        <button 
+                          onClick={() => setIsBookingModalOpen(true)}
+                          className="w-full flex justify-between items-center p-3 bg-gray-800 hover:bg-gray-700 rounded-lg border-2 border-purple-500 transition-colors cursor-pointer"
+                        >
                           <span className="text-gray-300">Complete Package</span>
                           <span className="text-purple-400 font-semibold">{formatPrice(influencer.packagePrice)}</span>
-                        </div>
+                        </button>
                       )}
                     </div>
 

@@ -96,7 +96,7 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
         }
       };
 
-      const response = await fetch('/api/payments/initiate', {
+      const response = await fetch('/api/payment/initiate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
