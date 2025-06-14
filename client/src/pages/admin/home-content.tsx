@@ -176,7 +176,7 @@ export default function HomeContentAdmin() {
   // Real API mutations
   const updateContentMutation = useMutation({
     mutationFn: async ({ section, content }: { section: string; content: any }) => {
-      return await apiRequest(`/api/admin/home-content/${section}`, 'PUT', { content });
+      return await apiRequest('PUT', `/api/admin/home-content/${section}`, { content });
     },
     onSuccess: () => {
       toast({
@@ -197,11 +197,10 @@ export default function HomeContentAdmin() {
 
   const toggleTestimonialMutation = useMutation({
     mutationFn: async ({ id, approved }: { id: number; approved: boolean }) => {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-      return { id, approved };
+      return await apiRequest('PUT', `/api/admin/testimonials/${id}/toggle`, { approved });
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/home-content'] });
       toast({
         title: "Testimonial Updated",
         description: "Testimonial approval status has been updated.",
@@ -211,11 +210,10 @@ export default function HomeContentAdmin() {
 
   const deleteTestimonialMutation = useMutation({
     mutationFn: async (id: number) => {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-      return id;
+      return await apiRequest('DELETE', `/api/admin/testimonials/${id}`, undefined);
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/home-content'] });
       toast({
         title: "Testimonial Deleted",
         description: "Testimonial has been successfully deleted.",
