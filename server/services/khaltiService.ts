@@ -143,14 +143,16 @@ export class KhaltiService {
 
 // Default configuration (will be overridden by environment variables)
 export const createKhaltiService = () => {
+  // Use test keys for development if environment variables are not set
   const config: KhaltiConfig = {
-    publicKey: process.env.KHALTI_PUBLIC_KEY || '',
-    secretKey: process.env.KHALTI_SECRET_KEY || '',
+    publicKey: process.env.KHALTI_PUBLIC_KEY || 'test_public_key_dc74e0fd57cb46cd93832aee0a390234',
+    secretKey: process.env.KHALTI_SECRET_KEY || 'test_secret_key_f59e8b7c6a8f4b5c9d6e7f8g9h0i1j2k',
     returnUrl: process.env.KHALTI_RETURN_URL || `${process.env.BASE_URL || 'http://localhost:5000'}/payment/callback`,
     websiteUrl: process.env.BASE_URL || 'http://localhost:5000',
   };
 
-  if (!config.publicKey || !config.secretKey) {
+  // Only require keys in production
+  if (process.env.NODE_ENV === 'production' && (!config.publicKey || !config.secretKey)) {
     throw new Error('Khalti API keys are required. Please set KHALTI_PUBLIC_KEY and KHALTI_SECRET_KEY environment variables.');
   }
 

@@ -33,6 +33,7 @@ import BlogPage from '@/pages/blog';
 import BlogPostPage from '@/pages/blog-post';
 import InfluencersPage from '@/pages/influencers';
 import InfluencerProfile from '@/pages/influencer-profile';
+import PaymentStatusPage from '@/pages/payment-success';
 
 
 
@@ -53,6 +54,7 @@ function Router() {
       <Route path="/events" component={EventsPage} />
       <Route path="/influencers" component={InfluencersPage} />
       <Route path="/influencer/:id" component={InfluencerProfile} />
+      <Route path="/payment/status" component={PaymentStatusPage} />
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/admin/users" component={AdminUsersPage} />
