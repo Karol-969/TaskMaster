@@ -12,7 +12,8 @@ import {
   testimonials, type Testimonial, type InsertTestimonial,
   blogPosts, type BlogPost, type InsertBlogPost,
   conversations, type Conversation, type InsertConversation,
-  chatMessages, type ChatMessage, type InsertChatMessage
+  chatMessages, type ChatMessage, type InsertChatMessage,
+  payments, type Payment, type InsertPayment
 } from "@shared/schema";
 import { IStorage } from "./storage";
 
@@ -393,6 +394,54 @@ export class DatabaseStorage implements IStorage {
       .from(chatMessages)
       .where(eq(chatMessages.conversationId, conversationId));
     return result.length;
+  }
+
+  // Payment methods
+  async createPayment(payment: InsertPayment): Promise<Payment> {
+    const [newPayment] = await db.insert(payments).values(payment).returning();
+    return newPayment;
+  }
+
+  async getPayment(id: number): Promise<Payment | undefined> {
+    const [payment] = await db.select().from(payments).where(eq(payments.id, id));
+    return payment || undefined;
+  }
+
+  async getPaymentByKhaltiIdx(khaltiIdx: string): Promise<Payment | undefined> {
+    const [payment] = await db.select().from(payments).where(eq(payments.khaltiIdx, khaltiIdx));
+    return payment || undefined;
+  }
+
+  async updatePaymentStatus(id: number, status: string, additionalData?: any): Promise<Payment | undefined> {
+    const updateData: any = { status, updatedAt: new Date() };
+    
+    if (additionalData) {
+      Object.assign(updateData, additionalData);
+    }
+
+    const [updated] = await db
+      .update(payments)
+      .set(updateData)
+      .where(eq(payments.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async getUserPayments(userId: number): Promise<Payment[]> {
+    return await db.select().from(payments).where(eq(payments.userId, userId));
+  }
+
+  async getAllPayments(): Promise<Payment[]> {
+    return await db.select().from(payments);
+  }
+
+  async updateBookingStatus(id: number, status: string): Promise<Booking | undefined> {
+    const [updated] = await db
+      .update(bookings)
+      .set({ status })
+      .where(eq(bookings.id, id))
+      .returning();
+    return updated || undefined;
   }
 }
 
