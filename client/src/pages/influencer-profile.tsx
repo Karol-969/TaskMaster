@@ -38,7 +38,7 @@ export default function InfluencerProfile() {
   const [selectedService, setSelectedService] = useState<'story' | 'video' | 'package'>('package');
 
   const { data: influencer, isLoading, error } = useQuery<Influencer>({
-    queryKey: ['/api/influencers', params?.id],
+    queryKey: [`/api/influencers/${params?.id}`],
     enabled: !!params?.id,
   });
 
