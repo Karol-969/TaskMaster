@@ -52,8 +52,20 @@ export default function HomeContentAdmin() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('hero');
 
-  // Mock data for demonstration
-  const mockContentData = {
+  // Fetch home content from database
+  const { data: homeContentArray, isLoading } = useQuery({
+    queryKey: ['/api/admin/home-content'],
+    retry: false,
+  });
+
+  // Transform array to object for easier access
+  const homeContentData = homeContentArray?.reduce((acc: any, item: any) => {
+    acc[item.section] = item.content;
+    return acc;
+  }, {}) || {};
+
+  // Default content structure for fallback
+  const defaultContentData = {
     hero: {
       title: "Elite Event Experiences",
       subtitle: "Crafted to Perfection",
@@ -145,20 +157,30 @@ export default function HomeContentAdmin() {
     }
   ];
 
-  // Content sections with mock data
+  // Use real data from database
+  const contentData = {
+    hero: homeContentData.hero || {},
+    about: homeContentData.about || {},
+    services: homeContentData.services || {},
+    journey: homeContentData.journey || {}
+  };
+
+  // Content sections with real data
   const contentSections = [
-    { id: 'hero', title: 'Hero Section', icon: Image, content: mockContentData.hero },
-    { id: 'about', title: 'About Section', icon: FileText, content: mockContentData.about },
-    { id: 'services', title: 'Services Section', icon: Settings, content: mockContentData.services },
-    { id: 'journey', title: 'Journey Section', icon: Calendar, content: mockContentData.journey }
+    { id: 'hero', title: 'Hero Section', icon: Image, content: contentData.hero },
+    { id: 'about', title: 'About Section', icon: FileText, content: contentData.about },
+    { id: 'services', title: 'Services Section', icon: Settings, content: contentData.services },
+    { id: 'journey', title: 'Journey Section', icon: Calendar, content: contentData.journey }
   ];
 
-  // Mock mutations for demonstration
+  // Real API mutations
   const updateContentMutation = useMutation({
     mutationFn: async ({ section, content }: { section: string; content: any }) => {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return { section, content };
+      return await apiRequest(`/api/admin/home-content/${section}`, {
+        method: 'PUT',
+        body: JSON.stringify({ content }),
+        headers: { 'Content-Type': 'application/json' }
+      });
     },
     onSuccess: () => {
       toast({
@@ -166,6 +188,7 @@ export default function HomeContentAdmin() {
         description: "Home page content has been successfully updated.",
       });
       queryClient.invalidateQueries({ queryKey: ['/api/admin/home-content'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/home-content'] });
     },
     onError: () => {
       toast({
