@@ -44,7 +44,24 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllArtists(): Promise<Artist[]> {
-    return await db.select().from(artists);
+    return await db.select({
+      id: artists.id,
+      name: artists.name,
+      genre: artists.genre,
+      description: artists.description,
+      imageUrl: artists.imageUrl,
+      rating: artists.rating,
+      languages: artists.languages,
+      musicStyle: artists.musicStyle,
+      bio: artists.bio,
+      totalShows: artists.totalShows,
+      contactEmail: artists.contactEmail,
+      phone: artists.phone,
+      location: artists.location,
+      availability: artists.availability,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }).from(artists);
   }
 
   async createArtist(artist: InsertArtist): Promise<Artist> {
@@ -73,7 +90,42 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllInfluencers(): Promise<Influencer[]> {
-    return await db.select().from(influencers);
+    return await db.select({
+      id: influencers.id,
+      name: influencers.name,
+      category: influencers.category,
+      description: influencers.description,
+      imageUrl: influencers.imageUrl,
+      instagramHandle: influencers.instagramHandle,
+      instagramFollowers: influencers.instagramFollowers,
+      tiktokHandle: influencers.tiktokHandle,
+      tiktokFollowers: influencers.tiktokFollowers,
+      youtubeHandle: influencers.youtubeHandle,
+      youtubeSubscribers: influencers.youtubeSubscribers,
+      twitterHandle: influencers.twitterHandle,
+      twitterFollowers: influencers.twitterFollowers,
+      engagementRate: influencers.engagementRate,
+      averageViews: influencers.averageViews,
+      totalReach: influencers.totalReach,
+      postPrice: influencers.postPrice,
+      storyPrice: influencers.storyPrice,
+      videoPrice: influencers.videoPrice,
+      packagePrice: influencers.packagePrice,
+      contactEmail: influencers.contactEmail,
+      phone: influencers.phone,
+      location: influencers.location,
+      languages: influencers.languages,
+      isVerified: influencers.isVerified,
+      isActive: influencers.isActive,
+      rating: influencers.rating,
+      totalCollaborations: influencers.totalCollaborations,
+      availableDates: influencers.availableDates,
+      collaborationTypes: influencers.collaborationTypes,
+      brandRestrictions: influencers.brandRestrictions,
+      targetAudience: influencers.targetAudience,
+      createdAt: influencers.createdAt,
+      updatedAt: influencers.updatedAt
+    }).from(influencers);
   }
 
   async createInfluencer(influencer: InsertInfluencer): Promise<Influencer> {
@@ -463,6 +515,30 @@ export class DatabaseStorage implements IStorage {
       .update(bookings)
       .set({ status })
       .where(eq(bookings.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  // Home Page Content methods
+  async getAllHomeContent(): Promise<HomePageContent[]> {
+    return await db.select().from(homePageContent);
+  }
+
+  async getHomeContentBySection(section: string): Promise<HomePageContent | undefined> {
+    const [content] = await db.select().from(homePageContent).where(eq(homePageContent.section, section));
+    return content || undefined;
+  }
+
+  async createHomeContent(content: InsertHomePageContent): Promise<HomePageContent> {
+    const [newContent] = await db.insert(homePageContent).values(content).returning();
+    return newContent;
+  }
+
+  async updateHomeContent(section: string, content: any): Promise<HomePageContent | undefined> {
+    const [updated] = await db
+      .update(homePageContent)
+      .set({ content, updatedAt: new Date() })
+      .where(eq(homePageContent.section, section))
       .returning();
     return updated || undefined;
   }
