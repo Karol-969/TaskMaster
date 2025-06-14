@@ -2128,16 +2128,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     console.warn('Khalti service not initialized:', error);
   }
 
-  // Test route to debug middleware issues
-  app.post('/api/payment-test', (req, res) => {
-    console.log('🔧 Payment test route hit successfully');
-    res.json({ message: 'Payment test route working' });
-  });
-
   // Initiate payment (no auth required - Khalti handles user auth)
   app.post('/api/payment/initiate', async (req, res, next) => {
-    console.log('🔧 Payment initiate route hit:', req.body);
-    console.log('🔧 Session data:', req.session);
     try {
       if (!khaltiService) {
         console.log('❌ Khalti service not configured');
@@ -2185,10 +2177,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Initiate payment with Khalti
       const paymentResponse = await khaltiService.initiatePayment(paymentRequest);
 
-      // Create payment record (using guest user ID for now - Khalti handles customer verification)
+      // Create payment record (guest payments supported - Khalti handles customer verification)
       const paymentData = {
         bookingId,
-        userId: 0, // Guest user ID - will be updated when schema migration completes
+        userId: 0, // Guest user ID for anonymous payments
         amount: amountInPaisa,
         status: 'pending',
         khaltiIdx: paymentResponse.pidx,
