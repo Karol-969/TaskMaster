@@ -29,7 +29,14 @@ export function ArtistList() {
   });
   
   // Extract unique genres for filter
-  const genres = ['all', ...new Set(artists.map((artist: any) => artist.genre.toLowerCase()))];
+  const uniqueGenres = artists.reduce((acc: string[], artist: any) => {
+    const genre = artist.genre.toLowerCase();
+    if (!acc.includes(genre)) {
+      acc.push(genre);
+    }
+    return acc;
+  }, []);
+  const genres = ['all', ...uniqueGenres];
   
   // Filter artists based on search term and genre
   const filteredArtists = artists.filter((artist: any) => {
@@ -82,7 +89,7 @@ export function ArtistList() {
               <SelectValue placeholder="Filter by genre" />
             </SelectTrigger>
             <SelectContent>
-              {genres.map((genre) => (
+              {genres.map((genre: string) => (
                 <SelectItem key={genre} value={genre}>
                   {genre.charAt(0).toUpperCase() + genre.slice(1)}
                 </SelectItem>
@@ -118,11 +125,10 @@ export function ArtistList() {
       )}
       
       {selectedArtist && (
-        <BookingModal
+        <ArtistBookingModal
+          artist={selectedArtist}
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          itemType="artist"
-          item={selectedArtist}
         />
       )}
     </div>
