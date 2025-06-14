@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { KhaltiPaymentButton } from '@/components/payment/khalti-payment-button';
+import { PaymentStatusTracker } from '@/components/payment/payment-status-tracker';
 import { CreditCard, TestTube, User, Mail, Phone, ArrowLeft } from 'lucide-react';
 import { Link } from 'wouter';
 import { Helmet } from 'react-helmet';
@@ -21,6 +22,9 @@ export default function PaymentTestPage() {
       phone: '9876543210'
     }
   });
+
+  const [lastPaymentId, setLastPaymentId] = useState<number | undefined>();
+  const [lastPidx, setLastPidx] = useState<string | undefined>();
 
   const [serviceType, setServiceType] = useState('artist');
 
@@ -226,6 +230,7 @@ export default function PaymentTestPage() {
                     customerInfo={testPayment.customerInfo}
                     onSuccess={(paymentId) => {
                       console.log('Payment successful:', paymentId);
+                      setLastPaymentId(paymentId);
                     }}
                     onError={(error) => {
                       console.error('Payment error:', error);
@@ -236,6 +241,56 @@ export default function PaymentTestPage() {
                   <div className="text-center text-sm text-gray-400">
                     <p>This is a test environment.</p>
                     <p>Use Khalti test credentials for payments.</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Payment Status Tracker */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+              <PaymentStatusTracker
+                paymentId={lastPaymentId}
+                pidx={lastPidx}
+                onStatusChange={(status) => {
+                  console.log('Payment status changed to:', status);
+                  if (status === 'completed') {
+                    console.log('Payment completed successfully!');
+                  }
+                }}
+              />
+              
+              <Card className="bg-gray-900 border-gray-700">
+                <CardHeader>
+                  <CardTitle className="text-white">Recent Test Payments</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {lastPaymentId && (
+                      <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+                        <div>
+                          <p className="text-white font-medium">Payment #{lastPaymentId}</p>
+                          <p className="text-sm text-gray-400">PIDX: {lastPidx}</p>
+                        </div>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => {
+                            setLastPaymentId(lastPaymentId);
+                            setLastPidx(lastPidx);
+                          }}
+                          className="border-gray-600 text-gray-300 hover:bg-gray-700"
+                        >
+                          Track Status
+                        </Button>
+                      </div>
+                    )}
+                    
+                    {!lastPaymentId && (
+                      <div className="text-center text-gray-400 py-6">
+                        <p>No recent payments</p>
+                        <p className="text-sm">Complete a test payment to see tracking</p>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
