@@ -7,7 +7,6 @@ import {
   events, type Event, type InsertEvent,
   testimonials, type Testimonial, type InsertTestimonial,
   blogPosts, type BlogPost, type InsertBlogPost,
-  payments, type Payment, type InsertPayment,
   homePageContent, type HomePageContent, type InsertHomePageContent
 } from "@shared/schema";
 import { IStorage } from "./storage";

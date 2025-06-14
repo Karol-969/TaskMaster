@@ -7,17 +7,10 @@ import fs from "fs";
 import express from "express";
 import { storage } from "./database-storage";
 import { 
-  insertUserSchema,
-  insertBookingSchema,
   insertTestimonialSchema,
   insertArtistSchema,
   insertInfluencerSchema,
-  insertSoundSystemSchema,
-  insertVenueSchema,
-  insertEventSchema,
-  insertConversationSchema,
-  insertChatMessageSchema,
-  insertPaymentSchema
+  insertEventSchema
 } from "@shared/schema";
 import { createKhaltiService } from "./services/khaltiService";
 import { ChatWebSocketServer } from "./websocket";
