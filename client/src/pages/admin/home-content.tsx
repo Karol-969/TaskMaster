@@ -53,16 +53,18 @@ export default function HomeContentAdmin() {
   const [activeTab, setActiveTab] = useState('hero');
 
   // Fetch home content from database
-  const { data: homeContentArray, isLoading } = useQuery({
+  const { data: homeContentArray, isLoading, error } = useQuery({
     queryKey: ['/api/admin/home-content'],
     retry: false,
   });
 
   // Transform array to object for easier access
-  const homeContentData = (homeContentArray || []).reduce((acc: any, item: any) => {
-    acc[item.section] = item.content;
-    return acc;
-  }, {});
+  const homeContentData = Array.isArray(homeContentArray) 
+    ? homeContentArray.reduce((acc: any, item: any) => {
+        acc[item.section] = item.content;
+        return acc;
+      }, {})
+    : {};
 
   // Default content structure for fallback
   const defaultContentData = {
@@ -157,12 +159,12 @@ export default function HomeContentAdmin() {
     }
   ];
 
-  // Use real data from database
+  // Use real data from database with fallback to defaults
   const contentData = {
-    hero: homeContentData.hero || {},
-    about: homeContentData.about || {},
-    services: homeContentData.services || {},
-    journey: homeContentData.journey || {}
+    hero: homeContentData.hero || defaultContentData.hero,
+    about: homeContentData.about || defaultContentData.about,
+    services: homeContentData.services || defaultContentData.services,
+    journey: homeContentData.journey || defaultContentData.journey
   };
 
   // Content sections with real data
@@ -232,6 +234,30 @@ export default function HomeContentAdmin() {
   const handleTestimonialDelete = (id: number) => {
     deleteTestimonialMutation.mutate(id);
   };
+
+  // Handle authentication errors
+  if (error && error.message.includes('401')) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Session Expired
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Your admin session has expired. Please log in again to manage content.
+            </p>
+            <Button 
+              onClick={() => window.location.href = '/admin/auth/login'}
+              className="bg-violet-600 hover:bg-violet-700"
+            >
+              Log In Again
+            </Button>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout>
