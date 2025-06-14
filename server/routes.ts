@@ -525,6 +525,140 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Home Page Content Management APIs
+  app.get('/api/admin/home-content', requireAuth, async (req: Request, res: Response) => {
+    try {
+      const result = await db.select().from(homePageContent);
+      res.json(result);
+    } catch (error) {
+      console.error('Error fetching home page content:', error);
+      res.status(500).json({ message: 'Error fetching home page content' });
+    }
+  });
+
+  app.get('/api/admin/home-content/:section', requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { section } = req.params;
+      const [content] = await db.select().from(homePageContent).where(eq(homePageContent.section, section));
+      if (!content) {
+        return res.status(404).json({ message: 'Content section not found' });
+      }
+      res.json(content);
+    } catch (error) {
+      console.error('Error fetching home page content section:', error);
+      res.status(500).json({ message: 'Error fetching content section' });
+    }
+  });
+
+  app.put('/api/admin/home-content/:section', requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { section } = req.params;
+      const { content } = req.body;
+      
+      const [updatedContent] = await db
+        .update(homePageContent)
+        .set({ content, updatedAt: new Date() })
+        .where(eq(homePageContent.section, section))
+        .returning();
+        
+      if (!updatedContent) {
+        return res.status(404).json({ message: 'Content section not found' });
+      }
+      
+      res.json(updatedContent);
+    } catch (error) {
+      console.error('Error updating home page content:', error);
+      res.status(500).json({ message: 'Error updating home page content' });
+    }
+  });
+
+  app.post('/api/admin/home-content', requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { section, content } = req.body;
+      
+      const [newContent] = await db
+        .insert(homePageContent)
+        .values({ section, content })
+        .returning();
+        
+      res.json(newContent);
+    } catch (error) {
+      console.error('Error creating home page content:', error);
+      res.status(500).json({ message: 'Error creating home page content' });
+    }
+  });
+
+  app.delete('/api/admin/home-content/:section', requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { section } = req.params;
+      const [deleted] = await db
+        .delete(homePageContent)
+        .where(eq(homePageContent.section, section))
+        .returning();
+      
+      if (!deleted) {
+        return res.status(404).json({ message: 'Content section not found' });
+      }
+      
+      res.json({ message: 'Content section deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting home page content:', error);
+      res.status(500).json({ message: 'Error deleting content section' });
+    }
+  });
+
+  // Testimonials management APIs
+  app.get('/api/admin/testimonials', requireAuth, async (req: Request, res: Response) => {
+    try {
+      const result = await db.select().from(testimonials).orderBy(desc(testimonials.createdAt));
+      res.json(result);
+    } catch (error) {
+      console.error('Error fetching testimonials:', error);
+      res.status(500).json({ message: 'Error fetching testimonials' });
+    }
+  });
+
+  app.put('/api/admin/testimonials/:id/approve', requireAuth, async (req: Request, res: Response) => {
+    try {
+      const testimonialId = parseInt(req.params.id);
+      const { approved } = req.body;
+      
+      const [updatedTestimonial] = await db
+        .update(testimonials)
+        .set({ approved, updatedAt: new Date() })
+        .where(eq(testimonials.id, testimonialId))
+        .returning();
+        
+      if (!updatedTestimonial) {
+        return res.status(404).json({ message: 'Testimonial not found' });
+      }
+      
+      res.json(updatedTestimonial);
+    } catch (error) {
+      console.error('Error updating testimonial approval:', error);
+      res.status(500).json({ message: 'Error updating testimonial approval' });
+    }
+  });
+
+  app.delete('/api/admin/testimonials/:id', requireAuth, async (req: Request, res: Response) => {
+    try {
+      const testimonialId = parseInt(req.params.id);
+      const [deleted] = await db
+        .delete(testimonials)
+        .where(eq(testimonials.id, testimonialId))
+        .returning();
+      
+      if (!deleted) {
+        return res.status(404).json({ message: 'Testimonial not found' });
+      }
+      
+      res.json({ message: 'Testimonial deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting testimonial:', error);
+      res.status(500).json({ message: 'Error deleting testimonial' });
+    }
+  });
+
   
   // Create admin user if not exists (for Docker deployment)
   try {

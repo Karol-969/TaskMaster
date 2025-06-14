@@ -7,6 +7,7 @@ import {
   events, type Event, type InsertEvent,
   bookings, type Booking, type InsertBooking,
   testimonials, type Testimonial, type InsertTestimonial,
+  homePageContent, type HomePageContent, type InsertHomePageContent,
   type BlogPost, type InsertBlogPost,
   type Conversation, type InsertConversation,
   type ChatMessage, type InsertChatMessage
