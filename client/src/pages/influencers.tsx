@@ -28,7 +28,7 @@ function InfluencersPage() {
   const [filters, setFilters] = useState<FilterState>({
     category: 'all',
     followerRange: [0, 1000000],
-    engagementRate: [0, 20],
+    engagementRate: [0, 100],
     priceRange: [0, 1000000],
     searchTerm: ''
   });
@@ -76,7 +76,9 @@ function InfluencersPage() {
 
       // Engagement rate filter - only apply if influencer has engagement rate
       if (influencer.engagementRate !== null && influencer.engagementRate !== undefined) {
-        if (influencer.engagementRate < filters.engagementRate[0] || influencer.engagementRate > filters.engagementRate[1]) {
+        // Convert engagement rate from basis points to percentage (430 -> 4.3%)
+        const engagementPercent = influencer.engagementRate / 100;
+        if (engagementPercent < filters.engagementRate[0] || engagementPercent > filters.engagementRate[1]) {
           return false;
         }
       }
