@@ -24,23 +24,13 @@ import type { Influencer } from '@shared/schema';
 const collaborationSchema = z.object({
   campaignName: z.string().min(1, 'Campaign name is required'),
   collaborationType: z.string().min(1, 'Collaboration type is required'),
-  brandName: z.string().min(1, 'Brand name is required'),
-  campaignObjectives: z.string().min(10, 'Please provide detailed campaign objectives'),
-  contentRequirements: z.string().min(10, 'Please specify content requirements'),
-  timeline: z.string().min(1, 'Timeline is required'),
-  budget: z.number().min(1, 'Budget must be greater than 0'),
-  targetAudience: z.object({
-    ageGroups: z.array(z.string()).min(1, 'Select at least one age group'),
-    interests: z.array(z.string()).min(1, 'Select at least one interest'),
-    demographics: z.string().optional(),
-  }),
-  specialRequirements: z.string().optional(),
+  brandName: z.string().min(1, 'Brand/Company name is required'),
+  campaignObjectives: z.string().min(10, 'Please provide campaign objectives'),
   deliverables: z.object({
-    posts: z.number().default(0),
+    posts: z.number().default(1),
     stories: z.number().default(0),
     videos: z.number().default(0),
     liveStreams: z.number().default(0),
-    other: z.string().optional(),
   }),
 });
 
@@ -53,9 +43,6 @@ interface InfluencerBookingModalProps {
 }
 
 export function InfluencerBookingModal({ influencer, isOpen, onClose }: InfluencerBookingModalProps) {
-  const [step, setStep] = useState(1);
-  const [startDate, setStartDate] = useState<Date>();
-  const [endDate, setEndDate] = useState<Date>();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -69,11 +56,6 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
   } = useForm<CollaborationForm>({
     resolver: zodResolver(collaborationSchema),
     defaultValues: {
-      budget: influencer.postPrice,
-      targetAudience: {
-        ageGroups: [],
-        interests: [],
-      },
       deliverables: {
         posts: 1,
         stories: 0,
@@ -88,14 +70,11 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
 
   const createBookingMutation = useMutation({
     mutationFn: async (data: CollaborationForm) => {
-      const bookingData = {
+      // First create the collaboration booking
+      const booking = await apiRequest('/api/influencer-bookings', 'POST', {
         ...data,
         influencerId: influencer.id,
-        timeline: `${startDate ? format(startDate, 'yyyy-MM-dd') : ''} to ${endDate ? format(endDate, 'yyyy-MM-dd') : ''}`,
-      };
-      
-      // First create the collaboration booking
-      const booking = await apiRequest('/api/influencer-bookings', 'POST', bookingData);
+      });
 
       // Then initiate Khalti payment
       const totalAmount = calculateTotalCost() * 100; // Convert NPR to paisa for Khalti
@@ -144,7 +123,6 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
       
       queryClient.invalidateQueries({ queryKey: ['/api/influencer-bookings'] });
       reset();
-      setStep(1);
       onClose();
     },
     onError: (error) => {
@@ -173,11 +151,7 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
   };
 
   const onSubmit = (data: CollaborationForm) => {
-    if (step < 4) {
-      setStep(step + 1);
-    } else {
-      createBookingMutation.mutate(data);
-    }
+    createBookingMutation.mutate(data);
   };
 
   const totalFollowers = (influencer.instagramFollowers ?? 0) + 
