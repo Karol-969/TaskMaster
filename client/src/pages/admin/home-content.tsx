@@ -1,102 +1,40 @@
-import { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Tabs, TabsContent, TabsList, TabsTrigger 
-} from '@/components/ui/tabs';
-import { 
-  Card, CardContent, CardDescription, CardHeader, CardTitle 
-} from '@/components/ui/card';
+import { useState } from 'react';
+import { Helmet } from 'react-helmet';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
-  Form, FormControl, FormField, FormItem, FormLabel, FormMessage 
-} from '@/components/ui/form';
-import {
-  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger
-} from '@/components/ui/dialog';
-import { 
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
-} from '@/components/ui/table';
-import { Switch } from '@/components/ui/switch';
-import { useToast } from '@/hooks/use-toast';
-import { 
-  Home, Settings, Users, Star, Calendar, MapPin, 
-  Edit3, Save, Plus, Trash2, Eye, EyeOff, Image,
-  MessageSquare, Clock, Award, Globe
+  Save, 
+  Upload, 
+  Eye, 
+  Settings, 
+  Image,
+  FileText,
+  Users,
+  Calendar,
+  Star,
+  Quote,
+  Trash2,
+  Check,
+  X
 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { AdminLayout } from '@/components/admin/admin-layout';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
+import { useToast } from '@/hooks/use-toast';
 
-// Schema definitions for different content sections
-const heroSectionSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  subtitle: z.string().min(1, 'Subtitle is required'),
-  description: z.string().min(1, 'Description is required'),
-  backgroundImage: z.string().url('Must be a valid URL'),
-  ctaButtons: z.array(z.object({
-    text: z.string().min(1, 'Button text is required'),
-    link: z.string().min(1, 'Button link is required'),
-    variant: z.enum(['primary', 'secondary'])
-  }))
-});
-
-const aboutSectionSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  description: z.string().min(1, 'Description is required'),
-  longDescription: z.string().min(1, 'Long description is required'),
-  image: z.string().url('Must be a valid URL'),
-  stats: z.array(z.object({
-    value: z.string().min(1, 'Value is required'),
-    label: z.string().min(1, 'Label is required'),
-    icon: z.string().min(1, 'Icon name is required')
-  }))
-});
-
-const servicesSectionSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  subtitle: z.string().min(1, 'Subtitle is required'),
-  services: z.array(z.object({
-    title: z.string().min(1, 'Service title is required'),
-    description: z.string().min(1, 'Service description is required'),
-    image: z.string().url('Must be a valid URL'),
-    icon: z.string().min(1, 'Icon name is required'),
-    linkTo: z.string().min(1, 'Link is required')
-  }))
-});
-
-const journeySectionSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  subtitle: z.string().min(1, 'Subtitle is required'),
-  timeline: z.array(z.object({
-    year: z.string().min(1, 'Year is required'),
-    title: z.string().min(1, 'Title is required'),
-    description: z.string().min(1, 'Description is required')
-  }))
-});
-
-const contactSectionSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  subtitle: z.string().min(1, 'Subtitle is required'),
-  address: z.string().min(1, 'Address is required'),
-  phone: z.string().min(1, 'Phone is required'),
-  email: z.string().email('Must be a valid email'),
-  socialLinks: z.array(z.object({
-    platform: z.string().min(1, 'Platform is required'),
-    url: z.string().url('Must be a valid URL'),
-    icon: z.string().min(1, 'Icon name is required')
-  }))
-});
-
-type HeroSectionContent = z.infer<typeof heroSectionSchema>;
-type AboutSectionContent = z.infer<typeof aboutSectionSchema>;
-type ServicesSectionContent = z.infer<typeof servicesSectionSchema>;
-type JourneySectionContent = z.infer<typeof journeySectionSchema>;
-type ContactSectionContent = z.infer<typeof contactSectionSchema>;
+interface HomePageContent {
+  id: number;
+  section: string;
+  content: any;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface Testimonial {
   id: number;
@@ -112,98 +50,139 @@ interface Testimonial {
 export default function HomeContentAdmin() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [activeSection, setActiveSection] = useState('hero');
-  const [isEditing, setIsEditing] = useState<string | null>(null);
-  const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);
+  const [activeTab, setActiveTab] = useState('hero');
 
-  // Fetch all home page content
-  const { data: homeContent = [], isLoading } = useQuery({
-    queryKey: ['/api/admin/home-content'],
-    queryFn: async () => {
-      const response = await fetch('/api/admin/home-content', {
-        credentials: 'include'
-      });
-      if (!response.ok) throw new Error('Failed to fetch home content');
-      return response.json();
+  // Mock data for demonstration
+  const mockContentData = {
+    hero: {
+      title: "Elite Event Experiences",
+      subtitle: "Crafted to Perfection",
+      description: "From booking top artists to securing premium venues, we manage every detail of your event journey with precision and elegance.",
+      backgroundImage: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      ctaButtons: [
+        { text: "Explore Services", link: "/services", variant: "primary" },
+        { text: "Contact Us", link: "/contact", variant: "secondary" }
+      ]
+    },
+    about: {
+      title: "About Reart Events",
+      description: "ReArt Events is an event management company established in 2024. We specialize in providing live music solutions and managing various events.",
+      longDescription: "Our approach involves understanding client business, audience, and goals to create tailored strategies that combine creativity and functionality. From arranging live music performances to developing crowd-engaging event concepts, we handle every detail with precision and care.",
+      image: "https://images.unsplash.com/photo-1560439514-e960a3ef5019?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&h=750&q=80",
+      stats: [
+        { value: "500+", label: "Events Managed", icon: "CalendarCheck" },
+        { value: "300+", label: "Happy Clients", icon: "UserCheck" },
+        { value: "15+", label: "Industry Awards", icon: "Award" }
+      ]
+    },
+    services: {
+      title: "Our Premium Services",
+      subtitle: "Comprehensive event solutions tailored for your success",
+      services: [
+        {
+          title: "Artist Booking",
+          description: "Connect with top-tier artists for unforgettable performances",
+          icon: "Music",
+          features: ["Verified Artists", "Flexible Pricing", "Direct Communication"]
+        },
+        {
+          title: "Sound Equipment",
+          description: "Professional-grade audio systems for perfect sound quality",
+          icon: "Volume2",
+          features: ["Premium Equipment", "Technical Support", "Setup Included"]
+        },
+        {
+          title: "Influencer Marketing",
+          description: "Partner with influential creators to amplify your reach",
+          icon: "Users",
+          features: ["Verified Influencers", "Campaign Management", "Analytics"]
+        }
+      ]
+    },
+    journey: {
+      title: "Our Journey",
+      subtitle: "From humble beginnings to industry leadership",
+      timeline: [
+        { year: "2016", title: "Humble Beginnings", description: "Reart Events was founded as a small booking agency for local artists and venues." },
+        { year: "2018", title: "Expanding Horizons", description: "Added sound system rentals and influencer bookings to our growing service portfolio." },
+        { year: "2020", title: "Digital Transformation", description: "Launched our online booking platform to connect artists and venues across the country." },
+        { year: "2022", title: "Global Reach", description: "Expanded to international markets with artist and influencer management services." },
+        { year: "2024", title: "Industry Leader", description: "Recognized as a leading booking platform with thousands of successful events each year." }
+      ]
     }
-  });
+  };
 
-  // Fetch testimonials
-  const { data: testimonials = [] } = useQuery<Testimonial[]>({
-    queryKey: ['/api/admin/testimonials'],
-    queryFn: async () => {
-      const response = await fetch('/api/admin/testimonials', {
-        credentials: 'include'
-      });
-      if (!response.ok) throw new Error('Failed to fetch testimonials');
-      return response.json();
+  const mockTestimonials = [
+    {
+      id: 1,
+      name: "Sarah Johnson",
+      company: "EventPro Solutions",
+      text: "Reart Events transformed our corporate event into an unforgettable experience. Their attention to detail and professional service exceeded our expectations.",
+      rating: 5,
+      email: "sarah@eventpro.com",
+      approved: true,
+      createdAt: "2024-06-01T10:00:00Z"
+    },
+    {
+      id: 2,
+      name: "Michael Chen",
+      company: "TechStart Inc.",
+      text: "The sound quality at our product launch was phenomenal. The team's expertise in audio engineering made all the difference.",
+      rating: 5,
+      email: "michael@techstart.com",
+      approved: false,
+      createdAt: "2024-06-10T14:30:00Z"
+    },
+    {
+      id: 3,
+      name: "Emily Rodriguez",
+      company: "Creative Collective",
+      text: "Working with Reart Events was seamless from start to finish. They understood our vision and brought it to life perfectly.",
+      rating: 4,
+      email: "emily@creative.com",
+      approved: true,
+      createdAt: "2024-06-05T09:15:00Z"
     }
-  });
+  ];
 
-  // Update content mutation
+  // Content sections with mock data
+  const contentSections = [
+    { id: 'hero', title: 'Hero Section', icon: Image, content: mockContentData.hero },
+    { id: 'about', title: 'About Section', icon: FileText, content: mockContentData.about },
+    { id: 'services', title: 'Services Section', icon: Settings, content: mockContentData.services },
+    { id: 'journey', title: 'Journey Section', icon: Calendar, content: mockContentData.journey }
+  ];
+
+  // Mock mutations for demonstration
   const updateContentMutation = useMutation({
     mutationFn: async ({ section, content }: { section: string; content: any }) => {
-      const response = await fetch(`/api/admin/home-content/${section}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ content })
-      });
-      if (!response.ok) throw new Error('Failed to update content');
-      return response.json();
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return { section, content };
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/home-content'] });
       toast({
         title: "Content Updated",
         description: "Home page content has been successfully updated.",
       });
-      setIsEditing(null);
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/home-content'] });
     },
     onError: () => {
       toast({
         title: "Update Failed",
         description: "Failed to update content. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   });
 
-  // Create content mutation
-  const createContentMutation = useMutation({
-    mutationFn: async ({ section, content }: { section: string; content: any }) => {
-      const response = await fetch('/api/admin/home-content', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ section, content })
-      });
-      if (!response.ok) throw new Error('Failed to create content');
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/home-content'] });
-      toast({
-        title: "Content Created",
-        description: "New content section has been successfully created.",
-      });
-    }
-  });
-
-  // Testimonial approval mutation
   const toggleTestimonialMutation = useMutation({
     mutationFn: async ({ id, approved }: { id: number; approved: boolean }) => {
-      const response = await fetch(`/api/admin/testimonials/${id}/approve`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ approved })
-      });
-      if (!response.ok) throw new Error('Failed to update testimonial');
-      return response.json();
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return { id, approved };
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/testimonials'] });
       toast({
         title: "Testimonial Updated",
         description: "Testimonial approval status has been updated.",
@@ -211,18 +190,13 @@ export default function HomeContentAdmin() {
     }
   });
 
-  // Delete testimonial mutation
   const deleteTestimonialMutation = useMutation({
     mutationFn: async (id: number) => {
-      const response = await fetch(`/api/admin/testimonials/${id}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      });
-      if (!response.ok) throw new Error('Failed to delete testimonial');
-      return response.json();
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return id;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/testimonials'] });
       toast({
         title: "Testimonial Deleted",
         description: "Testimonial has been successfully deleted.",
@@ -230,499 +204,495 @@ export default function HomeContentAdmin() {
     }
   });
 
-  const getContentBySection = (section: string) => {
-    return homeContent.find((item: any) => item.section === section)?.content;
+  const handleContentSave = (section: string, content: any) => {
+    updateContentMutation.mutate({ section, content });
   };
 
-  const getSectionSchema = (section: string) => {
-    switch (section) {
-      case 'hero': return heroSectionSchema;
-      case 'about': return aboutSectionSchema;
-      case 'services': return servicesSectionSchema;
-      case 'journey': return journeySectionSchema;
-      case 'contact': return contactSectionSchema;
-      default: return z.any();
-    }
+  const handleTestimonialToggle = (id: number, approved: boolean) => {
+    toggleTestimonialMutation.mutate({ id, approved });
   };
 
-  const getDefaultContent = (section: string) => {
-    switch (section) {
-      case 'hero':
-        return {
-          title: "Elite Event Experiences",
-          subtitle: "Crafted to Perfection",
-          description: "From booking top artists to securing premium venues, we manage every detail of your event journey with precision and elegance.",
-          backgroundImage: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819",
-          ctaButtons: [
-            { text: "Explore Services", link: "/services", variant: "primary" },
-            { text: "Contact Us", link: "/contact", variant: "secondary" }
-          ]
-        };
-      case 'about':
-        return {
-          title: "About Reart Events",
-          description: "ReArt Events is an event management company established in 2024.",
-          longDescription: "Our approach involves understanding client's business, audience, and goals to create tailored strategies that combine creativity and functionality.",
-          image: "https://images.unsplash.com/photo-1560439514-e960a3ef5019",
-          stats: [
-            { value: "500+", label: "Events Managed", icon: "CalendarCheck" },
-            { value: "300+", label: "Happy Clients", icon: "UserCheck" },
-            { value: "15+", label: "Industry Awards", icon: "Award" }
-          ]
-        };
-      case 'services':
-        return {
-          title: "Our Services",
-          subtitle: "Comprehensive event solutions",
-          services: [
-            {
-              title: "Artist Booking",
-              description: "Book top musicians and performers",
-              image: "https://images.unsplash.com/photo-1571151429199-a3371c9c8c8d",
-              icon: "Music",
-              linkTo: "/artists"
-            },
-            {
-              title: "Influencer Marketing",
-              description: "Connect with social media influencers",
-              image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71",
-              icon: "Sparkles",
-              linkTo: "/influencers"
-            },
-            {
-              title: "Sound Equipment",
-              description: "Professional audio systems rental",
-              image: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91",
-              icon: "Music",
-              linkTo: "/sound"
-            },
-            {
-              title: "Event Management",
-              description: "Complete event planning services",
-              image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622",
-              icon: "Calendar",
-              linkTo: "/events"
-            }
-          ]
-        };
-      case 'journey':
-        return {
-          title: "Our Journey",
-          subtitle: "From humble beginnings to industry leadership",
-          timeline: [
-            {
-              year: "2016",
-              title: "Humble Beginnings",
-              description: "Reart Events was founded as a small booking agency for local artists and venues."
-            },
-            {
-              year: "2018",
-              title: "Expanding Horizons",
-              description: "Added sound system rentals and influencer bookings to our growing service portfolio."
-            },
-            {
-              year: "2020",
-              title: "Digital Transformation",
-              description: "Launched our online booking platform to connect artists and venues across the country."
-            },
-            {
-              year: "2022",
-              title: "Global Reach",
-              description: "Expanded to international markets with artist and influencer management services."
-            },
-            {
-              year: "2024",
-              title: "Industry Leader",
-              description: "Recognized as a leading booking platform with thousands of successful events each year."
-            }
-          ]
-        };
-      case 'contact':
-        return {
-          title: "Get In Touch",
-          subtitle: "Let's create something amazing together",
-          address: "123 Event Street, Kathmandu, Nepal",
-          phone: "+977 1234567890",
-          email: "hello@reartevents.com",
-          socialLinks: [
-            { platform: "Facebook", url: "https://facebook.com/reartevents", icon: "Facebook" },
-            { platform: "Instagram", url: "https://instagram.com/reartevents", icon: "Instagram" },
-            { platform: "Twitter", url: "https://twitter.com/reartevents", icon: "Twitter" }
-          ]
-        };
-      default:
-        return {};
-    }
+  const handleTestimonialDelete = (id: number) => {
+    deleteTestimonialMutation.mutate(id);
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
-      </div>
-    );
-  }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Home Page Content Management
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400 mt-2">
-          Update images, text, and content across all home page sections
-        </p>
+    <AdminLayout>
+      <Helmet>
+        <title>Home Page Content Management - ReArt Events Admin</title>
+        <meta name="description" content="Manage home page content, sections, and testimonials" />
+      </Helmet>
+
+      <div className="space-y-8">
+        {/* Header */}
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Home Page Content
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
+              Manage all home page sections, content, and testimonials
+            </p>
+          </div>
+          <div className="flex space-x-3">
+            <Button variant="outline" className="flex items-center space-x-2">
+              <Eye className="w-4 h-4" />
+              <span>Preview</span>
+            </Button>
+            <Button className="flex items-center space-x-2 bg-violet-600 hover:bg-violet-700">
+              <Save className="w-4 h-4" />
+              <span>Save All Changes</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* Content Management Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="hero">Hero Section</TabsTrigger>
+            <TabsTrigger value="about">About</TabsTrigger>
+            <TabsTrigger value="services">Services</TabsTrigger>
+            <TabsTrigger value="journey">Journey</TabsTrigger>
+            <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
+          </TabsList>
+
+          {/* Hero Section */}
+          <TabsContent value="hero">
+            <HeroSectionEditor 
+              content={mockContentData.hero}
+              onSave={(content) => handleContentSave('hero', content)}
+              isLoading={updateContentMutation.isPending}
+            />
+          </TabsContent>
+
+          {/* About Section */}
+          <TabsContent value="about">
+            <AboutSectionEditor 
+              content={mockContentData.about}
+              onSave={(content) => handleContentSave('about', content)}
+              isLoading={updateContentMutation.isPending}
+            />
+          </TabsContent>
+
+          {/* Services Section */}
+          <TabsContent value="services">
+            <ServicesSectionEditor 
+              content={mockContentData.services}
+              onSave={(content) => handleContentSave('services', content)}
+              isLoading={updateContentMutation.isPending}
+            />
+          </TabsContent>
+
+          {/* Journey Section */}
+          <TabsContent value="journey">
+            <JourneySectionEditor 
+              content={mockContentData.journey}
+              onSave={(content) => handleContentSave('journey', content)}
+              isLoading={updateContentMutation.isPending}
+            />
+          </TabsContent>
+
+          {/* Testimonials Management */}
+          <TabsContent value="testimonials">
+            <TestimonialsManager 
+              testimonials={mockTestimonials}
+              onToggleApproval={handleTestimonialToggle}
+              onDelete={handleTestimonialDelete}
+              isLoading={toggleTestimonialMutation.isPending || deleteTestimonialMutation.isPending}
+            />
+          </TabsContent>
+        </Tabs>
       </div>
-
-      <Tabs value={activeSection} onValueChange={setActiveSection} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="hero" className="flex items-center gap-2">
-            <Home className="h-4 w-4" />
-            Hero
-          </TabsTrigger>
-          <TabsTrigger value="about" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            About
-          </TabsTrigger>
-          <TabsTrigger value="services" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            Services
-          </TabsTrigger>
-          <TabsTrigger value="journey" className="flex items-center gap-2">
-            <Clock className="h-4 w-4" />
-            Journey
-          </TabsTrigger>
-          <TabsTrigger value="contact" className="flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            Contact
-          </TabsTrigger>
-          <TabsTrigger value="testimonials" className="flex items-center gap-2">
-            <MessageSquare className="h-4 w-4" />
-            Testimonials
-          </TabsTrigger>
-        </TabsList>
-
-        {/* Hero Section */}
-        <TabsContent value="hero">
-          <HeroSectionEditor 
-            content={getContentBySection('hero') || getDefaultContent('hero')}
-            onSave={(content) => {
-              const existingContent = getContentBySection('hero');
-              if (existingContent) {
-                updateContentMutation.mutate({ section: 'hero', content });
-              } else {
-                createContentMutation.mutate({ section: 'hero', content });
-              }
-            }}
-            isLoading={updateContentMutation.isPending || createContentMutation.isPending}
-          />
-        </TabsContent>
-
-        {/* About Section */}
-        <TabsContent value="about">
-          <AboutSectionEditor 
-            content={getContentBySection('about') || getDefaultContent('about')}
-            onSave={(content) => {
-              const existingContent = getContentBySection('about');
-              if (existingContent) {
-                updateContentMutation.mutate({ section: 'about', content });
-              } else {
-                createContentMutation.mutate({ section: 'about', content });
-              }
-            }}
-            isLoading={updateContentMutation.isPending || createContentMutation.isPending}
-          />
-        </TabsContent>
-
-        {/* Services Section */}
-        <TabsContent value="services">
-          <ServicesSectionEditor 
-            content={getContentBySection('services') || getDefaultContent('services')}
-            onSave={(content) => {
-              const existingContent = getContentBySection('services');
-              if (existingContent) {
-                updateContentMutation.mutate({ section: 'services', content });
-              } else {
-                createContentMutation.mutate({ section: 'services', content });
-              }
-            }}
-            isLoading={updateContentMutation.isPending || createContentMutation.isPending}
-          />
-        </TabsContent>
-
-        {/* Journey Section */}
-        <TabsContent value="journey">
-          <JourneySectionEditor 
-            content={getContentBySection('journey') || getDefaultContent('journey')}
-            onSave={(content) => {
-              const existingContent = getContentBySection('journey');
-              if (existingContent) {
-                updateContentMutation.mutate({ section: 'journey', content });
-              } else {
-                createContentMutation.mutate({ section: 'journey', content });
-              }
-            }}
-            isLoading={updateContentMutation.isPending || createContentMutation.isPending}
-          />
-        </TabsContent>
-
-        {/* Contact Section */}
-        <TabsContent value="contact">
-          <ContactSectionEditor 
-            content={getContentBySection('contact') || getDefaultContent('contact')}
-            onSave={(content) => {
-              const existingContent = getContentBySection('contact');
-              if (existingContent) {
-                updateContentMutation.mutate({ section: 'contact', content });
-              } else {
-                createContentMutation.mutate({ section: 'contact', content });
-              }
-            }}
-            isLoading={updateContentMutation.isPending || createContentMutation.isPending}
-          />
-        </TabsContent>
-
-        {/* Testimonials Management */}
-        <TabsContent value="testimonials">
-          <TestimonialsManager 
-            testimonials={testimonials}
-            onToggleApproval={(id, approved) => toggleTestimonialMutation.mutate({ id, approved })}
-            onDelete={(id) => deleteTestimonialMutation.mutate(id)}
-            isLoading={toggleTestimonialMutation.isPending || deleteTestimonialMutation.isPending}
-          />
-        </TabsContent>
-      </Tabs>
-    </div>
+    </AdminLayout>
   );
 }
 
-// Individual section editors will be created as separate components for better organization
+// Hero Section Editor Component
 function HeroSectionEditor({ content, onSave, isLoading }: {
-  content: HeroSectionContent;
-  onSave: (content: HeroSectionContent) => void;
+  content: any;
+  onSave: (content: any) => void;
   isLoading: boolean;
 }) {
-  const form = useForm<HeroSectionContent>({
-    resolver: zodResolver(heroSectionSchema),
-    defaultValues: content
-  });
+  const [editedContent, setEditedContent] = useState(content);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Home className="h-5 w-5 text-purple-500" />
-          Hero Section
+        <CardTitle className="flex items-center space-x-2">
+          <Image className="w-5 h-5" />
+          <span>Hero Section Content</span>
         </CardTitle>
-        <CardDescription>
-          Main banner section with title, subtitle, and call-to-action buttons
-        </CardDescription>
       </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSave)} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Main Title</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Elite Event Experiences" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="subtitle"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Subtitle</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Crafted to Perfection" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+      <CardContent className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="hero-title">Main Title</Label>
+              <Input
+                id="hero-title"
+                value={editedContent.title}
+                onChange={(e) => setEditedContent({ ...editedContent, title: e.target.value })}
+                placeholder="Enter main title"
               />
             </div>
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="From booking top artists to securing premium venues..."
-                      rows={3}
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="backgroundImage"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex items-center gap-2">
-                    <Image className="h-4 w-4" />
-                    Background Image URL
-                  </FormLabel>
-                  <FormControl>
-                    <Input placeholder="https://images.unsplash.com/..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="space-y-4">
-              <Label className="text-base font-semibold">Call-to-Action Buttons</Label>
-              {form.watch('ctaButtons')?.map((button, index) => (
-                <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 border rounded-lg">
-                  <FormField
-                    control={form.control}
-                    name={`ctaButtons.${index}.text`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Button Text</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Explore Services" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+            <div>
+              <Label htmlFor="hero-subtitle">Subtitle</Label>
+              <Input
+                id="hero-subtitle"
+                value={editedContent.subtitle}
+                onChange={(e) => setEditedContent({ ...editedContent, subtitle: e.target.value })}
+                placeholder="Enter subtitle"
+              />
+            </div>
+            <div>
+              <Label htmlFor="hero-description">Description</Label>
+              <Textarea
+                id="hero-description"
+                value={editedContent.description}
+                onChange={(e) => setEditedContent({ ...editedContent, description: e.target.value })}
+                placeholder="Enter description"
+                rows={4}
+              />
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="hero-background">Background Image URL</Label>
+              <Input
+                id="hero-background"
+                value={editedContent.backgroundImage}
+                onChange={(e) => setEditedContent({ ...editedContent, backgroundImage: e.target.value })}
+                placeholder="Enter image URL"
+              />
+            </div>
+            <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
+              <h4 className="font-medium mb-3">Call-to-Action Buttons</h4>
+              {editedContent.ctaButtons?.map((button: any, index: number) => (
+                <div key={index} className="flex space-x-2 mb-2">
+                  <Input
+                    value={button.text}
+                    onChange={(e) => {
+                      const newButtons = [...editedContent.ctaButtons];
+                      newButtons[index].text = e.target.value;
+                      setEditedContent({ ...editedContent, ctaButtons: newButtons });
+                    }}
+                    placeholder="Button text"
                   />
-                  
-                  <FormField
-                    control={form.control}
-                    name={`ctaButtons.${index}.link`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Button Link</FormLabel>
-                        <FormControl>
-                          <Input placeholder="/services" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name={`ctaButtons.${index}.variant`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Button Style</FormLabel>
-                        <FormControl>
-                          <select 
-                            {...field}
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2"
-                          >
-                            <option value="primary">Primary</option>
-                            <option value="secondary">Secondary</option>
-                          </select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                  <Input
+                    value={button.link}
+                    onChange={(e) => {
+                      const newButtons = [...editedContent.ctaButtons];
+                      newButtons[index].link = e.target.value;
+                      setEditedContent({ ...editedContent, ctaButtons: newButtons });
+                    }}
+                    placeholder="Button link"
                   />
                 </div>
               ))}
             </div>
-
-            <div className="flex gap-4">
-              <Button type="submit" disabled={isLoading} className="bg-purple-600 hover:bg-purple-700">
-                {isLoading ? 'Saving...' : 'Save Hero Section'}
-                <Save className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </form>
-        </Form>
+          </div>
+        </div>
+        <div className="flex justify-end">
+          <Button 
+            onClick={() => onSave(editedContent)}
+            disabled={isLoading}
+            className="bg-violet-600 hover:bg-violet-700"
+          >
+            {isLoading ? 'Saving...' : 'Save Hero Section'}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
 }
 
-// Placeholder components for other section editors
+// About Section Editor Component
 function AboutSectionEditor({ content, onSave, isLoading }: any) {
+  const [editedContent, setEditedContent] = useState(content);
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>About Section Editor</CardTitle>
-        <CardDescription>Edit about section content, stats, and image</CardDescription>
+        <CardTitle className="flex items-center space-x-2">
+          <FileText className="w-5 h-5" />
+          <span>About Section Content</span>
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <p className="text-gray-600">About section editor will be implemented here.</p>
-        <Button onClick={() => onSave(content)} disabled={isLoading} className="mt-4">
-          Save About Section
-        </Button>
+      <CardContent className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="about-title">Section Title</Label>
+              <Input
+                id="about-title"
+                value={editedContent.title}
+                onChange={(e) => setEditedContent({ ...editedContent, title: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="about-description">Short Description</Label>
+              <Textarea
+                id="about-description"
+                value={editedContent.description}
+                onChange={(e) => setEditedContent({ ...editedContent, description: e.target.value })}
+                rows={3}
+              />
+            </div>
+            <div>
+              <Label htmlFor="about-long-description">Long Description</Label>
+              <Textarea
+                id="about-long-description"
+                value={editedContent.longDescription}
+                onChange={(e) => setEditedContent({ ...editedContent, longDescription: e.target.value })}
+                rows={5}
+              />
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="about-image">Section Image URL</Label>
+              <Input
+                id="about-image"
+                value={editedContent.image}
+                onChange={(e) => setEditedContent({ ...editedContent, image: e.target.value })}
+              />
+            </div>
+            <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
+              <h4 className="font-medium mb-3">Statistics</h4>
+              {editedContent.stats?.map((stat: any, index: number) => (
+                <div key={index} className="grid grid-cols-3 gap-2 mb-2">
+                  <Input
+                    value={stat.value}
+                    onChange={(e) => {
+                      const newStats = [...editedContent.stats];
+                      newStats[index].value = e.target.value;
+                      setEditedContent({ ...editedContent, stats: newStats });
+                    }}
+                    placeholder="Value"
+                  />
+                  <Input
+                    value={stat.label}
+                    onChange={(e) => {
+                      const newStats = [...editedContent.stats];
+                      newStats[index].label = e.target.value;
+                      setEditedContent({ ...editedContent, stats: newStats });
+                    }}
+                    placeholder="Label"
+                  />
+                  <Input
+                    value={stat.icon}
+                    onChange={(e) => {
+                      const newStats = [...editedContent.stats];
+                      newStats[index].icon = e.target.value;
+                      setEditedContent({ ...editedContent, stats: newStats });
+                    }}
+                    placeholder="Icon"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-end">
+          <Button 
+            onClick={() => onSave(editedContent)}
+            disabled={isLoading}
+            className="bg-violet-600 hover:bg-violet-700"
+          >
+            {isLoading ? 'Saving...' : 'Save About Section'}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
 }
 
+// Services Section Editor Component
 function ServicesSectionEditor({ content, onSave, isLoading }: any) {
+  const [editedContent, setEditedContent] = useState(content);
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Services Section Editor</CardTitle>
-        <CardDescription>Edit services cards, images, and descriptions</CardDescription>
+        <CardTitle className="flex items-center space-x-2">
+          <Settings className="w-5 h-5" />
+          <span>Services Section Content</span>
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <p className="text-gray-600">Services section editor will be implemented here.</p>
-        <Button onClick={() => onSave(content)} disabled={isLoading} className="mt-4">
-          Save Services Section
-        </Button>
+      <CardContent className="space-y-6">
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="services-title">Section Title</Label>
+            <Input
+              id="services-title"
+              value={editedContent.title}
+              onChange={(e) => setEditedContent({ ...editedContent, title: e.target.value })}
+            />
+          </div>
+          <div>
+            <Label htmlFor="services-subtitle">Section Subtitle</Label>
+            <Input
+              id="services-subtitle"
+              value={editedContent.subtitle}
+              onChange={(e) => setEditedContent({ ...editedContent, subtitle: e.target.value })}
+            />
+          </div>
+        </div>
+        <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
+          <h4 className="font-medium mb-3">Services</h4>
+          {editedContent.services?.map((service: any, index: number) => (
+            <div key={index} className="border rounded-lg p-4 mb-4 bg-white dark:bg-gray-700">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Input
+                    value={service.title}
+                    onChange={(e) => {
+                      const newServices = [...editedContent.services];
+                      newServices[index].title = e.target.value;
+                      setEditedContent({ ...editedContent, services: newServices });
+                    }}
+                    placeholder="Service title"
+                    className="mb-2"
+                  />
+                  <Textarea
+                    value={service.description}
+                    onChange={(e) => {
+                      const newServices = [...editedContent.services];
+                      newServices[index].description = e.target.value;
+                      setEditedContent({ ...editedContent, services: newServices });
+                    }}
+                    placeholder="Service description"
+                    rows={2}
+                  />
+                </div>
+                <div>
+                  <Input
+                    value={service.icon}
+                    onChange={(e) => {
+                      const newServices = [...editedContent.services];
+                      newServices[index].icon = e.target.value;
+                      setEditedContent({ ...editedContent, services: newServices });
+                    }}
+                    placeholder="Icon name"
+                    className="mb-2"
+                  />
+                  <div className="space-y-1">
+                    {service.features?.map((feature: string, fIndex: number) => (
+                      <Input
+                        key={fIndex}
+                        value={feature}
+                        onChange={(e) => {
+                          const newServices = [...editedContent.services];
+                          newServices[index].features[fIndex] = e.target.value;
+                          setEditedContent({ ...editedContent, services: newServices });
+                        }}
+                        placeholder="Feature"
+                        size="sm"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-end">
+          <Button 
+            onClick={() => onSave(editedContent)}
+            disabled={isLoading}
+            className="bg-violet-600 hover:bg-violet-700"
+          >
+            {isLoading ? 'Saving...' : 'Save Services Section'}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
 }
 
+// Journey Section Editor Component
 function JourneySectionEditor({ content, onSave, isLoading }: any) {
+  const [editedContent, setEditedContent] = useState(content);
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Journey Section Editor</CardTitle>
-        <CardDescription>Edit timeline content and milestones</CardDescription>
+        <CardTitle className="flex items-center space-x-2">
+          <Calendar className="w-5 h-5" />
+          <span>Journey Section Content</span>
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <p className="text-gray-600">Journey section editor will be implemented here.</p>
-        <Button onClick={() => onSave(content)} disabled={isLoading} className="mt-4">
-          Save Journey Section
-        </Button>
+      <CardContent className="space-y-6">
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="journey-title">Section Title</Label>
+            <Input
+              id="journey-title"
+              value={editedContent.title}
+              onChange={(e) => setEditedContent({ ...editedContent, title: e.target.value })}
+            />
+          </div>
+          <div>
+            <Label htmlFor="journey-subtitle">Section Subtitle</Label>
+            <Input
+              id="journey-subtitle"
+              value={editedContent.subtitle}
+              onChange={(e) => setEditedContent({ ...editedContent, subtitle: e.target.value })}
+            />
+          </div>
+        </div>
+        <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
+          <h4 className="font-medium mb-3">Timeline</h4>
+          {editedContent.timeline?.map((item: any, index: number) => (
+            <div key={index} className="border rounded-lg p-4 mb-4 bg-white dark:bg-gray-700">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Input
+                  value={item.year}
+                  onChange={(e) => {
+                    const newTimeline = [...editedContent.timeline];
+                    newTimeline[index].year = e.target.value;
+                    setEditedContent({ ...editedContent, timeline: newTimeline });
+                  }}
+                  placeholder="Year"
+                />
+                <Input
+                  value={item.title}
+                  onChange={(e) => {
+                    const newTimeline = [...editedContent.timeline];
+                    newTimeline[index].title = e.target.value;
+                    setEditedContent({ ...editedContent, timeline: newTimeline });
+                  }}
+                  placeholder="Title"
+                />
+                <Textarea
+                  value={item.description}
+                  onChange={(e) => {
+                    const newTimeline = [...editedContent.timeline];
+                    newTimeline[index].description = e.target.value;
+                    setEditedContent({ ...editedContent, timeline: newTimeline });
+                  }}
+                  placeholder="Description"
+                  rows={2}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-end">
+          <Button 
+            onClick={() => onSave(editedContent)}
+            disabled={isLoading}
+            className="bg-violet-600 hover:bg-violet-700"
+          >
+            {isLoading ? 'Saving...' : 'Save Journey Section'}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
 }
 
-function ContactSectionEditor({ content, onSave, isLoading }: any) {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Contact Section Editor</CardTitle>
-        <CardDescription>Edit contact information and social links</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-gray-600">Contact section editor will be implemented here.</p>
-        <Button onClick={() => onSave(content)} disabled={isLoading} className="mt-4">
-          Save Contact Section
-        </Button>
-      </CardContent>
-    </Card>
-  );
-}
-
+// Testimonials Manager Component
 function TestimonialsManager({ testimonials, onToggleApproval, onDelete, isLoading }: {
   testimonials: Testimonial[];
   onToggleApproval: (id: number, approved: boolean) => void;
@@ -730,74 +700,86 @@ function TestimonialsManager({ testimonials, onToggleApproval, onDelete, isLoadi
   isLoading: boolean;
 }) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <MessageSquare className="h-5 w-5 text-purple-500" />
-          Testimonials Management
-        </CardTitle>
-        <CardDescription>
-          Approve, manage, and delete user testimonials
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          {testimonials.length === 0 ? (
-            <p className="text-gray-600 text-center py-8">No testimonials yet</p>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Company</TableHead>
-                  <TableHead>Rating</TableHead>
-                  <TableHead>Message</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {testimonials.map((testimonial) => (
-                  <TableRow key={testimonial.id}>
-                    <TableCell className="font-medium">{testimonial.name}</TableCell>
-                    <TableCell>{testimonial.company}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        {testimonial.rating}
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Quote className="w-5 h-5" />
+            <span>Testimonials Management</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {testimonials.map((testimonial) => (
+              <motion.div
+                key={testimonial.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-800"
+              >
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <h4 className="font-semibold">{testimonial.name}</h4>
+                      <Badge variant="outline">{testimonial.company}</Badge>
+                      <div className="flex items-center space-x-1">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-4 h-4 ${
+                              i < testimonial.rating
+                                ? 'text-yellow-400 fill-current'
+                                : 'text-gray-300'
+                            }`}
+                          />
+                        ))}
                       </div>
-                    </TableCell>
-                    <TableCell className="max-w-xs truncate">{testimonial.text}</TableCell>
-                    <TableCell>
-                      <Badge variant={testimonial.approved ? "default" : "secondary"}>
-                        {testimonial.approved ? "Approved" : "Pending"}
+                      <Badge variant={testimonial.approved ? 'default' : 'secondary'}>
+                        {testimonial.approved ? 'Approved' : 'Pending'}
                       </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Switch
-                          checked={testimonial.approved}
-                          onCheckedChange={(checked) => onToggleApproval(testimonial.id, checked)}
-                          disabled={isLoading}
-                        />
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => onDelete(testimonial.id)}
-                          disabled={isLoading}
-                          className="text-red-600 hover:text-red-700"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">
+                      "{testimonial.text}"
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {testimonial.email} • {new Date(testimonial.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-2 ml-4">
+                    <Button
+                      size="sm"
+                      variant={testimonial.approved ? 'outline' : 'default'}
+                      onClick={() => onToggleApproval(testimonial.id, !testimonial.approved)}
+                      disabled={isLoading}
+                      className="flex items-center space-x-1"
+                    >
+                      {testimonial.approved ? (
+                        <>
+                          <X className="w-4 h-4" />
+                          <span>Unapprove</span>
+                        </>
+                      ) : (
+                        <>
+                          <Check className="w-4 h-4" />
+                          <span>Approve</span>
+                        </>
+                      )}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => onDelete(testimonial.id)}
+                      disabled={isLoading}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

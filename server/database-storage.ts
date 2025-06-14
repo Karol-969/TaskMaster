@@ -1,19 +1,14 @@
 import { eq } from "drizzle-orm";
 import { db } from "./db";
 import { 
-  users, type User, type InsertUser,
+  users, type User, type UpsertUser,
   artists, type Artist, type InsertArtist,
   influencers, type Influencer, type InsertInfluencer,
-  influencerBookings, type InfluencerBooking, type InsertInfluencerBooking,
-  soundSystems, type SoundSystem, type InsertSoundSystem,
-  venues, type Venue, type InsertVenue,
   events, type Event, type InsertEvent,
-  bookings, type Booking, type InsertBooking,
   testimonials, type Testimonial, type InsertTestimonial,
   blogPosts, type BlogPost, type InsertBlogPost,
-  conversations, type Conversation, type InsertConversation,
-  chatMessages, type ChatMessage, type InsertChatMessage,
-  payments, type Payment, type InsertPayment
+  payments, type Payment, type InsertPayment,
+  homePageContent, type HomePageContent, type InsertHomePageContent
 } from "@shared/schema";
 import { IStorage } from "./storage";
 
