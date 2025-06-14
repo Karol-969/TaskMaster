@@ -26,26 +26,11 @@ export function JourneySection() {
   
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
-  // Extract journey data with fallback
-  const journeyData = homeContent?.find((item: any) => item.section === 'journey')?.content || {};
+  // Extract journey data with fallback - must be before any conditional returns
+  const journeyData = (homeContent && Array.isArray(homeContent)) 
+    ? homeContent.find((item: any) => item.section === 'journey')?.content || {}
+    : {};
   const timelineData = journeyData.timeline || [];
-
-  // Show loading state
-  if (isLoading) {
-    return (
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black to-gray-900" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center">
-            <div className="animate-pulse">
-              <div className="h-12 bg-gray-700 rounded-lg w-64 mx-auto mb-4"></div>
-              <div className="h-6 bg-gray-700 rounded-lg w-96 mx-auto"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
   
   // Intersection observer to trigger animations when section comes into view
   useEffect(() => {
@@ -68,6 +53,23 @@ export function JourneySection() {
       }
     };
   }, []);
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black to-gray-900" />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center">
+            <div className="animate-pulse">
+              <div className="h-12 bg-gray-700 rounded-lg w-64 mx-auto mb-4"></div>
+              <div className="h-6 bg-gray-700 rounded-lg w-96 mx-auto"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="relative py-20 overflow-hidden" ref={containerRef}>
