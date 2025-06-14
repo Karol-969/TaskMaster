@@ -289,6 +289,40 @@ export const insertChatMessageSchema = createInsertSchema(chatMessages).omit({
   createdAt: true,
 });
 
+// Payment schema for Khalti integration
+export const payments = pgTable("payments", {
+  id: serial("id").primaryKey(),
+  bookingId: integer("booking_id").notNull(),
+  userId: integer("user_id").notNull(),
+  amount: integer("amount").notNull(), // Amount in paisa (1 NPR = 100 paisa)
+  currency: text("currency").notNull().default("NPR"),
+  status: text("status").notNull().default("pending"), // pending, completed, failed, refunded
+  paymentMethod: text("payment_method").notNull().default("khalti"), // khalti, cash, bank_transfer
+  khaltiTransactionId: text("khalti_transaction_id"),
+  khaltiPaymentId: text("khalti_payment_id"),
+  khaltiRefundId: text("khalti_refund_id"),
+  khaltiToken: text("khalti_token"),
+  khaltiIdx: text("khalti_idx"),
+  merchantReference: text("merchant_reference"),
+  customerName: text("customer_name"),
+  customerEmail: text("customer_email"),
+  customerPhone: text("customer_phone"),
+  productName: text("product_name"),
+  productIdentity: text("product_identity"),
+  productUrl: text("product_url"),
+  remarks: text("remarks"),
+  paymentDate: timestamp("payment_date"),
+  refundDate: timestamp("refund_date"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertPaymentSchema = createInsertSchema(payments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Type exports
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -325,3 +359,6 @@ export type InsertConversation = z.infer<typeof insertConversationSchema>;
 
 export type ChatMessage = typeof chatMessages.$inferSelect;
 export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
+
+export type Payment = typeof payments.$inferSelect;
+export type InsertPayment = z.infer<typeof insertPaymentSchema>;
