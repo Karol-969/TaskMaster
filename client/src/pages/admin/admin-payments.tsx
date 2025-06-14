@@ -75,26 +75,26 @@ export default function AdminPaymentsPage() {
     return matchesSearch && matchesStatus && matchesPaymentMethod;
   });
 
-  const totalRevenue = payments
+  const totalRevenue = paymentsArray
     .filter((p: Payment) => p.status === 'completed')
     .reduce((sum: number, p: Payment) => sum + p.amount, 0);
 
-  const pendingPayments = payments.filter((p: Payment) => p.status === 'pending').length;
-  const completedPayments = payments.filter((p: Payment) => p.status === 'completed').length;
-  const failedPayments = payments.filter((p: Payment) => p.status === 'failed').length;
+  const pendingPayments = paymentsArray.filter((p: Payment) => p.status === 'pending').length;
+  const completedPayments = paymentsArray.filter((p: Payment) => p.status === 'completed').length;
+  const failedPayments = paymentsArray.filter((p: Payment) => p.status === 'failed').length;
 
   if (isLoading) {
     return (
-      <AdminLayout>
+      <Layout>
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-400"></div>
         </div>
-      </AdminLayout>
+      </Layout>
     );
   }
 
   return (
-    <AdminLayout>
+    <Layout>
       <Helmet>
         <title>Payment Management | Admin Dashboard</title>
         <meta name="description" content="Manage and monitor payment transactions, revenue, and Khalti gateway integration." />
@@ -218,7 +218,7 @@ export default function AdminPaymentsPage() {
           <CardHeader>
             <CardTitle className="text-white">Payment Transactions</CardTitle>
             <p className="text-gray-400">
-              Showing {filteredPayments.length} of {payments.length} payments
+              Showing {filteredPayments.length} of {paymentsArray.length} payments
             </p>
           </CardHeader>
           <CardContent>
@@ -295,6 +295,6 @@ export default function AdminPaymentsPage() {
           </CardContent>
         </Card>
       </div>
-    </AdminLayout>
+    </Layout>
   );
 }
