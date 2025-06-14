@@ -13,6 +13,8 @@ import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
+import { AdminLayout } from '@/components/admin/admin-layout';
+import { Helmet } from 'react-helmet';
 import type { Influencer, InsertInfluencer } from '@shared/schema';
 
 const CATEGORIES = ['Lifestyle', 'Gaming', 'Food', 'Travel', 'Technology', 'Fitness', 'Fashion', 'Beauty', 'Music', 'Sports'];
@@ -263,17 +265,25 @@ export default function AdminInfluencersPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 bg-black min-h-screen">
+      <AdminLayout>
+        <Helmet>
+          <title>Influencer Management - Admin | ReArt Events</title>
+          <meta name="description" content="Manage influencers, collaborations, and content creator partnerships for ReArt Events platform." />
+        </Helmet>
         <div className="flex items-center justify-center h-64">
           <div className="text-white">Loading influencers...</div>
         </div>
-      </div>
+      </AdminLayout>
     );
   }
 
   return (
-    <div className="p-6 bg-black min-h-screen text-white">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <AdminLayout>
+      <Helmet>
+        <title>Influencer Management - Admin | ReArt Events</title>
+        <meta name="description" content="Comprehensive influencer management system for ReArt Events. Manage content creators, track collaborations, and oversee social media partnerships." />
+      </Helmet>
+      <div className="space-y-6">
         
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -977,6 +987,6 @@ export default function AdminInfluencersPage() {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+    </AdminLayout>
   );
 }
