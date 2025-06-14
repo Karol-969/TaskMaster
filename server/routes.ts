@@ -859,6 +859,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create user (in a real app, we would hash the password)
       const newUser = await storage.createUser(userData);
       
+      // Set user ID in session (auto-login after registration)
+      req.session.userId = newUser.id;
+      
       // Remove password from response
       const { password, ...userWithoutPassword } = newUser;
       

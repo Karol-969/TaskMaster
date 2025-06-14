@@ -68,6 +68,25 @@ export function KhaltiPaymentButton({
       const data = await response.json();
 
       if (!response.ok) {
+        // Handle authentication error - redirect to login
+        if (response.status === 401) {
+          setPaymentDialog(false);
+          setIsLoading(false);
+          
+          // Store current page and payment details for post-login redirect
+          const currentUrl = window.location.pathname + window.location.search;
+          const loginUrl = `/auth/login?redirect=${encodeURIComponent(currentUrl)}&from=payment`;
+          
+          toast({
+            title: "Login Required",
+            description: "Please sign in to complete your payment.",
+            variant: "default",
+          });
+          
+          window.location.href = loginUrl;
+          return;
+        }
+        
         throw new Error(data.message || 'Payment initiation failed');
       }
 

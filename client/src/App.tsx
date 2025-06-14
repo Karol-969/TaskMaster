@@ -36,6 +36,8 @@ import InfluencersPage from '@/pages/influencers';
 import InfluencerProfile from '@/pages/influencer-profile';
 import PaymentStatusPage from '@/pages/payment-success';
 import PaymentTestPage from '@/pages/payment-test';
+import LoginPage from '@/pages/auth/login';
+import RegisterPage from '@/pages/auth/register';
 
 
 
@@ -58,6 +60,8 @@ function Router() {
       <Route path="/influencer/:id" component={InfluencerProfile} />
       <Route path="/payment/status" component={PaymentStatusPage} />
       <Route path="/payment/test" component={PaymentTestPage} />
+      <Route path="/auth/login" component={LoginPage} />
+      <Route path="/auth/register" component={RegisterPage} />
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/admin/users" component={AdminUsersPage} />
