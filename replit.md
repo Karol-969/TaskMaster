@@ -22,13 +22,16 @@ ReArt Events is a comprehensive event management platform that connects artists,
 - **Session Management**: Express-session with PostgreSQL store
 - **Real-time Communication**: WebSocket server for chat functionality
 - **File Handling**: Multer for file uploads
+- **Payment Processing**: Khalti payment gateway integration with NRS currency
 - **API Design**: RESTful API with structured error handling
 
 ### Database Schema
 - **Users**: Authentication and profile management
 - **Artists**: Artist profiles, pricing, and availability
+- **Influencers**: Social media influencer profiles and collaboration rates
 - **Events**: Event management and scheduling
 - **Bookings**: Reservation and booking tracking
+- **Payments**: Khalti payment transactions and status tracking
 - **Sound Systems**: Equipment rental inventory
 - **Venues**: Venue listings and amenities
 - **Chat System**: Conversations and messaging
@@ -129,6 +132,8 @@ ReArt Events is a comprehensive event management platform that connects artists,
 ## Changelog
 
 Changelog:
+- June 14, 2025. Integrated Khalti payment gateway with NRS currency support
+- June 14, 2025. Enhanced influencer system with individual profiles and booking capabilities  
 - June 13, 2025. Initial setup
 
 ## User Preferences

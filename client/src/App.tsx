@@ -28,6 +28,7 @@ import AdminSoundEquipmentPage from '@/pages/admin/sound-equipment';
 import AdminContentPage from '@/pages/admin/content';
 import AdminChatPage from '@/pages/admin/chat';
 import AdminInfluencersPage from '@/pages/admin/admin-influencers';
+import AdminPaymentsPage from '@/pages/admin/admin-payments';
 import SoundPage from '@/pages/sound';
 import BlogPage from '@/pages/blog';
 import BlogPostPage from '@/pages/blog-post';
@@ -62,6 +63,7 @@ function Router() {
       <Route path="/admin/sound-equipment" component={AdminSoundEquipmentPage} />
       <Route path="/admin/events" component={AdminEventsPage} />
       <Route path="/admin/influencers" component={AdminInfluencersPage} />
+      <Route path="/admin/payments" component={AdminPaymentsPage} />
       <Route path="/admin/content" component={AdminContentPage} />
       <Route path="/admin/chat" component={AdminChatPage} />
       <Route path="/blog" component={BlogPage} />
