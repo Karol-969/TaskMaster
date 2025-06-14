@@ -88,6 +88,14 @@ export interface IStorage {
   getConversationMessages(conversationId: number): Promise<ChatMessage[]>;
   markMessagesAsRead(conversationId: number, userId: number): Promise<void>;
   getUnreadMessageCount(conversationId: number): Promise<number>;
+
+  // Payment methods
+  createPayment(payment: any): Promise<any>;
+  getPayment(id: number): Promise<any | undefined>;
+  getPaymentByPidx(pidx: string): Promise<any | undefined>;
+  updatePayment(id: number, payment: any): Promise<any | undefined>;
+  getAllPayments(): Promise<any[]>;
+  getUserPayments(userId: number): Promise<any[]>;
 }
 
 export class MemStorage implements IStorage {

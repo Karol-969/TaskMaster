@@ -2254,7 +2254,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Verify payment status
+  // Public payment status endpoint for testing and tracking
+  app.get('/api/payment/status/:identifier', async (req, res, next) => {
+    try {
+      const { identifier } = req.params;
+      let payment;
+      
+      // Check if identifier is numeric (payment ID) or string (PIDX)
+      if (/^\d+$/.test(identifier)) {
+        payment = await storage.getPayment(parseInt(identifier));
+      } else {
+        payment = await storage.getPaymentByPidx(identifier);
+      }
+      
+      if (!payment) {
+        return res.status(404).json({ message: "Payment not found" });
+      }
+
+      res.json(payment);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Verify payment status (protected)
   app.get('/api/payment/:id/status', authMiddleware, async (req, res, next) => {
     try {
       const paymentId = parseInt(req.params.id);

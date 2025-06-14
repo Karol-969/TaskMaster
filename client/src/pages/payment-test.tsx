@@ -207,15 +207,15 @@ export default function PaymentTestPage() {
                   </div>
 
                   <div className="bg-purple-900/20 border border-purple-600 p-4 rounded-lg">
-                    <h4 className="font-semibold text-purple-200 mb-2">Authentication Flow Test</h4>
+                    <h4 className="font-semibold text-purple-200 mb-2">Khalti Payment Test</h4>
                     <p className="text-sm text-purple-200 mb-4">
-                      This test will verify the complete authentication flow:
+                      This will test the complete Khalti payment integration:
                     </p>
                     <ul className="text-sm text-purple-200 space-y-1">
-                      <li>• If not logged in: Redirect to login page</li>
-                      <li>• Login/register with test credentials</li>
-                      <li>• Return to payment page automatically</li>
-                      <li>• Complete payment with Khalti</li>
+                      <li>• Click "Pay with Khalti" to initiate payment</li>
+                      <li>• You'll be redirected to Khalti's payment page</li>
+                      <li>• Use your Khalti wallet credentials to complete payment</li>
+                      <li>• Return to see payment confirmation</li>
                     </ul>
                   </div>
 
@@ -244,29 +244,82 @@ export default function PaymentTestPage() {
             {/* Instructions */}
             <Card className="bg-gray-900 border-gray-700 mt-8">
               <CardHeader>
-                <CardTitle className="text-white">Test Instructions</CardTitle>
+                <CardTitle className="text-white">Payment Testing Guide</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   <div>
-                    <h4 className="font-semibold text-white mb-3">Authentication Test</h4>
+                    <h4 className="font-semibold text-white mb-3">Step 1: Initiate Payment</h4>
                     <ol className="text-sm text-gray-300 space-y-2">
-                      <li>1. Click "Pay with Khalti" above</li>
-                      <li>2. If not logged in, you'll be redirected to login</li>
-                      <li>3. Use test credentials: username: <code className="bg-gray-800 px-1 rounded">testuser</code>, password: <code className="bg-gray-800 px-1 rounded">password123</code></li>
-                      <li>4. Or create a new account</li>
-                      <li>5. You'll return to complete the payment</li>
+                      <li>1. Configure payment details above</li>
+                      <li>2. Set amount (recommend Rs 10 for testing)</li>
+                      <li>3. Fill customer information</li>
+                      <li>4. Click "Pay with Khalti"</li>
+                      <li>5. You'll be redirected to Khalti's payment page</li>
                     </ol>
                   </div>
+                  
                   <div>
-                    <h4 className="font-semibold text-white mb-3">Khalti Payment Test</h4>
+                    <h4 className="font-semibold text-white mb-3">Step 2: Complete Payment</h4>
+                    <div className="space-y-3">
+                      <div className="bg-green-900/20 border border-green-600 p-3 rounded">
+                        <p className="text-sm text-green-200 font-medium mb-2">For Real Payments:</p>
+                        <ul className="text-xs text-green-200 space-y-1">
+                          <li>• Use your actual Khalti mobile number</li>
+                          <li>• Enter your Khalti wallet password/MPIN</li>
+                          <li>• Complete the payment normally</li>
+                        </ul>
+                      </div>
+                      
+                      <div className="bg-blue-900/20 border border-blue-600 p-3 rounded">
+                        <p className="text-sm text-blue-200 font-medium mb-2">For Test Environment:</p>
+                        <ul className="text-xs text-blue-200 space-y-1">
+                          <li>• Mobile: <code className="bg-gray-800 px-1 rounded">9800000001</code></li>
+                          <li>• MPIN: <code className="bg-gray-800 px-1 rounded">1111</code></li>
+                          <li>• Or use bank payment with test credentials</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-white mb-3">Step 3: Verification</h4>
                     <ol className="text-sm text-gray-300 space-y-2">
-                      <li>1. After authentication, payment will initiate</li>
-                      <li>2. You'll be redirected to Khalti's test page</li>
-                      <li>3. Use test payment methods</li>
-                      <li>4. Complete the payment flow</li>
-                      <li>5. Return to see payment confirmation</li>
+                      <li>1. After payment, you'll return to our site</li>
+                      <li>2. Check payment status page</li>
+                      <li>3. Verify booking confirmation</li>
+                      <li>4. Check admin panel for payment record</li>
+                      <li>5. Test complete!</li>
                     </ol>
+                    
+                    <div className="mt-4 p-3 bg-yellow-900/20 border border-yellow-600 rounded">
+                      <p className="text-xs text-yellow-200">
+                        <strong>Note:</strong> Small test amounts (Rs 10-50) are recommended to verify the integration without significant charges.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-6 pt-6 border-t border-gray-700">
+                  <h4 className="font-semibold text-white mb-3">Environment Status</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-gray-800 p-4 rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                        <span className="text-white font-medium">API Integration</span>
+                      </div>
+                      <p className="text-sm text-gray-300">Connected to Khalti API</p>
+                      <p className="text-xs text-gray-400">Production credentials detected</p>
+                    </div>
+                    
+                    <div className="bg-gray-800 p-4 rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-3 h-3 bg-orange-400 rounded-full"></div>
+                        <span className="text-white font-medium">Payment Gateway</span>
+                      </div>
+                      <p className="text-sm text-gray-300">Using Khalti's secure gateway</p>
+                      <p className="text-xs text-gray-400">Supports all major payment methods</p>
+                    </div>
                   </div>
                 </div>
               </CardContent>
