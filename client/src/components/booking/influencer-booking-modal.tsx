@@ -95,10 +95,7 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
       };
       
       // First create the collaboration booking
-      const booking = await apiRequest('/api/influencer-bookings', {
-        method: 'POST',
-        body: bookingData
-      });
+      const booking = await apiRequest('/api/influencer-bookings', 'POST', bookingData);
 
       // Then initiate Khalti payment
       const totalAmount = calculateTotalCost() * 100; // Convert NPR to paisa for Khalti
@@ -130,10 +127,7 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
         ]
       };
 
-      const paymentResponse = await apiRequest('/api/payments/initiate', {
-        method: 'POST',
-        body: paymentData
-      });
+      const paymentResponse = await apiRequest('/api/payments/initiate', 'POST', paymentData);
 
       return { booking, payment: paymentResponse };
     },
@@ -144,7 +138,7 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
       });
       
       // Redirect to Khalti payment URL
-      if (data.payment.payment_url) {
+      if (data.payment?.payment_url) {
         window.location.href = data.payment.payment_url;
       }
       
@@ -165,13 +159,14 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
   const calculateTotalCost = () => {
     let total = 0;
     if (deliverables.posts) total += deliverables.posts * influencer.postPrice;
-    if (deliverables.stories) total += deliverables.stories * (influencer.storyPrice || influencer.postPrice * 0.5);
-    if (deliverables.videos) total += deliverables.videos * (influencer.videoPrice || influencer.postPrice * 2);
-    if (deliverables.liveStreams) total += deliverables.liveStreams * (influencer.videoPrice || influencer.postPrice * 3);
+    if (deliverables.stories) total += deliverables.stories * (influencer.storyPrice ?? influencer.postPrice * 0.5);
+    if (deliverables.videos) total += deliverables.videos * (influencer.videoPrice ?? influencer.postPrice * 2);
+    if (deliverables.liveStreams) total += deliverables.liveStreams * (influencer.videoPrice ?? influencer.postPrice * 3);
     return total;
   };
 
-  const formatNumber = (num: number) => {
+  const formatNumber = (num: number | null) => {
+    if (!num) return '0';
     if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
     if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
     return num.toString();
@@ -185,10 +180,10 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
     }
   };
 
-  const totalFollowers = (influencer.instagramFollowers || 0) + 
-                        (influencer.tiktokFollowers || 0) + 
-                        (influencer.youtubeSubscribers || 0) + 
-                        (influencer.twitterFollowers || 0);
+  const totalFollowers = (influencer.instagramFollowers ?? 0) + 
+                        (influencer.tiktokFollowers ?? 0) + 
+                        (influencer.youtubeSubscribers ?? 0) + 
+                        (influencer.twitterFollowers ?? 0);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -563,19 +558,19 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
                           {deliverables.stories > 0 && (
                             <div className="flex justify-between">
                               <span>{deliverables.stories} Stories</span>
-                              <span>${deliverables.stories * (influencer.storyPrice || influencer.postPrice * 0.5)}</span>
+                              <span>${deliverables.stories * (influencer.storyPrice ?? influencer.postPrice * 0.5)}</span>
                             </div>
                           )}
                           {deliverables.videos > 0 && (
                             <div className="flex justify-between">
                               <span>{deliverables.videos} Videos</span>
-                              <span>${deliverables.videos * (influencer.videoPrice || influencer.postPrice * 2)}</span>
+                              <span>${deliverables.videos * (influencer.videoPrice ?? influencer.postPrice * 2)}</span>
                             </div>
                           )}
                           {deliverables.liveStreams > 0 && (
                             <div className="flex justify-between">
                               <span>{deliverables.liveStreams} Live Streams</span>
-                              <span>${deliverables.liveStreams * (influencer.videoPrice || influencer.postPrice * 3)}</span>
+                              <span>${deliverables.liveStreams * (influencer.videoPrice ?? influencer.postPrice * 3)}</span>
                             </div>
                           )}
                           <Separator className="my-2" />

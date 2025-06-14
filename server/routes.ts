@@ -1373,6 +1373,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // INFLUENCER BOOKING ROUTES
+  app.post('/api/influencer-bookings', async (req, res, next) => {
+    try {
+      const bookingData = {
+        ...req.body,
+        status: 'pending',
+        createdAt: new Date(),
+      };
+      
+      // For now, we'll create a simple booking record
+      // In a real application, this would be stored in the database
+      const booking = {
+        id: Date.now(), // Simple ID generation
+        ...bookingData,
+      };
+      
+      res.status(201).json(booking);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.get('/api/influencer-bookings', async (req, res, next) => {
+    try {
+      // Return empty array for now - would fetch from database in real implementation
+      res.json([]);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   // SOUND SYSTEM ROUTES
   app.get('/api/sound-systems', async (req, res, next) => {
     try {
