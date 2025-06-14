@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 
 interface TimelineItem {
   year: string;
@@ -7,38 +8,16 @@ interface TimelineItem {
   description: string;
 }
 
-const timelineData: TimelineItem[] = [
-  {
-    year: "2016",
-    title: "Humble Beginnings",
-    description: "Reart Events was founded as a small booking agency for local artists and venues."
-  },
-  {
-    year: "2018",
-    title: "Expanding Horizons",
-    description: "Added sound system rentals and influencer bookings to our growing service portfolio."
-  },
-  {
-    year: "2020",
-    title: "Digital Transformation",
-    description: "Launched our online booking platform to connect artists and venues across the country."
-  },
-  {
-    year: "2022",
-    title: "Global Reach",
-    description: "Expanded to international markets with artist and influencer management services."
-  },
-  {
-    year: "2024",
-    title: "Industry Leader",
-    description: "Recognized as a leading booking platform with thousands of successful events each year."
-  }
-];
-
 export function JourneySection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   
+  // Fetch journey content from database - hooks must be called unconditionally
+  const { data: homeContent, isLoading } = useQuery({
+    queryKey: ['/api/home-content'],
+    retry: false,
+  });
+
   // Parallax effect for background
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -46,6 +25,27 @@ export function JourneySection() {
   });
   
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+
+  // Extract journey data with fallback
+  const journeyData = homeContent?.find((item: any) => item.section === 'journey')?.content || {};
+  const timelineData = journeyData.timeline || [];
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black to-gray-900" />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center">
+            <div className="animate-pulse">
+              <div className="h-12 bg-gray-700 rounded-lg w-64 mx-auto mb-4"></div>
+              <div className="h-6 bg-gray-700 rounded-lg w-96 mx-auto"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
   
   // Intersection observer to trigger animations when section comes into view
   useEffect(() => {
@@ -97,21 +97,33 @@ export function JourneySection() {
       </motion.div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <motion.h2 
-          className="text-4xl md:text-5xl font-bold text-white text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          Our Journey
-        </motion.h2>
+        <motion.div className="text-center mb-16">
+          <motion.h2 
+            className="text-4xl md:text-5xl font-bold text-white mb-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            {journeyData.title || "Our Journey"}
+          </motion.h2>
+          {journeyData.subtitle && (
+            <motion.p 
+              className="text-xl text-gray-300 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            >
+              {journeyData.subtitle}
+            </motion.p>
+          )}
+        </motion.div>
 
         <div className="relative">
           {/* Vertical timeline line */}
           <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-accent/50 z-0"></div>
           
           {/* Timeline items */}
-          {timelineData.map((item, index) => (
+          {timelineData.map((item: TimelineItem, index: number) => (
             <motion.div 
               key={index}
               className={`flex items-center mb-20 relative ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
