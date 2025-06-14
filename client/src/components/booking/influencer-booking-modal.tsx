@@ -82,65 +82,50 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
 
   const createBookingMutation = useMutation({
     mutationFn: async (data: CollaborationForm) => {
-      // First create the collaboration booking
-      const booking = await apiRequest('/api/influencer-bookings', 'POST', {
-        ...data,
-        influencerId: influencer.id,
-      });
-
-      // Then initiate Khalti payment
       const totalAmount = calculateTotalCost() * 100; // Convert NPR to paisa for Khalti
-      const paymentData = {
-        return_url: `${window.location.origin}/payment/status`,
-        website_url: window.location.origin,
-        amount: totalAmount,
-        purchase_order_id: `INF-${booking.id}-${Date.now()}`,
-        purchase_order_name: `Influencer Collaboration - ${influencer.name}`,
-        customer_info: {
+      
+      // Use the same payment initiation as payment test page
+      const paymentPayload = {
+        bookingId: Math.floor(Math.random() * 10000), // Generate unique booking ID
+        amount: totalAmount / 100, // Convert back to NPR for the API
+        productName: `Influencer Collaboration - ${influencer.name}`,
+        customerInfo: {
           name: data.brandName,
           email: 'customer@reartevents.com',
           phone: '9800000000'
-        },
-        amount_breakdown: [
-          {
-            label: "Influencer Collaboration Fee",
-            amount: totalAmount
-          }
-        ],
-        product_details: [
-          {
-            identity: influencer.id.toString(),
-            name: `Collaboration with ${influencer.name}`,
-            total_price: totalAmount,
-            quantity: 1,
-            unit_price: totalAmount
-          }
-        ]
+        }
       };
 
-      const paymentResponse = await apiRequest('/api/payments/initiate', 'POST', paymentData);
+      const response = await fetch('/api/payments/initiate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentPayload),
+      });
 
-      return { booking, payment: paymentResponse };
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Payment initiation failed');
+      }
+
+      return await response.json();
     },
-    onSuccess: (data) => {
+    onSuccess: (paymentResponse: { paymentUrl: string; paymentId: number; pidx: string }) => {
       toast({
         title: "Redirecting to Payment",
-        description: "Your collaboration request has been created. Redirecting to Khalti for payment...",
+        description: "Redirecting to Khalti for secure payment...",
       });
       
-      // Redirect to Khalti payment URL
-      if (data.payment?.payment_url) {
-        window.location.href = data.payment.payment_url;
+      // Direct redirect to Khalti payment page
+      if (paymentResponse?.paymentUrl) {
+        window.location.href = paymentResponse.paymentUrl;
       }
-      
-      queryClient.invalidateQueries({ queryKey: ['/api/influencer-bookings'] });
-      reset();
-      onClose();
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to process collaboration request. Please try again.",
+        title: "Payment Error",
+        description: error.message || "Failed to initiate payment. Please try again.",
         variant: "destructive",
       });
     },

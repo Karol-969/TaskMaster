@@ -132,6 +132,7 @@ ReArt Events is a comprehensive event management platform that connects artists,
 ## Changelog
 
 Changelog:
+- June 14, 2025. Simplified influencer booking from 4-step wizard to single-page form with direct Khalti payment integration
 - June 14, 2025. Completed payment success flow with auto-redirect to home page and visual countdown
 - June 14, 2025. Fixed Khalti return URL configuration for proper post-payment navigation
 - June 14, 2025. Added payment success toast notifications and enhanced user experience
