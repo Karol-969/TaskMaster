@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -21,6 +22,15 @@ export function HeroSection() {
   const [formattedDate, setFormattedDate] = useState('');
   const [email, setEmail] = useState('');
   const [formattedDateLabel, setFormattedDateLabel] = useState('');
+
+  // Fetch dynamic hero content from admin panel
+  const { data: heroContent } = useQuery({
+    queryKey: ['/api/home-content'],
+    retry: false,
+  });
+
+  // Find hero section content
+  const heroData = heroContent?.find((item: any) => item.section === 'hero')?.content;
   
   useEffect(() => {
     if (date) {
@@ -72,7 +82,7 @@ export function HeroSection() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80" 
+          src={heroData?.backgroundImage || "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80"} 
           alt="Premium event venue" 
           className="w-full h-full object-cover" 
         />
@@ -83,20 +93,20 @@ export function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           <div className="text-white">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in-up">
-              Elite Event Experiences <span className="text-purple-500 purple-text-glow">Crafted</span> to Perfection
+              {heroData?.title || "Elite Event Experiences"} <span className="text-purple-500 purple-text-glow">{heroData?.subtitle || "Crafted"}</span> to Perfection
             </h1>
             <p className="text-xl opacity-90 mb-8 max-w-xl animate-fade-in-up delay-100">
-              From booking top artists to securing premium venues, we manage every detail of your event journey with precision and elegance.
+              {heroData?.description || "From booking top artists to securing premium venues, we manage every detail of your event journey with precision and elegance."}
             </p>
             <div className="flex flex-wrap gap-4 animate-fade-in-up delay-200">
-              <Link href="#services">
+              <Link href={heroData?.buttons?.[0]?.url || "#services"}>
                 <Button size="lg" className="bg-purple-500 hover:bg-purple-600 text-white purple-glow">
-                  Explore Services
+                  {heroData?.buttons?.[0]?.text || "Explore Services"}
                 </Button>
               </Link>
-              <Link href="/contact">
+              <Link href={heroData?.buttons?.[1]?.url || "/contact"}>
                 <Button size="lg" variant="outline" className="border-purple-500 bg-white/10 backdrop-blur-sm text-white hover:bg-purple-500 hover:text-white">
-                  Contact Us
+                  {heroData?.buttons?.[1]?.text || "Contact Us"}
                 </Button>
               </Link>
             </div>
