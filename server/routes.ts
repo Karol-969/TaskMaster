@@ -2128,8 +2128,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     console.warn('Khalti service not initialized:', error);
   }
 
-  // Initiate payment
-  app.post('/api/payment/initiate', authMiddleware, async (req, res, next) => {
+  // Initiate payment (no auth required - Khalti handles user auth)
+  app.post('/api/payment/initiate', async (req, res, next) => {
     try {
       if (!khaltiService) {
         return res.status(500).json({ message: "Payment service not configured" });
@@ -2137,19 +2137,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { bookingId, amount, productName, customerInfo } = req.body;
       
-      if (!bookingId || !amount || !productName) {
-        return res.status(400).json({ message: "Booking ID, amount, and product name are required" });
+      if (!bookingId || !amount || !productName || !customerInfo) {
+        return res.status(400).json({ message: "Booking ID, amount, product name, and customer info are required" });
       }
 
-      // Get booking details
-      const booking = await storage.getBooking(bookingId);
-      if (!booking) {
-        return res.status(404).json({ message: "Booking not found" });
-      }
-
-      // Check if user owns this booking
-      if (booking.userId !== req.user.id) {
-        return res.status(403).json({ message: "Access denied" });
+      // Validate customer info
+      if (!customerInfo.name || !customerInfo.email) {
+        return res.status(400).json({ message: "Customer name and email are required" });
       }
 
       // Generate payment reference
@@ -2160,15 +2154,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Prepare payment request
       const paymentRequest = {
-        return_url: `${process.env.BASE_URL || 'http://localhost:5000'}/payment/callback`,
+        return_url: `${process.env.BASE_URL || 'http://localhost:5000'}/payment/status`,
         website_url: process.env.BASE_URL || 'http://localhost:5000',
         amount: amountInPaisa,
         purchase_order_id: purchaseOrderId,
         purchase_order_name: productName,
         customer_info: {
-          name: customerInfo?.name || req.user.fullName,
-          email: customerInfo?.email || req.user.email,
-          phone: customerInfo?.phone || req.user.phone || ''
+          name: customerInfo.name,
+          email: customerInfo.email,
+          phone: customerInfo.phone || ''
         },
         product_details: [{
           identity: bookingId.toString(),
