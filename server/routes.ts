@@ -2153,10 +2153,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Convert amount to paisa (Khalti requires amount in paisa)
       const amountInPaisa = khaltiService.nprToPaisa(amount);
 
-      // Prepare payment request
+      // Prepare payment request with production domain
+      const baseUrl = process.env.BASE_URL || 'https://reartevents.com';
       const paymentRequest = {
-        return_url: `${process.env.BASE_URL || 'http://localhost:5000'}/payment/status`,
-        website_url: process.env.BASE_URL || 'http://localhost:5000',
+        return_url: `${baseUrl}/payment/status`,
+        website_url: baseUrl,
         amount: amountInPaisa,
         purchase_order_id: purchaseOrderId,
         purchase_order_name: productName,
