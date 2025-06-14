@@ -1,10 +1,10 @@
 import axios from 'axios';
 import crypto from 'crypto-js';
 
-// Khalti API Configuration - Production Environment
-// Using live production endpoints for production credentials
-const KHALTI_BASE_URL = 'https://khalti.com/api/v2';
-const KHALTI_GATEWAY_URL = 'https://khalti.com/api/v2/epayment';
+// Khalti API Configuration - Test Environment
+// Using test endpoints for development and testing
+const KHALTI_BASE_URL = 'https://a.khalti.com/api/v2';
+const KHALTI_GATEWAY_URL = 'https://a.khalti.com/api/v2/epayment';
 
 export interface KhaltiConfig {
   publicKey: string;
@@ -71,11 +71,8 @@ export class KhaltiService {
         paymentData,
         {
           headers: {
-            'Authorization': `Key ${this.config.secretKey}`,
-            'Content-Type': 'application/json',
-            'X-Khalti-Environment': 'production',
-            'X-Khalti-Version': 'v2',
-            'User-Agent': 'ReArt-Events-Production/1.0'
+            'Authorization': `key ${this.config.secretKey}`,
+            'Content-Type': 'application/json'
           },
           timeout: 30000,
         }
@@ -96,10 +93,8 @@ export class KhaltiService {
         { pidx },
         {
           headers: {
-            'Authorization': `Key ${this.config.secretKey}`,
-            'Content-Type': 'application/json',
-            'X-Khalti-Environment': 'production',
-            'X-Khalti-Version': 'v2',
+            'Authorization': `key ${this.config.secretKey}`,
+            'Content-Type': 'application/json'
           },
           timeout: 30000,
         }

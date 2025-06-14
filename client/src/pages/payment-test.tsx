@@ -320,8 +320,8 @@ export default function PaymentTestPage() {
                       <div className="bg-green-900/20 border border-green-600 p-3 rounded">
                         <p className="text-sm text-green-200 font-medium mb-2">For Real Payments:</p>
                         <ul className="text-xs text-green-200 space-y-1">
-                          <li>• Use your actual Khalti mobile number</li>
-                          <li>• Enter your Khalti wallet password/MPIN</li>
+                          <li>• Mobile: <code className="bg-gray-800 px-1 rounded">9841247178</code></li>
+                          <li>• Password: <code className="bg-gray-800 px-1 rounded">K@rol1234</code></li>
                           <li>• Complete the payment normally</li>
                         </ul>
                       </div>
@@ -356,24 +356,46 @@ export default function PaymentTestPage() {
                 </div>
                 
                 <div className="mt-6 pt-6 border-t border-gray-700">
-                  <h4 className="font-semibold text-white mb-3">Environment Status</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <h4 className="font-semibold text-white mb-3">System Status</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="bg-gray-800 p-4 rounded-lg">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                        <span className="text-white font-medium">API Integration</span>
+                        <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                        <span className="text-white font-medium">Authentication</span>
                       </div>
-                      <p className="text-sm text-gray-300">Connected to Khalti API</p>
-                      <p className="text-xs text-gray-400">Production credentials detected</p>
+                      <p className="text-sm text-gray-300">Invalid Token Error</p>
+                      <p className="text-xs text-gray-400">Secret key needs verification</p>
                     </div>
                     
                     <div className="bg-gray-800 p-4 rounded-lg">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-3 h-3 bg-orange-400 rounded-full"></div>
+                        <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                        <span className="text-white font-medium">API Configuration</span>
+                      </div>
+                      <p className="text-sm text-gray-300">Connected to Khalti API</p>
+                      <p className="text-xs text-gray-400">Test environment ready</p>
+                    </div>
+                    
+                    <div className="bg-gray-800 p-4 rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                         <span className="text-white font-medium">Payment Gateway</span>
                       </div>
-                      <p className="text-sm text-gray-300">Using Khalti's secure gateway</p>
-                      <p className="text-xs text-gray-400">Supports all major payment methods</p>
+                      <p className="text-sm text-gray-300">Awaiting valid credentials</p>
+                      <p className="text-xs text-gray-400">Ready for testing once authenticated</p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 p-4 bg-amber-900/20 border border-amber-600 rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-5 h-5 text-amber-400 mt-0.5">⚠</div>
+                      <div>
+                        <h5 className="text-amber-200 font-medium">Action Required</h5>
+                        <p className="text-sm text-amber-100 mt-1">
+                          The payment system is configured but needs valid Khalti credentials to process payments. 
+                          Update your secret key to enable payment processing.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
