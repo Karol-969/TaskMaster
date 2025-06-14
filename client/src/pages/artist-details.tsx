@@ -11,6 +11,7 @@ import {
   Award, Users, DollarSign, MessageCircle, ArrowLeft, 
   Heart, Share2, CalendarCheck
 } from "lucide-react";
+import { ArtistBookingModal } from '@/components/booking/artist-booking-modal';
 
 // Artist type
 interface Artist {
@@ -579,6 +580,15 @@ export default function ArtistDetailPage() {
           </div>
         </section>
       </div>
+
+      {/* Artist Booking Modal */}
+      {displayArtist && (
+        <ArtistBookingModal
+          artist={displayArtist}
+          isOpen={isBookingModalOpen}
+          onClose={() => setIsBookingModalOpen(false)}
+        />
+      )}
     </Layout>
   );
 }

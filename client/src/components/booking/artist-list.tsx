@@ -11,7 +11,7 @@ import {
   SelectValue 
 } from '@/components/ui/select';
 import { BookingCard } from '@/components/ui/booking-card';
-import { BookingModal } from '@/components/booking/booking-modal';
+import { ArtistBookingModal } from '@/components/booking/artist-booking-modal';
 import { generateStarRating, formatCurrency } from '@/lib/utils';
 
 export function ArtistList() {
