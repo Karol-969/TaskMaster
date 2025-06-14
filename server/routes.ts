@@ -16,8 +16,10 @@ import {
   insertVenueSchema,
   insertEventSchema,
   insertConversationSchema,
-  insertChatMessageSchema
+  insertChatMessageSchema,
+  insertPaymentSchema
 } from "@shared/schema";
+import { createKhaltiService } from "./services/khaltiService";
 import { ChatWebSocketServer } from "./websocket";
 import { z } from "zod";
 import { generateAIResponse, detectHumanRequest } from "./openai";
@@ -2110,6 +2112,187 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "I'm sorry, I'm experiencing technical difficulties. Please try again later or contact us directly at info@reartevents.com for assistance.",
         debug: process.env.NODE_ENV === 'development' ? errorMessage : undefined
       });
+    }
+  });
+
+  // KHALTI PAYMENT ROUTES
+  
+  // Initialize Khalti service
+  let khaltiService: any;
+  try {
+    khaltiService = createKhaltiService();
+  } catch (error) {
+    console.warn('Khalti service not initialized:', error);
+  }
+
+  // Initiate payment
+  app.post('/api/payment/initiate', authMiddleware, async (req, res, next) => {
+    try {
+      if (!khaltiService) {
+        return res.status(500).json({ message: "Payment service not configured" });
+      }
+
+      const { bookingId, amount, productName, customerInfo } = req.body;
+      
+      if (!bookingId || !amount || !productName) {
+        return res.status(400).json({ message: "Booking ID, amount, and product name are required" });
+      }
+
+      // Get booking details
+      const booking = await storage.getBooking(bookingId);
+      if (!booking) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
+
+      // Check if user owns this booking
+      if (booking.userId !== req.user.id) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      // Generate payment reference
+      const purchaseOrderId = khaltiService.generatePaymentReference();
+      
+      // Convert amount to paisa (Khalti requires amount in paisa)
+      const amountInPaisa = khaltiService.nprToPaisa(amount);
+
+      // Prepare payment request
+      const paymentRequest = {
+        return_url: `${process.env.BASE_URL || 'http://localhost:5000'}/payment/callback`,
+        website_url: process.env.BASE_URL || 'http://localhost:5000',
+        amount: amountInPaisa,
+        purchase_order_id: purchaseOrderId,
+        purchase_order_name: productName,
+        customer_info: {
+          name: customerInfo?.name || req.user.fullName,
+          email: customerInfo?.email || req.user.email,
+          phone: customerInfo?.phone || req.user.phone || ''
+        },
+        product_details: [{
+          identity: bookingId.toString(),
+          name: productName,
+          total_price: amountInPaisa,
+          quantity: 1,
+          unit_price: amountInPaisa
+        }]
+      };
+
+      // Initiate payment with Khalti
+      const paymentResponse = await khaltiService.initiatePayment(paymentRequest);
+
+      // Create payment record
+      const paymentData = {
+        bookingId,
+        userId: req.user.id,
+        amount: amountInPaisa,
+        status: 'pending',
+        khaltiIdx: paymentResponse.pidx,
+        merchantReference: purchaseOrderId,
+        customerName: paymentRequest.customer_info.name,
+        customerEmail: paymentRequest.customer_info.email,
+        customerPhone: paymentRequest.customer_info.phone,
+        productName,
+        productIdentity: bookingId.toString()
+      };
+
+      const payment = await storage.createPayment(paymentData);
+
+      res.json({
+        paymentId: payment.id,
+        paymentUrl: paymentResponse.payment_url,
+        pidx: paymentResponse.pidx,
+        expiresAt: paymentResponse.expires_at,
+        amount: khaltiService.formatAmount(amount),
+        amountInPaisa
+      });
+    } catch (error) {
+      console.error('Payment initiation error:', error);
+      next(error);
+    }
+  });
+
+  // Payment callback/verification
+  app.get('/payment/callback', async (req, res) => {
+    try {
+      const { pidx, status, transaction_id, tidx, amount, mobile, purchase_order_id } = req.query;
+
+      if (!pidx) {
+        return res.redirect('/?payment=failed&error=missing_pidx');
+      }
+
+      if (!khaltiService) {
+        return res.redirect('/?payment=failed&error=service_unavailable');
+      }
+
+      // Lookup payment status
+      const paymentLookup = await khaltiService.lookupPayment(pidx as string);
+      
+      // Find payment record
+      const payment = await storage.getPaymentByKhaltiIdx(pidx as string);
+      if (!payment) {
+        return res.redirect('/?payment=failed&error=payment_not_found');
+      }
+
+      // Update payment status
+      if (paymentLookup.status === 'Completed') {
+        await storage.updatePaymentStatus(payment.id, 'completed', {
+          khaltiTransactionId: paymentLookup.transaction_id,
+          paymentDate: new Date()
+        });
+        
+        // Update booking status
+        await storage.updateBookingStatus(payment.bookingId, 'confirmed');
+        
+        return res.redirect(`/?payment=success&booking=${payment.bookingId}`);
+      } else if (paymentLookup.status === 'Expired' || paymentLookup.status === 'User canceled') {
+        await storage.updatePaymentStatus(payment.id, 'failed');
+        return res.redirect('/?payment=cancelled');
+      } else {
+        return res.redirect('/?payment=pending');
+      }
+    } catch (error) {
+      console.error('Payment callback error:', error);
+      return res.redirect('/?payment=failed&error=callback_failed');
+    }
+  });
+
+  // Verify payment status
+  app.get('/api/payment/:id/status', authMiddleware, async (req, res, next) => {
+    try {
+      const paymentId = parseInt(req.params.id);
+      
+      const payment = await storage.getPayment(paymentId);
+      if (!payment) {
+        return res.status(404).json({ message: "Payment not found" });
+      }
+
+      // Check if user owns this payment
+      if (payment.userId !== req.user.id) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      res.json(payment);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Get user payments
+  app.get('/api/payments', authMiddleware, async (req, res, next) => {
+    try {
+      const payments = await storage.getUserPayments(req.user.id);
+      res.json(payments);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Admin: Get all payments
+  app.get('/api/admin/payments', adminMiddleware, async (req, res, next) => {
+    try {
+      const payments = await storage.getAllPayments();
+      res.json(payments);
+    } catch (error) {
+      next(error);
     }
   });
 
