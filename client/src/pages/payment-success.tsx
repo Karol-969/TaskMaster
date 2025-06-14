@@ -4,14 +4,17 @@ import { Layout } from '@/components/layout/layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, XCircle, AlertCircle, ArrowRight, Download, Calendar } from 'lucide-react';
+import { CheckCircle, XCircle, AlertCircle, ArrowRight, Download, Calendar, Home } from 'lucide-react';
 import { Helmet } from 'react-helmet';
+import { useToast } from '@/hooks/use-toast';
 
 export default function PaymentStatusPage() {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [paymentStatus, setPaymentStatus] = useState<'success' | 'failed' | 'pending' | null>(null);
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [countdown, setCountdown] = useState(5);
+  const { toast } = useToast();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -30,7 +33,28 @@ export default function PaymentStatusPage() {
     if (errorParam) {
       setError(errorParam);
     }
-  }, [location]);
+
+    // Auto redirect to home page after successful payment
+    if (payment === 'success') {
+      toast({
+        title: "Payment Successful!",
+        description: "Your booking has been confirmed. Redirecting to home page...",
+        duration: 4000,
+      });
+
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            setLocation('/');
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [location, toast, setLocation]);
 
   const formatNPR = (amount: number) => {
     return new Intl.NumberFormat('ne-NP', {
@@ -119,6 +143,32 @@ export default function PaymentStatusPage() {
                 <p className="text-gray-300 text-center text-lg">
                   {getStatusMessage()}
                 </p>
+
+                {paymentStatus === 'success' && countdown > 0 && (
+                  <div className="bg-green-900/20 border border-green-600 rounded-lg p-4 text-center">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <Home className="h-5 w-5 text-green-400" />
+                      <span className="text-green-200 font-medium">Redirecting to Home</span>
+                    </div>
+                    <p className="text-green-300 text-sm">
+                      Taking you back to the main page in <span className="font-bold text-green-200">{countdown}</span> seconds...
+                    </p>
+                    <div className="mt-2 w-full bg-gray-700 rounded-full h-2">
+                      <div 
+                        className="bg-green-400 h-2 rounded-full transition-all duration-1000"
+                        style={{ width: `${((5 - countdown) / 5) * 100}%` }}
+                      ></div>
+                    </div>
+                    <Button 
+                      onClick={() => setLocation('/')}
+                      variant="outline" 
+                      size="sm" 
+                      className="mt-3 border-green-600 text-green-300 hover:bg-green-900/20"
+                    >
+                      Go to Home Now
+                    </Button>
+                  </div>
+                )}
 
                 {error && (
                   <div className="bg-red-900/20 border border-red-600 rounded-lg p-4">
