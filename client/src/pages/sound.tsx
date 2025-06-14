@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Volume2, Mic, Music, Zap, ChevronDown, Star, Users, Calendar, CheckCircle } from 'lucide-react';
 import { SoundEquipmentGallery } from '@/components/booking/sound-equipment-gallery';
 import { SoundPackageSelector } from '@/components/booking/sound-package-selector';
-import { EnhancedSoundBookingForm } from '@/components/booking/enhanced-sound-booking-form';
+import { SoundEquipmentBookingModal } from '@/components/booking/sound-equipment-booking-modal';
 
 interface SoundSystem {
   id: number;
@@ -442,16 +442,10 @@ export default function SoundPage() {
       </section>
 
       {/* Booking Form Modal */}
-      <AnimatePresence>
-        {showBookingForm && (
-          <EnhancedSoundBookingForm
-            isOpen={showBookingForm}
-            onClose={() => setShowBookingForm(false)}
-            soundSystems={soundSystems}
-            packages={packages}
-          />
-        )}
-      </AnimatePresence>
+      <SoundEquipmentBookingModal
+        isOpen={showBookingForm}
+        onClose={() => setShowBookingForm(false)}
+      />
     </Layout>
   );
 }
