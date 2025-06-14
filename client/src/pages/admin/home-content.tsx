@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -358,6 +358,11 @@ function HeroSectionEditor({ content, onSave, isLoading }: {
 }) {
   const [editedContent, setEditedContent] = useState(content);
 
+  // Update local state when content prop changes
+  useEffect(() => {
+    setEditedContent(content);
+  }, [content]);
+
   return (
     <Card>
       <CardHeader>
@@ -452,6 +457,11 @@ function HeroSectionEditor({ content, onSave, isLoading }: {
 // About Section Editor Component
 function AboutSectionEditor({ content, onSave, isLoading }: any) {
   const [editedContent, setEditedContent] = useState(content);
+
+  // Update local state when content prop changes
+  useEffect(() => {
+    setEditedContent(content);
+  }, [content]);
 
   return (
     <Card>
@@ -553,6 +563,11 @@ function AboutSectionEditor({ content, onSave, isLoading }: any) {
 // Services Section Editor Component
 function ServicesSectionEditor({ content, onSave, isLoading }: any) {
   const [editedContent, setEditedContent] = useState(content);
+
+  // Update local state when content prop changes
+  useEffect(() => {
+    setEditedContent(content);
+  }, [content]);
 
   return (
     <Card>
@@ -656,6 +671,11 @@ function ServicesSectionEditor({ content, onSave, isLoading }: any) {
 // Journey Section Editor Component
 function JourneySectionEditor({ content, onSave, isLoading }: any) {
   const [editedContent, setEditedContent] = useState(content);
+
+  // Update local state when content prop changes
+  useEffect(() => {
+    setEditedContent(content);
+  }, [content]);
 
   return (
     <Card>
