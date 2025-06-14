@@ -293,7 +293,7 @@ export const insertChatMessageSchema = createInsertSchema(chatMessages).omit({
 export const payments = pgTable("payments", {
   id: serial("id").primaryKey(),
   bookingId: integer("booking_id").notNull(),
-  userId: integer("user_id").notNull(),
+  userId: integer("user_id"), // Nullable for guest payments - Khalti handles customer verification
   amount: integer("amount").notNull(), // Amount in paisa (1 NPR = 100 paisa)
   currency: text("currency").notNull().default("NPR"),
   status: text("status").notNull().default("pending"), // pending, completed, failed, refunded

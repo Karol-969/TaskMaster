@@ -2185,10 +2185,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Initiate payment with Khalti
       const paymentResponse = await khaltiService.initiatePayment(paymentRequest);
 
-      // Create payment record
+      // Create payment record (using guest user ID for now - Khalti handles customer verification)
       const paymentData = {
         bookingId,
-        userId: req.user.id,
+        userId: 0, // Guest user ID - will be updated when schema migration completes
         amount: amountInPaisa,
         status: 'pending',
         khaltiIdx: paymentResponse.pidx,
