@@ -1247,6 +1247,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // PUBLIC HOME CONTENT ROUTES
+  app.get('/api/home-content', async (req: Request, res: Response) => {
+    try {
+      // Return same data structure as admin endpoint for consistency
+      const mockData = [
+        { id: 1, section: 'hero', content: { title: 'Elite Event Experiences in Nepal', subtitle: 'Crafted to Perfection', description: 'From booking top artists to securing premium venues, we manage every detail of your event journey with precision and elegance.', backgroundImage: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80', buttons: [{ text: 'Explore Services', url: '/services' }, { text: 'Contact Us', url: '/contact' }] } },
+        { id: 2, section: 'about', content: { title: 'About ReArt Events', description: 'Leading event management company' } }
+      ];
+      res.json(mockData);
+    } catch (error) {
+      console.error('Error fetching home content:', error);
+      res.status(500).json({ message: 'Failed to fetch home content' });
+    }
+  });
+
   // ARTIST ROUTES
   app.get('/api/artists', async (req, res, next) => {
     try {
