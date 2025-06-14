@@ -12,26 +12,21 @@ export function JourneySection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   
-  // Fetch journey content from database - hooks must be called unconditionally
+  // Fetch journey content from database
   const { data: homeContent, isLoading } = useQuery({
     queryKey: ['/api/home-content'],
     retry: false,
   });
 
-  // Parallax effect for background
+  // Parallax effect for background - add layoutEffect: false to prevent hydration warnings
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
+    layoutEffect: false
   });
   
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
-  // Extract journey data with fallback - must be before any conditional returns
-  const journeyData = (homeContent && Array.isArray(homeContent)) 
-    ? homeContent.find((item: any) => item.section === 'journey')?.content || {}
-    : {};
-  const timelineData = journeyData.timeline || [];
-  
   // Intersection observer to trigger animations when section comes into view
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -54,6 +49,18 @@ export function JourneySection() {
     };
   }, []);
 
+  // Extract journey data with proper error handling
+  let journeyData = {};
+  let timelineData: TimelineItem[] = [];
+  
+  if (homeContent && Array.isArray(homeContent)) {
+    const journeySection = homeContent.find((item: any) => item.section === 'journey');
+    if (journeySection && journeySection.content) {
+      journeyData = journeySection.content;
+      timelineData = journeySection.content.timeline || [];
+    }
+  }
+
   // Show loading state
   if (isLoading) {
     return (
@@ -72,7 +79,7 @@ export function JourneySection() {
   }
 
   return (
-    <section className="relative py-20 overflow-hidden" ref={containerRef}>
+    <section className="relative py-20 overflow-hidden" ref={containerRef} style={{position: 'relative'}}>
       {/* Animated background elements */}
       <motion.div 
         className="absolute inset-0 z-0" 
@@ -106,16 +113,16 @@ export function JourneySection() {
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {journeyData.title || "Our Journey"}
+            {(journeyData as any)?.title || "Our Journey"}
           </motion.h2>
-          {journeyData.subtitle && (
+          {(journeyData as any)?.subtitle && (
             <motion.p 
               className="text-xl text-gray-300 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={isVisible ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
-              {journeyData.subtitle}
+              {(journeyData as any).subtitle}
             </motion.p>
           )}
         </motion.div>
