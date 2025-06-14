@@ -8,6 +8,7 @@ import {
   integer,
   boolean,
   decimal,
+  serial,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -30,7 +31,6 @@ export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   email: varchar("email").unique(),
   fullName: varchar("full_name"),
-  profileImageUrl: varchar("profile_image_url"),
   username: varchar("username").unique(),
   password: varchar("password"),
   role: varchar("role").default("user"),
