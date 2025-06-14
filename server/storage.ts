@@ -198,25 +198,215 @@ export class MemStorage implements IStorage {
       price: 1500
     });
 
-    // Add Influencers
+    // Add Comprehensive Influencer Portfolio
     this.createInfluencer({
-      name: "Emma Style",
-      category: "Fashion",
-      description: "Fashion influencer with 2M+ followers across platforms. Known for trendsetting styles and brand partnerships.",
-      imageUrl: "https://images.unsplash.com/photo-1603561596112-0a132b757442?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500&q=80",
-      socialStats: "Instagram: 1.5M, TikTok: 800K, YouTube: 500K",
+      name: "Suhana Thapa",
+      category: "Lifestyle",
+      description: "Nepal's leading lifestyle influencer specializing in travel, fashion, and cultural content. Known for authentic storytelling and brand collaborations.",
+      imageUrl: "https://images.unsplash.com/photo-1494790108755-2616c6d8e95a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500&q=80",
+      bio: "Passionate about showcasing Nepal's beauty and culture to the world. Collaborated with 50+ brands.",
+      postPrice: 15000,
+      storyPrice: 8000,
+      videoPrice: 35000,
+      packagePrice: 50000,
+      phone: "+977-9841234567",
+      contactEmail: "suhana@example.com",
+      languages: ["Nepali", "English", "Hindi"],
+      location: "Kathmandu",
+      instagramFollowers: 280000,
+      tiktokFollowers: 150000,
+      youtubeSubscribers: 45000,
+      engagementRate: 620, // 6.2% stored as 620
+      averageViews: 25000,
+      totalReach: 475000,
       rating: 5,
-      price: 3000
+      totalCollaborations: 52,
+      portfolioImages: [
+        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        "https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      ],
+      targetAudience: {
+        ageRange: "18-35",
+        gender: "60% Female, 40% Male",
+        interests: ["Travel", "Fashion", "Culture", "Food"]
+      },
+      isVerified: true,
+      isActive: true
     });
 
     this.createInfluencer({
-      name: "Tech with Mike",
-      category: "Technology",
-      description: "Tech reviewer and digital content creator with an engaged audience of tech enthusiasts.",
-      imageUrl: "https://images.unsplash.com/photo-1582152629442-4a864303fb96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500&q=80",
-      socialStats: "YouTube: 1.2M, Instagram: 500K, Twitter: 300K",
+      name: "Rajesh Gaming",
+      category: "Gaming",
+      description: "Top gaming content creator in Nepal with focus on mobile gaming, reviews, and esports content.",
+      imageUrl: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500&q=80",
+      bio: "Professional gamer and content creator. Specializing in mobile gaming content and esports commentary.",
+      postPrice: 12000,
+      storyPrice: 6000,
+      videoPrice: 40000,
+      packagePrice: 75000,
+      phone: "+977-9856789012",
+      contactEmail: "rajesh.gaming@example.com",
+      languages: ["Nepali", "English"],
+      location: "Pokhara",
+      instagramFollowers: 180000,
+      tiktokFollowers: 320000,
+      youtubeSubscribers: 85000,
+      engagementRate: 750, // 7.5% stored as 750
+      averageViews: 35000,
+      totalReach: 585000,
       rating: 4,
-      price: 2500
+      totalCollaborations: 38,
+      portfolioImages: [
+        "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        "https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      ],
+      targetAudience: {
+        ageRange: "16-30",
+        gender: "75% Male, 25% Female",
+        interests: ["Gaming", "Technology", "Entertainment", "Esports"]
+      },
+      isVerified: true,
+      isActive: true
+    });
+
+    this.createInfluencer({
+      name: "Priya Cooking",
+      category: "Food",
+      description: "Authentic Nepali cuisine expert and cooking instructor. Promotes traditional recipes and modern twists.",
+      imageUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500&q=80",
+      bio: "Traditional Nepali cooking with modern presentation. Teaching authentic recipes to preserve our culinary heritage.",
+      postPrice: 10000,
+      storyPrice: 5000,
+      videoPrice: 25000,
+      packagePrice: 40000,
+      phone: "+977-9812345678",
+      contactEmail: "priya.cooking@example.com",
+      languages: ["Nepali", "English", "Hindi"],
+      location: "Lalitpur",
+      instagramFollowers: 120000,
+      tiktokFollowers: 95000,
+      youtubeSubscribers: 65000,
+      engagementRate: 850, // 8.5% stored as 850
+      averageViews: 28000,
+      totalReach: 280000,
+      rating: 5,
+      totalCollaborations: 29,
+      portfolioImages: [
+        "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      ],
+      targetAudience: {
+        ageRange: "25-50",
+        gender: "70% Female, 30% Male",
+        interests: ["Cooking", "Food", "Culture", "Health"]
+      },
+      isVerified: true,
+      isActive: true
+    });
+
+    this.createInfluencer({
+      name: "Adventure Nepal",
+      category: "Travel",
+      description: "Adventure travel specialist promoting Nepal's trekking routes, adventure sports, and hidden gems.",
+      imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500&q=80",
+      bio: "Exploring Nepal's hidden gems and promoting sustainable tourism. Professional mountain guide and photographer.",
+      postPrice: 18000,
+      storyPrice: 9000,
+      videoPrice: 45000,
+      packagePrice: 100000,
+      phone: "+977-9823456789",
+      contactEmail: "adventure.nepal@example.com",
+      languages: ["Nepali", "English"],
+      location: "Base Camp Areas",
+      instagramFollowers: 350000,
+      tiktokFollowers: 120000,
+      youtubeSubscribers: 95000,
+      engagementRate: 580, // 5.8% stored as 580
+      averageViews: 42000,
+      totalReach: 565000,
+      rating: 4,
+      totalCollaborations: 45,
+      portfolioImages: [
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      ],
+      targetAudience: {
+        ageRange: "20-45",
+        gender: "55% Male, 45% Female",
+        interests: ["Adventure", "Travel", "Photography", "Nature"]
+      },
+      isVerified: true,
+      isActive: true
+    });
+
+    this.createInfluencer({
+      name: "Tech Guru Nepal",
+      category: "Technology",
+      description: "Technology reviewer and educator focusing on latest gadgets, software, and tech trends in Nepal.",
+      imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500&q=80",
+      bio: "Simplifying technology for everyone. Honest reviews and tutorials to help people make informed tech decisions.",
+      postPrice: 14000,
+      storyPrice: 7000,
+      videoPrice: 35000,
+      packagePrice: 80000,
+      phone: "+977-9834567890",
+      contactEmail: "techguru@example.com",
+      languages: ["Nepali", "English"],
+      location: "Kathmandu",
+      instagramFollowers: 200000,
+      tiktokFollowers: 180000,
+      youtubeSubscribers: 120000,
+      engagementRate: 680, // 6.8% stored as 680
+      averageViews: 38000,
+      totalReach: 500000,
+      rating: 5,
+      totalCollaborations: 56,
+      portfolioImages: [
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      ],
+      targetAudience: {
+        ageRange: "18-40",
+        gender: "65% Male, 35% Female",
+        interests: ["Technology", "Gadgets", "Innovation", "Reviews"]
+      },
+      isVerified: true,
+      isActive: true
+    });
+
+    this.createInfluencer({
+      name: "Fitness Motivator",
+      category: "Fitness",
+      description: "Certified fitness trainer and wellness coach promoting healthy lifestyle and fitness routines.",
+      imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500&q=80",
+      bio: "Certified personal trainer helping people achieve their fitness goals. Promoting healthy lifestyle choices.",
+      postPrice: 11000,
+      storyPrice: 6000,
+      videoPrice: 28000,
+      packagePrice: 60000,
+      phone: "+977-9845678901",
+      contactEmail: "fitness.motivator@example.com",
+      languages: ["Nepali", "English"],
+      location: "Kathmandu",
+      instagramFollowers: 160000,
+      tiktokFollowers: 140000,
+      youtubeSubscribers: 55000,
+      engagementRate: 920, // 9.2% stored as 920
+      averageViews: 22000,
+      totalReach: 355000,
+      rating: 4,
+      totalCollaborations: 33,
+      portfolioImages: [
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        "https://images.unsplash.com/photo-1549476464-37392f717541?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      ],
+      targetAudience: {
+        ageRange: "20-40",
+        gender: "50% Male, 50% Female",
+        interests: ["Fitness", "Health", "Wellness", "Sports"]
+      },
+      isVerified: false,
+      isActive: true
     });
 
     // Add Sound Systems with enhanced data

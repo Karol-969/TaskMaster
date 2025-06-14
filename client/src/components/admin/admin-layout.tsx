@@ -29,6 +29,7 @@ const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: Home },
   { name: 'User Management', href: '/admin/users', icon: Users },
   { name: 'Artist Management', href: '/admin/artists', icon: Music },
+  { name: 'Influencer Management', href: '/admin/influencers', icon: UserCheck },
   { name: 'Sound Equipment', href: '/admin/sound-equipment', icon: Volume2 },
   { name: 'Event Management', href: '/admin/events', icon: Calendar },
   { name: 'Booking Management', href: '/admin/bookings', icon: Shield },
