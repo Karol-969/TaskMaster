@@ -3,7 +3,7 @@ import crypto from 'crypto-js';
 
 // Khalti API Configuration
 const KHALTI_BASE_URL = 'https://a.khalti.com/api/v2';
-const KHALTI_GATEWAY_URL = 'https://khalti.com/api/v2/epayment';
+const KHALTI_GATEWAY_URL = 'https://a.khalti.com/api/v2/epayment';
 
 export interface KhaltiConfig {
   publicKey: string;
