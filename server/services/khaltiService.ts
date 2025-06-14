@@ -1,7 +1,7 @@
 import axios from 'axios';
 import crypto from 'crypto-js';
 
-// Khalti API Configuration
+// Khalti API Configuration - Production Environment
 const KHALTI_BASE_URL = 'https://a.khalti.com/api/v2';
 const KHALTI_GATEWAY_URL = 'https://a.khalti.com/api/v2/epayment';
 
