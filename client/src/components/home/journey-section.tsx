@@ -55,18 +55,11 @@ export function JourneySection() {
   
   if (homeContent && Array.isArray(homeContent)) {
     const journeySection = homeContent.find((item: any) => item.section === 'journey');
-    console.log('Journey section found:', journeySection);
     if (journeySection && journeySection.content) {
       journeyData = journeySection.content;
       timelineData = journeySection.content.timeline || [];
-      console.log('Journey data:', journeyData);
-      console.log('Timeline data:', timelineData);
     }
   }
-  
-  console.log('Home content:', homeContent);
-  console.log('Final journey data:', journeyData);
-  console.log('Final timeline data:', timelineData);
 
   // Show loading state
   if (isLoading) {
@@ -84,6 +77,8 @@ export function JourneySection() {
       </section>
     );
   }
+
+
 
   return (
     <section className="relative py-20 overflow-hidden" ref={containerRef} style={{position: 'relative'}}>
@@ -117,7 +112,7 @@ export function JourneySection() {
           <motion.h2 
             className="text-4xl md:text-5xl font-bold text-white mb-4"
             initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             {(journeyData as any)?.title || "Our Journey"}
@@ -126,7 +121,7 @@ export function JourneySection() {
             <motion.p 
               className="text-xl text-gray-300 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
               {(journeyData as any).subtitle}
@@ -144,14 +139,14 @@ export function JourneySection() {
               key={index}
               className={`flex items-center mb-20 relative ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
               initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-              animate={isVisible ? { opacity: 1, x: 0 } : {}}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 + index * 0.2, ease: "easeOut" }}
             >
               {/* Year bubble */}
               <motion.div 
                 className="absolute left-1/2 transform -translate-x-1/2 z-10 w-16 h-16 rounded-full bg-accent flex items-center justify-center shadow-lg"
                 initial={{ scale: 0 }}
-                animate={isVisible ? { scale: 1 } : {}}
+                animate={{ scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.5 + index * 0.2, type: "spring" }}
                 whileHover={{ scale: 1.1 }}
               >
