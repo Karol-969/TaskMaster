@@ -55,11 +55,18 @@ export function JourneySection() {
   
   if (homeContent && Array.isArray(homeContent)) {
     const journeySection = homeContent.find((item: any) => item.section === 'journey');
+    console.log('Journey section found:', journeySection);
     if (journeySection && journeySection.content) {
       journeyData = journeySection.content;
       timelineData = journeySection.content.timeline || [];
+      console.log('Journey data:', journeyData);
+      console.log('Timeline data:', timelineData);
     }
   }
+  
+  console.log('Home content:', homeContent);
+  console.log('Final journey data:', journeyData);
+  console.log('Final timeline data:', timelineData);
 
   // Show loading state
   if (isLoading) {
