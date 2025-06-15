@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -68,9 +68,20 @@ export function ArtistBookingModal({ artist, isOpen, onClose }: ArtistBookingMod
   const form = useForm<ArtistBookingForm>({
     resolver: zodResolver(artistBookingSchema),
     defaultValues: {
+      eventName: '',
+      eventType: '',
+      eventDate: '',
+      startTime: '',
+      endTime: '',
+      venueName: '',
+      venueAddress: '',
       expectedAttendance: 50,
+      contactName: '',
+      contactEmail: '',
+      contactPhone: '',
       performanceType: '',
       duration: '',
+      specialRequirements: '',
     },
   });
 
@@ -169,7 +180,9 @@ export function ArtistBookingModal({ artist, isOpen, onClose }: ArtistBookingMod
             <Music className="h-6 w-6 text-purple-400" />
             Book {artist.name}
           </DialogTitle>
-          <p className="text-gray-400">{artist.genre} • {artist.description}</p>
+          <DialogDescription className="text-gray-400">
+            {artist.genre} • {artist.description}
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
