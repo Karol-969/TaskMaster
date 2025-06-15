@@ -30,7 +30,9 @@ export function HeroSection() {
   });
 
   // Find hero section content
-  const heroData = heroContent?.find((item: any) => item.section === 'hero')?.content;
+  const heroData = (heroContent && Array.isArray(heroContent)) 
+    ? heroContent.find((item: any) => item.section === 'hero')?.content 
+    : null;
   
   useEffect(() => {
     if (date) {
@@ -93,20 +95,20 @@ export function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           <div className="text-white">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in-up">
-              {heroData?.title || "Elite Event Experiences"} <span className="text-purple-500 purple-text-glow">{heroData?.subtitle || "Crafted"}</span> to Perfection
+              {heroData?.title || "Elite Event Experiences"} <span className="text-purple-500 purple-text-glow">{heroData?.subtitle || "Crafted to Perfection"}</span>
             </h1>
             <p className="text-xl opacity-90 mb-8 max-w-xl animate-fade-in-up delay-100">
               {heroData?.description || "From booking top artists to securing premium venues, we manage every detail of your event journey with precision and elegance."}
             </p>
             <div className="flex flex-wrap gap-4 animate-fade-in-up delay-200">
-              <Link href={heroData?.buttons?.[0]?.url || "#services"}>
+              <Link href={heroData?.ctaButtons?.[0]?.link || "/services"}>
                 <Button size="lg" className="bg-purple-500 hover:bg-purple-600 text-white purple-glow">
-                  {heroData?.buttons?.[0]?.text || "Explore Services"}
+                  {heroData?.ctaButtons?.[0]?.text || "Explore Services"}
                 </Button>
               </Link>
-              <Link href={heroData?.buttons?.[1]?.url || "/contact"}>
+              <Link href={heroData?.ctaButtons?.[1]?.link || "/contact"}>
                 <Button size="lg" variant="outline" className="border-purple-500 bg-white/10 backdrop-blur-sm text-white hover:bg-purple-500 hover:text-white">
-                  {heroData?.buttons?.[1]?.text || "Contact Us"}
+                  {heroData?.ctaButtons?.[1]?.text || "Contact Us"}
                 </Button>
               </Link>
             </div>
