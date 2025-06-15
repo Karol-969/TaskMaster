@@ -136,9 +136,10 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
     },
   });
 
+  const postPrice = influencer.postPrice ?? 0;
+  
   const calculateTotalCost = () => {
     let total = 0;
-    const postPrice = influencer.postPrice ?? 0;
     if (deliverables.posts) total += deliverables.posts * postPrice;
     if (deliverables.stories) total += deliverables.stories * (influencer.storyPrice ?? Math.round(postPrice * 0.5));
     if (deliverables.videos) total += deliverables.videos * (influencer.videoPrice ?? Math.round(postPrice * 2));
@@ -178,7 +179,7 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
               <CardContent className="p-4">
                 <div className="flex items-center gap-4 mb-4">
                   <img
-                    src={influencer.imageUrl}
+                    src={influencer.imageUrl ?? '/api/placeholder/64/64'}
                     alt={influencer.name}
                     className="w-16 h-16 rounded-full object-cover"
                   />
@@ -376,25 +377,25 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
                         {deliverables.posts > 0 && (
                           <div className="flex justify-between">
                             <span>{deliverables.posts} Posts</span>
-                            <span>NPR {deliverables.posts * influencer.postPrice}</span>
+                            <span>NPR {deliverables.posts * postPrice}</span>
                           </div>
                         )}
                         {deliverables.stories > 0 && (
                           <div className="flex justify-between">
                             <span>{deliverables.stories} Stories</span>
-                            <span>NPR {deliverables.stories * (influencer.storyPrice ?? Math.round(influencer.postPrice * 0.5))}</span>
+                            <span>NPR {deliverables.stories * (influencer.storyPrice ?? Math.round(postPrice * 0.5))}</span>
                           </div>
                         )}
                         {deliverables.videos > 0 && (
                           <div className="flex justify-between">
                             <span>{deliverables.videos} Videos</span>
-                            <span>NPR {deliverables.videos * (influencer.videoPrice ?? Math.round(influencer.postPrice * 2))}</span>
+                            <span>NPR {deliverables.videos * (influencer.videoPrice ?? Math.round(postPrice * 2))}</span>
                           </div>
                         )}
                         {deliverables.liveStreams > 0 && (
                           <div className="flex justify-between">
                             <span>{deliverables.liveStreams} Live Streams</span>
-                            <span>NPR {deliverables.liveStreams * (influencer.videoPrice ?? Math.round(influencer.postPrice * 3))}</span>
+                            <span>NPR {deliverables.liveStreams * (influencer.videoPrice ?? Math.round((influencer.postPrice ?? 0) * 3))}</span>
                           </div>
                         )}
                         <Separator className="my-2" />
