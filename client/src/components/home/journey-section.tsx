@@ -58,6 +58,9 @@ export function JourneySection() {
     if (journeySection && journeySection.content) {
       journeyData = journeySection.content;
       timelineData = journeySection.content.timeline || [];
+      // Debug: Verify data is being processed correctly
+      console.log('Journey data found:', journeyData);
+      console.log('Timeline items:', timelineData.length);
     }
   }
 

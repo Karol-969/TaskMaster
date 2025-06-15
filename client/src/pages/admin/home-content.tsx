@@ -186,8 +186,11 @@ export default function HomeContentAdmin() {
         title: "Content Updated",
         description: "Home page content has been successfully updated.",
       });
+      // Invalidate all related queries to ensure frontend updates
       queryClient.invalidateQueries({ queryKey: ['/api/admin/home-content'] });
       queryClient.invalidateQueries({ queryKey: ['/api/home-content'] });
+      // Force refetch to ensure immediate update
+      queryClient.refetchQueries({ queryKey: ['/api/home-content'] });
     },
     onError: () => {
       toast({
@@ -405,15 +408,12 @@ function HeroSectionEditor({ content, onSave, isLoading }: {
             </div>
           </div>
           <div className="space-y-4">
-            <div>
-              <Label htmlFor="hero-background">Background Image URL</Label>
-              <Input
-                id="hero-background"
-                value={editedContent.backgroundImage}
-                onChange={(e) => setEditedContent({ ...editedContent, backgroundImage: e.target.value })}
-                placeholder="Enter image URL"
-              />
-            </div>
+            <ImageUpload
+              label="Background Image"
+              value={editedContent.backgroundImage || ''}
+              onChange={(imageUrl) => setEditedContent({ ...editedContent, backgroundImage: imageUrl })}
+              placeholder="Enter background image URL or upload file"
+            />
             <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
               <h4 className="font-medium mb-3">Call-to-Action Buttons</h4>
               {editedContent.ctaButtons?.map((button: any, index: number) => (
@@ -503,14 +503,12 @@ function AboutSectionEditor({ content, onSave, isLoading }: any) {
             </div>
           </div>
           <div className="space-y-4">
-            <div>
-              <Label htmlFor="about-image">Section Image URL</Label>
-              <Input
-                id="about-image"
-                value={editedContent.image}
-                onChange={(e) => setEditedContent({ ...editedContent, image: e.target.value })}
-              />
-            </div>
+            <ImageUpload
+              label="Section Image"
+              value={editedContent.image || ''}
+              onChange={(imageUrl) => setEditedContent({ ...editedContent, image: imageUrl })}
+              placeholder="Enter section image URL or upload file"
+            />
             <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
               <h4 className="font-medium mb-3">Statistics</h4>
               {editedContent.stats?.map((stat: any, index: number) => (
