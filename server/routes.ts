@@ -845,6 +845,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // IMAGE UPLOAD ROUTE
+  app.post('/api/upload', adminMiddleware, upload.single('image'), (req: Request, res: Response) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+      }
+
+      const imageUrl = `/uploads/${req.file.filename}`;
+      res.json({ 
+        message: 'Image uploaded successfully',
+        imageUrl: imageUrl,
+        fileName: req.file.filename
+      });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      res.status(500).json({ message: 'Error uploading image' });
+    }
+  });
+
   // ADMIN AUTH ROUTES
   app.post('/api/auth/admin-login', async (req, res, next) => {
     try {
