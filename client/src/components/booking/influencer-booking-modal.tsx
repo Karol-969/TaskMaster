@@ -69,6 +69,10 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
   } = useForm<CollaborationForm>({
     resolver: zodResolver(collaborationSchema),
     defaultValues: {
+      campaignName: '',
+      collaborationType: '',
+      brandName: '',
+      campaignObjectives: '',
       deliverables: {
         posts: 1,
         stories: 0,
@@ -134,10 +138,11 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
 
   const calculateTotalCost = () => {
     let total = 0;
-    if (deliverables.posts) total += deliverables.posts * influencer.postPrice;
-    if (deliverables.stories) total += deliverables.stories * (influencer.storyPrice ?? Math.round(influencer.postPrice * 0.5));
-    if (deliverables.videos) total += deliverables.videos * (influencer.videoPrice ?? Math.round(influencer.postPrice * 2));
-    if (deliverables.liveStreams) total += deliverables.liveStreams * (influencer.videoPrice ?? Math.round(influencer.postPrice * 3));
+    const postPrice = influencer.postPrice ?? 0;
+    if (deliverables.posts) total += deliverables.posts * postPrice;
+    if (deliverables.stories) total += deliverables.stories * (influencer.storyPrice ?? Math.round(postPrice * 0.5));
+    if (deliverables.videos) total += deliverables.videos * (influencer.videoPrice ?? Math.round(postPrice * 2));
+    if (deliverables.liveStreams) total += deliverables.liveStreams * (influencer.videoPrice ?? Math.round(postPrice * 3));
     return total;
   };
 
@@ -161,6 +166,9 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Book Collaboration with {influencer.name}</DialogTitle>
+          <DialogDescription>
+            Create a collaboration campaign with {influencer.name} to reach their audience of {formatNumber(totalFollowers)} followers
+          </DialogDescription>
         </DialogHeader>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
