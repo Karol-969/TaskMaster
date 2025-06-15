@@ -395,7 +395,7 @@ export function InfluencerBookingModal({ influencer, isOpen, onClose }: Influenc
                         {deliverables.liveStreams > 0 && (
                           <div className="flex justify-between">
                             <span>{deliverables.liveStreams} Live Streams</span>
-                            <span>NPR {deliverables.liveStreams * (influencer.videoPrice ?? Math.round((influencer.postPrice ?? 0) * 3))}</span>
+                            <span>NPR {deliverables.liveStreams * (influencer.videoPrice ?? Math.round(postPrice * 3))}</span>
                           </div>
                         )}
                         <Separator className="my-2" />
