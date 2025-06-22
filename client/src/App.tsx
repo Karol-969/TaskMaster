@@ -27,6 +27,7 @@ import AdminEventsPage from '@/pages/admin/events';
 import AdminSoundEquipmentPage from '@/pages/admin/sound-equipment';
 import AdminContentPage from '@/pages/admin/content';
 import AdminChatPage from '@/pages/admin/chat';
+import AdminBannerAds from '@/pages/admin/banner-ads';
 import AdminInfluencersPage from '@/pages/admin/admin-influencers';
 import AdminPaymentsPage from '@/pages/admin/admin-payments';
 import HomeContentAdmin from '@/pages/admin/home-content';
@@ -71,6 +72,7 @@ function Router() {
       <Route path="/admin/events" component={AdminEventsPage} />
       <Route path="/admin/influencers" component={AdminInfluencersPage} />
       <Route path="/admin/payments" component={AdminPaymentsPage} />
+      <Route path="/admin/banner-ads" component={AdminBannerAds} />
       <Route path="/admin/home-content" component={HomeContentAdmin} />
       <Route path="/admin/content" component={AdminContentPage} />
       <Route path="/admin/chat" component={AdminChatPage} />
