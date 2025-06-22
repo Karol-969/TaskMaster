@@ -2296,7 +2296,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         returnUrl: paymentRequest.return_url,
         websiteUrl: paymentRequest.website_url,
         bookingType: 'sound-equipment',
-        bookingData: data,
+        bookingData: req.body,
         khaltiResponse: paymentResponse
       };
 
