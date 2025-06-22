@@ -232,6 +232,28 @@ export const chatMessages = pgTable("chat_messages", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Banner Ads table
+export const bannerAds = pgTable("banner_ads", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  imageUrl: varchar("image_url", { length: 500 }),
+  linkUrl: varchar("link_url", { length: 500 }),
+  position: varchar("position", { length: 50 }).notNull(), // 'header', 'sidebar', 'footer', 'content-top', 'content-bottom'
+  pages: text("pages").array(), // Array of page names where banner should appear
+  isActive: boolean("is_active").default(true),
+  priority: integer("priority").default(0), // Higher priority shows first
+  startDate: timestamp("start_date"),
+  endDate: timestamp("end_date"),
+  clickCount: integer("click_count").default(0),
+  impressionCount: integer("impression_count").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type BannerAd = typeof bannerAds.$inferSelect;
+export type InsertBannerAd = typeof bannerAds.$inferInsert;
+
 // Create insert schemas
 export const insertArtistSchema = createInsertSchema(artists);
 export const insertInfluencerSchema = createInsertSchema(influencers);
@@ -241,6 +263,7 @@ export const insertTestimonialSchema = createInsertSchema(testimonials);
 export const insertHomePageContentSchema = createInsertSchema(homePageContent);
 export const insertSoundSystemSchema = createInsertSchema(soundSystems);
 export const insertPaymentSchema = createInsertSchema(payments);
+export const insertBannerAdSchema = createInsertSchema(bannerAds);
 
 // Define content schemas for different sections
 export const heroSectionSchema = z.object({

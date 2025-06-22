@@ -1,4 +1,4 @@
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, or, isNull, lte, gte, sql } from "drizzle-orm";
 import { db } from "./db";
 import { 
   users, type User, type UpsertUser,
@@ -10,7 +10,8 @@ import {
   homePageContent, type HomePageContent, type InsertHomePageContent,
   soundSystems, type SoundSystem, type InsertSoundSystem,
   payments, type Payment, type InsertPayment,
-  conversations, chatMessages
+  conversations, chatMessages,
+  bannerAds, type BannerAd, type InsertBannerAd
 } from "@shared/schema";
 import { IStorage } from "./storage";
 

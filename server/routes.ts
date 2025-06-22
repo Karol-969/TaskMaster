@@ -2426,6 +2426,87 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Banner Ads API routes
+  app.get('/api/banner-ads', async (req: Request, res: Response) => {
+    try {
+      const { position, page } = req.query;
+      const banners = await storage.getActiveBannerAds(
+        page as string, 
+        position as string
+      );
+      res.json(banners);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.post('/api/banner-ads/:id/click', async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      await storage.incrementBannerClicks(parseInt(id));
+      res.json({ success: true });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.post('/api/banner-ads/:id/impression', async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      await storage.incrementBannerImpressions(parseInt(id));
+      res.json({ success: true });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Admin Banner Ads routes
+  app.get('/api/admin/banner-ads', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const banners = await storage.getAllBannerAds();
+      res.json(banners);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.post('/api/admin/banner-ads', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const banner = await storage.createBannerAd(req.body);
+      res.json(banner);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.put('/api/admin/banner-ads/:id', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const banner = await storage.updateBannerAd(parseInt(id), req.body);
+      if (banner) {
+        res.json(banner);
+      } else {
+        res.status(404).json({ message: 'Banner not found' });
+      }
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.delete('/api/admin/banner-ads/:id', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteBannerAd(parseInt(id));
+      if (success) {
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ message: 'Banner not found' });
+      }
+    } catch (error) {
+      next(error);
+    }
+  });
+
   const httpServer = createServer(app);
   
   // Initialize WebSocket server for real-time chat
