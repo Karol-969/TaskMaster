@@ -453,6 +453,97 @@ export class DatabaseStorage implements IStorage {
       .orderBy(chatMessages.createdAt);
   }
 
+  // Banner Ads operations
+  async getAllBannerAds(): Promise<BannerAd[]> {
+    return await db
+      .select()
+      .from(bannerAds)
+      .orderBy(desc(bannerAds.priority), desc(bannerAds.createdAt));
+  }
+
+  async getBannerAd(id: number): Promise<BannerAd | undefined> {
+    const [banner] = await db.select().from(bannerAds).where(eq(bannerAds.id, id));
+    return banner || undefined;
+  }
+
+  async getActiveBannerAds(page?: string, position?: string): Promise<BannerAd[]> {
+    let query = db
+      .select()
+      .from(bannerAds)
+      .where(eq(bannerAds.isActive, true));
+
+    // Add date filtering for active banners
+    const now = new Date();
+    query = query.where(
+      or(
+        isNull(bannerAds.startDate),
+        lte(bannerAds.startDate, now)
+      )
+    ).where(
+      or(
+        isNull(bannerAds.endDate),
+        gte(bannerAds.endDate, now)
+      )
+    );
+
+    if (position) {
+      query = query.where(eq(bannerAds.position, position));
+    }
+
+    const results = await query.orderBy(desc(bannerAds.priority), desc(bannerAds.createdAt));
+
+    // Filter by page if specified
+    if (page) {
+      return results.filter(banner => 
+        !banner.pages || 
+        banner.pages.length === 0 || 
+        banner.pages.includes(page) || 
+        banner.pages.includes('all')
+      );
+    }
+
+    return results;
+  }
+
+  async createBannerAd(banner: InsertBannerAd): Promise<BannerAd> {
+    const [newBanner] = await db.insert(bannerAds).values(banner).returning();
+    return newBanner;
+  }
+
+  async updateBannerAd(id: number, banner: Partial<InsertBannerAd>): Promise<BannerAd | undefined> {
+    const [updated] = await db
+      .update(bannerAds)
+      .set({ ...banner, updatedAt: new Date() })
+      .where(eq(bannerAds.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async deleteBannerAd(id: number): Promise<boolean> {
+    const result = await db.delete(bannerAds).where(eq(bannerAds.id, id));
+    return result.rowCount > 0;
+  }
+
+  async incrementBannerClicks(id: number): Promise<void> {
+    await db
+      .update(bannerAds)
+      .set({ 
+        clickCount: sql`${bannerAds.clickCount} + 1`,
+        updatedAt: new Date()
+      })
+      .where(eq(bannerAds.id, id));
+  }
+
+  async incrementBannerImpressions(id: number): Promise<void> {
+    await db
+      .update(bannerAds)
+      .set({ 
+        impressionCount: sql`${bannerAds.impressionCount} + 1`,
+        updatedAt: new Date()
+      })
+      .where(eq(bannerAds.id, id));
+  }
+
   async updatePaymentStatus(id: number, status: string, additionalData?: any): Promise<Payment | undefined> {
     const updateData: any = { status, updatedAt: new Date() };
     

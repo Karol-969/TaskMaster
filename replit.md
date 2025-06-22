@@ -132,6 +132,7 @@ ReArt Events is a comprehensive event management platform that connects artists,
 ## Changelog
 
 Changelog:
+- June 22, 2025. Implemented comprehensive banner ads management system - created admin interface for dynamic banner control across all pages, added banner display components with multiple positions (header, content-top, between-sections, content-bottom, footer), integrated analytics tracking (clicks/impressions), and enabled page-specific targeting with priority-based display
 - June 22, 2025. Fixed sound equipment payment system - resolved database schema issues by adding missing columns (pidx, txn_id, etc.) to payments table and updated_at to sound_systems table, enabling complete Khalti payment integration for sound equipment bookings
 - June 14, 2025. Fixed admin panel home content management system - resolved database schema mismatches and API parameter order issues, enabling real-time content updates for all home page sections
 - June 14, 2025. Connected admin panel to real database, replacing all mock data with live database operations for content management
