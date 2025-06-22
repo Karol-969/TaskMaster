@@ -92,6 +92,7 @@ docker compose up --build
 - Ensure OPENAI_API_KEY is set correctly
 - Check WebSocket connection at ws://localhost:5000/ws
 - Verify chat tables exist in database
+- Test with: `curl -X POST http://localhost:5000/api/chat -H "Content-Type: application/json" -d '{"message": "test", "assistantType": "ai_assistant"}'`
 
 ### Logs and Debugging
 ```bash
@@ -118,13 +119,52 @@ npm run dev
 docker compose up --build
 ```
 
+## Verification Tests
+
+### Test AI Chat Assistant
+```bash
+# Test chat API
+curl -X POST http://localhost:5000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Hello, I need help with sound equipment", "assistantType": "ai_assistant"}'
+
+# Test payment system
+curl -X POST http://localhost:5000/api/payment/initiate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "bookingId": 12345,
+    "amount": 15000,
+    "productName": "Sound Equipment - Basic Package",
+    "customerInfo": {
+      "name": "Test User",
+      "email": "test@example.com", 
+      "phone": "9841234567"
+    }
+  }'
+```
+
+### Verify Database
+```bash
+# Check database connection
+docker compose exec db psql -U postgres -d reart_events -c "SELECT COUNT(*) FROM artists;"
+
+# View sample data
+docker compose exec db psql -U postgres -d reart_events -c "SELECT name, pricing FROM sound_systems;"
+```
+
 ## Features Ready for Use
 
 ### Booking Systems
 - Artist booking with payment processing
-- Sound equipment rental
+- Sound equipment rental (Basic: NPR 15,000, Standard: NPR 25,000, Premium: NPR 40,000)
 - Venue booking and management
 - Event creation and ticketing
+
+### AI-Powered Chat
+- Intelligent chat assistant with OpenAI integration
+- Context-aware responses about services and pricing
+- Real-time WebSocket communication
+- Fallback responses when OpenAI unavailable
 
 ### Payment Integration
 - Khalti payment gateway (Nepal)
