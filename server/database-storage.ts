@@ -403,14 +403,10 @@ export class DatabaseStorage implements IStorage {
     return payment || undefined;
   }
 
-  async getPaymentByKhaltiIdx(khaltiIdx: string): Promise<Payment | undefined> {
-    const [payment] = await db.select().from(payments).where(eq(payments.khaltiIdx, khaltiIdx));
+  async getPaymentByPidx(pidx: string): Promise<Payment | undefined> {
+    const [payment] = await db.select().from(payments).where(eq(payments.pidx, pidx));
     return payment || undefined;
   }
-
-  async getPaymentByPidx(pidx: string): Promise<Payment | undefined> {
-    const [payment] = await db.select().from(payments).where(eq(payments.khaltiIdx, pidx));
-    return payment || undefined;
   }
 
   async updatePayment(id: number, paymentData: any): Promise<Payment | undefined> {

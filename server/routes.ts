@@ -2284,17 +2284,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Create payment record (guest payments supported - Khalti handles customer verification)
       const paymentData = {
-        bookingId,
-        userId: 0, // Guest user ID for anonymous payments
+        pidx: paymentResponse.pidx,
         amount: amountInPaisa,
-        status: 'pending',
-        khaltiIdx: paymentResponse.pidx,
-        merchantReference: purchaseOrderId,
+        status: 'Pending',
+        productIdentity: bookingId.toString(),
+        productName,
+        productUrl: paymentRequest.return_url,
         customerName: paymentRequest.customer_info.name,
         customerEmail: paymentRequest.customer_info.email,
         customerPhone: paymentRequest.customer_info.phone,
-        productName,
-        productIdentity: bookingId.toString()
+        returnUrl: paymentRequest.return_url,
+        websiteUrl: paymentRequest.website_url,
+        bookingType: 'sound-equipment',
+        bookingData: data,
+        khaltiResponse: paymentResponse
       };
 
       const payment = await storage.createPayment(paymentData);

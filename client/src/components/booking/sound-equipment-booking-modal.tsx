@@ -98,13 +98,14 @@ export function SoundEquipmentBookingModal({ isOpen, onClose }: SoundEquipmentBo
       // Use the same payment initiation as other booking pages
       const paymentPayload = {
         bookingId: Math.floor(Math.random() * 10000), // Generate unique booking ID
-        amount: totalAmount / 100, // Convert back to NPR for the API
+        amount: calculateTotalCost(), // Amount in NPR
         productName: `Sound Equipment - ${getSelectedPackage()?.name}`,
         customerInfo: {
           name: data.contactName,
           email: data.contactEmail,
           phone: data.contactPhone
-        }
+        },
+        bookingData: data
       };
 
       const response = await fetch('/api/payment/initiate', {
