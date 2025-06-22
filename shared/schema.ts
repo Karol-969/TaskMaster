@@ -167,6 +167,53 @@ export const homePageContent = pgTable("home_page_content", {
 export type HomePageContent = typeof homePageContent.$inferSelect;
 export type InsertHomePageContent = typeof homePageContent.$inferInsert;
 
+// Sound Systems table
+export const soundSystems = pgTable("sound_systems", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  name: varchar("name", { length: 255 }).notNull(),
+  type: varchar("type", { length: 100 }),
+  description: text("description"),
+  specifications: text("specifications"),
+  pricing: varchar("pricing", { length: 100 }),
+  powerRating: varchar("power_rating", { length: 50 }),
+  coverageArea: varchar("coverage_area", { length: 100 }),
+  imageUrl: varchar("image_url", { length: 500 }),
+  category: varchar("category", { length: 100 }),
+  features: text("features").array(),
+  available: boolean("available").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type SoundSystem = typeof soundSystems.$inferSelect;
+export type InsertSoundSystem = typeof soundSystems.$inferInsert;
+
+// Payments table
+export const payments = pgTable("payments", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  pidx: varchar("pidx", { length: 255 }).unique().notNull(),
+  txnId: varchar("txn_id", { length: 255 }),
+  amount: integer("amount").notNull(),
+  currency: varchar("currency", { length: 10 }).default("NPR"),
+  status: varchar("status", { length: 50 }).default("Pending"),
+  productIdentity: varchar("product_identity", { length: 255 }),
+  productName: varchar("product_name", { length: 255 }),
+  productUrl: varchar("product_url", { length: 500 }),
+  customerName: varchar("customer_name", { length: 255 }),
+  customerEmail: varchar("customer_email", { length: 255 }),
+  customerPhone: varchar("customer_phone", { length: 50 }),
+  returnUrl: varchar("return_url", { length: 500 }),
+  websiteUrl: varchar("website_url", { length: 500 }),
+  bookingType: varchar("booking_type", { length: 50 }),
+  bookingData: jsonb("booking_data"),
+  khaltiResponse: jsonb("khalti_response"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type Payment = typeof payments.$inferSelect;
+export type InsertPayment = typeof payments.$inferInsert;
+
 // Create insert schemas
 export const insertArtistSchema = createInsertSchema(artists);
 export const insertInfluencerSchema = createInsertSchema(influencers);
@@ -174,6 +221,8 @@ export const insertEventSchema = createInsertSchema(events);
 export const insertBlogPostSchema = createInsertSchema(blogPosts);
 export const insertTestimonialSchema = createInsertSchema(testimonials);
 export const insertHomePageContentSchema = createInsertSchema(homePageContent);
+export const insertSoundSystemSchema = createInsertSchema(soundSystems);
+export const insertPaymentSchema = createInsertSchema(payments);
 
 // Define content schemas for different sections
 export const heroSectionSchema = z.object({
