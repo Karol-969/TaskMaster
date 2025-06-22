@@ -214,6 +214,24 @@ export const payments = pgTable("payments", {
 export type Payment = typeof payments.$inferSelect;
 export type InsertPayment = typeof payments.$inferInsert;
 
+// Conversations table
+export const conversations = pgTable("conversations", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("user_id"),
+  title: varchar("title", { length: 255 }),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Chat Messages table
+export const chatMessages = pgTable("chat_messages", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  conversationId: integer("conversation_id").references(() => conversations.id),
+  sender: varchar("sender", { length: 50 }).notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Create insert schemas
 export const insertArtistSchema = createInsertSchema(artists);
 export const insertInfluencerSchema = createInsertSchema(influencers);

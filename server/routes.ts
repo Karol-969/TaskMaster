@@ -1,5 +1,6 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
+import { ChatWebSocketServer } from "./chat-websocket";
 import session from "express-session";
 import multer from "multer";
 import path from "path";
