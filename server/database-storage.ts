@@ -433,6 +433,25 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(payments.createdAt));
   }
 
+  // Chat operations
+  async createConversation(conversation: any): Promise<any> {
+    const [newConversation] = await db.insert(conversations).values(conversation).returning();
+    return newConversation;
+  }
+
+  async createMessage(message: any): Promise<any> {
+    const [newMessage] = await db.insert(chatMessages).values(message).returning();
+    return newMessage;
+  }
+
+  async getConversationMessages(conversationId: number): Promise<any[]> {
+    return await db
+      .select()
+      .from(chatMessages)
+      .where(eq(chatMessages.conversationId, conversationId))
+      .orderBy(chatMessages.createdAt);
+  }
+
   async updatePaymentStatus(id: number, status: string, additionalData?: any): Promise<Payment | undefined> {
     const updateData: any = { status, updatedAt: new Date() };
     

@@ -1,72 +1,147 @@
-# Quick Deploy Guide - ReArt Events Platform
+# Quick Deployment Guide
 
-Deploy the complete ReArt Events platform with working chat functionality in under 5 minutes.
+Deploy ReArt Events platform locally using Docker in under 5 minutes.
 
 ## Prerequisites
 - Docker and Docker Compose installed
-- OpenAI API key (get from https://platform.openai.com/api-keys)
+- OpenAI API key (optional, for AI chat features)
 
-## 1-Command Deployment
+## Quick Start
 
+### 1. Clone and Setup
 ```bash
-# Clone, configure, and deploy
-git clone <repository-url> && cd reart-events && \
-echo "OPENAI_API_KEY=sk-your_actual_openai_api_key_here" > .env && \
-docker-compose up --build
+# Clone the repository
+git clone <your-repo-url>
+cd reart-events
+
+# (Optional) Set OpenAI API key for AI chat features
+export OPENAI_API_KEY=sk-your-key-here
 ```
 
-Replace `sk-your_actual_openai_api_key_here` with your actual OpenAI API key.
+### 2. Deploy with Docker
+```bash
+# Single command deployment
+docker compose up --build
+```
 
-## Access Points
-
-After deployment completes (2-3 minutes):
-
-- **Website**: http://localhost:5000
+### 3. Access the Application
+- **Main Website**: http://localhost:5000
 - **Admin Panel**: http://localhost:5000/admin/login
-  - Username: `admin`
-  - Password: `admin123`
+- **Admin Credentials**: admin / admin123
 
-## Test Chat Functionality
+## Features Included
 
-1. Open http://localhost:5000
-2. Click purple chat icon (bottom-right)
-3. Choose "AI Assistant"
-4. Send: "What services do you offer?"
-5. Verify AI response about ReArt Events services
+### Core Services
+- Artist booking system with Khalti payment integration
+- Sound equipment rental with real-time pricing
+- Influencer collaboration platform
+- Event management and booking
+- Admin dashboard for complete management
 
-## Success Indicators
+### AI-Powered Features
+- Intelligent chat assistant (requires OpenAI API key)
+- Automated customer support responses
+- Context-aware conversation handling
 
-✅ Both containers running (`docker-compose ps`)
-✅ Admin login works with admin/admin123
-✅ Chat responds with detailed service information
-✅ All pages load without errors
-✅ Sample data visible (artists, events, equipment)
-
-## If Chat Shows Fallback Message
-
-The chat will show "experiencing technical difficulties" if:
-- OpenAI API key missing or invalid
-- Network connectivity issues
-
-**Fix**: Update `.env` file with valid API key and restart:
-```bash
-docker-compose restart
-```
-
-## Complete Environment Template
-
-Create `.env` with this content:
-```env
-OPENAI_API_KEY=sk-your_actual_openai_api_key_here
-DATABASE_URL=postgresql://postgres:postgres@db:5432/reart_events
-NODE_ENV=production
-SESSION_SECRET=reart-events-session-2024
-```
-
-This deployment includes:
-- Complete event management platform
-- Admin panel with full CRUD operations
-- AI-powered chat widget
-- Sample data (artists, events, venues, equipment)
-- PostgreSQL database with automatic initialization
+### Technical Features
+- PostgreSQL database with automatic migrations
+- Real-time WebSocket chat functionality
+- Responsive design for all devices
 - Production-ready Docker configuration
+
+## Configuration
+
+### Environment Variables
+```bash
+# Required for production
+NODE_ENV=production
+DATABASE_URL=postgresql://postgres:postgres@db:5432/reart_events
+
+# Optional - AI Chat Features
+OPENAI_API_KEY=sk-your-key-here
+
+# Security
+SESSION_SECRET=your-session-secret
+```
+
+### Database Configuration
+- **Host**: localhost:5499 (external access)
+- **Database**: reart_events
+- **Username**: postgres
+- **Password**: postgres
+
+## Troubleshooting
+
+### Common Issues
+
+**Port Already in Use**
+```bash
+# Stop conflicting services
+sudo lsof -ti:5000 | xargs kill -9
+sudo lsof -ti:5499 | xargs kill -9
+```
+
+**Database Connection Issues**
+```bash
+# Restart containers
+docker compose down
+docker compose up --build
+```
+
+**Chat Not Working**
+- Ensure OPENAI_API_KEY is set correctly
+- Check WebSocket connection at ws://localhost:5000/ws
+- Verify chat tables exist in database
+
+### Logs and Debugging
+```bash
+# View application logs
+docker compose logs app -f
+
+# View database logs
+docker compose logs db -f
+
+# Check container status
+docker compose ps
+```
+
+## Development vs Production
+
+### Development Mode
+```bash
+npm install
+npm run dev
+```
+
+### Production Mode (Docker)
+```bash
+docker compose up --build
+```
+
+## Features Ready for Use
+
+### Booking Systems
+- Artist booking with payment processing
+- Sound equipment rental
+- Venue booking and management
+- Event creation and ticketing
+
+### Payment Integration
+- Khalti payment gateway (Nepal)
+- Real-time payment status tracking
+- Secure transaction handling
+- Payment confirmation system
+
+### Admin Features
+- User management dashboard
+- Content management system
+- Real-time analytics
+- Booking and payment oversight
+
+### Customer Features
+- Interactive booking forms
+- Real-time chat support
+- Payment status tracking
+- Event discovery and booking
+
+The platform is production-ready and includes all necessary features for a complete event management solution.

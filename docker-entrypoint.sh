@@ -52,10 +52,10 @@ if [ "$EXISTING_ARTISTS" -eq "0" ]; then
   
   # Insert sample sound systems
   echo "Creating sample sound equipment..."
-  PGPASSWORD=$PGPASSWORD psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c "INSERT INTO sound_systems (name, type, description, specifications, price, pricing, power_rating, coverage_area, image_url, category, features, available) VALUES 
-  ('Premium PA System', 'Complete PA', 'High-quality professional PA system suitable for medium to large venues', 'Professional grade amplifiers, Digital mixing console', '$299/day', '$299/day', '2000W', 'Up to 500 people', 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400', 'PA Systems', ARRAY['Professional mixing console', 'Wireless microphones', 'Stage monitors'], true),
-  ('Compact Sound Setup', 'Portable Setup', 'Portable sound system ideal for small gatherings and intimate events', 'Compact speakers, Built-in amplifier', '$149/day', '$149/day', '500W', 'Up to 100 people', 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400', 'Portable', ARRAY['Bluetooth connectivity', 'Easy setup'], true),
-  ('Festival Grade System', 'Festival System', 'Large-scale sound system designed for outdoor festivals and major events', 'Line array configuration, Weather protection', '$799/day', '$799/day', '5000W', 'Up to 2000+ people', 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400', 'Festival', ARRAY['Line array speakers', 'Weather resistant'], true);" 2>/dev/null || echo "Sound systems creation skipped"
+  PGPASSWORD=$PGPASSWORD psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c "INSERT INTO sound_systems (name, type, description, specifications, pricing, power_rating, coverage_area, image_url, category, features, available) VALUES 
+  ('Basic Package', 'Small Venue System', 'Perfect for small venues (50-100 people)', '2x Main speakers, 1x Mixer, 2x Microphones, Basic lighting setup', 'NPR 15,000/day', '1000W', '100 people', 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400', 'PA Systems', ARRAY['2x Main speakers', '1x Mixer', '2x Microphones', 'Basic lighting setup'], true),
+  ('Standard Package', 'Medium Venue System', 'Ideal for medium venues (100-300 people)', '4x Main speakers, 1x Subwoofer, 1x Professional mixer, Wireless microphone system, Enhanced lighting package', 'NPR 25,000/day', '2000W', '300 people', 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400', 'PA Systems', ARRAY['4x Main speakers', '1x Subwoofer', '1x Professional mixer', 'Wireless microphone system', 'Enhanced lighting package'], true),
+  ('Premium Package', 'Large Venue System', 'Complete solution for large venues (300+ people)', 'Full PA system with line array, 1x Professional sound engineer, Wireless microphone system by Shure, Live streaming setup', 'NPR 40,000/day', '5000W', '500+ people', 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400', 'PA Systems', ARRAY['Full PA system with line array', '1x Professional sound engineer', 'Wireless microphone system by Shure', 'Live streaming setup'], true);" 2>/dev/null || echo "Sound systems creation skipped"
   
   # Insert sample venues
   echo "Creating sample venues..."
@@ -66,10 +66,10 @@ if [ "$EXISTING_ARTISTS" -eq "0" ]; then
   
   # Insert sample events
   echo "Creating sample events..."
-  PGPASSWORD=$PGPASSWORD psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c "INSERT INTO events (name, description, date, start_time, end_time, venue, capacity, price, status, event_type, organizer_id, images) VALUES 
-  ('Traditional Music Festival', 'Celebrate traditional Nepali music with performances by renowned folk artists', '2025-07-15 18:00:00', '18:00', '23:00', 'Patan Durbar Square', 500, 25, 'published', 'cultural', 1, ARRAY['https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400']),
-  ('Modern Beats Concert', 'Contemporary music event featuring pop and electronic artists', '2025-08-20 19:30:00', '19:30', '01:00', 'Kathmandu Event Center', 800, 45, 'published', 'concert', 1, ARRAY['https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400']),
-  ('Classical Evening', 'An evening of classical music performances in an intimate setting', '2025-09-10 17:00:00', '17:00', '21:00', 'Heritage Hotel Ballroom', 200, 35, 'published', 'classical', 1, ARRAY['https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400']);" 2>/dev/null || echo "Events creation skipped"
+  PGPASSWORD=$PGPASSWORD psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c "INSERT INTO events (name, description, date, location, price, image_url, category, available_tickets) VALUES 
+  ('Traditional Music Festival', 'Celebrate traditional Nepali music with performances by renowned folk artists', '2025-07-15 18:00:00', 'Patan Durbar Square', 2500, 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400', 'cultural', 500),
+  ('Modern Beats Concert', 'Contemporary music event featuring pop and electronic artists', '2025-08-20 19:30:00', 'Kathmandu Event Center', 4500, 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400', 'concert', 800),
+  ('Classical Evening', 'An evening of classical music performances in an intimate setting', '2025-09-10 17:00:00', 'Heritage Hotel Ballroom', 3500, 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400', 'classical', 200);" 2>/dev/null || echo "Events creation skipped"
   
   # Insert sample testimonials
   echo "Creating sample testimonials..."

@@ -64,7 +64,7 @@ export function ChatWidget() {
 
   const connectWebSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}`;
+    const wsUrl = `${protocol}//${window.location.host}/ws`;
     
     wsRef.current = new WebSocket(wsUrl);
     
@@ -74,15 +74,26 @@ export function ChatWidget() {
     
     wsRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.type === 'new_message' && conversation) {
+      console.log('WebSocket message received:', data);
+      
+      if (data.type === 'ai' && conversation) {
+        const newMessage = {
+          id: Date.now(),
+          message: data.content,
+          senderType: 'admin' as const,
+          createdAt: data.timestamp || new Date().toISOString()
+        };
+        
         setConversation(prev => prev ? {
           ...prev,
-          messages: [...prev.messages, data.message]
+          messages: [...prev.messages, newMessage]
         } : null);
         
         if (!isOpen) {
           setHasNewMessage(true);
         }
+      } else if (data.type === 'system') {
+        console.log('System message:', data.content);
       }
     };
     
