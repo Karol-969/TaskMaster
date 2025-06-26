@@ -36,6 +36,7 @@ type SoundBookingForm = z.infer<typeof soundBookingSchema>;
 interface SoundEquipmentBookingModalProps {
   isOpen: boolean;
   onClose: () => void;
+  soundSystem?: any;
 }
 
 const packages = [
@@ -62,7 +63,7 @@ const packages = [
   }
 ];
 
-export function SoundEquipmentBookingModal({ isOpen, onClose }: SoundEquipmentBookingModalProps) {
+export function SoundEquipmentBookingModal({ isOpen, onClose, soundSystem }: SoundEquipmentBookingModalProps) {
   const { toast } = useToast();
 
   const form = useForm<SoundBookingForm>({

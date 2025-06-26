@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Volume2, Zap, Users, Star, X } from 'lucide-react';
+import { IndividualEquipmentBookingModal } from './individual-equipment-booking-modal';
+import { SoundEquipmentBookingModal } from './sound-equipment-booking-modal';
 
 interface SoundSystem {
   id: number;
@@ -27,6 +29,8 @@ interface SoundEquipmentGalleryProps {
 
 export function SoundEquipmentGallery({ equipment, onBookEquipment }: SoundEquipmentGalleryProps) {
   const [selectedEquipment, setSelectedEquipment] = useState<SoundSystem | null>(null);
+  const [showPackageModal, setShowPackageModal] = useState(false);
+  const [showIndividualModal, setShowIndividualModal] = useState(false);
 
   const getEquipmentImage = (system: SoundSystem) => {
     // Use appropriate images based on equipment category
