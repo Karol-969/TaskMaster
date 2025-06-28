@@ -158,10 +158,17 @@ export function SoundEquipmentGallery({ equipment, onBookEquipment }: SoundEquip
                 <Button 
                   size="sm" 
                   className="flex-1 bg-purple-500 hover:bg-purple-600 text-white purple-glow"
-                  onClick={() => onBookEquipment(system)}
+                  onClick={() => {
+                    setSelectedEquipment(system);
+                    if (system.category === 'PA Systems') {
+                      setShowPackageModal(true);
+                    } else {
+                      setShowIndividualModal(true);
+                    }
+                  }}
                   disabled={!system.available}
                 >
-                  Book Now
+                  {system.category === 'PA Systems' ? 'Book Package' : 'Book Item'}
                 </Button>
               </div>
             </CardContent>
@@ -285,12 +292,15 @@ export function SoundEquipmentGallery({ equipment, onBookEquipment }: SoundEquip
                     <Button
                       className="flex-1 bg-purple-500 hover:bg-purple-600 text-white purple-glow"
                       onClick={() => {
-                        onBookEquipment(selectedEquipment);
-                        setSelectedEquipment(null);
+                        if (selectedEquipment.category === 'PA Systems') {
+                          setShowPackageModal(true);
+                        } else {
+                          setShowIndividualModal(true);
+                        }
                       }}
                       disabled={!selectedEquipment.available}
                     >
-                      Book Now
+                      {selectedEquipment.category === 'PA Systems' ? 'Book Package' : 'Book Item'}
                     </Button>
                   </div>
                 </div>
@@ -299,6 +309,26 @@ export function SoundEquipmentGallery({ equipment, onBookEquipment }: SoundEquip
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* Package Booking Modal for PA Systems */}
+      <SoundEquipmentBookingModal 
+        isOpen={showPackageModal}
+        onClose={() => {
+          setShowPackageModal(false);
+          setSelectedEquipment(null);
+        }}
+        soundSystem={selectedEquipment}
+      />
+      
+      {/* Individual Equipment Booking Modal */}
+      <IndividualEquipmentBookingModal 
+        isOpen={showIndividualModal}
+        onClose={() => {
+          setShowIndividualModal(false);
+          setSelectedEquipment(null);
+        }}
+        equipment={selectedEquipment}
+      />
     </div>
   );
 }
