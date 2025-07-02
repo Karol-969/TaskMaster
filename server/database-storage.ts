@@ -283,11 +283,15 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllBlogPosts(): Promise<BlogPost[]> {
-    return await db.select().from(blogPosts).orderBy(blogPosts.createdAt);
+    return await db.select().from(blogPosts).orderBy(desc(blogPosts.createdAt));
   }
 
   async getPublishedBlogPosts(): Promise<BlogPost[]> {
-    return await db.select().from(blogPosts).where(eq(blogPosts.status, 'published')).orderBy(blogPosts.publishedAt);
+    return await db
+      .select()
+      .from(blogPosts)
+      .where(eq(blogPosts.published, true))
+      .orderBy(desc(blogPosts.createdAt));
   }
 
   async createBlogPost(post: InsertBlogPost): Promise<BlogPost> {

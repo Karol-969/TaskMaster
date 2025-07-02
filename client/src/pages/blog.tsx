@@ -189,28 +189,12 @@ export default function Blog() {
                         <p className="text-gray-300 mb-4 line-clamp-3">
                           {post.excerpt}
                         </p>
-                        {post.tags && post.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            {post.tags.slice(0, 3).map((tag, index) => (
-                              <Badge
-                                key={index}
-                                variant="secondary"
-                                className="bg-purple-600/20 text-purple-300 border-purple-500/30"
-                              >
-                                <Tag className="h-3 w-3 mr-1" />
-                                {tag}
-                              </Badge>
-                            ))}
-                            {post.tags.length > 3 && (
-                              <Badge
-                                variant="secondary"
-                                className="bg-purple-600/20 text-purple-300 border-purple-500/30"
-                              >
-                                +{post.tags.length - 3}
-                              </Badge>
-                            )}
-                          </div>
-                        )}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          <Badge variant="secondary" className="bg-purple-600/20 text-purple-400 hover:bg-purple-600/30">
+                            <Tag className="h-3 w-3 mr-1" />
+                            Blog Post
+                          </Badge>
+                        </div>
                         <Link href={`/blog/${post.slug}`}>
                           <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
                             Read More
