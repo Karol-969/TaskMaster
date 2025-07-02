@@ -105,19 +105,7 @@ export default function Blog() {
                 >
                   All
                 </Button>
-                {/* Removed tag functionality for now - can be added later */}
-                  <Button
-                    key={tag}
-                    variant={selectedTag === tag ? "default" : "outline"}
-                    onClick={() => setSelectedTag(tag)}
-                    className={selectedTag === tag ? 
-                      "bg-purple-600 hover:bg-purple-700 text-white" : 
-                      "border-gray-600 text-gray-300 hover:bg-white/10"
-                    }
-                  >
-                    {tag}
-                  </Button>
-                ))}
+                {/* Tag functionality can be added later */}
               </div>
             </div>
           </div>
@@ -177,10 +165,10 @@ export default function Blog() {
                 {filteredPosts.map((post) => (
                   <motion.div key={post.id} variants={itemVariants}>
                     <Card className="bg-white/10 border-gray-700 backdrop-blur-sm hover:bg-white/15 transition-all duration-300 h-full">
-                      {post.featuredImage && (
+                      {post.imageUrl && (
                         <div className="aspect-video overflow-hidden rounded-t-lg">
                           <img
-                            src={post.featuredImage}
+                            src={post.imageUrl}
                             alt={post.title}
                             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                           />

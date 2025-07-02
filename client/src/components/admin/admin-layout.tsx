@@ -33,6 +33,7 @@ const navigation = [
   { name: 'Influencer Management', href: '/admin/influencers', icon: UserCheck },
   { name: 'Sound Equipment', href: '/admin/sound-equipment', icon: Volume2 },
   { name: 'Event Management', href: '/admin/events', icon: Calendar },
+  { name: 'Blog Posts', href: '/admin/blog-posts', icon: FileText },
   { name: 'Home Page Content', href: '/admin/home-content', icon: FileText },
   { name: 'Booking Management', href: '/admin/bookings', icon: Shield },
   { name: 'Venue Management', href: '/admin/venues', icon: MapPin },

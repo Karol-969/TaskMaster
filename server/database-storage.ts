@@ -554,7 +554,7 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(blogPosts)
       .where(eq(blogPosts.published, true))
-      .orderBy(desc(blogPosts.publishedAt));
+      .orderBy(desc(blogPosts.createdAt));
   }
 
   async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
