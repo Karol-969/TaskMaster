@@ -117,7 +117,7 @@ export default function BlogPostPage() {
               <div className="flex items-center justify-center space-x-6 text-gray-400">
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-2" />
-                  {formatDate(post.publishedAt || post.createdAt)}
+                  {formatDate(post.publishedAt || post.createdAt || new Date())}
                 </div>
                 <div className="flex items-center">
                   <Clock className="h-4 w-4 mr-2" />

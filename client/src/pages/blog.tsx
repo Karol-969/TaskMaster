@@ -105,7 +105,7 @@ export default function Blog() {
                 >
                   All
                 </Button>
-                {allTags.slice(0, 5).map((tag) => (
+                {/* Removed tag functionality for now - can be added later */}
                   <Button
                     key={tag}
                     variant={selectedTag === tag ? "default" : "outline"}
