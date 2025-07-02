@@ -20,16 +20,12 @@ export default function Blog() {
     queryKey: ['/api/blog-posts'],
   });
 
-  // Filter posts based on search and tags
+  // Filter posts based on search
   const filteredPosts = posts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesTag = !selectedTag || (post.tags && post.tags.includes(selectedTag));
-    return matchesSearch && matchesTag;
+                         (post.excerpt && post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()));
+    return matchesSearch;
   });
-
-  // Get all unique tags
-  const allTags = Array.from(new Set(posts.flatMap(post => post.tags || [])));
 
   const formatDate = (dateString: string | Date) => {
     const date = new Date(dateString);

@@ -544,6 +544,62 @@ export class DatabaseStorage implements IStorage {
       .where(eq(bannerAds.id, id));
   }
 
+  // Blog Post methods
+  async getAllBlogPosts(): Promise<BlogPost[]> {
+    return await db.select().from(blogPosts).orderBy(desc(blogPosts.createdAt));
+  }
+
+  async getPublishedBlogPosts(): Promise<BlogPost[]> {
+    return await db
+      .select()
+      .from(blogPosts)
+      .where(eq(blogPosts.published, true))
+      .orderBy(desc(blogPosts.publishedAt));
+  }
+
+  async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
+    const [post] = await db
+      .select()
+      .from(blogPosts)
+      .where(eq(blogPosts.slug, slug));
+    return post;
+  }
+
+  async createBlogPost(blogPost: InsertBlogPost): Promise<BlogPost> {
+    const [newPost] = await db.insert(blogPosts).values({
+      ...blogPost,
+      publishedAt: blogPost.published ? new Date() : null
+    }).returning();
+    return newPost;
+  }
+
+  async updateBlogPost(id: number, blogPost: Partial<InsertBlogPost>): Promise<BlogPost | undefined> {
+    const updateData = {
+      ...blogPost,
+      updatedAt: new Date()
+    };
+
+    // Set publishedAt if publishing for the first time
+    if (blogPost.published) {
+      const [existingPost] = await db.select().from(blogPosts).where(eq(blogPosts.id, id));
+      if (existingPost && !existingPost.publishedAt) {
+        updateData.publishedAt = new Date();
+      }
+    }
+
+    const [updated] = await db
+      .update(blogPosts)
+      .set(updateData)
+      .where(eq(blogPosts.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteBlogPost(id: number): Promise<boolean> {
+    const result = await db.delete(blogPosts).where(eq(blogPosts.id, id));
+    return result.rowCount > 0;
+  }
+
   async updatePaymentStatus(id: number, status: string, additionalData?: any): Promise<Payment | undefined> {
     const updateData: any = { status, updatedAt: new Date() };
     

@@ -706,6 +706,117 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // BLOG POST ROUTES
+  
+  // Public routes for blog posts
+  app.get('/api/blog-posts', async (req: Request, res: Response) => {
+    try {
+      const posts = await storage.getPublishedBlogPosts();
+      res.json(posts);
+    } catch (error) {
+      console.error('Error fetching blog posts:', error);
+      res.status(500).json({ message: 'Error fetching blog posts' });
+    }
+  });
+
+  app.get('/api/blog-posts/:slug', async (req: Request, res: Response) => {
+    try {
+      const { slug } = req.params;
+      const post = await storage.getBlogPostBySlug(slug);
+      
+      if (!post || !post.published) {
+        return res.status(404).json({ message: 'Blog post not found' });
+      }
+      
+      res.json(post);
+    } catch (error) {
+      console.error('Error fetching blog post:', error);
+      res.status(500).json({ message: 'Error fetching blog post' });
+    }
+  });
+
+  // Admin routes for blog management
+  app.get('/api/admin/blog-posts', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const posts = await storage.getAllBlogPosts();
+      res.json(posts);
+    } catch (error) {
+      console.error('Error fetching admin blog posts:', error);
+      res.status(500).json({ message: 'Error fetching blog posts' });
+    }
+  });
+
+  app.post('/api/admin/blog-posts', adminMiddleware, upload.single('image'), async (req: Request, res: Response) => {
+    try {
+      const { title, slug, content, excerpt, published } = req.body;
+      
+      if (!title || !content) {
+        return res.status(400).json({ message: 'Title and content are required' });
+      }
+
+      const blogPostData: any = {
+        title,
+        slug: slug || title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-'),
+        content,
+        excerpt: excerpt || '',
+        published: published === 'true',
+        imageUrl: req.file ? `/uploads/${req.file.filename}` : null
+      };
+
+      const newPost = await storage.createBlogPost(blogPostData);
+      res.json(newPost);
+    } catch (error) {
+      console.error('Error creating blog post:', error);
+      res.status(500).json({ message: 'Error creating blog post' });
+    }
+  });
+
+  app.put('/api/admin/blog-posts/:id', adminMiddleware, upload.single('image'), async (req: Request, res: Response) => {
+    try {
+      const postId = parseInt(req.params.id);
+      const { title, slug, content, excerpt, published } = req.body;
+
+      const updateData: any = {
+        title,
+        slug: slug || title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-'),
+        content,
+        excerpt: excerpt || '',
+        published: published === 'true'
+      };
+
+      if (req.file) {
+        updateData.imageUrl = `/uploads/${req.file.filename}`;
+      }
+
+      const updatedPost = await storage.updateBlogPost(postId, updateData);
+      
+      if (!updatedPost) {
+        return res.status(404).json({ message: 'Blog post not found' });
+      }
+
+      res.json(updatedPost);
+    } catch (error) {
+      console.error('Error updating blog post:', error);
+      res.status(500).json({ message: 'Error updating blog post' });
+    }
+  });
+
+  app.delete('/api/admin/blog-posts/:id', adminMiddleware, async (req: Request, res: Response) => {
+    try {
+      const postId = parseInt(req.params.id);
+      const deleted = await storage.deleteBlogPost(postId);
+      
+      if (!deleted) {
+        return res.status(404).json({ message: 'Blog post not found' });
+      }
+
+      res.json({ message: 'Blog post deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting blog post:', error);
+      res.status(500).json({ message: 'Error deleting blog post' });
+    }
+  });
+
   // ADMIN USER MANAGEMENT ROUTES
   app.get('/api/admin/users', adminMiddleware, async (req: Request, res: Response) => {
     try {
