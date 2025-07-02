@@ -56,17 +56,25 @@ export default function AdminBlogPostsPage() {
   });
 
   // Get all blog posts
-  const { data: posts = [], isLoading: postsLoading } = useQuery({
+  const { data: posts = [], isLoading: postsLoading } = useQuery<BlogPost[]>({
     queryKey: ['/api/admin/blog-posts'],
   });
 
   // Create blog post mutation
   const createPostMutation = useMutation({
     mutationFn: async (data: FormData) => {
-      return await apiRequest('/api/admin/blog-posts', {
+      const response = await fetch('/api/admin/blog-posts', {
         method: 'POST',
         body: data,
+        credentials: 'include',
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create blog post');
+      }
+
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/blog-posts'] });
@@ -89,10 +97,18 @@ export default function AdminBlogPostsPage() {
   // Update blog post mutation
   const updatePostMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: FormData }) => {
-      return await apiRequest(`/api/admin/blog-posts/${id}`, {
+      const response = await fetch(`/api/admin/blog-posts/${id}`, {
         method: 'PUT',
         body: data,
+        credentials: 'include',
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update blog post');
+      }
+
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/blog-posts'] });
@@ -116,9 +132,17 @@ export default function AdminBlogPostsPage() {
   // Delete blog post mutation
   const deletePostMutation = useMutation({
     mutationFn: async (id: number) => {
-      return await apiRequest(`/api/admin/blog-posts/${id}`, {
+      const response = await fetch(`/api/admin/blog-posts/${id}`, {
         method: 'DELETE',
+        credentials: 'include',
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete blog post');
+      }
+
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/blog-posts'] });
