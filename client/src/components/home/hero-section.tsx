@@ -95,20 +95,23 @@ export function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           <div className="text-white">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fade-in-up">
-              {heroData?.title || "Elite Event Experiences"} <span className="text-purple-500 purple-text-glow">{heroData?.subtitle || "Crafted to Perfection"}</span>
+              {heroData?.title || "ReArt Events - Premier Event Management in Nepal"} 
             </h1>
-            <p className="text-xl opacity-90 mb-8 max-w-xl animate-fade-in-up delay-100">
-              {heroData?.description || "From booking top artists to securing premium venues, we manage every detail of your event journey with precision and elegance."}
+            <p className="text-xl opacity-90 mb-8 max-w-xl animate-fade-in-up delay-100 text-purple-300">
+              {heroData?.subtitle || "Creating Unforgettable Experiences with Top Artists, Quality Sound Systems, and Professional Event Services"}
+            </p>
+            <p className="text-lg opacity-80 mb-8 max-w-xl animate-fade-in-up delay-150">
+              From booking top artists to securing premium venues, we manage every detail of your event journey with precision and elegance.
             </p>
             <div className="flex flex-wrap gap-4 animate-fade-in-up delay-200">
-              <Link href={heroData?.ctaButtons?.[0]?.link || "/services"}>
+              <Link href="/services">
                 <Button size="lg" className="bg-purple-500 hover:bg-purple-600 text-white purple-glow">
-                  {heroData?.ctaButtons?.[0]?.text || "Explore Services"}
+                  {heroData?.buttonText || "Explore Services"}
                 </Button>
               </Link>
-              <Link href={heroData?.ctaButtons?.[1]?.link || "/contact"}>
+              <Link href="/contact">
                 <Button size="lg" variant="outline" className="border-purple-500 bg-white/10 backdrop-blur-sm text-white hover:bg-purple-500 hover:text-white">
-                  {heroData?.ctaButtons?.[1]?.text || "Contact Us"}
+                  Contact Us
                 </Button>
               </Link>
             </div>
