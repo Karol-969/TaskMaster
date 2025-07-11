@@ -118,6 +118,12 @@ if [ "$EXISTING_ARTISTS" -eq "0" ]; then
   ('stats', '{\"items\": [{\"number\": \"500+\", \"label\": \"Events Organized\"}, {\"number\": \"200+\", \"label\": \"Happy Clients\"}, {\"number\": \"50+\", \"label\": \"Professional Artists\"}, {\"number\": \"100%\", \"label\": \"Client Satisfaction\"}]}');" 2>/dev/null || echo "Home page content creation skipped"
   
   echo "✅ Sample data creation completed!"
+  echo ""
+  echo "🔑 Admin login credentials:"
+  echo "   Username: admin"
+  echo "   Password: admin123"
+  echo "   Access admin panel at: http://localhost:5000/admin-dashboard"
+  echo "   Manage home content at: http://localhost:5000/admin/home-content"
   
   # Verify data was loaded correctly
   echo "🧪 Verifying data integrity..."
