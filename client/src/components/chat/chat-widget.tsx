@@ -32,6 +32,7 @@ export function ChatWidget() {
   const [selectedAssistantType, setSelectedAssistantType] = useState<'ai_assistant' | 'human_support' | null>(null);
   const [isUserScrolling, setIsUserScrolling] = useState(false);
   const [messageCount, setMessageCount] = useState(0);
+  const [isSending, setIsSending] = useState(false);
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -199,8 +200,9 @@ export function ChatWidget() {
   };
 
   const sendMessage = async () => {
-    if (!message.trim() || !conversation) return;
+    if (!message.trim() || !conversation || isSending) return;
 
+    setIsSending(true);
     try {
       const response = await fetch(`/api/conversations/${conversation.id}/messages`, {
         method: 'POST',
@@ -228,13 +230,10 @@ export function ChatWidget() {
         } : null);
         setMessage('');
         
-        // Refresh messages after 1 second and again after 3 seconds to get AI response
+        // Refresh messages immediately to get AI response
         setTimeout(() => {
           refreshMessages();
-        }, 1000);
-        setTimeout(() => {
-          refreshMessages();
-        }, 3000);
+        }, 500);
       } else {
         const errorData = await response.json().catch(() => ({}));
         console.error('Failed to send message:', response.status, errorData);
@@ -246,10 +245,12 @@ export function ChatWidget() {
       }
     } catch (error) {
       toast({
-        title: "Error",
+        title: "Error", 
         description: "Network error. Please check your connection.",
         variant: "destructive",
       });
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -272,7 +273,7 @@ export function ChatWidget() {
 
     const interval = setInterval(() => {
       refreshMessages();
-    }, 5000); // Poll every 5 seconds (less intrusive)
+    }, 10000); // Poll every 10 seconds for better performance
 
     return () => clearInterval(interval);
   }, [isOpen, conversation?.id]);
@@ -331,8 +332,8 @@ export function ChatWidget() {
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
           >
-            <Card className="h-full bg-white dark:bg-black/95 backdrop-blur-xl border-purple-500/30 shadow-2xl">
-              <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-purple-500/20">
+            <Card className="h-full bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 backdrop-blur-xl border border-slate-200 dark:border-slate-700 shadow-2xl">
+              <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50">
                 <div className="flex items-center gap-2">
                   {!showChoiceMenu && (
                     <Button
@@ -344,21 +345,39 @@ export function ChatWidget() {
                       <ArrowLeft className="h-4 w-4" />
                     </Button>
                   )}
-                  <CardTitle className="text-sm font-semibold text-gray-900 dark:text-white">
-                    {showChoiceMenu 
-                      ? 'Support Chat' 
-                      : selectedAssistantType === 'ai_assistant' 
-                        ? 'AI Assistant' 
-                        : 'Human Support'
-                    }
-                  </CardTitle>
+                  <div className="flex items-center gap-2">
+                    <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center">
+                      {selectedAssistantType === 'ai_assistant' ? 
+                        <Bot className="h-4 w-4 text-white" /> : 
+                        <User className="h-4 w-4 text-white" />
+                      }
+                    </div>
+                    <div>
+                      <CardTitle className="text-sm font-semibold text-slate-900 dark:text-white">
+                        {showChoiceMenu 
+                          ? 'ReArt Events Support' 
+                          : selectedAssistantType === 'ai_assistant' 
+                            ? 'AI Assistant' 
+                            : 'Human Support'
+                        }
+                      </CardTitle>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                        {selectedAssistantType === 'ai_assistant' ? 'Powered by AI' : 'Live Support'}
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className={`h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
+                  <div className="flex items-center gap-1">
+                    <div className={`h-2 w-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-yellow-500'} animate-pulse`} />
+                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                      {isConnected ? 'Online' : 'Connecting...'}
+                    </span>
+                  </div>
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                    className="h-6 w-6 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                     onClick={handleMinimize}
                   >
                     <Minimize2 className="h-4 w-4" />
@@ -366,7 +385,7 @@ export function ChatWidget() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                    className="h-6 w-6 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                     onClick={() => setIsOpen(false)}
                   >
                     <X className="h-4 w-4" />
@@ -377,39 +396,69 @@ export function ChatWidget() {
               <CardContent className="flex flex-col h-full p-0 relative">
                 <ScrollArea className="flex-1 p-4" onScrollCapture={handleScroll} ref={scrollAreaRef}>
                   {showChoiceMenu ? (
-                    <div className="flex flex-col items-center justify-center h-full text-center text-gray-600 dark:text-gray-400 space-y-6">
-                      <MessageCircle className="h-12 w-12 mb-2 opacity-50" />
-                      <div>
-                        <p className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Welcome to ReArt Events</p>
-                        <p className="text-sm">How would you like to get assistance?</p>
+                    <div className="flex flex-col items-center justify-center h-full text-center text-slate-600 dark:text-slate-400 space-y-6 p-6">
+                      <div className="relative">
+                        <div className="h-16 w-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
+                          <MessageCircle className="h-8 w-8 text-white" />
+                        </div>
+                        <div className="absolute -top-1 -right-1 h-6 w-6 bg-green-500 rounded-full flex items-center justify-center">
+                          <span className="text-xs text-white font-bold">?</span>
+                        </div>
                       </div>
                       
-                      <div className="space-y-3 w-full max-w-xs">
+                      <div>
+                        <p className="text-lg font-bold text-slate-900 dark:text-white mb-2">Welcome to ReArt Events</p>
+                        <p className="text-sm text-slate-600 dark:text-slate-400">Choose your preferred support option</p>
+                      </div>
+                      
+                      <div className="space-y-3 w-full">
                         <Button
                           onClick={() => startConversation('ai_assistant')}
-                          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3"
+                          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                         >
-                          <Bot className="h-4 w-4 mr-2" />
-                          AI Assistant
+                          <Bot className="h-5 w-5 mr-3" />
+                          <div className="text-left">
+                            <div className="font-semibold">AI Assistant</div>
+                            <div className="text-xs opacity-90">Instant responses, 24/7</div>
+                          </div>
                         </Button>
                         
                         <Button
                           onClick={() => startConversation('human_support')}
                           variant="outline"
-                          className="w-full bg-transparent border-purple-500/50 text-purple-600 dark:text-purple-300 hover:bg-purple-500/20 py-3"
+                          className="w-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
                         >
-                          <User className="h-4 w-4 mr-2" />
-                          Human Support
+                          <User className="h-5 w-5 mr-3" />
+                          <div className="text-left">
+                            <div className="font-semibold">Human Support</div>
+                            <div className="text-xs opacity-70">Connect with our team</div>
+                          </div>
                         </Button>
                       </div>
                     </div>
                   ) : conversation?.messages.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full text-center text-gray-600 dark:text-gray-400">
-                      <MessageCircle className="h-8 w-8 mb-2 opacity-50" />
-                      <p className="text-sm">
-                        {selectedAssistantType === 'ai_assistant' ? 'AI Assistant Ready' : 'Connecting to Human Support'}
+                    <div className="flex flex-col items-center justify-center h-full text-center text-slate-600 dark:text-slate-400 p-8">
+                      <div className={`h-12 w-12 rounded-full flex items-center justify-center mb-4 ${
+                        selectedAssistantType === 'ai_assistant' 
+                          ? 'bg-gradient-to-r from-blue-600 to-indigo-600' 
+                          : 'bg-gradient-to-r from-green-600 to-emerald-600'
+                      }`}>
+                        {selectedAssistantType === 'ai_assistant' ? 
+                          <Bot className="h-6 w-6 text-white" /> : 
+                          <User className="h-6 w-6 text-white" />
+                        }
+                      </div>
+                      <p className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
+                        {selectedAssistantType === 'ai_assistant' ? 'AI Assistant Ready' : 'Human Support Connected'}
                       </p>
-                      <p className="text-xs mt-1">How can we help you today?</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                        {selectedAssistantType === 'ai_assistant' 
+                          ? 'Ask me anything about our event services, artist bookings, or venue rentals.' 
+                          : 'You\'re connected with our support team. How can we assist you today?'}
+                      </p>
+                      <div className="bg-slate-100 dark:bg-slate-800 rounded-lg p-3 text-xs text-slate-500 dark:text-slate-400">
+                        💡 Try asking: "What services do you offer?" or "How can I book an artist?"
+                      </div>
                     </div>
                   ) : (
                     <div className="space-y-3">
@@ -419,15 +468,22 @@ export function ChatWidget() {
                           className={`flex ${msg.senderType === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                           <div
-                            className={`max-w-[80%] p-3 rounded-lg text-sm ${
+                            className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm shadow-sm ${
                               msg.senderType === 'user'
-                                ? 'bg-gradient-to-r from-purple-600 to-violet-600 text-white'
-                                : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700'
+                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-md'
+                                : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-600 rounded-bl-md'
                             }`}
                           >
-                            <p>{msg.message}</p>
-                            <p className="text-xs opacity-70 mt-1">
-                              {new Date(msg.createdAt).toLocaleTimeString()}
+                            <p className="leading-relaxed">{msg.message}</p>
+                            <p className={`text-xs mt-2 ${
+                              msg.senderType === 'user' 
+                                ? 'text-white/70' 
+                                : 'text-slate-500 dark:text-slate-400'
+                            }`}>
+                              {new Date(msg.createdAt).toLocaleTimeString([], { 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                              })}
                             </p>
                           </div>
                         </div>
@@ -457,24 +513,45 @@ export function ChatWidget() {
                   )}
                 </AnimatePresence>
                 
-                <div className="p-4 border-t border-purple-500/20">
-                  <div className="flex gap-2">
-                    <Input
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                      placeholder="Type your message..."
-                      className="flex-1 bg-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-purple-500"
-                      disabled={!conversation}
-                    />
+                <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50">
+                  <div className="flex gap-3 items-end">
+                    <div className="flex-1 relative">
+                      <Input
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder={!conversation ? "Start a conversation first..." : "Type your message..."}
+                        className="bg-slate-50 dark:bg-slate-900 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 rounded-full px-4 py-3 pr-12"
+                        disabled={!conversation}
+                      />
+                      {message.trim() && (
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-slate-400">
+                          {message.length}/500
+                        </div>
+                      )}
+                    </div>
                     <Button
                       onClick={sendMessage}
-                      disabled={!message.trim() || !conversation}
-                      className="bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700"
+                      disabled={!message.trim() || !conversation || isSending}
+                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-full h-12 w-12 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       size="icon"
                     >
-                      <Send className="h-4 w-4" />
+                      {isSending ? (
+                        <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <Send className="h-5 w-5" />
+                      )}
                     </Button>
+                  </div>
+                  <div className="flex items-center justify-between mt-2 px-2">
+                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                      Press Enter to send • Shift+Enter for new line
+                    </span>
+                    {selectedAssistantType === 'ai_assistant' && (
+                      <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">
+                        AI • Instant replies
+                      </span>
+                    )}
                   </div>
                 </div>
               </CardContent>
