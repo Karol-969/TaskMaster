@@ -15,6 +15,8 @@ import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
 import { AdminLayout } from '@/components/admin/admin-layout';
 import { Helmet } from 'react-helmet';
+import { ImageUpload, MultipleImageUpload } from '@/components/ui/image-upload';
+import { getImageUrl } from '@/lib/image-upload';
 import type { Influencer, InsertInfluencer } from '@shared/schema';
 
 const CATEGORIES = ['Lifestyle', 'Gaming', 'Food', 'Travel', 'Technology', 'Fitness', 'Fashion', 'Beauty', 'Music', 'Sports'];
@@ -353,13 +355,12 @@ export default function AdminInfluencersPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="imageUrl">Profile Image URL *</Label>
-                  <Input
-                    id="imageUrl"
-                    value={formData.imageUrl}
-                    onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
-                    className="bg-gray-800 border-gray-700 text-white"
-                    required
+                  <Label>Profile Image *</Label>
+                  <ImageUpload
+                    onImageUploaded={(imageUrl) => setFormData({...formData, imageUrl})}
+                    currentImage={formData.imageUrl}
+                    label="Upload Profile Picture"
+                    placeholder="No profile image selected"
                   />
                 </div>
 
@@ -687,7 +688,7 @@ export default function AdminInfluencersPage() {
                       <td className="p-3">
                         <div className="flex items-center space-x-3">
                           <img
-                            src={influencer.imageUrl}
+                            src={getImageUrl(influencer.imageUrl, '/placeholder-avatar.png')}
                             alt={influencer.name}
                             className="w-10 h-10 rounded-full object-cover"
                           />
@@ -795,7 +796,7 @@ export default function AdminInfluencersPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <img
-                    src={selectedInfluencer.imageUrl}
+                    src={getImageUrl(selectedInfluencer.imageUrl, '/placeholder-avatar.png')}
                     alt={selectedInfluencer.name}
                     className="w-full h-64 object-cover rounded-lg"
                   />
@@ -920,6 +921,16 @@ export default function AdminInfluencersPage() {
                   </SelectContent>
                 </Select>
               </div>
+            </div>
+
+            <div>
+              <Label>Profile Image</Label>
+              <ImageUpload
+                onImageUploaded={(imageUrl) => setFormData({...formData, imageUrl})}
+                currentImage={formData.imageUrl}
+                label="Update Profile Picture"
+                placeholder="No profile image selected"
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
