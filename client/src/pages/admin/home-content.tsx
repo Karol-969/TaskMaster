@@ -669,11 +669,19 @@ function ServicesSectionEditor({ content, onSave, isLoading }: any) {
 
 // Journey Section Editor Component
 function JourneySectionEditor({ content, onSave, isLoading }: any) {
-  const [editedContent, setEditedContent] = useState(content);
+  const [editedContent, setEditedContent] = useState(content || {
+    title: "Our Journey",
+    subtitle: "From a small startup to Nepal's premier event management company",
+    timeline: []
+  });
 
   // Update local state when content prop changes
   useEffect(() => {
-    setEditedContent(content);
+    setEditedContent(content || {
+      title: "Our Journey",
+      subtitle: "From a small startup to Nepal's premier event management company", 
+      timeline: []
+    });
   }, [content]);
 
   return (
@@ -704,12 +712,40 @@ function JourneySectionEditor({ content, onSave, isLoading }: any) {
           </div>
         </div>
         <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
-          <h4 className="font-medium mb-3">Timeline</h4>
-          {editedContent.timeline?.map((item: any, index: number) => (
+          <div className="flex items-center justify-between mb-3">
+            <h4 className="font-medium">Timeline</h4>
+            <Button
+              type="button"
+              size="sm"
+              onClick={() => {
+                const newTimeline = [...(editedContent.timeline || []), { year: '', title: '', description: '' }];
+                setEditedContent({ ...editedContent, timeline: newTimeline });
+              }}
+              className="bg-violet-600 hover:bg-violet-700"
+            >
+              Add Timeline Item
+            </Button>
+          </div>
+          {(editedContent.timeline || []).map((item: any, index: number) => (
             <div key={index} className="border rounded-lg p-4 mb-4 bg-white dark:bg-gray-700">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium">Timeline Item {index + 1}</span>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    const newTimeline = editedContent.timeline.filter((_: any, i: number) => i !== index);
+                    setEditedContent({ ...editedContent, timeline: newTimeline });
+                  }}
+                  className="text-red-600 hover:text-red-700"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Input
-                  value={item.year}
+                  value={item.year || ''}
                   onChange={(e) => {
                     const newTimeline = [...editedContent.timeline];
                     newTimeline[index].year = e.target.value;
@@ -718,7 +754,7 @@ function JourneySectionEditor({ content, onSave, isLoading }: any) {
                   placeholder="Year"
                 />
                 <Input
-                  value={item.title}
+                  value={item.title || ''}
                   onChange={(e) => {
                     const newTimeline = [...editedContent.timeline];
                     newTimeline[index].title = e.target.value;
@@ -727,7 +763,7 @@ function JourneySectionEditor({ content, onSave, isLoading }: any) {
                   placeholder="Title"
                 />
                 <Textarea
-                  value={item.description}
+                  value={item.description || ''}
                   onChange={(e) => {
                     const newTimeline = [...editedContent.timeline];
                     newTimeline[index].description = e.target.value;
@@ -739,6 +775,11 @@ function JourneySectionEditor({ content, onSave, isLoading }: any) {
               </div>
             </div>
           ))}
+          {(!editedContent.timeline || editedContent.timeline.length === 0) && (
+            <div className="text-center py-8 text-gray-500">
+              No timeline items yet. Click "Add Timeline Item" to get started.
+            </div>
+          )}
         </div>
         <div className="flex justify-end">
           <Button 
