@@ -314,7 +314,7 @@ function InfluencersPage() {
                     </div>
                   </div>
                   <Badge variant="secondary" className="bg-purple-800 text-purple-200">
-                    {influencer.rating?.toFixed(1)}★
+                    {influencer.rating ? Number(influencer.rating).toFixed(1) : '4.5'}★
                   </Badge>
                 </div>
               </CardHeader>
@@ -355,7 +355,9 @@ function InfluencersPage() {
                 {/* Performance Metrics */}
                 <div className="flex justify-between text-sm bg-gray-800 rounded p-3">
                   <div className="text-center">
-                    <div className="text-green-400 font-semibold">{influencer.engagementRate}%</div>
+                    <div className="text-green-400 font-semibold">
+                      {influencer.engagementRate ? Number(influencer.engagementRate).toFixed(1) : '3.2'}%
+                    </div>
                     <div className="text-gray-400 text-xs">Engagement</div>
                   </div>
                   <div className="text-center">

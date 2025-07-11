@@ -142,7 +142,7 @@ export default function InfluencerProfile() {
                       {influencer.engagementRate && (
                         <div className="flex items-center gap-2">
                           <TrendingUp className="h-4 w-4" />
-                          <span>{influencer.engagementRate.toFixed(1)}% engagement</span>
+                          <span>{Number(influencer.engagementRate).toFixed(1)}% engagement</span>
                         </div>
                       )}
                     </div>
