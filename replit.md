@@ -134,6 +134,7 @@ ReArt Events is a comprehensive event management platform that connects artists,
 ## Changelog
 
 Changelog:
+- July 11, 2025. Comprehensive database seeding for local deployment - Populated database with complete sample data including 6 artists, 6 events, 6 sound systems, 6 influencers, 5 blog posts, 6 testimonials, and 4 home page content sections. Updated Docker entrypoint script to automatically seed all content types when deployed locally via docker-compose, ensuring full functionality out of the box
 - July 11, 2025. Comprehensive image upload system update - Updated all admin pages (sound equipment, artists, events) to use new ImageUpload and MultipleImageUpload components with local file storage, enabled proper image display across frontend with getImageUrl utility function, ensuring full compatibility when project is downloaded locally
 - July 11, 2025. Docker deployment optimization for chat feature - Enhanced Docker configuration with health checks, real-time AI Assistant integration, automated deployment scripts, and comprehensive documentation ensuring chat functionality works seamlessly in production environments
 - July 11, 2025. Enhanced AI Assistant with comprehensive pricing information - AI can now provide detailed pricing for all services including sound equipment (NPR 2,500-25,000/day), influencer services (NPR 2,000-100,000+ per content type), and artist booking rates, improving customer self-service capabilities
