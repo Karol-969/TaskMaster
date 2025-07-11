@@ -214,6 +214,23 @@ export const payments = pgTable("payments", {
 export type Payment = typeof payments.$inferSelect;
 export type InsertPayment = typeof payments.$inferInsert;
 
+// Bookings table
+export const bookings = pgTable("bookings", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("user_id"),
+  eventId: integer("event_id"),
+  itemId: integer("item_id"),
+  itemType: varchar("item_type", { length: 50 }),
+  totalAmount: decimal("total_amount", { precision: 10, scale: 2 }),
+  status: varchar("status", { length: 50 }).default("pending"),
+  bookingDate: timestamp("booking_date").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type Booking = typeof bookings.$inferSelect;
+export type InsertBooking = typeof bookings.$inferInsert;
+
 // Conversations table
 export const conversations = pgTable('conversations', {
   id: serial('id').primaryKey(),

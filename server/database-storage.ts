@@ -10,6 +10,7 @@ import {
   homePageContent, type HomePageContent, type InsertHomePageContent,
   soundSystems, type SoundSystem, type InsertSoundSystem,
   payments, type Payment, type InsertPayment,
+  bookings, type Booking, type InsertBooking,
   conversations, chatMessages,
   bannerAds, type BannerAd, type InsertBannerAd
 } from "@shared/schema";
