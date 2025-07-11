@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import type { Influencer } from "@shared/schema";
+import { getImageUrl } from '@/lib/image-upload';
 
 export default function InfluencerProfile() {
   const [, params] = useRoute("/influencer/:id");
@@ -111,7 +112,7 @@ export default function InfluencerProfile() {
                 <div className="flex items-start gap-6 mb-8">
                   <div className="relative">
                     <img
-                      src={influencer.imageUrl || '/placeholder-avatar.png'}
+                      src={getImageUrl(influencer.imageUrl, '/placeholder-avatar.png')}
                       alt={influencer.name}
                       className="w-32 h-32 rounded-full object-cover border-4 border-purple-500"
                     />

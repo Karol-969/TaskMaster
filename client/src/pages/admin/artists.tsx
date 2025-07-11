@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AdminLayout } from '@/components/admin/admin-layout';
+import { ImageUpload } from '@/components/ui/image-upload';
+import { getImageUrl } from '@/lib/image-upload';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -52,28 +54,13 @@ export default function AdminArtistsPage() {
     availability: true
   });
 
-  // Image upload state
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>('');
 
-  // Image compression function
-  const compressImage = (file: File, maxWidth = 800, quality = 0.8): Promise<string> => {
-    return new Promise((resolve) => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d')!;
-      const img = new Image();
-      
-      img.onload = () => {
-        const ratio = Math.min(maxWidth / img.width, maxWidth / img.height);
-        canvas.width = img.width * ratio;
-        canvas.height = img.height * ratio;
-        
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        resolve(canvas.toDataURL('image/jpeg', quality));
-      };
-      
-      img.src = URL.createObjectURL(file);
-    });
+
+  const handleImageUploaded = (imageUrl: string) => {
+    setArtistForm(prev => ({
+      ...prev,
+      imageUrl
+    }));
   };
 
   // Fetch all artists using bypass route
@@ -506,40 +493,13 @@ export default function AdminArtistsPage() {
                   placeholder="City, Country"
                 />
               </div>
-              <div>
-                <Label htmlFor="image">Artist Image</Label>
-                <Input
-                  id="image"
-                  type="file"
-                  accept="image/*"
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      setSelectedImage(file);
-                      try {
-                        // Compress the image to reduce size
-                        const compressedImage = await compressImage(file);
-                        setImagePreview(compressedImage);
-                        setArtistForm({ ...artistForm, imageUrl: compressedImage });
-                      } catch (error) {
-                        console.error('Error compressing image:', error);
-                        // Fallback to original file
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                          const result = e.target?.result as string;
-                          setImagePreview(result);
-                          setArtistForm({ ...artistForm, imageUrl: result });
-                        };
-                        reader.readAsDataURL(file);
-                      }
-                    }
-                  }}
+              <div className="col-span-2">
+                <ImageUpload
+                  onImageUploaded={handleImageUploaded}
+                  currentImage={artistForm.imageUrl}
+                  label="Artist Image"
+                  placeholder="Upload a professional photo of the artist"
                 />
-                {imagePreview && (
-                  <div className="mt-2">
-                    <img src={imagePreview} alt="Preview" className="w-20 h-20 object-cover rounded" />
-                  </div>
-                )}
               </div>
               <div>
                 <Label htmlFor="availability">Availability</Label>

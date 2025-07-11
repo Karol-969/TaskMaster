@@ -43,6 +43,8 @@ import { apiRequest } from "@/lib/queryClient";
 import { Plus, Edit, Trash2, Calendar, MapPin, Clock, Users } from "lucide-react";
 import type { Event, InsertEvent } from "@shared/schema";
 import { AdminLayout } from "@/components/admin/admin-layout";
+import { MultipleImageUpload } from '@/components/ui/image-upload';
+import { getImageUrl } from '@/lib/image-upload';
 
 export default function EventManagement() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -50,47 +52,16 @@ export default function EventManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [formImages, setFormImages] = useState<string[]>([]);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Image compression function
-  const compressImage = (file: File, maxWidth = 800, quality = 0.8): Promise<string> => {
-    return new Promise((resolve) => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d')!;
-      const img = new Image();
-      
-      img.onload = () => {
-        const ratio = Math.min(maxWidth / img.width, maxWidth / img.height);
-        canvas.width = img.width * ratio;
-        canvas.height = img.height * ratio;
-        
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        resolve(canvas.toDataURL('image/jpeg', quality));
-      };
-      
-      img.src = URL.createObjectURL(file);
-    });
+  const handleImagesUploaded = (imageUrls: string[]) => {
+    setFormImages(imageUrls);
   };
 
-  // Handle image selection
-  const handleImageSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (!files) return;
 
-    const newImages: string[] = [];
-    for (let i = 0; i < files.length; i++) {
-      const compressedImage = await compressImage(files[i]);
-      newImages.push(compressedImage);
-    }
-    setSelectedImages(prev => [...prev, ...newImages]);
-  };
-
-  // Remove image
-  const removeImage = (index: number) => {
-    setSelectedImages(prev => prev.filter((_, i) => i !== index));
-  };
 
   // Fetch all events
   const { data: events = [], isLoading } = useQuery<Event[]>({
@@ -459,37 +430,12 @@ export default function EventManagement() {
 
               {/* Image Upload Section */}
               <div>
-                <Label className="text-white">Event Images</Label>
-                <div className="mt-2">
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={handleImageSelect}
-                    className="mb-4 text-white"
-                  />
-                  
-                  {selectedImages.length > 0 && (
-                    <div className="grid grid-cols-3 gap-4 mt-4">
-                      {selectedImages.map((image, index) => (
-                        <div key={index} className="relative">
-                          <img
-                            src={image}
-                            alt={`Event image ${index + 1}`}
-                            className="w-full h-24 object-cover rounded-lg"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeImage(index)}
-                            className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-700"
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                <MultipleImageUpload
+                  onImagesUploaded={handleImagesUploaded}
+                  currentImages={formImages}
+                  label="Event Images"
+                  maxImages={5}
+                />
               </div>
 
               <div className="flex justify-end gap-3 pt-4">

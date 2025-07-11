@@ -12,6 +12,7 @@ import { LoadingPage, LoadingCard } from '@/components/ui/loading';
 import { InfluencerBookingModal } from '@/components/booking/influencer-booking-modal';
 import { InfluencerComparisonTool } from '@/components/booking/influencer-comparison-tool';
 import type { Influencer } from '@shared/schema';
+import { getImageUrl } from '@/lib/image-upload';
 
 interface FilterState {
   category: string;
@@ -297,7 +298,7 @@ function InfluencersPage() {
                   <div className="flex items-center gap-3">
                     <div className="relative">
                       <img
-                        src={influencer.imageUrl || '/placeholder-avatar.png'}
+                        src={getImageUrl(influencer.imageUrl, '/placeholder-avatar.png')}
                         alt={influencer.name}
                         className="w-16 h-16 rounded-full object-cover"
                       />

@@ -1,196 +1,351 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Upload, X, Image as ImageIcon, ExternalLink } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { X, Upload, Image as ImageIcon } from 'lucide-react';
+import { uploadImage, uploadMultipleImages, createPreviewUrl, validateImageFile, cleanupPreviewUrl, getImageUrl } from '@/lib/image-upload';
 import { useToast } from '@/hooks/use-toast';
-import { apiRequest } from '@/lib/queryClient';
 
 interface ImageUploadProps {
-  label: string;
-  value: string;
-  onChange: (imageUrl: string) => void;
+  onImageUploaded: (imageUrl: string) => void;
+  currentImage?: string;
+  label?: string;
   placeholder?: string;
   className?: string;
 }
 
-export function ImageUpload({ label, value, onChange, placeholder, className }: ImageUploadProps) {
-  const [uploading, setUploading] = useState(false);
-  const [uploadMode, setUploadMode] = useState<'url' | 'file'>('url');
+export function ImageUpload({ 
+  onImageUploaded, 
+  currentImage, 
+  label = "Upload Image",
+  placeholder = "No image selected",
+  className = ""
+}: ImageUploadProps) {
+  const [isUploading, setIsUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-    if (!allowedTypes.includes(file.type)) {
+    // Validate file
+    const validation = validateImageFile(file);
+    if (!validation.valid) {
       toast({
-        title: "Invalid file type",
-        description: "Please upload a JPEG, PNG, GIF, or WebP image.",
+        title: "Invalid File",
+        description: validation.error,
         variant: "destructive"
       });
       return;
     }
 
-    // Validate file size (5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      toast({
-        title: "File too large",
-        description: "Please upload an image smaller than 5MB.",
-        variant: "destructive"
-      });
-      return;
-    }
+    // Create preview
+    const preview = createPreviewUrl(file);
+    setPreviewUrl(preview);
 
-    setUploading(true);
-    
     try {
-      const formData = new FormData();
-      formData.append('image', file);
-
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        throw new Error('Upload failed');
-      }
-
-      const result = await response.json();
-      onChange(result.imageUrl);
+      setIsUploading(true);
+      const response = await uploadImage(file);
+      onImageUploaded(response.imageUrl);
       
       toast({
-        title: "Image uploaded",
-        description: "Your image has been successfully uploaded.",
+        title: "Image Uploaded",
+        description: "Image uploaded successfully"
       });
     } catch (error) {
       console.error('Upload error:', error);
       toast({
-        title: "Upload failed",
-        description: "Failed to upload image. Please try again.",
+        title: "Upload Failed",
+        description: error instanceof Error ? error.message : "Failed to upload image",
         variant: "destructive"
       });
+      // Clean up preview on error
+      cleanupPreviewUrl(preview);
+      setPreviewUrl('');
     } finally {
-      setUploading(false);
-      // Reset file input
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      setIsUploading(false);
     }
   };
 
-  const triggerFileInput = () => {
-    fileInputRef.current?.click();
+  const handleRemoveImage = () => {
+    if (previewUrl) {
+      cleanupPreviewUrl(previewUrl);
+      setPreviewUrl('');
+    }
+    onImageUploaded('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
-  const clearImage = () => {
-    onChange('');
-  };
+  const displayImageUrl = previewUrl || getImageUrl(currentImage);
+  const hasImage = previewUrl || currentImage;
 
   return (
-    <div className={className}>
-      <Label className="text-sm font-medium">{label}</Label>
+    <div className={`space-y-2 ${className}`}>
+      <label className="text-sm font-medium">{label}</label>
       
-      {/* Mode Toggle */}
-      <div className="flex space-x-2 mt-2 mb-3">
-        <Button
-          type="button"
-          variant={uploadMode === 'url' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setUploadMode('url')}
-        >
-          <ExternalLink className="w-4 h-4 mr-2" />
-          URL
-        </Button>
-        <Button
-          type="button"
-          variant={uploadMode === 'file' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setUploadMode('file')}
-        >
-          <Upload className="w-4 h-4 mr-2" />
-          Upload
-        </Button>
-      </div>
-
-      {uploadMode === 'url' ? (
-        /* URL Input Mode */
-        <div className="space-y-3">
+      <div className="space-y-4">
+        {/* File Input */}
+        <div className="flex items-center gap-4">
           <Input
-            type="url"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder={placeholder || "Enter image URL"}
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileSelect}
+            disabled={isUploading}
+            className="file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
           />
-        </div>
-      ) : (
-        /* File Upload Mode */
-        <div className="space-y-3">
-          <div 
-            className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center cursor-pointer hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
-            onClick={triggerFileInput}
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploading}
+            className="min-w-fit"
           >
-            <input
+            <Upload className="h-4 w-4 mr-2" />
+            {isUploading ? 'Uploading...' : 'Choose File'}
+          </Button>
+        </div>
+
+        {/* Image Preview */}
+        {hasImage && (
+          <Card className="p-4">
+            <div className="flex items-center gap-4">
+              <div className="relative w-20 h-20 rounded-lg overflow-hidden border">
+                <img
+                  src={displayImageUrl}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                />
+                {isUploading && (
+                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                    <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  </div>
+                )}
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium">Image Preview</p>
+                <p className="text-xs text-gray-500">
+                  {isUploading ? 'Uploading...' : 'Ready to use'}
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={handleRemoveImage}
+                disabled={isUploading}
+                className="text-red-500 hover:text-red-700"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {!hasImage && (
+          <Card className="p-8 text-center border-dashed">
+            <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-sm text-gray-500">{placeholder}</p>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+}
+
+interface MultipleImageUploadProps {
+  onImagesUploaded: (imageUrls: string[]) => void;
+  currentImages?: string[];
+  label?: string;
+  maxImages?: number;
+  className?: string;
+}
+
+export function MultipleImageUpload({
+  onImagesUploaded,
+  currentImages = [],
+  label = "Upload Images",
+  maxImages = 10,
+  className = ""
+}: MultipleImageUploadProps) {
+  const [isUploading, setIsUploading] = useState(false);
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    if (files.length === 0) return;
+
+    const currentTotal = currentImages.length + previewUrls.length;
+    if (currentTotal + files.length > maxImages) {
+      toast({
+        title: "Too Many Images",
+        description: `Maximum ${maxImages} images allowed`,
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Validate files
+    for (const file of files) {
+      const validation = validateImageFile(file);
+      if (!validation.valid) {
+        toast({
+          title: "Invalid File",
+          description: `${file.name}: ${validation.error}`,
+          variant: "destructive"
+        });
+        return;
+      }
+    }
+
+    // Create previews
+    const previews = files.map(createPreviewUrl);
+    setPreviewUrls(prev => [...prev, ...previews]);
+
+    try {
+      setIsUploading(true);
+      const response = await uploadMultipleImages(files);
+      onImagesUploaded([...currentImages, ...response.imageUrls]);
+      
+      // Clean up previews
+      previews.forEach(cleanupPreviewUrl);
+      setPreviewUrls([]);
+      
+      toast({
+        title: "Images Uploaded",
+        description: `${files.length} images uploaded successfully`
+      });
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Upload Failed",
+        description: error instanceof Error ? error.message : "Failed to upload images",
+        variant: "destructive"
+      });
+      // Clean up previews on error
+      previews.forEach(cleanupPreviewUrl);
+      setPreviewUrls([]);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleRemoveImage = (index: number, isPreview: boolean) => {
+    if (isPreview) {
+      const urlToCleanup = previewUrls[index];
+      if (urlToCleanup) cleanupPreviewUrl(urlToCleanup);
+      setPreviewUrls(prev => prev.filter((_, i) => i !== index));
+    } else {
+      const newImages = currentImages.filter((_, i) => i !== index);
+      onImagesUploaded(newImages);
+    }
+  };
+
+  const allImages = [...currentImages, ...previewUrls];
+  const canAddMore = allImages.length < maxImages;
+
+  return (
+    <div className={`space-y-2 ${className}`}>
+      <label className="text-sm font-medium">{label}</label>
+      
+      <div className="space-y-4">
+        {/* File Input */}
+        {canAddMore && (
+          <div className="flex items-center gap-4">
+            <Input
               ref={fileInputRef}
               type="file"
               accept="image/*"
-              onChange={handleFileUpload}
-              className="hidden"
+              multiple
+              onChange={handleFileSelect}
+              disabled={isUploading}
+              className="file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
             />
-            
-            <div className="flex flex-col items-center space-y-2">
-              <ImageIcon className="w-8 h-8 text-gray-400" />
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                {uploading ? 'Uploading...' : 'Click to upload image'}
-              </div>
-              <div className="text-xs text-gray-500">
-                JPEG, PNG, GIF, WebP up to 5MB
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Preview and Clear */}
-      {value && (
-        <div className="mt-3 space-y-2">
-          <div className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded">
-            <div className="flex items-center space-x-2">
-              <ImageIcon className="w-4 h-4 text-gray-500" />
-              <span className="text-sm text-gray-700 dark:text-gray-300 truncate">
-                {value.length > 50 ? `${value.substring(0, 50)}...` : value}
-              </span>
-            </div>
             <Button
               type="button"
-              variant="ghost"
-              size="sm"
-              onClick={clearImage}
-              className="text-red-500 hover:text-red-700"
+              variant="outline"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              className="min-w-fit"
             >
-              <X className="w-4 h-4" />
+              <Upload className="h-4 w-4 mr-2" />
+              {isUploading ? 'Uploading...' : 'Add Images'}
             </Button>
           </div>
-          
-          {/* Image Preview */}
-          <div className="relative w-full h-32 rounded overflow-hidden bg-gray-100 dark:bg-gray-800">
-            <img
-              src={value}
-              alt="Preview"
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMiAxNkM5Ljc5IDEyIDcuNTcgMTIgNiAxMkMzIDEyIDMgMTUgMyAxNUMzIDE1IDMgMTggNiAxOEM4LjU3IDE4IDEyIDE4IDEyIDE2WiIgZmlsbD0iIzlDQTNBRiIvPgo8cGF0aCBkPSJNMTIgOEM5LjMgOCA5LjMgNi42IDkuMyA2LjZDOS4zIDYuNiA5LjMgNSAxMiA1QzE0LjcgNSAxNC43IDYuNiAxNC43IDYuNkMxNC43IDYuNiAxNC43IDggMTIgOFoiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+';
-              }}
-            />
+        )}
+
+        {/* Images Grid */}
+        {allImages.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {currentImages.map((imageUrl, index) => (
+              <Card key={`current-${index}`} className="p-2">
+                <div className="relative aspect-square rounded-lg overflow-hidden">
+                  <img
+                    src={getImageUrl(imageUrl)}
+                    alt={`Image ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleRemoveImage(index, false)}
+                    className="absolute top-1 right-1 p-1 h-auto w-auto bg-black/50 text-white hover:bg-black/70"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                </div>
+              </Card>
+            ))}
+            {previewUrls.map((previewUrl, index) => (
+              <Card key={`preview-${index}`} className="p-2">
+                <div className="relative aspect-square rounded-lg overflow-hidden">
+                  <img
+                    src={previewUrl}
+                    alt={`Preview ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                  {isUploading && (
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  )}
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleRemoveImage(index, true)}
+                    disabled={isUploading}
+                    className="absolute top-1 right-1 p-1 h-auto w-auto bg-black/50 text-white hover:bg-black/70"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                </div>
+              </Card>
+            ))}
           </div>
-        </div>
-      )}
+        )}
+
+        {allImages.length === 0 && (
+          <Card className="p-8 text-center border-dashed">
+            <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-sm text-gray-500">No images selected</p>
+            <p className="text-xs text-gray-400">Maximum {maxImages} images</p>
+          </Card>
+        )}
+
+        {!canAddMore && (
+          <p className="text-sm text-gray-500">
+            Maximum number of images reached ({maxImages})
+          </p>
+        )}
+      </div>
     </div>
   );
 }

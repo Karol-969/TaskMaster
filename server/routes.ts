@@ -957,7 +957,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // IMAGE UPLOAD ROUTE
+  // IMAGE UPLOAD ROUTES
   app.post('/api/upload', adminMiddleware, upload.single('image'), (req: Request, res: Response) => {
     try {
       if (!req.file) {
@@ -973,6 +973,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error uploading image:', error);
       res.status(500).json({ message: 'Error uploading image' });
+    }
+  });
+
+  // Multiple image upload route for galleries
+  app.post('/api/upload-multiple', adminMiddleware, upload.array('images', 10), (req: Request, res: Response) => {
+    try {
+      if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
+        return res.status(400).json({ message: 'No files uploaded' });
+      }
+
+      const imageUrls = req.files.map(file => `/uploads/${file.filename}`);
+      res.json({ 
+        message: 'Images uploaded successfully',
+        imageUrls: imageUrls,
+        fileNames: req.files.map(file => file.filename)
+      });
+    } catch (error) {
+      console.error('Error uploading images:', error);
+      res.status(500).json({ message: 'Error uploading images' });
     }
   });
 

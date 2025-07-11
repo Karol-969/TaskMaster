@@ -11,6 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
+import { ImageUpload } from '@/components/ui/image-upload';
+import { getImageUrl } from '@/lib/image-upload';
 
 interface SoundEquipment {
   id: number;
@@ -46,8 +48,7 @@ export default function AdminSoundEquipmentPage() {
     features: [] as string[],
     available: true
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>('');
+
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -107,16 +108,11 @@ export default function AdminSoundEquipmentPage() {
     },
   });
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleImageUploaded = (imageUrl: string) => {
+    setFormData(prev => ({
+      ...prev,
+      imageUrl
+    }));
   };
 
   const resetForm = () => {
@@ -133,27 +129,12 @@ export default function AdminSoundEquipmentPage() {
       features: [],
       available: true
     });
-    setImageFile(null);
-    setImagePreview('');
+
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    let submitData = { ...formData };
-    
-    // If image file is selected, convert to base64 for now
-    // In production, you'd upload to a file storage service
-    if (imageFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        submitData.imageUrl = reader.result as string;
-        addEquipmentMutation.mutate(submitData);
-      };
-      reader.readAsDataURL(imageFile);
-    } else {
-      addEquipmentMutation.mutate(submitData);
-    }
+    addEquipmentMutation.mutate(formData);
   };
 
   const handleEdit = (equipment: SoundEquipment) => {
@@ -310,7 +291,7 @@ export default function AdminSoundEquipmentPage() {
                     <Card className="group hover:shadow-lg transition-shadow duration-300">
                       <div className="relative h-48 overflow-hidden rounded-t-lg">
                         <img
-                          src={item.imageUrl || 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80'}
+                          src={getImageUrl(item.imageUrl, 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80')}
                           alt={item.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
@@ -496,29 +477,13 @@ export default function AdminSoundEquipmentPage() {
                       />
                     </div>
 
-                    <div className="space-y-2 md:col-span-2">
-                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Equipment Image
-                      </label>
-                      <div className="flex items-center gap-4">
-                        <div className="flex-1">
-                          <Input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageUpload}
-                            className="file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                          />
-                        </div>
-                        {imagePreview && (
-                          <div className="w-20 h-20 rounded-lg overflow-hidden border">
-                            <img
-                              src={imagePreview}
-                              alt="Preview"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        )}
-                      </div>
+                    <div className="md:col-span-2">
+                      <ImageUpload
+                        onImageUploaded={handleImageUploaded}
+                        currentImage={formData.imageUrl}
+                        label="Equipment Image"
+                        placeholder="Upload an image of the equipment"
+                      />
                     </div>
 
                     <div className="space-y-2 md:col-span-2">
