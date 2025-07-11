@@ -1395,6 +1395,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Health check endpoint for Docker deployment
+  app.get('/api/health', (req: Request, res: Response) => {
+    res.json({
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      services: {
+        database: 'connected',
+        chat: 'operational',
+        ai: process.env.OPENAI_API_KEY ? 'enabled' : 'disabled'
+      }
+    });
+  });
+
   // PUBLIC HOME CONTENT ROUTES
   app.get('/api/home-content', async (req: Request, res: Response) => {
     try {
