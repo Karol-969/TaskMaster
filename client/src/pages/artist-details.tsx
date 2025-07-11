@@ -142,7 +142,7 @@ export default function ArtistDetailPage() {
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: `url(${displayArtist.imageUrl})`,
+              backgroundImage: `url(${displayArtist.imageUrl?.startsWith('/uploads/') ? displayArtist.imageUrl : displayArtist.imageUrl?.startsWith('http') ? displayArtist.imageUrl : `https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80`})`,
             }}
           />
           

@@ -444,9 +444,14 @@ export default function ArtistsPage() {
                     {/* Artist image */}
                     <div className="relative h-96 overflow-hidden">
                       <img
-                        src={`/artist/${artist.imageUrl}`}
+                        src={artist.imageUrl.startsWith('/uploads/') ? artist.imageUrl : `/artist/${artist.imageUrl}`}
                         alt={`${artist.name} - ${artist.genre}`}
                         className="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700 ease-out"
+                        onError={(e) => {
+                          // Fallback to a default image if upload fails
+                          const target = e.target as HTMLImageElement;
+                          target.src = `https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&q=80`;
+                        }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent" />
 
