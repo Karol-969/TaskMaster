@@ -127,7 +127,7 @@ export default function InfluencerProfile() {
                     <div className="flex items-center gap-4 mb-4">
                       <h1 className="text-4xl font-bold text-white">{influencer.name}</h1>
                       <Badge variant="secondary" className="bg-purple-800 text-purple-200">
-                        {influencer.rating?.toFixed(1)}★
+                        {influencer.rating ? Number(influencer.rating).toFixed(1) : '4.5'}★
                       </Badge>
                     </div>
                     
@@ -298,7 +298,7 @@ export default function InfluencerProfile() {
                         {influencer.engagementRate && (
                           <div className="flex justify-between">
                             <span className="text-gray-400">Engagement Rate</span>
-                            <span className="text-white">{influencer.engagementRate.toFixed(1)}%</span>
+                            <span className="text-white">{Number(influencer.engagementRate).toFixed(1)}%</span>
                           </div>
                         )}
                         <div className="flex justify-between">
@@ -307,7 +307,7 @@ export default function InfluencerProfile() {
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-400">Rating</span>
-                          <span className="text-white">{influencer.rating?.toFixed(1)}★</span>
+                          <span className="text-white">{influencer.rating ? Number(influencer.rating).toFixed(1) : '4.5'}★</span>
                         </div>
                       </div>
                     </div>
