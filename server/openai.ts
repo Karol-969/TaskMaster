@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { storage } from './storage';
 
 let openai: OpenAI | null = null;
 
@@ -55,25 +56,7 @@ SERVICES WE PROVIDE:
    - Event promotion and digital marketing
 
 PRICING INFORMATION:
-SOUND EQUIPMENT RENTAL (Per Day):
-- Basic Package: NPR 15,000/day (50-100 people)
-- Standard Package: NPR 25,000/day (100-300 people)  
-- Premium PA System: NPR 8,000/day (up to 500 people)
-- Concert Audio Package: NPR 25,000/day (2000+ people)
-- Digital Mixing Console: NPR 3,500/day
-- Wireless Microphone Set: NPR 2,500/day
-- LED Stage Lighting: NPR 6,000/day
-- Stage Monitor System: NPR 4,000/day
-
-INFLUENCER SERVICES (Varies by follower count and engagement):
-- Sponsored Posts: Starting from NPR 5,000-50,000+ per post
-- Story Content: Starting from NPR 2,000-15,000+ per story
-- Video Content: Starting from NPR 10,000-100,000+ per video
-- Campaign Packages: Custom pricing based on scope and duration
-
-ARTIST BOOKING:
-- Pricing varies by artist popularity, event duration, and venue size
-- Contact us for specific artist rates and availability
+Note: All pricing information below will be supplemented with real-time data from our database when users ask specific questions. Always provide the most current pricing and availability information.
 
 RESPONSE GUIDELINES:
 - Be friendly, professional, and knowledgeable about our services
@@ -89,7 +72,80 @@ CONTACT INFO:
 - Location: Based in Nepal, serving nationwide
 
 Remember: You represent ReArt Events professionally. Be helpful, informative, and always try to understand how we can assist with their event needs.
+
+IMPORTANT: When users ask about specific pricing, availability, or details about our services, you should provide the most current information from our database.
 `;
+
+// Real-time data fetching functions
+async function getCurrentSoundEquipmentData(): Promise<string> {
+  try {
+    const soundSystems = await storage.getAllSoundSystems();
+    if (soundSystems.length === 0) return "No sound equipment currently available.";
+    
+    return soundSystems.map(system => 
+      `${system.name} - ${system.pricing} (${system.powerRating}, ${system.coverageArea}) - ${system.available ? 'Available' : 'Not Available'}`
+    ).join('\n');
+  } catch (error) {
+    return "Unable to fetch current sound equipment data.";
+  }
+}
+
+async function getCurrentInfluencersData(): Promise<string> {
+  try {
+    const influencers = await storage.getAllInfluencers();
+    if (influencers.length === 0) return "No influencers currently available.";
+    
+    return influencers.map(inf => 
+      `${inf.name} - Post: NPR ${inf.postPrice}, Story: NPR ${inf.storyPrice || 'N/A'}, Video: NPR ${inf.videoPrice || 'N/A'} (${inf.instagramFollowers} followers) - ${inf.isActive ? 'Available' : 'Not Available'}`
+    ).join('\n');
+  } catch (error) {
+    return "Unable to fetch current influencer data.";
+  }
+}
+
+async function getCurrentArtistsData(): Promise<string> {
+  try {
+    const artists = await storage.getAllArtists();
+    if (artists.length === 0) return "No artists currently available.";
+    
+    return artists.map(artist => 
+      `${artist.name} - ${artist.genre} genre, Languages: ${artist.languages} - ${artist.isActive ? 'Available for booking' : 'Not Available'}`
+    ).join('\n');
+  } catch (error) {
+    return "Unable to fetch current artist data.";
+  }
+}
+
+async function getRealTimeContextData(userMessage: string): Promise<string> {
+  const lowerMessage = userMessage.toLowerCase();
+  let contextData = "";
+  
+  // Check what type of information the user is asking for
+  if (lowerMessage.includes('sound') || lowerMessage.includes('equipment') || lowerMessage.includes('audio') || lowerMessage.includes('pa system')) {
+    const soundData = await getCurrentSoundEquipmentData();
+    contextData += `\n\nCURRENT SOUND EQUIPMENT:\n${soundData}`;
+  }
+  
+  if (lowerMessage.includes('influencer') || lowerMessage.includes('social media') || lowerMessage.includes('marketing')) {
+    const influencerData = await getCurrentInfluencersData();
+    contextData += `\n\nCURRENT INFLUENCERS:\n${influencerData}`;
+  }
+  
+  if (lowerMessage.includes('artist') || lowerMessage.includes('musician') || lowerMessage.includes('performer') || lowerMessage.includes('singer')) {
+    const artistData = await getCurrentArtistsData();
+    contextData += `\n\nCURRENT ARTISTS:\n${artistData}`;
+  }
+  
+  // If asking for general pricing or "everything", fetch all data
+  if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('all') || lowerMessage.includes('everything') || lowerMessage.includes('list')) {
+    const soundData = await getCurrentSoundEquipmentData();
+    const influencerData = await getCurrentInfluencersData();
+    const artistData = await getCurrentArtistsData();
+    contextData = `\n\nCURRENT SOUND EQUIPMENT:\n${soundData}\n\nCURRENT INFLUENCERS:\n${influencerData}\n\nCURRENT ARTISTS:\n${artistData}`;
+  }
+  
+  return contextData;
+}
 
 export async function generateAIResponse(userMessage: string, conversationHistory?: string): Promise<string> {
   const client = getOpenAIClient();
@@ -100,10 +156,14 @@ export async function generateAIResponse(userMessage: string, conversationHistor
   }
 
   try {
+    // Get real-time data based on user message
+    const realTimeData = await getRealTimeContextData(userMessage);
+    console.log('🔄 Real-time data fetched for AI:', realTimeData ? 'Data available' : 'No specific data needed');
+    
     const messages: Array<{role: "system" | "user" | "assistant", content: string}> = [
       {
         role: "system",
-        content: COMPANY_CONTEXT
+        content: COMPANY_CONTEXT + realTimeData
       }
     ];
 
