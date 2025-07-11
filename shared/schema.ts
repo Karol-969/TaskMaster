@@ -215,12 +215,17 @@ export type Payment = typeof payments.$inferSelect;
 export type InsertPayment = typeof payments.$inferInsert;
 
 // Conversations table
-export const conversations = pgTable("conversations", {
-  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  userId: integer("user_id"),
-  title: varchar("title", { length: 255 }),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+export const conversations = pgTable('conversations', {
+  id: serial('id').primaryKey(),
+  userId: integer('userId'),
+  subject: varchar('subject', { length: 255 }),
+  status: varchar('status', { length: 32 }),
+  adminId: integer('adminId'),
+  guestName: varchar('guestName', { length: 255 }),
+  guestEmail: varchar('guestEmail', { length: 255 }),
+  conversationType: varchar('conversationType', { length: 32 }).default('ai_assistant'),
+  createdAt: timestamp('createdAt').defaultNow(),
+  updatedAt: timestamp('updatedAt').defaultNow(),
 });
 
 // Chat Messages table

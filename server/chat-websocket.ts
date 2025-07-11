@@ -6,7 +6,7 @@ import OpenAI from 'openai';
 // Initialize OpenAI with error handling for missing API key
 let openai: OpenAI | null = null;
 try {
-  if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'sk-your_openai_api_key_here') {
+  if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'sk-') {
     openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   }
 } catch (error) {

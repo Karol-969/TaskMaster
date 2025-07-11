@@ -329,17 +329,53 @@ export class DatabaseStorage implements IStorage {
     return newConversation;
   }
 
-  async getConversation(id: number): Promise<Conversation | undefined> {
-    const [conversation] = await db.select().from(conversations).where(eq(conversations.id, id));
+  async getConversation(id: number): Promise<any> {
+    // Ensure conversationType is selected and returned
+    const [conversation] = await db.select({
+      id: conversations.id,
+      userId: conversations.userId,
+      subject: conversations.subject,
+      status: conversations.status,
+      adminId: conversations.adminId,
+      guestName: conversations.guestName,
+      guestEmail: conversations.guestEmail,
+      conversationType: conversations.conversationType, // <-- ensure this is included
+      createdAt: conversations.createdAt,
+      updatedAt: conversations.updatedAt
+    }).from(conversations).where(eq(conversations.id, id));
     return conversation || undefined;
   }
 
-  async getUserConversations(userId: number): Promise<Conversation[]> {
-    return await db.select().from(conversations).where(eq(conversations.userId, userId));
+  async getUserConversations(userId: number): Promise<any[]> {
+    // Ensure conversationType is selected and returned
+    return await db.select({
+      id: conversations.id,
+      userId: conversations.userId,
+      subject: conversations.subject,
+      status: conversations.status,
+      adminId: conversations.adminId,
+      guestName: conversations.guestName,
+      guestEmail: conversations.guestEmail,
+      conversationType: conversations.conversationType,
+      createdAt: conversations.createdAt,
+      updatedAt: conversations.updatedAt
+    }).from(conversations).where(eq(conversations.userId, userId));
   }
 
-  async getAllConversations(): Promise<Conversation[]> {
-    return await db.select().from(conversations);
+  async getAllConversations(): Promise<any[]> {
+    // Ensure conversationType is selected and returned
+    return await db.select({
+      id: conversations.id,
+      userId: conversations.userId,
+      subject: conversations.subject,
+      status: conversations.status,
+      adminId: conversations.adminId,
+      guestName: conversations.guestName,
+      guestEmail: conversations.guestEmail,
+      conversationType: conversations.conversationType,
+      createdAt: conversations.createdAt,
+      updatedAt: conversations.updatedAt
+    }).from(conversations);
   }
 
   async updateConversationStatus(id: number, status: string): Promise<Conversation | undefined> {
@@ -365,12 +401,6 @@ export class DatabaseStorage implements IStorage {
       .insert(chatMessages)
       .values(message)
       .returning();
-
-    // Update conversation last message time
-    await db
-      .update(conversations)
-      .set({ lastMessageAt: new Date() })
-      .where(eq(conversations.id, message.conversationId));
 
     return newMessage;
   }

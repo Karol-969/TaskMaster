@@ -210,12 +210,11 @@ class ChatWebSocketServer {
       }
 
       // Save message to database
+      const senderString = ws.userRole === 'admin' ? `admin:${ws.userId}` : `user:${ws.userId}`;
       const chatMessage = await storage.createChatMessage({
         conversationId: ws.conversationId,
-        senderId: ws.userId,
-        senderType: ws.userRole === 'admin' ? 'admin' : 'user',
-        message: message.message,
-        messageType: 'text'
+        sender: senderString,
+        content: message.message
       });
 
       // Broadcast message to all clients in the conversation

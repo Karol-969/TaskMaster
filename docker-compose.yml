@@ -14,8 +14,8 @@ services:
       - PGUSER=postgres
       - PGPASSWORD=postgres
       - PGDATABASE=reart_events
-      - PGPORT=5432
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-sk-your_openai_api_key_here}
+      - PGPORT=
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-sk-}
       - SESSION_SECRET=reart-events-session-secret-2024
     depends_on:
       - db

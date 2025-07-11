@@ -1119,12 +1119,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('✅ Conversation created:', conversation.id);
       
       // Create initial message
+      const senderString = userId === 0 ? 'guest' : `user:${userId}`;
       const messageData = {
         conversationId: conversation.id,
-        senderId: userId,
-        senderType: 'user' as const,
-        message,
-        isRead: false
+        sender: senderString,
+        content: message
       };
       
       console.log('📝 Creating initial message:', messageData);
@@ -1239,68 +1238,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Use explicit senderType if provided (for admin messages), otherwise infer
       const finalSenderType = senderType || (isAdmin ? 'admin' : 'user');
       
+      let senderString;
+      if (finalSenderType === 'admin') {
+        senderString = userId === 0 ? 'admin:system' : `admin:${userId}`;
+      } else {
+        senderString = userId === 0 ? 'guest' : `user:${userId}`;
+      }
       const messageData = {
         conversationId,
-        senderId: userId,
-        senderType: finalSenderType as 'user' | 'admin',
-        message,
-        isRead: false
+        sender: senderString,
+        content: message
       };
       
       // Create the user message
       const chatMessage = await storage.createChatMessage(messageData);
-      
+      console.log('✅ User message created:', chatMessage.id);
       // Generate AI response only for AI assistant conversations
-      if (finalSenderType === 'user' && process.env.OPENAI_API_KEY) {
-        try {
-          // Check conversation type - only generate AI responses for ai_assistant type
-          if (conversation.conversationType === 'ai_assistant') {
-            // Check if user wants to speak to a human
-            const wantsHuman = detectHumanRequest(message);
-            
-            if (wantsHuman) {
-              // Mark conversation as requiring human attention
+      if (finalSenderType === 'user') {
+        console.log('🧠 Entered AI response logic. Conversation type:', conversation.conversationType, 'OPENAI_API_KEY set:', !!process.env.OPENAI_API_KEY);
+        if (process.env.OPENAI_API_KEY) {
+          try {
+            // Check conversation type - only generate AI responses for ai_assistant type
+            if (conversation.conversationType === 'ai_assistant') {
+              // Check if user wants to speak to a human
+              const wantsHuman = detectHumanRequest(message);
+              console.log('🤖 AI assistant mode. User wants human:', wantsHuman);
+              if (wantsHuman) {
+                // Mark conversation as requiring human attention
+                await storage.updateConversationStatus(conversationId, 'pending_human');
+                // Send message indicating human will be connected
+                const humanRequestResponse = {
+                  conversationId,
+                  sender: 'admin:system',
+                  content: "I understand you'd like to speak with a human representative. I'm connecting you with our support team now. They'll be with you shortly to assist with your inquiry."
+                };
+                const humanMsg = await storage.createChatMessage(humanRequestResponse);
+                console.log('👤 Human handoff message created:', humanMsg.id);
+              } else {
+                // Get conversation history for context
+                const messages = await storage.getConversationMessages(conversationId);
+                const conversationHistory = messages
+                  .slice(-5) // Last 5 messages for context
+                  .map(msg => `${msg.sender}: ${msg.content}`)
+                  .join('\n');
+                console.log('🧠 Generating AI response with history:', conversationHistory);
+                // Generate AI response
+                const aiResponse = await generateAIResponse(message, conversationHistory);
+                console.log('🤖 AI response generated:', aiResponse);
+                // Create AI response message
+                const aiMessageData = {
+                  conversationId,
+                  sender: 'admin:ai',
+                  content: aiResponse
+                };
+                const aiMsg = await storage.createChatMessage(aiMessageData);
+                console.log('🤖 AI message saved:', aiMsg.id);
+              }
+            } else if (conversation.conversationType === 'human_support') {
+              // For human support, mark as pending human attention
               await storage.updateConversationStatus(conversationId, 'pending_human');
-              
-              // Send message indicating human will be connected
-              const humanRequestResponse = {
-                conversationId,
-                senderId: 0, // System message
-                senderType: 'admin' as const,
-                message: "I understand you'd like to speak with a human representative. I'm connecting you with our support team now. They'll be with you shortly to assist with your inquiry.",
-                isRead: false
-              };
-              
-              await storage.createChatMessage(humanRequestResponse);
-            } else {
-              // Get conversation history for context
-              const messages = await storage.getConversationMessages(conversationId);
-              const conversationHistory = messages
-                .slice(-5) // Last 5 messages for context
-                .map(msg => `${msg.senderType}: ${msg.message}`)
-                .join('\n');
-              
-              // Generate AI response
-              const aiResponse = await generateAIResponse(message, conversationHistory);
-              
-              // Create AI response message
-              const aiMessageData = {
-                conversationId,
-                senderId: 0, // AI assistant
-                senderType: 'admin' as const,
-                message: aiResponse,
-                isRead: false
-              };
-              
-              await storage.createChatMessage(aiMessageData);
+              console.log('👤 Human support mode, marked as pending human.');
             }
-          } else if (conversation.conversationType === 'human_support') {
-            // For human support, mark as pending human attention
-            await storage.updateConversationStatus(conversationId, 'pending_human');
+          } catch (aiError) {
+            console.error('AI response error:', aiError);
+            // Continue without AI response if there's an error
           }
-        } catch (aiError) {
-          console.error('AI response error:', aiError);
-          // Continue without AI response if there's an error
+        } else {
+          console.log('⚠️  Skipping AI response: OPENAI_API_KEY not set.');
         }
       }
       
@@ -2304,7 +2308,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         hasApiKey: !!process.env.OPENAI_API_KEY 
       });
 
-      if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'sk-your_openai_api_key_here') {
+      if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === '') {
         console.log('OpenAI API key not configured or using placeholder');
         return res.json({ 
           message: "Thank you for your message! I'm currently experiencing technical difficulties with the AI assistant. To enable AI responses, please configure your OpenAI API key in the environment variables. For immediate assistance, please use the Human Support option or contact our team directly at info@reartevents.com."
@@ -2314,7 +2318,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Use the enhanced OpenAI service
       const { generateAIResponse } = await import('./openai');
       const conversationHistoryString = conversationHistory?.map((msg: any) => 
-        `${msg.isUser ? 'User' : 'Assistant'}: ${msg.text}`
+        `${msg.isUser ? 'User' : 'Assistant'}: ${msg.content}`
       ).join('\n') || '';
 
       const botResponse = await generateAIResponse(message, conversationHistoryString);

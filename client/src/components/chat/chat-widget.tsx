@@ -134,8 +134,16 @@ export function ChatWidget() {
       });
 
       if (response.ok) {
-        const conversationWithMessages = await response.json();
-        console.log('Conversation created:', conversationWithMessages);
+        let conversationWithMessages = await response.json();
+        // Map backend message fields to frontend expected fields
+        if (conversationWithMessages.messages) {
+          conversationWithMessages.messages = conversationWithMessages.messages.map((msg: any) => ({
+            id: msg.id,
+            message: msg.content ?? msg.message,
+            senderType: (msg.sender === 'guest' || (msg.sender && msg.sender.startsWith('user'))) ? 'user' : 'admin',
+            createdAt: msg.createdAt
+          }));
+        }
         setConversation(conversationWithMessages);
         setSelectedAssistantType(assistantType);
         setShowChoiceMenu(false);
@@ -173,7 +181,16 @@ export function ChatWidget() {
         credentials: 'include' // Include session cookies
       });
       if (response.ok) {
-        const updatedConversation = await response.json();
+        let updatedConversation = await response.json();
+        // Map backend message fields to frontend expected fields
+        if (updatedConversation.messages) {
+          updatedConversation.messages = updatedConversation.messages.map((msg: any) => ({
+            id: msg.id,
+            message: msg.content ?? msg.message,
+            senderType: (msg.sender === 'guest' || (msg.sender && msg.sender.startsWith('user'))) ? 'user' : 'admin',
+            createdAt: msg.createdAt
+          }));
+        }
         setConversation(updatedConversation);
       }
     } catch (error) {
@@ -197,7 +214,14 @@ export function ChatWidget() {
       });
 
       if (response.ok) {
-        const newMessage = await response.json();
+        let newMessage = await response.json();
+        // Map backend message fields to frontend expected fields
+        newMessage = {
+          id: newMessage.id,
+          message: newMessage.content ?? newMessage.message,
+          senderType: (newMessage.sender === 'guest' || (newMessage.sender && newMessage.sender.startsWith('user'))) ? 'user' : 'admin',
+          createdAt: newMessage.createdAt
+        };
         setConversation(prev => prev ? {
           ...prev,
           messages: [...prev.messages, newMessage]
